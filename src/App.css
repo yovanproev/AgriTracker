@@ -1,0 +1,15 @@
+.app {
+  margin: auto;
+  /* font-family: "Barlow Semi Condensed", sans-serif;
+  font-family: "Noto Serif", serif;
+  font-family: "Roboto", sans-serif;
+  font-family: "Underdog", cursive; */
+  font-family: "Rajdhani", sans-serif;
+  background-image: url(./Assets/farming.jpg);
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  width: 100%;
+  position: relative;
+  height: 120vh;
+}

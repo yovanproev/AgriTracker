@@ -1,0 +1,19 @@
+.sign-up {
+  display: flex;
+  flex-direction: column;
+  width: 380px;
+  height: 100%;
+  color: black;
+}
+
+.title {
+  margin: 10px 0;
+}
+
+@media screen and (max-width: 650px) {
+  .sign-up {
+    width: 300px;
+    display: flex;
+    flex-direction: column;
+  }
+}

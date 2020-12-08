@@ -1,0 +1,12 @@
+.roles-select-div {
+  width: 35vw;
+  margin: 5px 10px;
+  /* margin-top: 20px; */
+  height: 4vh;
+}
+
+@media screen and (min-width: 760px) {
+  .roles-select-div {
+    width: 170px;
+  }
+}

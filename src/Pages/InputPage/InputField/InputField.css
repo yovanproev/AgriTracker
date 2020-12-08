@@ -1,0 +1,27 @@
+input {
+  /* margin: auto; */
+  width: 35%;
+  height: 4vh;
+}
+
+.input-div {
+  margin: auto;
+  width: 60%;
+  color: black;
+  margin-bottom: 15px;
+  margin-top: 15px;
+}
+
+.input-div p {
+  margin-bottom: 5px;
+}
+
+@media screen and (max-width: 700px) {
+  input {
+    width: 90%;
+    height: 3vh;
+  }
+  .input-div {
+    margin-top: 15px;
+  }
+}
