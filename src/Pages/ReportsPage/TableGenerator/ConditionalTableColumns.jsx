@@ -1,9 +1,5 @@
 import { SelectColumnFilter } from './TableFilters';
 
-// export const conditionalTableColumns = (props) => {
-//   return usersCollection
-// }
-
 export const conditionalTableColumns = (props) => {
  return props.stateProps.index1 ? fuelConsumptionColumns : 
   props.stateProps.index2 ? machineRegitrationColumns : null;
@@ -126,10 +122,6 @@ const machineRegitrationColumns = [
 ]
 
 export const usersCollection = [
-  // {
-  //   Header: '#',
-  //   accessor: "id",
-  // },
   {
     Header: 'Username',
     accessor: "displayName",

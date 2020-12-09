@@ -4,7 +4,7 @@ import Modal from "../../Components/Modal/Modal";
 import { getFullDataFromFirebase } from "../../Firebase/FetchDataFromFirebase";
 import { firebase_db, firebase_db_fuelConsump, firebase_db_machineReg } from '../../Firebase/Firebase.utils';
 
-import TableReport from "./TableReports/TableReport"
+import TableReport from "./TableReport/TableReport"
 
 const SelectReport = (props) => {
   const [ table, setTable ] = useState([])

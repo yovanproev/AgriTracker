@@ -9,15 +9,20 @@ import {
 import { Table, Row, Col, Button, Input, CustomInput } from 'reactstrap';
 import { Filter, DefaultColumnFilter } from './TableFilters';
 
-import { Admin } from "../../../../RuleBasedAccessControl/RoleBaseControl"; 
-import DeleteButton from '../../../../Components/DeleteButton/DeleteButton';
-import RolesSelectField from '../../../../RuleBasedAccessControl/RolesSelectField/RolesSelectField';
+import { Admin } from "../../../RuleBasedAccessControl/RoleBaseControl"; 
+import DeleteButton from '../../../Components/DeleteButton/DeleteButton';
+import RolesSelectField from '../../../RuleBasedAccessControl/RolesSelectField/RolesSelectField';
 
 const TableContainer = ({ 
   columns, 
   data, 
   // renderRowSubComponent, 
-  onDelete, currentUser, stateProps }) => {
+  onDelete, 
+  currentUser, 
+  stateProps,
+  roleHandler,
+  role
+   }) => {
   const {
     getTableProps,
     getTableBodyProps,
@@ -48,7 +53,9 @@ const TableContainer = ({
     },
       onDelete,
       currentUser,
-      stateProps
+      stateProps,
+      roleHandler,
+      role      
     },
     useFilters,
     useSortBy,
@@ -103,7 +110,7 @@ const TableContainer = ({
                   })}
                 <Admin currentUser={currentUser}>  
                 {stateProps.outputTable ? null : <td>
-                 <RolesSelectField />
+                 <RolesSelectField roleHandler={roleHandler} role={role}/>
                 </td> }
                 <td>  
                  <DeleteButton onClick={() => onDelete(data[row.id].id)}/>

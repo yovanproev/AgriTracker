@@ -2,10 +2,10 @@ import React, { useEffect, useState } from 'react';
 
 import './TableReport.css';
 
-import { TableHeader } from './TableHeader'
+import { TableHeader } from './TableHeader/TableHeader'
 
-import { ExportCSV } from './ExcelExport'
-import Table from "./TableForm/Table"
+import { ExportCSV } from './ExcelExport/ExcelExport'
+import Table from "../TableGenerator/Table"
 
 import BackButton from '../../../Components/BackButton/BackButton';
 

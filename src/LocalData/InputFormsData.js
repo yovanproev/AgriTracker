@@ -3,6 +3,7 @@ import locationDB from "./LocationDB.json"
 import attachedMachineryDB from "./AttachedMachineryDB.json"
 import productsDB from "./ProductsDB.json"
 import operatorsDB from "./OperatorsDB.json"
+import rolesDB from "./Roles.json"
 
 export const fetchAllMachines = () => {
   return machineDB.data;
@@ -62,6 +63,19 @@ export const fetchAllOperators = () => {
 
 export const fetchOperatorsByName = operatorsId => {
   const data = operatorsDB.data.filter(operators => operators.id === parseInt(operatorsId));
+  if (data.length > 0) {
+    return data[0].name;
+  } else {
+    return data;
+  }
+};
+
+export const fetchAllRoles = () => {
+  return rolesDB.data;
+}
+
+export const fetchRolesByName = rolesId => {
+  const data = rolesDB.data.filter(roles => roles.id === parseInt(rolesId));
   if (data.length > 0) {
     return data[0].name;
   } else {

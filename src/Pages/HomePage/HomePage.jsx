@@ -4,17 +4,18 @@ import "./HomePage.scss"
 import BackDrop from "../../Components/Backdrop/Backdrop"
 // import PivotTableDemo from "../ReportsPage/PivotTable/PivotTable"
 import { users } from '../../Firebase/Firebase.utils';
-import Table from "../ReportsPage/TableReports/TableForm/Table"
+import Table from "../ReportsPage/TableGenerator/Table"
 import { Admin } from '../../RuleBasedAccessControl/RoleBaseControl';
+import 'firebase/firestore';
+
 
   const HomePage = (props) => {
   const [ user, setUser ] = useState([])
 
   useEffect(() => {
-    async function getMarkers() {
-      const userakis = users();
-         const snapshot = await userakis.get();
-      return new Promise (resolve => {
+    async function getAllUsers() {
+      const snapshot = await users().get();
+       return new Promise (resolve => {
         const result = snapshot.docs.map(x => {
             const obj = x.data();
             delete obj.createdAt
@@ -23,11 +24,43 @@ import { Admin } from '../../RuleBasedAccessControl/RoleBaseControl';
         return resolve(result);
       })
     }
-    getMarkers().then(resolve => {
+    getAllUsers().then(resolve => {
       setUser(resolve)
     })
   }, [props])
     
+
+  const [ role, setRole ] = useState([])
+    const getRoleValue = (event) => {
+    setRole(event)}
+   
+  const proba = (rowId) => {
+    let roleDiff = ""
+    if (role === "Administrator") roleDiff = "Administrator"
+    else if (role === "Operator") roleDiff = "Operator"
+
+    const usersDB = users();
+
+    usersDB.get()
+    .then(function(querySnapshot) {
+      querySnapshot.forEach(function(doc) {
+          console.log(doc.id, " => ", doc.data().id);
+         let randomKey = doc.id;
+         
+         const objectKey = doc.data().id
+         const rows = user.filter((row) => row.id !== objectKey);
+         console.log(rows)
+         console.log(objectKey)
+
+        if (rows !== objectKey) {
+            usersDB.doc(randomKey).update({
+              Roles: roleDiff 
+          })
+        }
+       })
+    })
+  }
+
     // const deleteRowHandler = (rowId) => {
   //   const rows = table.filter((row) => row.id !== rowId);
     
@@ -47,7 +80,7 @@ import { Admin } from '../../RuleBasedAccessControl/RoleBaseControl';
   //       })
   //     }
   //   }
-
+  
     return (
     <div>
      <BackDrop /> 
@@ -60,6 +93,8 @@ import { Admin } from '../../RuleBasedAccessControl/RoleBaseControl';
        <Table
           stateProps={props.stateProps}
           data={user}
+          roleHandler={getRoleValue}
+          role={proba}
           // onDelete={deleteRowHandler()} 
        />  
        </Admin>
