@@ -7,21 +7,42 @@
   border: 1px solid #ccc;
   box-shadow: 1px 1px 1px black;
   margin: auto;
-  left: 16%;
+  left: 20%;
   top: 22%;
   box-sizing: border-box;
   transition: all 0.3s ease-out;
   border-radius: 70px;
   color: yellow;
   font-size: x-large;
-  padding: 80px 20px;
+  /* padding: 80px 20px; */
 }
 
-@media (min-width: 600px) {
+@media (min-width: 600px) and (max-width: 820px) {
   .Modal {
-    width: 380px;
+    /* margin: auto; */
+    width: 45%;
     height: 450px;
-    left: calc(54% - 250px);
+    left: calc(67% - 250px);
+    top: 22%;
+  }
+}
+
+@media (min-width: 821px) and (max-width: 1000px) {
+  .Modal {
+    /* margin: auto; */
+    width: 35%;
+    height: 450px;
+    left: calc(62% - 250px);
+    top: 22%;
+  }
+}
+
+@media (min-width: 1001px) {
+  .Modal {
+    /* margin: auto; */
+    width: 35%;
+    height: 450px;
+    left: calc(50% - 250px);
     top: 22%;
   }
 }

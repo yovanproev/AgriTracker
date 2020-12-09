@@ -49,7 +49,7 @@ const App = (props) => {
     () => mode,[mode]);
 
   return (
-    <Container style={{ marginTop: 30 }}>
+    <Container style={{ marginTop: "30px" }}>
       <TableContainer
         stateProps={props.stateProps}
         currentUser={props.stateProps.currentUser}
