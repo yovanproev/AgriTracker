@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import "./HomePage.scss"
 import BackDrop from "../../Components/Backdrop/Backdrop"
 // import PivotTableDemo from "../ReportsPage/PivotTable/PivotTable"
-import { users, firestore } from '../../Firebase/Firebase.utils';
+import { users } from '../../Firebase/Firebase.utils';
 import Table from "../ReportsPage/TableReports/TableForm/Table"
 import { Admin } from '../../RuleBasedAccessControl/RoleBaseControl';
 

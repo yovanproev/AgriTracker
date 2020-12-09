@@ -3,7 +3,6 @@ import React, { Component } from "react"
 import "./RolesSelectField.css"
 import { users } from "../../Firebase/Firebase.utils"
 import 'firebase/firestore';
-import firebase from 'firebase/app';
 
 class RolesSelectField extends Component {
   state = {

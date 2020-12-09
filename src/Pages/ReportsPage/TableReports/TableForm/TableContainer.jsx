@@ -13,7 +13,11 @@ import { Admin } from "../../../../RuleBasedAccessControl/RoleBaseControl";
 import DeleteButton from '../../../../Components/DeleteButton/DeleteButton';
 import RolesSelectField from '../../../../RuleBasedAccessControl/RolesSelectField/RolesSelectField';
 
-const TableContainer = ({ columns, data, renderRowSubComponent, onDelete, currentUser, stateProps }) => {
+const TableContainer = ({ 
+  columns, 
+  data, 
+  // renderRowSubComponent, 
+  onDelete, currentUser, stateProps }) => {
   const {
     getTableProps,
     getTableBodyProps,
@@ -110,7 +114,7 @@ const TableContainer = ({ columns, data, renderRowSubComponent, onDelete, curren
                 {row.isExpanded && (
                   <tr>
                     <td colSpan={visibleColumns.length}>
-                      {renderRowSubComponent(row)}
+                      {/* {renderRowSubComponent(row)} */}
                     </td>
                   </tr>
                 )}

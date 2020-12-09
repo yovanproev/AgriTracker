@@ -2,7 +2,7 @@ import React, { useEffect, useState, useMemo } from 'react';
 import {
   Container,
   Card,
-  CardImg,
+  // CardImg,
   CardText,
   CardBody,
   CardTitle,
@@ -27,23 +27,23 @@ const App = (props) => {
     if (props.modeChange !== undefined) setMode(conditionalTableColumns(props)) 
     }, [props])
   
-  const renderRowSubComponent = (row) => {
-       return (
-      <Card style={{ width: '18rem', margin: '0 auto' }}>
-        {/* <CardImg top src={operator} alt='Card image cap' /> */}
-        <CardBody>
-          <CardTitle>
-            {/* <strong>{`${machine}`} </strong> */}
-          </CardTitle>
-          <CardText>
-            <strong>Phone</strong>:  <br />
-            <strong>Address:</strong>{' '}
-            {/* {`${location}`} */}
-          </CardText>
-        </CardBody>
-      </Card>
-    );
-  };
+  // const renderRowSubComponent = (row) => {
+  //      return (
+  //     <Card style={{ width: '18rem', margin: '0 auto' }}>
+  //       <CardImg top src={operator} alt='Card image cap' />
+  //       <CardBody>
+  //         <CardTitle>
+  //           {/* <strong>{`${machine}`} </strong> */}
+  //         </CardTitle>
+  //         <CardText>
+  //           <strong>Phone</strong>:  <br />
+  //           <strong>Address:</strong>{' '}
+  //           {/* {`${location}`} */}
+  //         </CardText>
+  //       </CardBody>
+  //     </Card>
+  //   );
+  // };
 
   const columns = useMemo(
     () => mode,[mode]);
@@ -56,7 +56,7 @@ const App = (props) => {
         onDelete={onDelete}
         columns={columns}
         data={data}
-        renderRowSubComponent={renderRowSubComponent}
+        // renderRowSubComponent={renderRowSubComponent}
       />
     </Container>
   );
