@@ -108,15 +108,6 @@ const FuelConsumptionInput = (props) => {
                 <GrapeSpinner1 />
               </Modal>
              }
-             {/* <BackDrop>
-             <Modal
-              show={true}
-              >
-                
-                <GrapeSpinner1 />
-                
-              </Modal>
-              </BackDrop> */}
           </form>
         </div>
       </div>
