@@ -52,7 +52,7 @@ const TableContainer = ({ columns, data, renderRowSubComponent, onDelete, curren
     usePagination
   );
 
-  console.log(stateProps.outputTable)
+  // console.log(stateProps.outputTable)
   const generateSortingIndicator = (column) => {
      return column.isSorted ? (column.isSortedDesc ? ' 🔽' : ' 🔼') : '';
   };

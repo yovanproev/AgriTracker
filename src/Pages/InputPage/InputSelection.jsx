@@ -67,7 +67,7 @@ class InputSelection extends Component {
   }
       
   shouldComponentUpdate (nextProps, nextState) {
-    console.log("shouldComponent Update")
+    // console.log("shouldComponent Update")
    return nextProps.lastId !== this.state.lastId 
   }
 
@@ -75,7 +75,7 @@ class InputSelection extends Component {
     this.setState({
       lastId: parseInt(this.state.lastId) + parseInt(1)
     })
-    console.log("updateId", this.state.lastId)
+    // console.log("updateId", this.state.lastId)
   }
 
   selectFieldsHandler = (value, id) => {

@@ -1,5 +1,5 @@
 import React from 'react'
-import { NavLink, useHistory } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
 import "./Header.css"
 import Logo from "../../Assets/Logo.jpg";
@@ -7,30 +7,22 @@ import Logo from "../../Assets/Logo.jpg";
 import { auth } from "../../Firebase/Firebase.utils"
 
 const Header = ({ currentUser, inputMode, outputMode, modalHandler }) => {
-  const history = useHistory();
-
-  function signOutAndModalOff () {
+  const signOutAndModalOff = () => {
     auth.signOut()
     modalHandler()
   }
 
-  function homeButtonAndModalOff () {
-    history.push("/Home")
-    modalHandler()
-  }
-  
-    return (
+  return (
       <nav className="nav-bar">
 
       {!currentUser ?  
         <img className="picture" src={Logo} 
         alt="Logo_image" width="100px" >
         </img> : 
-        <a href="/Home" 
-        onClick={()=> homeButtonAndModalOff()}> 
+        <NavLink to="/Home"> 
         <img className="picture" src={Logo} 
         alt="Logo_image" width="100px" >
-        </img></a>}
+        </img></NavLink>}
 
       <h2 className="your-company">Your Company Name</h2>
       <div className="menu-wrap">
