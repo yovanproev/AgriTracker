@@ -10,3 +10,9 @@
     width: 170px;
   }
 }
+
+@media screen and (max-height: 520px) {
+  .roles-select-div {
+    height: 6vh;
+  }
+}

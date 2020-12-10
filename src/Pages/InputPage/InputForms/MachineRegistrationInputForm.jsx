@@ -16,7 +16,7 @@ import GrapeSpinner1 from "../../..//Components/Spinners/GrapeSpinner"
 
 const MachineRegistrationInput = (props) => {
 
-  const [ disableButton, setDisableButtton ] = useState(false)
+  const [ , setDisableButtton ] = useState(false)
 
  useEffect(() => {
   if (props.localState.selectedMachineId && 

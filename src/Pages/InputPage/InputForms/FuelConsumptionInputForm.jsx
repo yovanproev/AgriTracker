@@ -15,7 +15,7 @@ import Modal from "../../../Components/Modal/Modal"
 import GrapeSpinner1 from "../../../Components/Spinners/GrapeSpinner"
 
 const FuelConsumptionInput = (props) => {
- const [ disableButton, setDisableButtton ] = useState(false)
+ const [ , setDisableButtton ] = useState(false)
 
  useEffect(() => {
   if (props.localState.selectedMachineId && 
@@ -107,7 +107,7 @@ const FuelConsumptionInput = (props) => {
               show={props.localState.loading}>
                 <GrapeSpinner1 />
               </Modal>
-             }
+             }           
           </form>
         </div>
       </div>

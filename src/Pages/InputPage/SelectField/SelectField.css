@@ -10,3 +10,15 @@
     width: 300px;
   }
 }
+
+@media screen and (max-height: 520px) {
+  .select-div {
+    height: 6vh;
+  }
+}
+
+@media screen and (max-height: 300px) {
+  .select-div {
+    height: 11vh;
+  }
+}

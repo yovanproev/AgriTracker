@@ -7,9 +7,6 @@ import {
   Redirect  
 } from "react-router-dom";
 
-import Modal from "./Components/Modal/Modal"
-import LineSpinner from "./Components/Spinners/Spinner2"
-
 import Header from "./Pages/Header/Header"
 import StartingPage from "./Pages/SignInSignUp/StartingPage"
 import HomePage from './Pages/HomePage/HomePage';
@@ -152,15 +149,7 @@ componentWillUnmount() {
   }
 
   render() {
-    const loggingIn = 
-        <Modal 
-        show={this.state.hideModal} 
-        hide={this.hideModalHanlder}
-        >
-      <LineSpinner />
-      </Modal>
-     
-     return (
+    return (
       <div className="app" >
         <Router>
           <Header 
@@ -171,9 +160,8 @@ componentWillUnmount() {
           <Switch>
           
              <Route exact path="/"> 
-             {this.state.currentUser ? <Redirect to="/Home" /> : <StartingPage modal={this.hideModalHanlder}
-             />}
-             {!this.state.currentUser ? loggingIn : null}               
+             {this.state.currentUser ? <Redirect to="/Home" /> : 
+             <StartingPage modal={this.hideModalHanlder}/>}
              </Route>
            
              <Route path="/Home">

@@ -24,3 +24,15 @@ input {
     margin-top: 15px;
   }
 }
+
+@media screen and (max-height: 520px) {
+  input {
+    height: 6vh;
+  }
+}
+
+@media screen and (max-height: 300px) {
+  input {
+    height: 10vh;
+  }
+}

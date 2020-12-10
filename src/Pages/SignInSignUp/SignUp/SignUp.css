@@ -14,7 +14,7 @@
 
 @media screen and (max-width: 650px) {
   .sign-up {
-    padding-left: 0;
+    padding: 20px;
     width: 100%;
     display: flex;
     flex-direction: column;

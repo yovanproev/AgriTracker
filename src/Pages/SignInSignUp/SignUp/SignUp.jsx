@@ -39,7 +39,8 @@ class SignUp extends Component {
         displayName: '',
         email: '',
         password: '',
-        confirmPassword: ''
+        confirmPassword: '',
+        modal: true
       });
     } catch (error) {
       this.setState({

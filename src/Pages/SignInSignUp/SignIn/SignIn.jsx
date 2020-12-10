@@ -22,7 +22,10 @@ class SignIn extends Component {
 
     try {
       await auth.signInWithEmailAndPassword(email, password);
-      this.setState({ email: '', password: '', modal: true });
+      this.setState({ 
+        email: '', 
+        password: '', 
+        modal: true});
       } catch (error) {
         this.setState({ 
         modal: true,
