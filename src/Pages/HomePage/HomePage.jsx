@@ -29,32 +29,24 @@ import 'firebase/firestore';
     })
   }, [props])
     
-
+  
   const [ role, setRole ] = useState([])
-    const getRoleValue = (event) => {
-    setRole(event)}
+
+    const getRoleValue = (roleValue) => {
+    setRole(roleValue)}
    
   const proba = (rowId) => {
-    let roleDiff = ""
-    if (role === "Administrator") roleDiff = "Administrator"
-    else if (role === "Operator") roleDiff = "Operator"
-
     const usersDB = users();
-
-    usersDB.get()
+     usersDB.get()
     .then(function(querySnapshot) {
       querySnapshot.forEach(function(doc) {
-          console.log(doc.id, " => ", doc.data().id);
-         let randomKey = doc.id;
-         
-         const objectKey = doc.data().id
-         const rows = user.filter((row) => row.id !== objectKey);
-         console.log(rows)
-         console.log(objectKey)
-
-        if (rows !== objectKey) {
+          // console.log(doc.id, " => ", doc.data());
+         const randomKey = doc.id; 
+         const objectKey = doc.data().id 
+        
+        if (rowId === objectKey) {
             usersDB.doc(randomKey).update({
-              Roles: roleDiff 
+              Roles: role 
           })
         }
        })

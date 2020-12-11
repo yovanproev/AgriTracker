@@ -110,7 +110,7 @@ const TableContainer = ({
                   })}
                 <Admin currentUser={currentUser}>  
                 {stateProps.outputTable ? null : <td>
-                 <RolesSelectField roleHandler={roleHandler} role={role}/>
+                 <RolesSelectField roleHandler={roleHandler} role={() => role(data[row.id].id)}/>
                 </td> }
                 <td>  
                  <DeleteButton onClick={() => onDelete(data[row.id].id)}/>
