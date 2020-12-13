@@ -31,27 +31,37 @@ import 'firebase/firestore';
     
   
   const [ role, setRole ] = useState([])
-
-    const getRoleValue = (roleValue) => {
-    setRole(roleValue)}
+  const getRoleValue = (roleValue) => {
+    setRole(roleValue)
+    }
+  
+  const [ rowIdValue, setRowId ] = useState(undefined);
    
-  const proba = (rowId) => {
-    const usersDB = users();
-     usersDB.get()
-    .then(function(querySnapshot) {
-      querySnapshot.forEach(function(doc) {
-          // console.log(doc.id, " => ", doc.data());
-         const randomKey = doc.id; 
-         const objectKey = doc.data().id 
-        
-        if (rowId === objectKey) {
-            usersDB.doc(randomKey).update({
-              Roles: role 
-          })
-        }
-       })
-    })
+  const onClickRowId = (rowId) => {
+    if (rowId.id !== undefined) setRowId(rowId.id)
+    else return 0
   }
+
+  useEffect(() => {
+    const rolesPosting = (rowId) => {
+      const usersDB = users();
+      usersDB.get()
+      .then(function(querySnapshot) {
+        querySnapshot.forEach(function(doc) {
+            // console.log(doc.id, " => ", doc.data());
+            const randomKey = doc.id; 
+            const objectKey = doc.data().id 
+          if (rowId === objectKey) {
+              usersDB.doc(randomKey).update({
+                  Role: role 
+              });  
+          }
+        })
+      })
+    }
+   if (rowIdValue !== undefined) rolesPosting(rowIdValue)
+  }, [role, rowIdValue])
+
 
     // const deleteRowHandler = (rowId) => {
   //   const rows = table.filter((row) => row.id !== rowId);
@@ -86,8 +96,9 @@ import 'firebase/firestore';
           stateProps={props.stateProps}
           data={user}
           roleHandler={getRoleValue}
-          role={proba}
-          // onDelete={deleteRowHandler()} 
+          onClick={onClickRowId}
+          currentRole={role}
+           // onDelete={deleteRowHandler()} 
        />  
        </Admin>
       </div> 

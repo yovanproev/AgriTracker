@@ -12,16 +12,17 @@ import { Filter, DefaultColumnFilter } from './TableFilters';
 import { Admin } from "../../../RuleBasedAccessControl/RoleBaseControl"; 
 import DeleteButton from '../../../Components/DeleteButton/DeleteButton';
 import RolesSelectField from '../../../RuleBasedAccessControl/RolesSelectField/RolesSelectField';
+import FetchedRoles from '../../../RuleBasedAccessControl/RolesSelectField/FetchedRoles';
 
 const TableContainer = ({ 
   columns, 
   data, 
-  // renderRowSubComponent, 
   onDelete, 
   currentUser, 
   stateProps,
   roleHandler,
-  role
+  onClick,
+  currentRole,  
    }) => {
   const {
     getTableProps,
@@ -55,7 +56,8 @@ const TableContainer = ({
       currentUser,
       stateProps,
       roleHandler,
-      role      
+      onClick,
+      currentRole,      
     },
     useFilters,
     useSortBy,
@@ -109,12 +111,21 @@ const TableContainer = ({
                     );
                   })}
                 <Admin currentUser={currentUser}>  
-                {stateProps.outputTable ? null : <td>
-                 <RolesSelectField roleHandler={roleHandler} role={() => role(data[row.id].id)}/>
+                {stateProps.outputTable && stateProps.inputMode ? null : 
+                <td>
+                <FetchedRoles id={data[row.id].id}/>
                 </td> }
+                {stateProps.outputTable ? null : 
+                <td>
+                <RolesSelectField 
+                 roleHandler={roleHandler} 
+                 onClick={() => onClick(data[row.id])}
+                 currentRole={currentRole}/>
+                </td> }
+                {stateProps.outputTable === true ?
                 <td>  
                  <DeleteButton onClick={() => onDelete(data[row.id].id)}/>
-                </td>
+                </td> : null}
                 </Admin>
                 </tr>
                 

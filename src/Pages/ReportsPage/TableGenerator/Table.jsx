@@ -57,7 +57,9 @@ const App = (props) => {
         columns={columns}
         data={data}
         roleHandler={props.roleHandler}
-        role={props.role}
+        onClick={props.onClick}
+        currentRole={props.currentRole}
+        defaultRole={props.defaultRole}
         // renderRowSubComponent={renderRowSubComponent}
       />
     </Container>
