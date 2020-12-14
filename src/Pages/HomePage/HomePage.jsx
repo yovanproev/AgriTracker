@@ -5,7 +5,7 @@ import BackDrop from "../../Components/Backdrop/Backdrop"
 // import PivotTableDemo from "../ReportsPage/PivotTable/PivotTable"
 import { users } from '../../Firebase/Firebase.utils';
 import Table from "../ReportsPage/TableGenerator/Table"
-import { Admin } from '../../RuleBasedAccessControl/RoleBaseControl';
+import { RenderForAdmin } from '../../RoleBasedAccessControl/RoleBaseControl';
 import 'firebase/firestore';
 
 
@@ -62,27 +62,6 @@ import 'firebase/firestore';
    if (rowIdValue !== undefined) rolesPosting(rowIdValue)
   }, [role, rowIdValue])
 
-
-    // const deleteRowHandler = (rowId) => {
-  //   const rows = table.filter((row) => row.id !== rowId);
-    
-  //    let db = firestore.ref();
-  //    if (props.stateProps.index1) {
-  //    let query = users.orderByKey();
-  //    query.once("value")
-  //      .then(function(snapshot) {
-  //        console.log(snapshot)
-  //        snapshot.forEach(function(childSnapshot) {
-  //        let randomKeyOnObject = childSnapshot.key
-  //        let objectId = childSnapshot.val().id
-  //        if(rowId === objectId) {
-  //         db.child("fuelConsumptionInput/"+randomKeyOnObject).remove();
-  //         return true}
-  //        })
-  //       })
-  //     }
-  //   }
-  
     return (
     <div>
      <BackDrop /> 
@@ -91,16 +70,15 @@ import 'firebase/firestore';
        <div>
          <h4>Welcome to your App, to choose a module pick yourself a cherry.</h4>
        </div>
-       <Admin currentUser={props.stateProps.currentUser}>
+       <RenderForAdmin currentUser={props.stateProps.currentUser}>
        <Table
           stateProps={props.stateProps}
           data={user}
-          roleHandler={getRoleValue}
+          getRoleValue={getRoleValue}
           onClick={onClickRowId}
           currentRole={role}
-           // onDelete={deleteRowHandler()} 
        />  
-       </Admin>
+       </RenderForAdmin>
       </div> 
       {/* <PivotTableDemo /> */}
     </div>

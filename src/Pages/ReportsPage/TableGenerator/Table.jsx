@@ -56,10 +56,9 @@ const App = (props) => {
         onDelete={onDelete}
         columns={columns}
         data={data}
-        roleHandler={props.roleHandler}
+        getRoleValue={props.getRoleValue}
         onClick={props.onClick}
         currentRole={props.currentRole}
-        defaultRole={props.defaultRole}
         // renderRowSubComponent={renderRowSubComponent}
       />
     </Container>

@@ -9,10 +9,11 @@ import {
 import { Table, Row, Col, Button, Input, CustomInput } from 'reactstrap';
 import { Filter, DefaultColumnFilter } from './TableFilters';
 
-import { Admin } from "../../../RuleBasedAccessControl/RoleBaseControl"; 
+import { RenderForAdmin } from "../../../RoleBasedAccessControl/RoleBaseControl"
 import DeleteButton from '../../../Components/DeleteButton/DeleteButton';
-import RolesSelectField from '../../../RuleBasedAccessControl/RolesSelectField/RolesSelectField';
-import FetchedRoles from '../../../RuleBasedAccessControl/RolesSelectField/FetchedRoles';
+// import RolesSelectField from '../../../RuleBasedAccessControl/RolesSelectField/RolesSelectField';
+// import FetchedRoles from '../../../RuleBasedAccessControl/RoleBaseControl';
+import AdminTableElements from '../../../RoleBasedAccessControl/AdminSection/AdminTableElements';
 
 const TableContainer = ({ 
   columns, 
@@ -20,7 +21,7 @@ const TableContainer = ({
   onDelete, 
   currentUser, 
   stateProps,
-  roleHandler,
+  getRoleValue,
   onClick,
   currentRole,  
    }) => {
@@ -55,7 +56,7 @@ const TableContainer = ({
       onDelete,
       currentUser,
       stateProps,
-      roleHandler,
+      getRoleValue,
       onClick,
       currentRole,      
     },
@@ -110,23 +111,23 @@ const TableContainer = ({
                       <td {...cell.getCellProps()}>{cell.render('Cell')}</td>
                     );
                   })}
-                <Admin currentUser={currentUser}>  
-                {stateProps.outputTable && stateProps.inputMode ? null : 
+                <RenderForAdmin currentUser={currentUser}>  
+                {stateProps.outputTable === true ? null : 
                 <td>
-                <FetchedRoles id={data[row.id].id}/>
+                <AdminTableElements 
+                stateProps={stateProps}
+                id={data[row.id].id} 
+                currentUser={currentUser}
+                getRoleValue={getRoleValue} 
+                onClick={() => onClick(data[row.id])}
+                currentRole={currentRole}/>
                 </td> }
-                {stateProps.outputTable ? null : 
-                <td>
-                <RolesSelectField 
-                 roleHandler={roleHandler} 
-                 onClick={() => onClick(data[row.id])}
-                 currentRole={currentRole}/>
-                </td> }
+                
                 {stateProps.outputTable === true ?
                 <td>  
                  <DeleteButton onClick={() => onDelete(data[row.id].id)}/>
                 </td> : null}
-                </Admin>
+                </RenderForAdmin>
                 </tr>
                 
                 {row.isExpanded && (

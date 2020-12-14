@@ -14,6 +14,7 @@ import HomePage from './Pages/HomePage/HomePage';
 import SelectActivity from './Pages/SelectActivity';
 
 import { auth, createUserProfileDocument } from "./Firebase/Firebase.utils"
+import { RenderForOperator } from './RoleBasedAccessControl/RoleBaseControl';
 
 
 class App extends React.Component {
@@ -115,6 +116,13 @@ componentWillUnmount() {
     });
     break;
     default:
+      this.setState({
+        index1: false,
+        index2: false,
+        index3: false,
+        index4: false,
+        hideModal: true 
+      });
   } 
 
   if (this.state.inputMode) {
@@ -152,6 +160,8 @@ componentWillUnmount() {
     return (
       <div className="app" >
         <Router>
+        {this.state.currentUser ?
+        <RenderForOperator currentUser={this.state.currentUser}>
           <Header 
           modalHandler={this.hideModalHanlder}
           currentUser={this.state.currentUser}
@@ -189,8 +199,9 @@ componentWillUnmount() {
                 onClick={this.activityHandler}
                 backButton={this.backButtonHandler}/> : <StartingPage />} 
               </Route>
-            
+              
           </Switch>
+          </RenderForOperator> : null }
         </Router>
      </div>    
     );

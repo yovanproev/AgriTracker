@@ -7,6 +7,10 @@
       {
           "id": 2,
           "name": "Operator"
+      },
+      {
+        "id": 3,
+        "name": "Disabled"
       }
   ]
 }

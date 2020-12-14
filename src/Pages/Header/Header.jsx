@@ -19,7 +19,7 @@ const Header = ({ currentUser, inputMode, outputMode, modalHandler }) => {
         <img className="picture" src={Logo} 
         alt="Logo_image" width="100px" >
         </img> : 
-        <NavLink to="/Home"> 
+        <NavLink to="/Home" onClick={inputMode}> 
         <img className="picture" src={Logo} 
         alt="Logo_image" width="100px" >
         </img></NavLink>}
