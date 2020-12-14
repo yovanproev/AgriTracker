@@ -4,7 +4,7 @@ import "./HomePage.scss"
 import BackDrop from "../../Components/Backdrop/Backdrop"
 // import PivotTableDemo from "../ReportsPage/PivotTable/PivotTable"
 import { users } from '../../Firebase/Firebase.utils';
-import Table from "../ReportsPage/TableGenerator/Table"
+import Table from "../../Components/ReactTableLibrary/Table"
 import { RenderForAdmin } from '../../RoleBasedAccessControl/RoleBaseControl';
 import 'firebase/firestore';
 

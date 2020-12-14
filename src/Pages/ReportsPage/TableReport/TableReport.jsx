@@ -5,7 +5,7 @@ import './TableReport.css';
 import { TableHeader } from './TableHeader/TableHeader'
 
 import { ExportCSV } from './ExcelExport/ExcelExport'
-import Table from "../TableGenerator/Table"
+import Table from "../../../Components/ReactTableLibrary/Table"
 
 import BackButton from '../../../Components/BackButton/BackButton';
 

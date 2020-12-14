@@ -9,11 +9,9 @@ import {
 import { Table, Row, Col, Button, Input, CustomInput } from 'reactstrap';
 import { Filter, DefaultColumnFilter } from './TableFilters';
 
-import { RenderForAdmin } from "../../../RoleBasedAccessControl/RoleBaseControl"
-import DeleteButton from '../../../Components/DeleteButton/DeleteButton';
-// import RolesSelectField from '../../../RuleBasedAccessControl/RolesSelectField/RolesSelectField';
-// import FetchedRoles from '../../../RuleBasedAccessControl/RoleBaseControl';
-import AdminTableElements from '../../../RoleBasedAccessControl/AdminSection/AdminTableElements';
+import { RenderForAdmin } from "../../RoleBasedAccessControl/RoleBaseControl"
+import DeleteButton from '../DeleteButton/DeleteButton';
+import AdminTableElements from '../../RoleBasedAccessControl/AdminSection/AdminTableElements';
 
 const TableContainer = ({ 
   columns, 

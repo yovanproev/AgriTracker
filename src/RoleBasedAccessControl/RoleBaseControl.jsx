@@ -11,9 +11,3 @@ export const RenderForOperator = (props) => {
   else return null
 }
 
-export const NoAuthorizationGiven = (props) => {
-    if (props.currentUser.Role === "" || props.currentUser.Role === "Disabled") {
-      return null
-    }
-    return null
- }

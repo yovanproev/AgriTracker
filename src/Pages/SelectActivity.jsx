@@ -5,7 +5,6 @@ import "./SelectActivity.css"
 import ActivityBubble from "../Components/ActivityBubble/ActivityBubble"
 import SelectReport from "./ReportsPage/SelectReport"
 import InputSelection from "./InputPage/InputSelection"
-// import { getFullDataFromFirebase } from "../Firebase/FetchDataFromFirebase"
 
 const SelectActivity = (props) => {
     return (
