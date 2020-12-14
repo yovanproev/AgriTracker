@@ -15,9 +15,9 @@ const RolesSelectField = (props) => {
      <div>
        <select className="roles-select-div"
           onChange={e => {props.getRoleValue(e.target.value)}}
-          onClick={props.onClick()}
+          onFocus={props.onClick()}
          >
-          <option key={0} value={""}>
+          <option key={0} value={props.defaultRole}>
             {"Select a role"}
           </option>
           {fetchRoles.map((fields) => (

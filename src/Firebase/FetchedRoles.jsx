@@ -1,6 +1,7 @@
 import React, { useState, useEffect} from "react"
 
 import { users } from './Firebase.utils';
+import RolesSelectField from "../RoleBasedAccessControl/AdminSection/RolesSelectField/RolesSelectField";
 
 const FetchedRoles = (props) => {
   const [ defaultRole, updateDefaultRole ] = useState([]);
@@ -27,12 +28,27 @@ const FetchedRoles = (props) => {
   }
   
   return (
-     <div>
-       <input style={{width: "100%"}} type="text" disabled 
-          value={fetchRoles(props.id) || ""}/>
-      </div>
-    )
-  
+    <div>
+      <table>
+        <tbody>
+          <tr>
+            <td>      
+              <input style={{width: "100%"}} type="text" disabled 
+                value={fetchRoles(props.id) || ""}/>
+            </td>
+            <td>
+              <RolesSelectField 
+              getRoleValue={props.getRoleValue} 
+              onClick={props.onClick}
+              currentRole={props.currentRole}
+              currentUser={props.currentUser}
+              previousValue={defaultRole}/>  
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  )
 }
 
 export default FetchedRoles;
