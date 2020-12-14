@@ -162,6 +162,7 @@ componentWillUnmount() {
         <Router>
         {this.state.currentUser ?
         <RenderForOperator currentUser={this.state.currentUser}>
+          
           <Header 
           modalHandler={this.hideModalHanlder}
           currentUser={this.state.currentUser}

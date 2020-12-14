@@ -2,59 +2,49 @@ import React, { useEffect, useState } from 'react';
 
 import "./HomePage.scss"
 import BackDrop from "../../Components/Backdrop/Backdrop"
-// import PivotTableDemo from "../ReportsPage/PivotTable/PivotTable"
 import { users } from '../../Firebase/Firebase.utils';
 import Table from "../../Components/ReactTableLibrary/Table"
 import { RenderForAdmin } from '../../RoleBasedAccessControl/RoleBaseControl';
 import 'firebase/firestore';
-
+import { getAllUsers } from "../../Firebase/FetchUsersFromFirestore"
 
   const HomePage = (props) => {
+  // get users to produce table
   const [ user, setUser ] = useState([])
-
   useEffect(() => {
-    async function getAllUsers() {
-      const snapshot = await users().get();
-       return new Promise (resolve => {
-        const result = snapshot.docs.map(x => {
-            const obj = x.data();
-            delete obj.createdAt
-            return obj;
-        });
-        return resolve(result);
-      })
-    }
     getAllUsers().then(resolve => {
       setUser(resolve)
     })
   }, [props])
     
-  
-  const [ role, setRole ] = useState([])
-  const getRoleValue = (roleValue) => {
-    setRole(roleValue)
-    }
-  
+  // get the table row number 
   const [ rowIdValue, setRowId ] = useState(undefined);
-   
   const onClickRowId = (rowId) => {
     if (rowId.id !== undefined) setRowId(rowId.id)
     else return 0
   }
 
+  // get the name of the Role
+  const [ role, setRole ] = useState([])
+  
+  const getRoleValue = (roleValue) => {
+    setRole(roleValue)
+  }
+  
+  // post the new role to Firebase
   useEffect(() => {
     const rolesPosting = (rowId) => {
       const usersDB = users();
       usersDB.get()
       .then(function(querySnapshot) {
         querySnapshot.forEach(function(doc) {
-            // console.log(doc.id, " => ", doc.data());
-            const randomKey = doc.id; 
-            const objectKey = doc.data().id 
+          // console.log(doc.id, " => ", doc.data());
+          const randomKey = doc.id; 
+          const objectKey = doc.data().id 
           if (rowId === objectKey) {
-              usersDB.doc(randomKey).update({
-                  Role: role 
-              });  
+            usersDB.doc(randomKey).update({
+                Role: role 
+            });  
           }
         })
       })
@@ -80,9 +70,8 @@ import 'firebase/firestore';
        />  
        </RenderForAdmin>
       </div> 
-      {/* <PivotTableDemo /> */}
     </div>
   )
 }
   
-  export default HomePage;
+export default HomePage;

@@ -10,14 +10,14 @@ const RolesSelectField = (props) => {
   useEffect(() => {
     setFetchRoles(fetchAllRoles()) 
   }, [])
-   
+  // console.log(props.currentRole)
    return (
      <div>
        <select className="roles-select-div"
           onChange={e => {props.getRoleValue(e.target.value)}}
           onClick={props.onClick()}
          >
-          <option key={0} value={props.currentUser.Role}>
+          <option key={0} value={""}>
             {"Select a role"}
           </option>
           {fetchRoles.map((fields) => (

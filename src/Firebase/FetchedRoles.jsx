@@ -1,8 +1,6 @@
 import React, { useState, useEffect} from "react"
 
-import { users } from '../../../Firebase/Firebase.utils';
-import FetchedRoleToInputField from "./FetchedRoleFromBackEnd"
-// import RolesSelectField from "./RolesSelectField/RolesSelectField"
+import { users } from './Firebase.utils';
 
 const FetchedRoles = (props) => {
   const [ defaultRole, updateDefaultRole ] = useState([]);
@@ -30,9 +28,9 @@ const FetchedRoles = (props) => {
   
   return (
      <div>
-        <FetchedRoleToInputField
-            value={fetchRoles(props.id)}/>
-        </div>
+       <input style={{width: "100%"}} type="text" disabled 
+          value={fetchRoles(props.id) || ""}/>
+      </div>
     )
   
 }
