@@ -6,6 +6,8 @@ import { users } from '../../Firebase/Firebase.utils';
 import Table from "../../Components/ReactTableLibrary/Table"
 import { RenderForAdmin } from '../../RoleBasedAccessControl/RoleBaseControl';
 import { getAllUsers } from "../../Firebase/FetchUsersFromFirestore"
+import { kurac, proba2 } from "../../Firebase/FetchedRoles/proba"
+
 
   const HomePage = (props) => {
   // get users to produce table
@@ -51,6 +53,8 @@ import { getAllUsers } from "../../Firebase/FetchUsersFromFirestore"
    if (rowIdValue !== undefined) rolesPosting(rowIdValue)
   }, [role, rowIdValue])
 
+  // console.log(oo.then(res => res[0].objectKey))
+
     return (
     <div>
      <BackDrop /> 
@@ -66,6 +70,7 @@ import { getAllUsers } from "../../Firebase/FetchUsersFromFirestore"
           getRoleValue={getRoleValue}
           onClick={onClickRowId}
           currentRole={role}
+          
        />  
        </RenderForAdmin>
       </div> 

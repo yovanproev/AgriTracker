@@ -1,7 +1,7 @@
 import React, { useState, useEffect} from "react"
 
-import { users } from './Firebase.utils';
-import RolesSelectField from "../RoleBasedAccessControl/AdminSection/RolesSelectField/RolesSelectField";
+import { users } from '../Firebase.utils';
+import RolesSelectField from "../../RoleBasedAccessControl/AdminSection/RolesSelectField/RolesSelectField";
 
 import "./FetchedRoles.css"
 

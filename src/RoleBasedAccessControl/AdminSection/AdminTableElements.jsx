@@ -1,4 +1,4 @@
-import FetchedRoles from "../../Firebase/FetchedRoles"
+import FetchedRoles from "../../Firebase/FetchedRoles/FetchedRoles"
 
 const AdminTableElements = (props) => {
   
