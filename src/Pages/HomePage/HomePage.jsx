@@ -5,7 +5,6 @@ import BackDrop from "../../Components/Backdrop/Backdrop"
 import { users } from '../../Firebase/Firebase.utils';
 import Table from "../../Components/ReactTableLibrary/Table"
 import { RenderForAdmin } from '../../RoleBasedAccessControl/RoleBaseControl';
-import 'firebase/firestore';
 import { getAllUsers } from "../../Firebase/FetchUsersFromFirestore"
 
   const HomePage = (props) => {

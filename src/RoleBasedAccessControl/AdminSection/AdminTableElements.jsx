@@ -3,14 +3,14 @@ import FetchedRoles from "../../Firebase/FetchedRoles"
 const AdminTableElements = (props) => {
   
   return (
-    <div>
+    <span>
       <FetchedRoles id={props.id}
         getRoleValue={props.getRoleValue} 
-        onClick={() => props.onClick}
+        onFocus={() => props.onClick}
         currentRole={props.currentRole}
         currentUser={props.stateProps.currentUser}
       />
-    </div>
+    </span>
   )
 }
 
