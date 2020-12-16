@@ -17,7 +17,7 @@ const RolesSelectField = (props) => {
      <span>
        
        <select className="roles-select-div"
-          onChange={(e) => {props.getRoleValue(e.target.value); setOpenModal(() => true)}}
+          onChange={(e) => {props.getRoleValue(e.target.value); setOpenModal(()=> true)}}
           onFocus={props.onFocus()}
           disabled={props.id === parseInt(6) || props.id === parseInt(4) ? true : null}
          >

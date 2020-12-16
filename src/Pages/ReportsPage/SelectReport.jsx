@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import Modal from "../../Components/Modal/Modal";
 
 import { getFullDataFromFirebase } from "../../Firebase/FetchDataFromFirebase";
-import { firebase_db, firebase_db_fuelConsump, firebase_db_machineReg } from '../../Firebase/Firebase.utils';
+import { firebase_db, firebase_db_fuelConsump, firebase_db_machineReg } from '../../Firebase/Firebase.utils.jsx';
 
 import TableReport from "./TableReport/TableReport"
 

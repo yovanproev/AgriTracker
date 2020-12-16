@@ -2,10 +2,10 @@ import React, { useEffect, useState } from 'react';
 
 import "./HomePage.scss"
 import BackDrop from "../../Components/Backdrop/Backdrop"
-import { users } from '../../Firebase/Firebase.utils';
+import { users } from '../../Firebase/Firebase.utils.jsx';
 import Table from "../../Components/ReactTableLibrary/Table"
 import { RenderForAdmin } from '../../RoleBasedAccessControl/RoleBaseControl';
-import { getAllUsers } from "../../Firebase/FetchUsersFromFirestore"
+import { getAllUsers, getUsersKey,  } from "../../Firebase/FetchUsersFromFirestore"
 // import { oo, proba2 } from "../../Firebase/FetchedRoles/proba"
 
 
@@ -25,37 +25,58 @@ import { getAllUsers } from "../../Firebase/FetchUsersFromFirestore"
     else return 0
   }
 
-  // get the name of the Role
+  // get the name of the Role from Firebase based on the id of the row
   const [ role, setRole ] = useState([])
-  
   const getRoleValue = (roleValue) => {
     setRole(roleValue)
   }
   
   // post the new role to Firebase
+  const [ usersKey, updateUsersKey ] = useState([]);
   useEffect(() => {
-    const rolesPosting = (rowId) => {
-      const usersDB = users();
-      usersDB.get()
-      .then(function(querySnapshot) {
-        querySnapshot.forEach(function(doc) {
-          // console.log(doc.id, " => ", doc.data());
-          const randomKey = doc.id; 
-          const objectKey = doc.data().id 
-          if (rowId === objectKey) {
-            usersDB.doc(randomKey).update({
-                Role: role 
-            });  
-          }
-        })
-      })
+  
+   const rolesPosting = (rowId) => {
+      // getUsersKey().then(res => {   
+      //   updateUsersKey(res) 
+        // console.log(res)
+        // const randomKey = doc.id; 
+        const objectKey = user.filter( x => x.id === rowId) 
+        
+        // console.log(usersKeyfilter)
+        // console.log(objectKey) // objekt, samo redot koj e kliknat
+        // if (rowId === objectKey) {
+        //   users().doc(usersKey).update({
+        //       Role: role 
+        //   });  
+        // }
+      // })
+      // console.log(rowId)
+      
     }
    if (rowIdValue !== undefined) rolesPosting(rowIdValue)
-  }, [role, rowIdValue])
+  }, [role, rowIdValue, user, usersKey])  
+  
+  // useEffect(() => {
+  //   const rolesPosting = (rowId) => {
+  //     const usersDB = users();
+  //     usersDB.get()
+  //     .then(function(querySnapshot) {
+  //       querySnapshot.forEach(function(doc) {
+  //         // console.log(doc.id, " => ", doc.data());
+  //         const randomKey = doc.id; 
+  //         const objectKey = doc.data().id 
+  //         if (rowId === objectKey) {
+  //           usersDB.doc(randomKey).update({
+  //               Role: role 
+  //           });  
+  //         }
+  //       })
+  //     })
+  //   }
+  //  if (rowIdValue !== undefined) rolesPosting(rowIdValue)
+  // }, [role, rowIdValue])
 
-  // console.log(oo.then(res => res[0].objectKey))
-
-    return (
+  return (
     <div>
      <BackDrop /> 
      <div className='home-page'>
@@ -70,8 +91,7 @@ import { getAllUsers } from "../../Firebase/FetchUsersFromFirestore"
           getRoleValue={getRoleValue}
           onClick={onClickRowId}
           currentRole={role}
-          
-       />  
+        />  
        </RenderForAdmin>
       </div> 
     </div>

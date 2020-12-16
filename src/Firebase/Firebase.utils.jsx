@@ -2,6 +2,8 @@ import firebase from 'firebase/app';
 import 'firebase/firestore';
 import 'firebase/auth';
 import "firebase/database"
+import { lastUserId } from './FetchUsersFromFirestore';
+import React from "react"
 
 const config = {
     apiKey: "AIzaSyAK38e0I2ui4E_FDQAAi6CbtQQQ0jmaPzI",
@@ -16,6 +18,11 @@ const config = {
 
 
 export const createUserProfileDocument = async (userAuth, additionalData) => {
+  let a = []
+  const internalId = lastUserId() // promise fulfiled
+  .then(res => a.push(res))
+   console.log(a)  
+  
   if (!userAuth) return;
 
   const userRef = firestore.doc(`users/${userAuth.uid}`);
@@ -25,13 +32,15 @@ export const createUserProfileDocument = async (userAuth, additionalData) => {
   if (!snapShot.exists) {
     const { displayName, email } = userAuth;
     const createdAt = new Date();
-    const id = 1;
+    const id = a;
+    const Role = "";
     try {
       await userRef.set({
         displayName,
         email,
         createdAt,
         id,
+        Role,
         ...additionalData
       });
     } catch (error) {

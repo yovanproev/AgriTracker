@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import FormInput from '../FormInput/FormInput';
 import LogInButton from '../../../Components/LogInButton/LogInButton';
 
-import { auth, createUserProfileDocument } from '../../../Firebase/Firebase.utils';
+import { auth, createUserProfileDocument } from '../../../Firebase/Firebase.utils.jsx';
 import Modal from "../../../Components/Modal/Modal"
 
 import './SignUp.css';

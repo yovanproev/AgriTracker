@@ -4,7 +4,8 @@ import { NavLink } from "react-router-dom";
 import "./Header.css"
 import Logo from "../../Assets/Logo.jpg";
 
-import { auth } from "../../Firebase/Firebase.utils"
+import { auth } from "../../Firebase/Firebase.utils.jsx"
+import { RenderForOperator } from '../../RoleBasedAccessControl/RoleBaseControl';
 
 const Header = ({ currentUser, inputMode, outputMode, modalHandler }) => {
   const signOutAndModalOff = () => {
@@ -13,52 +14,53 @@ const Header = ({ currentUser, inputMode, outputMode, modalHandler }) => {
   }
 
   return (
-      <nav className="nav-bar">
-
-      {!currentUser ?  
-        <img className="picture" src={Logo} 
-        alt="Logo_image" width="100px" >
-        </img> : 
+    <nav className="nav-bar">
+        
+      {currentUser ?  
         <NavLink to="/Home" onClick={inputMode}> 
         <img className="picture" src={Logo} 
         alt="Logo_image" width="100px" >
-        </img></NavLink>}
+        </img></NavLink> : 
+        <img className="picture" src={Logo} 
+        alt="Logo_image" width="100px" >
+        </img>}
 
       <h2 className="your-company">Your Company Name</h2>
       <div className="menu-wrap">
-       <ul className="ul-bar">
-        <div className="item">
-         <li className="list-item">
-           {currentUser  ? 
-           <NavLink className="link" 
-             activeClassName="active-style"
-             onClick={inputMode}
-             to="/Inputs"
-            > 
-            <div className="cherry cherry1"> Input Forms </div>
-            <div className="cherry-join"></div>
-           </NavLink>: null}
-         </li>
-         <li className="list-item">
-          {currentUser ? 
-          <NavLink className="link"  
-          activeClassName="active-style"
-          onClick={outputMode}
-          to="/Reports"
-           >
-            <div className="cherry cherry2">Reports</div>
-          </NavLink> : null}
-         </li> </div>
-         <li className="list-item"> 
-           {currentUser ? (
-           <NavLink className="link"  
-            to="/"
-            onClick={() => signOutAndModalOff()}>
-            <i className="fas fa-sign-out-alt"></i>SIGN OUT
-            </NavLink>
-            ) : null}
-         </li>
+
+        {currentUser ?
+          <RenderForOperator currentUser={currentUser}>
+        <ul className="ul-bar">
+          <div className="item">
+            <li className="list-item">
+              <NavLink className="link" 
+                  activeClassName="active-style"
+                  onClick={inputMode}
+                  to="/Inputs"
+                  > 
+                  <div className="cherry cherry1"> Input Forms </div>
+                  <div className="cherry-join"></div>
+              </NavLink>
+            </li>
+            <li className="list-item">
+                <NavLink className="link"  
+                  activeClassName="active-style"
+                  onClick={outputMode}
+                  to="/Reports"
+                >
+                  <div className="cherry cherry2">Reports</div>
+                </NavLink> 
+            </li> 
+          </div>
         </ul>
+        </RenderForOperator> : null}
+
+         {currentUser ?        
+        <NavLink className="sign-out-link"  
+          to="/"
+          onClick={() => signOutAndModalOff()}>
+          <i className="fas fa-sign-out-alt"></i>SIGN OUT
+        </NavLink> : null }
       </div>
     </nav>
   )

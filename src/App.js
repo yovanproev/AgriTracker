@@ -13,7 +13,7 @@ import HomePage from './Pages/HomePage/HomePage';
 
 import SelectActivity from './Pages/SelectActivity';
 
-import { auth, createUserProfileDocument } from "./Firebase/Firebase.utils"
+import { auth, createUserProfileDocument } from "./Firebase/Firebase.utils.jsx"
 import { RenderForOperator } from './RoleBasedAccessControl/RoleBaseControl';
 
 
@@ -160,27 +160,30 @@ componentWillUnmount() {
     return (
       <div className="app" >
         <Router>
-        {this.state.currentUser ?
-        <RenderForOperator currentUser={this.state.currentUser}>
-          
+       
           <Header 
-          modalHandler={this.hideModalHanlder}
-          currentUser={this.state.currentUser}
-          inputMode={this.inputModeHandler}
-          outputMode={this.outputModeHandler}/>  
-          <Switch>
+            modalHandler={this.hideModalHanlder}
+            currentUser={this.state.currentUser}
+            inputMode={this.inputModeHandler}
+            outputMode={this.outputModeHandler}/>  
+            <Switch>
           
-             <Route exact path="/"> 
+          <Route exact path="/"> 
              {this.state.currentUser ? <Redirect to="/Home" /> : 
-             <StartingPage modal={this.hideModalHanlder}/>}
-             </Route>
-           
-             <Route path="/Home">
+             <StartingPage
+              // modal={this.hideModalHanlder} 
+              />}
+          </Route>
+
+          <Route path="/Home">
                {this.state.currentUser ? <HomePage 
                stateProps={this.state}
                /> : <Redirect to="/" />}
              </Route>
-                           
+
+          {this.state.currentUser ?
+           <RenderForOperator currentUser={this.state.currentUser}>
+                                      
              <Route path="/Inputs">
                 {this.state.currentUser ? 
                 <SelectActivity 
@@ -200,9 +203,9 @@ componentWillUnmount() {
                 onClick={this.activityHandler}
                 backButton={this.backButtonHandler}/> : <StartingPage />} 
               </Route>
-              
+              </RenderForOperator> : null }    
+
           </Switch>
-          </RenderForOperator> : null }
         </Router>
      </div>    
     );

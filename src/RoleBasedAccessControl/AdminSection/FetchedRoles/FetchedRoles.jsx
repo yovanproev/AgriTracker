@@ -1,29 +1,23 @@
 import React, { useState, useEffect} from "react"
 
-import { users } from '../Firebase.utils';
-import RolesSelectField from "../../RoleBasedAccessControl/AdminSection/RolesSelectField/RolesSelectField";
+import { getAllUsers } from "../../../Firebase/FetchUsersFromFirestore"
+import RolesSelectField from "../RolesSelectField/RolesSelectField";
 
 import "./FetchedRoles.css"
 
 const FetchedRoles = (props) => {
-  const [ defaultRole, updateDefaultRole ] = useState([]);
+  const [ assignedRole, updateAssignedRole ] = useState([]);
   
   useEffect(() => {
-    const usersDB = users();
-      usersDB.get()
-   .then(function(querySnapshot) {
-     querySnapshot.forEach(function(doc) {
-       const objectKey = doc.data().id 
-        const objectRole = doc.data().Role
-        updateDefaultRole(prev => [...prev, {objectRole, objectKey} ])
-     })
+    getAllUsers().then(resolve => {
+      updateAssignedRole(resolve)
     })
-    }, [props])
-  
-    const fetchRoles = (rowId) => {
-    const data = defaultRole.filter(roles => roles.objectKey === rowId);
+  }, [props])
+
+  const fetchRoles = (rowId) => {
+    const data = assignedRole.filter(roles => roles.id === rowId);
     if (data.length > 0) {
-      return data[0].objectRole;
+      return data[0].Role;
     } else {
       return data;
     }

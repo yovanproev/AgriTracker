@@ -23,6 +23,17 @@
   color: rgb(59, 26, 4);
 }
 
+.sign-out-link {
+  color: rgb(59, 26, 4);
+  margin-top: 30px;
+}
+
+@media screen and (max-width: 600px) {
+  .sign-out-link {
+    margin-top: 15px;
+  }
+}
+
 .list-item {
   list-style: none;
   display: flex;
