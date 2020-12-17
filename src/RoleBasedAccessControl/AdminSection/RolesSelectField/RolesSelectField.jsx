@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react"
 import Tooltip  from "../../../Components/ToolTip/ToolTip"
 
 import "./RolesSelectField.css"
-import { fetchAllRoles } from "../../../LocalData/InputFormsData"
+import { fetchAllRoles } from "../../../../src/LocalData/InputFormsData"
 
 const RolesSelectField = (props) => {
   
@@ -18,7 +18,7 @@ const RolesSelectField = (props) => {
        
        <select className="roles-select-div"
           onChange={(e) => {props.getRoleValue(e.target.value); setOpenModal(()=> true)}}
-          onFocus={props.onFocus()}
+          onFocus={() => props.onFocus()}
           disabled={props.id === parseInt(6) || props.id === parseInt(4) ? true : null}
          >
           <option key={0} value={"Please select a role"}>

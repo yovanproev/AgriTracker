@@ -171,8 +171,7 @@ componentWillUnmount() {
           <Route exact path="/"> 
              {this.state.currentUser ? <Redirect to="/Home" /> : 
              <StartingPage
-              // modal={this.hideModalHanlder} 
-              />}
+              modal={this.hideModalHanlder}/>}
           </Route>
 
           <Route path="/Home">

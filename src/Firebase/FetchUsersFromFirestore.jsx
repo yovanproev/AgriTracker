@@ -24,31 +24,33 @@ export async function getAllUsers() {
 //     })
 // }
 
+export let array = []
 export function getUsersId() {
   const snapshot = users().get()
+  return new Promise(resolve => {
   const result = snapshot.then((querySnapshot) => {
-    let arr = []
+    // console.log(snapshot) // promise fullfield
+    // console.log(querySnapshot) // promise fullfield
     querySnapshot.forEach((doc) => {
      const obj = doc.data().id;
-      arr.push(obj);
-      return arr   
-      })
-      return arr
-   })
+      array.push(obj);
+      // console.log(array)
+      resolve(array)
+    })
+  })
     return result
+  })
 }
   
-  
-    
-  export const lastUserId = () => {
-    let arr = [getUsersId().then(res => res)]
-     return Promise.all(arr.reduce(function(a, b) { 
-       return a.concat(b); }, []))
-     .then(function(results) {
-       // results are in a flattened array
-       return Math.max(...results[0])
-   })
-     
-  }
+       
 
-  //  console.log(lastUserId())
+//  export async function lastUserId() {
+//   let arr = [getUsersId().then(res => res)];
+//   // console.log(arr) rejected promise
+//   const results = await Promise.all(arr.reduce(function (flat, toFlatten) {
+//      return flat.concat(toFlatten);
+//    }, []));
+//    return results;
+// }
+  
+      // console.log(lastUserId())

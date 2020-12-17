@@ -2,8 +2,7 @@ import firebase from 'firebase/app';
 import 'firebase/firestore';
 import 'firebase/auth';
 import "firebase/database"
-import { lastUserId } from './FetchUsersFromFirestore';
-import React from "react"
+// import { getUsersId, array } from './FetchUsersFromFirestore';
 
 const config = {
     apiKey: "AIzaSyAK38e0I2ui4E_FDQAAi6CbtQQQ0jmaPzI",
@@ -16,13 +15,19 @@ const config = {
     measurementId: "G-1CVRSW18ER"
 };
 
+firebase.initializeApp(config);
+
+export const auth = firebase.auth();
+export const firestore = firebase.firestore();
+
+export const users = () => firestore.collection("users")
 
 export const createUserProfileDocument = async (userAuth, additionalData) => {
-  let a = []
-  const internalId = lastUserId() // promise fulfiled
-  .then(res => a.push(res))
-   console.log(a)  
-  
+  // let a = [] 
+  // getUsersId().then(res => {a.push(res.map(x => x))
+  // })  
+  // console.log(await a[0])
+
   if (!userAuth) return;
 
   const userRef = firestore.doc(`users/${userAuth.uid}`);
@@ -32,14 +37,14 @@ export const createUserProfileDocument = async (userAuth, additionalData) => {
   if (!snapShot.exists) {
     const { displayName, email } = userAuth;
     const createdAt = new Date();
-    const id = a;
+    // const id = a;
     const Role = "";
     try {
       await userRef.set({
         displayName,
         email,
         createdAt,
-        id,
+        // id,
         Role,
         ...additionalData
       });
@@ -51,13 +56,6 @@ export const createUserProfileDocument = async (userAuth, additionalData) => {
   return userRef;
 };
 
-firebase.initializeApp(config);
-
-export const auth = firebase.auth();
-export const firestore = firebase.firestore();
-
-export const users = () => firestore.collection("users")
-
 export const firebase_db = firebase.database();
 export const firebase_db_fuelConsump = firebase.database().ref(`fuelConsumptionInput`);
 export const firebase_db_machineReg = firebase.database().ref(`machineRegistrationInput`);
@@ -67,3 +65,4 @@ provider.setCustomParameters({ prompt: 'select_account' });
 export const signInWithGoogle = () => auth.signInWithPopup(provider);
 
 export default firebase;
+

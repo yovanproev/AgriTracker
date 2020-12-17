@@ -13,6 +13,6 @@ export const RenderForOperator = (props) => {
   else if (props.currentUser.Role === "Administrator") {
     return props.children
   }
-  else return <Modal show={true}>Please contact the Administrator to get authorization!</Modal>
+  return props.currentUser ? <Modal show={true}>Please contact the Administrator to get authorization!</Modal> : null
 }
 

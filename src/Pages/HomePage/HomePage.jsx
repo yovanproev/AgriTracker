@@ -5,11 +5,9 @@ import BackDrop from "../../Components/Backdrop/Backdrop"
 import { users } from '../../Firebase/Firebase.utils.jsx';
 import Table from "../../Components/ReactTableLibrary/Table"
 import { RenderForAdmin } from '../../RoleBasedAccessControl/RoleBaseControl';
-import { getAllUsers, getUsersKey,  } from "../../Firebase/FetchUsersFromFirestore"
-// import { oo, proba2 } from "../../Firebase/FetchedRoles/proba"
+import { getAllUsers } from "../../Firebase/FetchUsersFromFirestore"
 
-
-  const HomePage = (props) => {
+const HomePage = (props) => {
   // get users to produce table
   const [ user, setUser ] = useState([])
   useEffect(() => {
@@ -32,49 +30,25 @@ import { getAllUsers, getUsersKey,  } from "../../Firebase/FetchUsersFromFiresto
   }
   
   // post the new role to Firebase
-  const [ usersKey, updateUsersKey ] = useState([]);
   useEffect(() => {
-  
-   const rolesPosting = (rowId) => {
-      // getUsersKey().then(res => {   
-      //   updateUsersKey(res) 
-        // console.log(res)
-        // const randomKey = doc.id; 
-        const objectKey = user.filter( x => x.id === rowId) 
-        
-        // console.log(usersKeyfilter)
-        // console.log(objectKey) // objekt, samo redot koj e kliknat
-        // if (rowId === objectKey) {
-        //   users().doc(usersKey).update({
-        //       Role: role 
-        //   });  
-        // }
-      // })
-      // console.log(rowId)
-      
+    const rolesPosting = (rowId) => {
+      const usersDB = users();
+      usersDB.get()
+      .then(function(querySnapshot) {
+        querySnapshot.forEach(function(doc) {
+          // console.log(doc.id, " => ", doc.data());
+          const randomKey = doc.id; 
+          const objectKey = doc.data().id 
+          if (rowId === objectKey) {
+            usersDB.doc(randomKey).update({
+                Role: role 
+            });  
+          }
+        })
+      })
     }
    if (rowIdValue !== undefined) rolesPosting(rowIdValue)
-  }, [role, rowIdValue, user, usersKey])  
-  
-  // useEffect(() => {
-  //   const rolesPosting = (rowId) => {
-  //     const usersDB = users();
-  //     usersDB.get()
-  //     .then(function(querySnapshot) {
-  //       querySnapshot.forEach(function(doc) {
-  //         // console.log(doc.id, " => ", doc.data());
-  //         const randomKey = doc.id; 
-  //         const objectKey = doc.data().id 
-  //         if (rowId === objectKey) {
-  //           usersDB.doc(randomKey).update({
-  //               Role: role 
-  //           });  
-  //         }
-  //       })
-  //     })
-  //   }
-  //  if (rowIdValue !== undefined) rolesPosting(rowIdValue)
-  // }, [role, rowIdValue])
+  }, [role, rowIdValue])
 
   return (
     <div>
