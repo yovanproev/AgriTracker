@@ -1,30 +1,55 @@
 import React, { useState, useEffect } from "react";
 import Modal from "../../Components/Modal/Modal";
 
-import { getFullDataFromFirebase } from "../../Firebase/FetchDataFromFirebase";
-import { firebase_db, firebase_db_fuelConsump, firebase_db_machineReg } from '../../Firebase/Firebase.utils.jsx';
+import { getPaginatedTableData, nextPage, previousPage, counter } from "../../Firebase/FetchDataFromFirebase";
+import { firebase_db, firebase_db_fuelConsump, firebase_db_machineReg } from '../../Firebase/Firebase.utils';
 
 import TableReport from "./TableReport/TableReport"
 
 const SelectReport = (props) => {
   const [ table, setTable ] = useState([])
   const [ fetchError, setFetchError ] = useState("")
+  const [ blockNextButton, updateBlockNextButton ] = useState(undefined)
+
+  function nextPageLoad(){
+    const nextPageCount = nextPage();
+    getPaginatedTableData(0, nextPageCount).then((fullData)=>{
+      const fullDataArray=[]
+      Object.keys(fullData).forEach((key)=>{
+        fullDataArray.push(fullData[key]);
+      })
+    updateBlockNextButton(fullDataArray.length < counter ? true : false)
+    setTable(fullDataArray)
+    })
+  }
+
+  function previousPageLoad(){
+    const previousPageCount = previousPage();
+    getPaginatedTableData(0, previousPageCount).then((fullData)=>{
+      const fullDataArray=[]
+      Object.keys(fullData).forEach((key)=>{
+        fullDataArray.push(fullData[key]);
+      })
+    setTable(fullDataArray)
+    })
+  }
 
   useEffect(() => {
-       // if (props.stateProps != null) {
-        const fullData = getFullDataFromFirebase(props)
-        fullData.then(res => setTable(res))
-       .catch((err) => {
-         setFetchError(err)
-       });
- }, [props]);
-  
+          getPaginatedTableData(0, 10).then((fullData)=>{
+            const fullDataArray=[]
+            Object.keys(fullData).forEach((key)=>{
+              fullDataArray.push(fullData[key]);
+            })
+        // console.log(fullDataArray);
+        setTable(fullDataArray)
+        updateBlockNextButton(fullDataArray.length < counter ? true : false)
+       })
+  }, []);
+
  const [modeChange, setModeChange] = useState('');
  useEffect(() => {
    setModeChange(props.stateProps.outputMode)
  }, [props.stateProps.outputMode])
-
-//  console.log(props.stateProps.outputMode)
 
  const deleteRowHandler = (rowId) => {
     const rows = table.filter((row) => row.id !== rowId);
@@ -56,21 +81,24 @@ const SelectReport = (props) => {
             })
            })
          }
-  setTable(rows) 
-}
+    setTable(rows) 
+  }
 
  const moduleInProgress = <Modal show={props.stateProps.hideModal} hide={props.modal}>
    Module Still Not Built</Modal> 
  const errorInProgress = <Modal show={fetchError} hide={props.modal}>
    Error fetching data from Database, please check your Internet connection</Modal> 
 
-// console.log(table)
    return (
    <div className="table-reports">
       {errorInProgress}
       {props.stateProps.index3 || 
       props.stateProps.index4 ? moduleInProgress :
       < TableReport
+        blockNextButton={blockNextButton}
+        counter={counter}
+        nextPageLoad={nextPageLoad}
+        previousPageLoad={previousPageLoad}
         stateProps={props}
         modeChange={modeChange}
         deleteRowHandler={deleteRowHandler} 

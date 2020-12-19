@@ -4,7 +4,7 @@ import FormInput from '../FormInput/FormInput';
 import LogInButton from '../../../Components/LogInButton/LogInButton';
 import Modal from "../../../Components/Modal/Modal"
 import LineSpinner from "../../../Components/Spinners/Spinner2"
-import { auth, signInWithGoogle } from '../../../Firebase/Firebase.utils';
+import { auth, signInWithGoogle } from '../../../Firebase/Firebase.utils.js';
 
 import './SignIn.css';
 

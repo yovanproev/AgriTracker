@@ -13,7 +13,7 @@ import HomePage from './Pages/HomePage/HomePage';
 
 import SelectActivity from './Pages/SelectActivity';
 
-import { auth, createUserProfileDocument } from "./Firebase/Firebase.utils.jsx"
+import { auth, createUserProfileDocument } from "./Firebase/Firebase.utils"
 import { RenderForOperator } from './RoleBasedAccessControl/RoleBaseControl';
 
 

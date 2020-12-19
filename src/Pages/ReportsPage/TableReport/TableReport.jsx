@@ -35,7 +35,11 @@ const [ name, setName ] = useState(null)
             <ExportCSV csvData={props.tableData} 
             fileName={name} />
           </div>
-      <Table 
+      <Table
+         blockNextButton={props.blockNextButton}
+        counter={props.counter}
+        nextPageLoad={props.nextPageLoad}  
+        previousPageLoad={props.previousPageLoad}
         stateProps={props.stateProps.stateProps}
         data={props.tableData}
         modeChange={props.modeChange}

@@ -17,7 +17,7 @@ const AdminTableElements = (props) => {
   const fetchRoles = (rowId) => {
     const data = assignedRole.filter(roles => roles.id === rowId);
     if (data.length > 0) {
-      return data[0].Role;
+      return data[0].role;
     } else {
       return data;
     }

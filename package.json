@@ -11,6 +11,7 @@
     "eslint-plugin-react-hooks": "0.0.0-8e5adfbd7",
     "file-saver": "^2.0.2",
     "firebase": "^8.1.1",
+    "logrocket": "^1.0.14",
     "match-sorter": "^5.0.0",
     "netlify-cli": "^2.69.4",
     "react": "^17.0.1",

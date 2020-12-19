@@ -4,13 +4,13 @@ import { NavLink } from "react-router-dom";
 import "./Header.css"
 import Logo from "../../Assets/Logo.jpg";
 
-import { auth } from "../../Firebase/Firebase.utils.jsx"
+import { auth } from "../../Firebase/Firebase.utils"
 import { RenderForOperator } from '../../RoleBasedAccessControl/RoleBaseControl';
 
 const Header = ({ currentUser, inputMode, outputMode, modalHandler }) => {
   const signOutAndModalOff = () => {
-    auth.signOut()
     modalHandler()
+    auth.signOut()
   }
 
   return (

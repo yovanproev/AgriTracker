@@ -21,7 +21,11 @@ const TableContainer = ({
   stateProps,
   getRoleValue,
   onClick,
-  currentRole,  
+  currentRole,
+  nextPageLoad,
+  previousPageLoad,
+  counter,
+  blockNextButton 
    }) => {
   const {
     getTableProps,
@@ -56,7 +60,11 @@ const TableContainer = ({
       stateProps,
       getRoleValue,
       onClick,
-      currentRole,      
+      currentRole,
+      nextPageLoad,
+      previousPageLoad,
+      counter,
+      blockNextButton      
     },
     useFilters,
     useSortBy,
@@ -152,8 +160,8 @@ const TableContainer = ({
           </Button>
           <Button
             color='primary'
-            onClick={previousPage}
-            disabled={!canPreviousPage}
+            onClick={() => previousPageLoad()}
+            disabled={console.log(counter), counter === 10 ? true : false}
           >
             {'<'}
           </Button>
@@ -190,7 +198,9 @@ const TableContainer = ({
           </CustomInput>
         </Col>
         <Col md={3}>
-          <Button color='primary' onClick={nextPage} disabled={!canNextPage}>
+          <Button color='primary' onClick={()=>{nextPageLoad()}} 
+          disabled={blockNextButton}
+          >
             {'>'}
           </Button>
           <Button

@@ -15,19 +15,9 @@ const config = {
     measurementId: "G-1CVRSW18ER"
 };
 
-firebase.initializeApp(config);
 
-export const auth = firebase.auth();
-export const firestore = firebase.firestore();
-
-export const users = () => firestore.collection("users")
 
 export const createUserProfileDocument = async (userAuth, additionalData) => {
-  // let a = [] 
-  // getUsersId().then(res => {a.push(res.map(x => x))
-  // })  
-  // console.log(await a[0])
-
   if (!userAuth) return;
 
   const userRef = firestore.doc(`users/${userAuth.uid}`);
@@ -37,15 +27,15 @@ export const createUserProfileDocument = async (userAuth, additionalData) => {
   if (!snapShot.exists) {
     const { displayName, email } = userAuth;
     const createdAt = new Date();
-    // const id = a;
-    const Role = "";
+    const id = Math.random() * 10000
+    const role = "";
     try {
       await userRef.set({
         displayName,
         email,
+        role,
+        id,
         createdAt,
-        // id,
-        Role,
         ...additionalData
       });
     } catch (error) {
@@ -56,9 +46,16 @@ export const createUserProfileDocument = async (userAuth, additionalData) => {
   return userRef;
 };
 
+firebase.initializeApp(config);
+
 export const firebase_db = firebase.database();
 export const firebase_db_fuelConsump = firebase.database().ref(`fuelConsumptionInput`);
 export const firebase_db_machineReg = firebase.database().ref(`machineRegistrationInput`);
+
+export const auth = firebase.auth();
+export const firestore = firebase.firestore();
+
+export const users = () => firestore.collection("users")
 
 const provider = new firebase.auth.GoogleAuthProvider();
 provider.setCustomParameters({ prompt: 'select_account' });

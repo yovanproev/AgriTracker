@@ -51,6 +51,10 @@ const App = (props) => {
   return (
     <Container style={{ marginTop: "30px" }}>
       <TableContainer
+         blockNextButton={props.blockNextButton}
+        counter={props.counter}
+        nextPageLoad={props.nextPageLoad}
+        previousPageLoad={props.previousPageLoad}
         stateProps={props.stateProps}
         currentUser={props.stateProps.currentUser}
         onDelete={onDelete}
