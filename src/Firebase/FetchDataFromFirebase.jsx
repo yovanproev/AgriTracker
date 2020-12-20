@@ -25,7 +25,22 @@ return Promise.all(requests)
   })
 }
 
+export const getPaginatedTableData =  (count, limit) => {
+  return new Promise((resolve)=>{
+ 
+   count = count || 0; 
+   limit = limit  || 10;
+   
+   firebase_db_fuelConsump.orderByChild("id")
+     .startAt(count).limitToLast(limit).once('value').then((snapshot)=>{
+       resolve(snapshot.val())
+     })
+   
+   })
+ }
+ 
 export let counter = 10;
+
 export const nextPage = () => {
  for (let i = 0; i < 1; i++) {
     counter += 10;
@@ -41,20 +56,19 @@ export const previousPage = () => {
   else return null
   }
   return counter;
- }
+}
 
-export const getPaginatedTableData =  (count,limit) => {
-  return new Promise((resolve)=>{
+export let pageCounter = 0;
+export const countNextPage = () => {
+   pageCounter += 1;
+}
+export const countPreviousPage = () => {
+  pageCounter -= 1;
+}
 
-  count = count || 0; 
-  limit = limit  || 10;
-
-    firebase_db_fuelConsump.orderByChild("id")
-    .startAt(count).limitToFirst(limit).once('value').then((snapshot)=>{
-      resolve(snapshot.val())
-    })
-  
-  })
+export const resetCounter = () => {
+   counter = 10;
+   pageCounter = 0;
 }
 
 

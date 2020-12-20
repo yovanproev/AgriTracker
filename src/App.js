@@ -13,6 +13,7 @@ import HomePage from './Pages/HomePage/HomePage';
 
 import SelectActivity from './Pages/SelectActivity';
 
+import { resetCounter } from "./Firebase/FetchDataFromFirebase";
 import { auth, createUserProfileDocument } from "./Firebase/Firebase.utils"
 import { RenderForOperator } from './RoleBasedAccessControl/RoleBaseControl';
 
@@ -61,6 +62,7 @@ componentWillUnmount() {
 
  inputModeHandler = (mode) => {
   localStorage.setItem( 'SelectedMode', mode.bubbles );
+  resetCounter();
   this.setState({
     inputMode: true, 
     outputMode: false,

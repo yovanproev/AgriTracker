@@ -10,9 +10,9 @@ const AdminTableElements = (props) => {
   
   useEffect(() => {
     getAllUsers().then(resolve => {
-      updateAssignedRole(resolve)
+       updateAssignedRole(resolve)
     })
-  }, [props])
+  }, [])
 
   const fetchRoles = (rowId) => {
     const data = assignedRole.filter(roles => roles.id === rowId);

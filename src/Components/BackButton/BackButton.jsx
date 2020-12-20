@@ -10,7 +10,8 @@ const BackButton = (props) => {
   return (
     <div className="back-button1">
       <button 
-      onClick={() => setButton(data)}>
+      onClick={() => setButton(data)}
+      onFocus={() => props.onFocus()}>
         Back
       </button>
     </div>

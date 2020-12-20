@@ -1,6 +1,7 @@
 import Modal from "../Components/Modal/Modal"
 
 export const RenderForAdmin = ({currentUser, ...other}) => {
+  // console.log("render for admin")
 if (currentUser.role === "Administrator") {
  return other.children
  } else return null

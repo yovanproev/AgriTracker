@@ -20,7 +20,7 @@ const HomePage = (props) => {
       setUser(null)
     }
   })
-}, [props])
+}, [props.stateProps.currentUser])
     
   // get the table row number 
   const [ rowIdValue, setRowId ] = useState(undefined);
@@ -38,15 +38,14 @@ const HomePage = (props) => {
   // post the new role to Firebase
   useEffect(() => {
     const rolesPosting = (rowId) => {
-      const usersDB = users();
-      usersDB.get()
+      users.get()
       .then(function(querySnapshot) {
         querySnapshot.forEach(function(doc) {
           // console.log(doc.id, " => ", doc.data());
           const randomKey = doc.id; 
           const objectKey = doc.data().id
          if (rowId === objectKey) {
-            usersDB.doc(randomKey).update({
+            users.doc(randomKey).update({
                 role: role
             });  
           }

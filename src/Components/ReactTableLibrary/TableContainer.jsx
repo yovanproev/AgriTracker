@@ -9,6 +9,7 @@ import {
 import { Table, Row, Col, Button, Input, CustomInput } from 'reactstrap';
 import { Filter, DefaultColumnFilter } from './TableFilters';
 
+import { pageCounter, countNextPage, countPreviousPage } from "../../Firebase/FetchDataFromFirebase"
 import { RenderForAdmin } from "../../RoleBasedAccessControl/RoleBaseControl"
 import DeleteButton from '../DeleteButton/DeleteButton';
 import AdminTableElements from '../../RoleBasedAccessControl/AdminSection/AdminTableElements';
@@ -34,7 +35,6 @@ const TableContainer = ({
     page,
     prepareRow,
     visibleColumns,
-    canPreviousPage,
     canNextPage,
     pageOptions,
     pageCount,
@@ -48,7 +48,7 @@ const TableContainer = ({
       columns,
       data,
       defaultColumn: { Filter: DefaultColumnFilter },
-      initialState: { pageIndex: 0, pageSize: 10, sortBy: [
+      initialState: { pageIndex: pageCounter, pageSize: 10, sortBy: [
         {
           id: "id",
           desc:true
@@ -72,7 +72,6 @@ const TableContainer = ({
     usePagination
   );
 
-  // console.log(stateProps.outputTable)
   const generateSortingIndicator = (column) => {
      return column.isSorted ? (column.isSortedDesc ? ' 🔽' : ' 🔼') : '';
   };
@@ -86,7 +85,19 @@ const TableContainer = ({
     gotoPage(page);
   };
 
-  return (
+  const nextPageClick = () => {
+    nextPageLoad()
+    countNextPage()
+    return gotoPage(pageIndex)
+   };
+
+   const previousPageClick = () => {
+    previousPageLoad()
+    countPreviousPage()
+    return gotoPage(pageIndex)
+   };
+
+   return (
     <Fragment>
       <Table bordered hover striped responsive="md" {...getTableProps()}>
         <thead>
@@ -121,7 +132,7 @@ const TableContainer = ({
                 {stateProps.outputTable === true ? null : 
                 <td>
                 <AdminTableElements 
-                stateProps={stateProps}
+                // stateProps={stateProps}
                 id={data[row.id].id} 
                 currentUser={currentUser}
                 getRoleValue={getRoleValue} 
@@ -151,19 +162,17 @@ const TableContainer = ({
 
       <Row style={{ maxWidth: 1000, margin: '0 auto', textAlign: 'center' }}>
         <Col md={3}>
-          <Button
+          {/* <Button
             color='primary'
             onClick={() => gotoPage(0)}
             disabled={!canPreviousPage}
           >
             {'<<'}
-          </Button>
-          <Button
-            color='primary'
-            onClick={() => previousPageLoad()}
-            disabled={console.log(counter), counter === 10 ? true : false}
+          </Button> */}
+          <Button color='primary' onClick={()=> nextPageClick()}
+           disabled={blockNextButton}
           >
-            {'<'}
+            {'Previous Entries'}
           </Button>
         </Col>
         <Col md={2} style={{ marginTop: 7 }}>
@@ -178,7 +187,7 @@ const TableContainer = ({
             min={1}
             style={{ width: 70 }}
             max={pageOptions.length}
-            defaultValue={pageIndex + 1}
+            // defaultValue={pageIndex + 1}
             onChange={onChangeInInput}
           />
         </Col>
@@ -198,18 +207,21 @@ const TableContainer = ({
           </CustomInput>
         </Col>
         <Col md={3}>
-          <Button color='primary' onClick={()=>{nextPageLoad()}} 
-          disabled={blockNextButton}
+        <Button
+            color='primary'
+            onClick={() => previousPageClick()}
+            disabled={counter === 10 ? true : false}
           >
-            {'>'}
+            {'Next Entries'}
           </Button>
-          <Button
+          
+          {/* <Button
             color='primary'
             onClick={() => gotoPage(pageCount - 1)}
             disabled={!canNextPage}
           >
             {'>>'}
-          </Button>
+          </Button> */}
         </Col>
       </Row>
     </Fragment>

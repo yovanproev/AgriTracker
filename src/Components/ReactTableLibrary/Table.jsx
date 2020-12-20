@@ -13,14 +13,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import  { conditionalTableColumns, usersCollection }  from "./ConditionalTableColumns"
 
 const App = (props) => {
-  const [data, setData] = useState([]);
-  const dataApp = props.data
-  const onDelete = props.onDelete
-
-  useEffect(() => {
-    setData(dataApp);
-  }, [dataApp]);
-
+    
   const [mode, setMode] = useState(usersCollection);
 
     useEffect(() => {
@@ -46,20 +39,20 @@ const App = (props) => {
   // };
 
   const columns = useMemo(
-    () => mode,[mode]);
+    () => mode, [mode]);
 
   return (
     <Container style={{ marginTop: "30px" }}>
       <TableContainer
-         blockNextButton={props.blockNextButton}
+        blockNextButton={props.blockNextButton}
         counter={props.counter}
         nextPageLoad={props.nextPageLoad}
         previousPageLoad={props.previousPageLoad}
         stateProps={props.stateProps}
         currentUser={props.stateProps.currentUser}
-        onDelete={onDelete}
+        onDelete={props.onDelete}
         columns={columns}
-        data={data}
+        data={props.data}
         getRoleValue={props.getRoleValue}
         onClick={props.onClick}
         currentRole={props.currentRole}

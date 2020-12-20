@@ -7,6 +7,7 @@ import { TableHeader } from './TableHeader/TableHeader'
 import { ExportCSV } from './ExcelExport/ExcelExport'
 import Table from "../../../Components/ReactTableLibrary/Table"
 
+import { resetCounter } from "../../../Firebase/FetchDataFromFirebase"
 import BackButton from '../../../Components/BackButton/BackButton';
 
 const TableReport = (props) => {
@@ -36,7 +37,7 @@ const [ name, setName ] = useState(null)
             fileName={name} />
           </div>
       <Table
-         blockNextButton={props.blockNextButton}
+        blockNextButton={props.blockNextButton}
         counter={props.counter}
         nextPageLoad={props.nextPageLoad}  
         previousPageLoad={props.previousPageLoad}
@@ -44,7 +45,8 @@ const [ name, setName ] = useState(null)
         data={props.tableData}
         modeChange={props.modeChange}
         onDelete={handleChange}/>
-      <BackButton onClick={props.onClick}/>
+      <BackButton onClick={props.onClick}
+       onFocus={resetCounter}/>
     </div>
   )
 }

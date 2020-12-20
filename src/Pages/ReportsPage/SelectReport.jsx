@@ -10,7 +10,7 @@ const SelectReport = (props) => {
   const [ table, setTable ] = useState([])
   const [ fetchError, setFetchError ] = useState("")
   const [ blockNextButton, updateBlockNextButton ] = useState(undefined)
-
+  
   function nextPageLoad(){
     const nextPageCount = nextPage();
     getPaginatedTableData(0, nextPageCount).then((fullData)=>{
@@ -21,6 +21,7 @@ const SelectReport = (props) => {
     updateBlockNextButton(fullDataArray.length < counter ? true : false)
     setTable(fullDataArray)
     })
+    
   }
 
   function previousPageLoad(){
@@ -30,6 +31,7 @@ const SelectReport = (props) => {
       Object.keys(fullData).forEach((key)=>{
         fullDataArray.push(fullData[key]);
       })
+    updateBlockNextButton(fullDataArray.length > counter ? true : false)
     setTable(fullDataArray)
     })
   }
@@ -42,8 +44,7 @@ const SelectReport = (props) => {
             })
         // console.log(fullDataArray);
         setTable(fullDataArray)
-        updateBlockNextButton(fullDataArray.length < counter ? true : false)
-       })
+        })
   }, []);
 
  const [modeChange, setModeChange] = useState('');

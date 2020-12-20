@@ -195,7 +195,6 @@ class InputSelection extends Component {
   
     }
 
-
   render () {
     
     const moduleInProgress = <Modal show={this.props.stateProps.hideModal} 
