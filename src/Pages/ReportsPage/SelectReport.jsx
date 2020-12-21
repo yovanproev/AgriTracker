@@ -3,6 +3,7 @@ import Modal from "../../Components/Modal/Modal";
 
 import { getPaginatedTableData, nextPage, previousPage, counter } from "../../Firebase/FetchDataFromRealtimeDB";
 import { firebase_db, firebase_db_fuelConsump, firebase_db_machineReg } from '../../Firebase/Firebase.utils';
+import { deleteByRowId } from "../../Firebase/deleteRowHandlerRealtimeDB"
 
 import TableReport from "./TableReport/TableReport"
 
@@ -52,35 +53,7 @@ const SelectReport = (props) => {
 
  const deleteRowHandler = (rowId) => {
     const rows = table.filter((row) => row.id !== rowId);
-    
-     let db = firebase_db.ref();
-     if (props.stateProps.index1) {
-     let query = firebase_db_fuelConsump.orderByKey();
-     query.once("value")
-       .then(function(snapshot) {
-         snapshot.forEach(function(childSnapshot) {
-         let randomKeyOnObject = childSnapshot.key
-         let objectId = childSnapshot.val().id
-         console.log(objectId)
-         if(rowId === objectId) {
-          db.child("fuelConsumptionInput/"+randomKeyOnObject).remove();
-          return true}
-         })
-        })
-      }
-      else if (props.stateProps.index2) {
-        let query = firebase_db_machineReg.orderByKey();
-        query.once("value")
-          .then(function(snapshot) {
-            snapshot.forEach(function(childSnapshot) {
-            let randomKeyOnObject = childSnapshot.key
-            let objectId = childSnapshot.val().id
-            if(rowId === objectId) {
-              db.child("machineRegistrationInput/"+randomKeyOnObject).remove();
-             return true}
-            })
-           })
-         }
+    deleteByRowId(rowId, props)
     setTable(rows) 
   }
 

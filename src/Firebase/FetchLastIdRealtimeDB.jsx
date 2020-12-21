@@ -9,7 +9,7 @@ export const getLastId =  (props) => {
        resolve(snapshot.val())
      })
     }
-    else if (props.stateProps.index2) {
+  else if (props.stateProps.index2) {
       firebase_db_machineReg.orderByChild("id")
         .startAt(1).limitToLast(1).once('value').then((snapshot)=>{
           resolve(snapshot.val())
@@ -17,3 +17,4 @@ export const getLastId =  (props) => {
       }
   })
 }
+
