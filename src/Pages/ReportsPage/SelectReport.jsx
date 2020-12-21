@@ -1,19 +1,18 @@
 import React, { useState, useEffect } from "react";
 import Modal from "../../Components/Modal/Modal";
 
-import { getPaginatedTableData, nextPage, previousPage, counter } from "../../Firebase/FetchDataFromFirebase";
+import { getPaginatedTableData, nextPage, previousPage, counter } from "../../Firebase/FetchDataFromRealtimeDB";
 import { firebase_db, firebase_db_fuelConsump, firebase_db_machineReg } from '../../Firebase/Firebase.utils';
 
 import TableReport from "./TableReport/TableReport"
 
 const SelectReport = (props) => {
   const [ table, setTable ] = useState([])
-  const [ fetchError, setFetchError ] = useState("")
   const [ blockNextButton, updateBlockNextButton ] = useState(undefined)
   
   function nextPageLoad(){
     const nextPageCount = nextPage();
-    getPaginatedTableData(0, nextPageCount).then((fullData)=>{
+    getPaginatedTableData(0, nextPageCount, props).then((fullData)=>{
       const fullDataArray=[]
       Object.keys(fullData).forEach((key)=>{
         fullDataArray.push(fullData[key]);
@@ -21,12 +20,11 @@ const SelectReport = (props) => {
     updateBlockNextButton(fullDataArray.length < counter ? true : false)
     setTable(fullDataArray)
     })
-    
   }
 
   function previousPageLoad(){
     const previousPageCount = previousPage();
-    getPaginatedTableData(0, previousPageCount).then((fullData)=>{
+    getPaginatedTableData(0, previousPageCount, props).then((fullData)=>{
       const fullDataArray=[]
       Object.keys(fullData).forEach((key)=>{
         fullDataArray.push(fullData[key]);
@@ -37,7 +35,7 @@ const SelectReport = (props) => {
   }
 
   useEffect(() => {
-          getPaginatedTableData(0, 10).then((fullData)=>{
+          getPaginatedTableData(0, 10, props).then((fullData)=>{
             const fullDataArray=[]
             Object.keys(fullData).forEach((key)=>{
               fullDataArray.push(fullData[key]);
@@ -45,7 +43,7 @@ const SelectReport = (props) => {
         // console.log(fullDataArray);
         setTable(fullDataArray)
         })
-  }, []);
+  }, [props]);
 
  const [modeChange, setModeChange] = useState('');
  useEffect(() => {
@@ -63,6 +61,7 @@ const SelectReport = (props) => {
          snapshot.forEach(function(childSnapshot) {
          let randomKeyOnObject = childSnapshot.key
          let objectId = childSnapshot.val().id
+         console.log(objectId)
          if(rowId === objectId) {
           db.child("fuelConsumptionInput/"+randomKeyOnObject).remove();
           return true}
@@ -77,7 +76,7 @@ const SelectReport = (props) => {
             let randomKeyOnObject = childSnapshot.key
             let objectId = childSnapshot.val().id
             if(rowId === objectId) {
-             db.child("machineRegistrationInput/"+randomKeyOnObject).remove();
+              db.child("machineRegistrationInput/"+randomKeyOnObject).remove();
              return true}
             })
            })
@@ -87,13 +86,10 @@ const SelectReport = (props) => {
 
  const moduleInProgress = <Modal show={props.stateProps.hideModal} hide={props.modal}>
    Module Still Not Built</Modal> 
- const errorInProgress = <Modal show={fetchError} hide={props.modal}>
-   Error fetching data from Database, please check your Internet connection</Modal> 
-
+ 
    return (
    <div className="table-reports">
-      {errorInProgress}
-      {props.stateProps.index3 || 
+       {props.stateProps.index3 || 
       props.stateProps.index4 ? moduleInProgress :
       < TableReport
         blockNextButton={blockNextButton}

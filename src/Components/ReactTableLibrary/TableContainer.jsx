@@ -9,7 +9,7 @@ import {
 import { Table, Row, Col, Button, Input, CustomInput } from 'reactstrap';
 import { Filter, DefaultColumnFilter } from './TableFilters';
 
-import { pageCounter, countNextPage, countPreviousPage } from "../../Firebase/FetchDataFromFirebase"
+import { pageCounter, countNextPage, countPreviousPage } from "../../Firebase/FetchDataFromRealtimeDB"
 import { RenderForAdmin } from "../../RoleBasedAccessControl/RoleBaseControl"
 import DeleteButton from '../DeleteButton/DeleteButton';
 import AdminTableElements from '../../RoleBasedAccessControl/AdminSection/AdminTableElements';
@@ -36,8 +36,9 @@ const TableContainer = ({
     prepareRow,
     visibleColumns,
     canNextPage,
+    canPreviousPage,
     pageOptions,
-    pageCount,
+    // pageCount,
     gotoPage,
     nextPage,
     previousPage,
@@ -169,11 +170,15 @@ const TableContainer = ({
           >
             {'<<'}
           </Button> */}
+          {stateProps.outputTable === false ? 
+          <Button color='primary' onClick={nextPage}
+          disabled={!canNextPage}>
+           {'<'}
+         </Button> : 
           <Button color='primary' onClick={()=> nextPageClick()}
-           disabled={blockNextButton}
-          >
+           disabled={blockNextButton}>
             {'Previous Entries'}
-          </Button>
+          </Button>}
         </Col>
         <Col md={2} style={{ marginTop: 7 }}>
           Page{' '}
@@ -207,13 +212,18 @@ const TableContainer = ({
           </CustomInput>
         </Col>
         <Col md={3}>
-        <Button
+        {stateProps.outputTable === false ? 
+          <Button color='primary' onClick={previousPage}
+          disabled={!canPreviousPage}>
+           {'>'}
+         </Button> :
+         <Button
             color='primary'
             onClick={() => previousPageClick()}
             disabled={counter === 10 ? true : false}
           >
             {'Next Entries'}
-          </Button>
+          </Button>}
           
           {/* <Button
             color='primary'

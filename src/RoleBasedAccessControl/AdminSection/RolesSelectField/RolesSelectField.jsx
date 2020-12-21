@@ -17,8 +17,8 @@ const RolesSelectField = (props) => {
      <span>
        
        <select className="roles-select-div"
-          onChange={(e) => {props.getRoleValue(e.target.value); setOpenModal(()=> true)}}
-          onFocus={() => props.onFocus()}
+          onBlur={(e) => {props.getRoleValue(e.target.value)}}
+          onChange={() => {props.getRowId(); setOpenModal(()=> true)}}
           disabled={props.id === parseInt(6) || props.id === parseInt(4) ? true : null}
          >
           <option key={0} value={"Please select a role"}>

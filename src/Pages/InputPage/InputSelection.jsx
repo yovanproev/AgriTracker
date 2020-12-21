@@ -13,7 +13,7 @@ import FuelConsumptionInput from "./InputForms/FuelConsumptionInputForm";
 // import IrrigationInput from "./InputForms/IrrigationInputForm";
 import MachineRegistrationInput from "./InputForms/MachineRegistrationInputForm";
 // import WorkingHoursInput from "./InputForms/WorkingHoursInputForm";
-import { getFullDataFromFirebase } from "../../Firebase/FetchDataFromFirebase";
+import { getLastId } from "../../Firebase/FetchLastIdRealtimeDB";
 import { fuelConsumptionInputObject, machineRegistrationInputObject } from "./DBObjectElements/ObjectsToPostToFirebase";
 import Modal from "../../Components/Modal/Modal"
 
@@ -56,17 +56,17 @@ class InputSelection extends Component {
   }
   
   UNSAFE_componentWillMount () {
-  const fullData = getFullDataFromFirebase(this.props)
+  const fullData = getLastId(this.props)
     if (this.props.stateProps.index1 || this.props.stateProps.index2) {  
-    fullData.then(res => 
+    fullData.then(res => { 
         this.setState({
-          lastId: res === undefined ? parseInt(0) : parseInt(res.slice(-1)[0].id)  
+          lastId: Object.values(res) === undefined ? parseInt(0) : parseInt(Object.values(res).slice(-1)[0].id)  
         })
-      )
+      })
     }
   }
       
-  shouldComponentUpdate (nextProps, nextState) {
+  shouldComponentUpdate (nextProps, ) {
     // console.log("shouldComponent Update")
    return nextProps.lastId !== this.state.lastId 
   }
@@ -75,7 +75,6 @@ class InputSelection extends Component {
     this.setState({
       lastId: parseInt(this.state.lastId) + parseInt(1)
     })
-    // console.log("updateId", this.state.lastId)
   }
 
   selectFieldsHandler = (value, id) => {
@@ -107,32 +106,32 @@ class InputSelection extends Component {
   };
   
    inputFieldsHandler = (value, id) => {
-     const noNegatives2DecimalsOnly = value.toString().split(".")
+     const oneDecimalOnly = value.toString().split(".")
      .map((el,i)=>i?el.split("").slice(0,1).join(""):el).join(".")
      
     if (id === this.state.inputFields[0].id) {
       this.setState({
-       kilometers: noNegatives2DecimalsOnly
+       kilometers: oneDecimalOnly
       })
     } 
     else if (id === this.state.inputFields[1].id) {
       this.setState({
-        liters: noNegatives2DecimalsOnly
+        liters: oneDecimalOnly
       })
     }
     else if (id === this.state.inputFields[2].id) {
       this.setState({
-        tankNumber: noNegatives2DecimalsOnly
+        tankNumber: oneDecimalOnly
       })
     }
     else if (id === this.state.inputFields[3].id) {
       this.setState({
-        line: noNegatives2DecimalsOnly
+        line: oneDecimalOnly
       })
     }
     else if (id === this.state.inputFields[4].id) {
       this.setState({
-        block: noNegatives2DecimalsOnly
+        block: oneDecimalOnly
       })
     }
   }

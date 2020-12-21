@@ -9,7 +9,9 @@ export async function getAllUsers() {
     arr.push(tableData)
   })
   return arr
-  //  return new Promise (resolve => {
+}
+
+//  return new Promise (resolve => {
   //   const result = snapshot.docs.map(x => {
   //       const obj = x.data();
   //       delete obj.createdAt
@@ -18,5 +20,5 @@ export async function getAllUsers() {
   //   });
   //   return resolve(result)
   // })
-}
+
 

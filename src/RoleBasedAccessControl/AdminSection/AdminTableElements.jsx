@@ -31,7 +31,7 @@ const AdminTableElements = (props) => {
       <RolesSelectField 
         id={props.id}
         getRoleValue={props.getRoleValue} 
-        onFocus={() => props.onClick()}
+        getRowId={() => props.onClick()}
         currentRole={props.currentRole}
         currentUser={props.currentUser}
         previousValue={fetchRoles(props.id)}/>  

@@ -1,17 +1,12 @@
-import React, { useState } from "react";
-// import { useHistory } from "react-router-dom";
+import React from "react";
 
 import "./BackButton.css"
 
-const BackButton = (props) => {
-  const [button, setButton] = useState(null)
-  const data = props.onClick
-
+const BackButton = ({onClick}) => {
   return (
     <div className="back-button1">
       <button 
-      onClick={() => setButton(data)}
-      onFocus={() => props.onFocus()}>
+      onClick={() => onClick()}>
         Back
       </button>
     </div>

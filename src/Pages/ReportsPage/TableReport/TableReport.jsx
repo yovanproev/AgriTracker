@@ -7,7 +7,7 @@ import { TableHeader } from './TableHeader/TableHeader'
 import { ExportCSV } from './ExcelExport/ExcelExport'
 import Table from "../../../Components/ReactTableLibrary/Table"
 
-import { resetCounter } from "../../../Firebase/FetchDataFromFirebase"
+import { resetCounter } from "../../../Firebase/FetchDataFromRealtimeDB"
 import BackButton from '../../../Components/BackButton/BackButton';
 
 const TableReport = (props) => {
