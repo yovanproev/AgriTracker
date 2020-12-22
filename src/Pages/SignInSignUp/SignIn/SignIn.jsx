@@ -7,21 +7,49 @@ import LineSpinner from "../../../Components/Spinners/Spinner2"
 import { auth, signInWithGoogle } from '../../../Firebase/Firebase.utils.js';
 
 import './SignIn.css';
+import axios from 'axios';
 
 class SignIn extends Component {
+  
   state = {
       email: '',
       password: '',
       modal: false,
   };
- 
+
+  successfulSignIn = () => {
+    const authData = {
+      email: this.state.email,
+      password: this.state.password,
+      returnSecureToken: true
+    }
+    let url = "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyAK38e0I2ui4E_FDQAAi6CbtQQQ0jmaPzI"
+    // if (!isSignup) {
+    //     url = "https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyAK38e0I2ui4E_FDQAAi6CbtQQQ0jmaPzI"
+    // }
+    axios.post(url, authData)
+    .then(response => {
+      const tokenId = response.data.idToken
+      console.log(response.data.email)
+      localStorage.setItem("tokenId", tokenId);
+      this.props.tokenIdHandler(tokenId)
+      this.setState({
+        tokenId: tokenId
+      })
+    })
+    .catch(err => {
+      console.log(err)
+    })
+  }
+
   handleSubmit = async event => {
     event.preventDefault();
-
+    this.successfulSignIn()
     const { email, password} = this.state;
 
     try {
       await auth.signInWithEmailAndPassword(email, password);
+      
       this.setState({ 
         email: '', 
         password: '', 
@@ -48,12 +76,13 @@ class SignIn extends Component {
   }
 
   render() {
+    
     const errorModal = 
       <Modal 
         show={this.state.modal} 
         hide={this.hideModalHanlder}
       >{this.state.message}</Modal>
-      
+            
     return (
       <div className='sign-in'>
         {errorModal}

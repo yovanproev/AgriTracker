@@ -147,9 +147,9 @@ class InputSelection extends Component {
          
       const checkForActivity = this.props.stateProps.index1 ? fuelConsumptionInputObject(this.state) 
       : this.props.stateProps.index2 ? machineRegistrationInputObject(this.state) : null 
-
-      const URLPostSource = this.props.stateProps.index1 ? '/fuelConsumptionInput.json' 
-      : this.props.stateProps.index2 ? '/machineRegistrationInput.json' : null 
+     console.log(this.props.tokenId)
+      const URLPostSource = this.props.stateProps.index1 ? ('/fuelConsumptionInput.json?auth=' + this.props.tokenId) 
+      : this.props.stateProps.index2 ? ('/machineRegistrationInput.json?auth=' + this.props.tokenId) : null 
       
       if (!isNaN(this.state.lastId)) {
       axiosLocal.post(URLPostSource, checkForActivity)

@@ -4,10 +4,10 @@ import "./StartingPage.css"
 import SignIn from "./SignIn/SignIn"
 import SignUp from "./SignUp/SignUp"
 
-  const startingPage = () => (
+  const startingPage = (props) => (
     <div className='sign-in-and-sign-up'>
-      <SignIn />
-      <SignUp />
+      <SignIn tokenIdHandler={props.tokenIdHandler}/>
+      <SignUp props={props}/>
     </div>
   )
   

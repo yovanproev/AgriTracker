@@ -2,7 +2,6 @@ import firebase from 'firebase/app';
 import 'firebase/firestore';
 import 'firebase/auth';
 import "firebase/database"
-// import { getUsersId, array } from './FetchUsersFromFirestore';
 
 const config = {
     apiKey: "AIzaSyAK38e0I2ui4E_FDQAAi6CbtQQQ0jmaPzI",
@@ -53,6 +52,7 @@ export const firebase_db_fuelConsump = firebase.database().ref(`fuelConsumptionI
 export const firebase_db_machineReg = firebase.database().ref(`machineRegistrationInput`);
 
 export const auth = firebase.auth();
+
 export const firestore = firebase.firestore();
 
 export const users = firestore.collection("users")

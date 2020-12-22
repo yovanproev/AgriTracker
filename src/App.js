@@ -47,11 +47,13 @@ componentDidMount() {
           currentUser: {
             id: snapShot.id,
             ...snapShot.data()
-          }
+          },
+          
         });
       });
     }
-    this.setState({ currentUser: userAuth });
+    this.setState({ currentUser: userAuth,
+      token: "" ? null : localStorage.getItem( 'tokenId' ), });
     // console.log(this.state.currentUser.uid)
   });
 }
@@ -158,8 +160,15 @@ componentWillUnmount() {
     })
   }
 
+  storeIdTokenHandler = (tokenId) => {
+    this.setState({
+      token: tokenId
+    })
+  }
+
   render() {
-    return (
+    // console.log(this.state.token)
+        return (
       <div className="app" >
         <Router>
        
@@ -173,7 +182,8 @@ componentWillUnmount() {
           <Route exact path="/"> 
              {this.state.currentUser ? <Redirect to="/Home" /> : 
              <StartingPage
-              modal={this.hideModalHanlder}/>}
+              modal={this.hideModalHanlder}
+              tokenIdHandler={this.storeIdTokenHandler}/>}
           </Route>
 
           <Route path="/Home">
@@ -188,6 +198,7 @@ componentWillUnmount() {
              <Route path="/Inputs">
                 {this.state.currentUser ? 
                 <SelectActivity 
+                tokenId={this.state.token}
                 modal={this.hideModalHanlder}
                 key={this.activityHandler}
                 stateProps={this.state}
@@ -198,6 +209,7 @@ componentWillUnmount() {
               <Route path="/Reports">
                 {this.state.currentUser ? 
                 <SelectActivity
+                tokenId={this.state.token}
                 modal={this.hideModalHanlder}
                 key={this.activityHandler}
                 stateProps={this.state}

@@ -26,6 +26,7 @@ const SelectActivity = (props) => {
       
       {props.stateProps.inputForms ? 
       <InputSelection
+        tokenId={props.tokenId}
         modal={props.modal}
         stateProps={props.stateProps}
         onClick={props.backButton}/> : null

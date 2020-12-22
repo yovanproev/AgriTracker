@@ -7,6 +7,7 @@ import { auth, createUserProfileDocument } from '../../../Firebase/Firebase.util
 import Modal from "../../../Components/Modal/Modal"
 
 import './SignUp.css';
+import axios from 'axios';
 
 class SignUp extends Component {
   state = {
@@ -34,7 +35,19 @@ class SignUp extends Component {
       );
 
       await createUserProfileDocument(user, { displayName });
-
+      const authData = {
+        email: email,
+        password: password,
+        returnSecureToken: true
+      }
+      let url = "https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyAK38e0I2ui4E_FDQAAi6CbtQQQ0jmaPzI"
+      axios.post(url, authData)
+      .then(response => {
+        console.log(response.data);
+       })
+      .catch(err => {
+         console.log(err)
+      })
       this.setState({
         displayName: '',
         email: '',

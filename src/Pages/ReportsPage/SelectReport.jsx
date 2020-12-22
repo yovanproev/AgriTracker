@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import Modal from "../../Components/Modal/Modal";
 
 import { getPaginatedTableData, nextPage, previousPage, counter } from "../../Firebase/FetchDataFromRealtimeDB";
-import { firebase_db, firebase_db_fuelConsump, firebase_db_machineReg } from '../../Firebase/Firebase.utils';
 import { deleteByRowId } from "../../Firebase/deleteRowHandlerRealtimeDB"
 
 import TableReport from "./TableReport/TableReport"
