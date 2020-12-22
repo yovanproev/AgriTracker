@@ -30,7 +30,7 @@ class SignIn extends Component {
     axios.post(url, authData)
     .then(response => {
       const tokenId = response.data.idToken
-      console.log(response.data.email)
+      // console.log(response.data.email)
       localStorage.setItem("tokenId", tokenId);
       this.props.tokenIdHandler(tokenId)
       this.setState({
