@@ -6,7 +6,7 @@ export const deleteByRowId =  (rowId, props) => {
     
    if (props.stateProps.index1) {
    firebase_db_fuelConsump.orderByChild("id")
-     .startAt(rowId).limitToLast(1).once('value').then((snapshot)=>{
+     .endAt(rowId).limitToLast(1).once('value').then((snapshot)=>{
       //  console.log(Object.keys(snapshot.val()))
        const randomKeyFuel = Object.keys(snapshot.val())
        db.child("fuelConsumptionInput/"+randomKeyFuel).remove()
@@ -16,9 +16,8 @@ export const deleteByRowId =  (rowId, props) => {
     if (props.stateProps.index2) {
      
       firebase_db_machineReg.orderByChild("id")
-      .startAt(rowId).limitToLast(1).once('value').then((snapshot)=>{
-      //  console.log(Object.keys(snapshot.val()))
-        const randomKeyMach = Object.keys(snapshot.val())
+      .endAt(rowId).limitToLast(1).once('value').then((snapshot)=>{
+       const randomKeyMach = Object.keys(snapshot.val())
         db.child("machineRegistrationInput/"+randomKeyMach).remove()
         resolve(snapshot.val())
       })

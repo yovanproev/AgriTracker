@@ -53,7 +53,9 @@ componentDidMount() {
       });
     }
     this.setState({ currentUser: userAuth,
-      token: "" ? null : localStorage.getItem( 'tokenId' ), });
+      token: localStorage.getItem( 'tokenId' ),
+      email: localStorage.getItem( 'email' ), 
+    });
     // console.log(this.state.currentUser.uid)
   });
 }
@@ -160,14 +162,15 @@ componentWillUnmount() {
     })
   }
 
-  storeIdTokenHandler = (tokenId) => {
+  storeIdTokenHandler = (tokenId, email) => {
     this.setState({
-      token: tokenId
+      token: tokenId,
+      email: email
     })
   }
 
   render() {
-    // console.log(this.state.token)
+    console.log(this.state.email)
         return (
       <div className="app" >
         <Router>
@@ -176,29 +179,32 @@ componentWillUnmount() {
             modalHandler={this.hideModalHanlder}
             currentUser={this.state.currentUser}
             inputMode={this.inputModeHandler}
-            outputMode={this.outputModeHandler}/>  
-            <Switch>
-          
-          <Route exact path="/"> 
-             {this.state.currentUser ? <Redirect to="/Home" /> : 
-             <StartingPage
-              modal={this.hideModalHanlder}
-              tokenIdHandler={this.storeIdTokenHandler}/>}
-          </Route>
+            outputMode={this.outputModeHandler}
+          />  
+            
+          <Switch>
+            <Route exact path="/"> 
+              {this.state.currentUser ? <Redirect to="/Home" /> : 
+              <StartingPage
+                modal={this.hideModalHanlder}
+                tokenIdHandler={this.storeIdTokenHandler}
+              />}
+            </Route>
 
-          <Route path="/Home">
-               {this.state.currentUser ? <HomePage 
-               stateProps={this.state}
-               /> : <Redirect to="/" />}
-             </Route>
+            <Route path="/Home">
+              {this.state.currentUser ? <HomePage 
+              stateProps={this.state}
+              /> : <Redirect to="/" />}
+            </Route>
 
-          {this.state.currentUser ?
-           <RenderForOperator currentUser={this.state.currentUser}>
-                                      
+            {this.state.currentUser ?
+             <RenderForOperator currentUser={this.state.currentUser}>
+                                          
              <Route path="/Inputs">
                 {this.state.currentUser ? 
                 <SelectActivity 
                 tokenId={this.state.token}
+                email={this.state.email}
                 modal={this.hideModalHanlder}
                 key={this.activityHandler}
                 stateProps={this.state}
@@ -210,15 +216,17 @@ componentWillUnmount() {
                 {this.state.currentUser ? 
                 <SelectActivity
                 tokenId={this.state.token}
+                email={this.state.email}
                 modal={this.hideModalHanlder}
                 key={this.activityHandler}
                 stateProps={this.state}
                 onClick={this.activityHandler}
                 backButton={this.backButtonHandler}/> : <StartingPage />} 
               </Route>
-              </RenderForOperator> : null }    
-
+              </RenderForOperator> : null 
+            }    
           </Switch>
+
         </Router>
      </div>    
     );

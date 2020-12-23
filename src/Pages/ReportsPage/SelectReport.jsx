@@ -58,9 +58,13 @@ const SelectReport = (props) => {
 
  const moduleInProgress = <Modal show={props.stateProps.hideModal} hide={props.modal}>
    Module Still Not Built</Modal> 
- 
-   return (
+  
+ const errorModal = table.length === 0 ? <Modal show={props.stateProps.hideModal} 
+    hide={props.modal}>User has no authorization to read data.</Modal> : null
+    
+    return (
    <div className="table-reports">
+       {errorModal}
        {props.stateProps.index3 || 
       props.stateProps.index4 ? moduleInProgress :
       < TableReport

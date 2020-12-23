@@ -49,6 +49,7 @@ firebase.initializeApp(config);
 
 export const firebase_db = firebase.database();
 export const firebase_db_fuelConsump = firebase.database().ref(`fuelConsumptionInput`);
+
 export const firebase_db_machineReg = firebase.database().ref(`machineRegistrationInput`);
 
 export const auth = firebase.auth();

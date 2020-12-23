@@ -27,6 +27,7 @@ const SelectActivity = (props) => {
       {props.stateProps.inputForms ? 
       <InputSelection
         tokenId={props.tokenId}
+        email={props.email}
         modal={props.modal}
         stateProps={props.stateProps}
         onClick={props.backButton}/> : null
@@ -34,6 +35,8 @@ const SelectActivity = (props) => {
 
       {props.stateProps.outputTable ? 
         <SelectReport
+        tokenId={props.tokenId}
+        email={props.email}
         modal={props.modal}
         stateProps={props.stateProps}
         onClick={props.backButton}/> : null

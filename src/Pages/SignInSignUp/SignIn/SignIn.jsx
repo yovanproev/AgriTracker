@@ -30,12 +30,14 @@ class SignIn extends Component {
     axios.post(url, authData)
     .then(response => {
       const tokenId = response.data.idToken
-      // console.log(response.data.email)
+      const email = response.data.email
+      console.log(response.data.email)
       localStorage.setItem("tokenId", tokenId);
-      this.props.tokenIdHandler(tokenId)
-      this.setState({
-        tokenId: tokenId
-      })
+      localStorage.setItem("email", email);
+      this.props.tokenIdHandler(tokenId, email)
+       // this.setState({
+      //   tokenId: tokenId
+      // })
     })
     .catch(err => {
       console.log(err)
