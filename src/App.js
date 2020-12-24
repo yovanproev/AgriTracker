@@ -52,12 +52,12 @@ componentDidMount() {
         });
       });
     }
-    this.setState({ currentUser: userAuth,
+    this.setState({ 
+      currentUser: userAuth,
       token: localStorage.getItem( 'tokenId' ),
       email: localStorage.getItem( 'email' ), 
     });
-    // console.log(this.state.currentUser.uid)
-  });
+ });
 }
 
 componentWillUnmount() {
@@ -170,8 +170,7 @@ componentWillUnmount() {
   }
 
   render() {
-    console.log(this.state.email)
-        return (
+    return (
       <div className="app" >
         <Router>
        

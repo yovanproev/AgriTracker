@@ -125,16 +125,17 @@ export const usersCollection = [
   {
     Header: 'Username',
     accessor: "displayName",
-    // disableSortBy: true,
-    // Filter: SelectColumnFilter,
-    // filter: 'equals',
     }, 
  { 
     Header: 'E-mail',
     accessor: "email",
-    // disableSortBy: true,
-    // Filter: SelectColumnFilter,
-    // filter: 'equals',
-   },
+  },
+   { 
+      Header: 'Role',
+      accessor: "role",
+      disableSortBy: true,
+      Filter: SelectColumnFilter,
+      filter: 'equals',
+   }, 
 ]
 

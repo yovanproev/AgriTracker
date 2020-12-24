@@ -9,16 +9,7 @@ export async function getAllUsers() {
     arr.push(tableData)
   })
   return arr
-}
-
-//  return new Promise (resolve => {
-  //   const result = snapshot.docs.map(x => {
-  //       const obj = x.data();
-  //       delete obj.createdAt
-  //       console.log(obj)
-  //       return obj;
-  //   });
-  //   return resolve(result)
-  // })
+  }
+  
 
 

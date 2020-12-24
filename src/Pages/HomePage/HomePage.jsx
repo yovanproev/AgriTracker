@@ -12,8 +12,12 @@ const HomePage = (props) => {
   const [ user, setUser ] = useState([])
   useEffect(() => {
     getAllUsers().then(resolve => {
+      // console.log(resolve)
       setUser(resolve)
     })
+    // .catch(err => {
+    //   throw new Error(err)
+    // })
     return (()=> {
       if (!props.stateProps.currentUser) {
       // console.log("cleanup")

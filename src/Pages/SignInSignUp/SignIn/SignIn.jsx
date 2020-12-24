@@ -24,23 +24,18 @@ class SignIn extends Component {
       returnSecureToken: true
     }
     let url = "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyAK38e0I2ui4E_FDQAAi6CbtQQQ0jmaPzI"
-    // if (!isSignup) {
-    //     url = "https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyAK38e0I2ui4E_FDQAAi6CbtQQQ0jmaPzI"
-    // }
     axios.post(url, authData)
     .then(response => {
       const tokenId = response.data.idToken
       const email = response.data.email
-      console.log(response.data.email)
+      const role = response.data
+      console.log(role)
       localStorage.setItem("tokenId", tokenId);
       localStorage.setItem("email", email);
       this.props.tokenIdHandler(tokenId, email)
-       // this.setState({
-      //   tokenId: tokenId
-      // })
-    })
+   })
     .catch(err => {
-      console.log(err)
+      throw new Error(err)
     })
   }
 
@@ -76,7 +71,7 @@ class SignIn extends Component {
       modal: false,
     })
   }
-
+  
   render() {
     
     const errorModal = 

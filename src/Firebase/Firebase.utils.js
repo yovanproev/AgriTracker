@@ -60,7 +60,17 @@ export const users = firestore.collection("users")
 
 const provider = new firebase.auth.GoogleAuthProvider();
 provider.setCustomParameters({ prompt: 'select_account' });
-export const signInWithGoogle = () => auth.signInWithPopup(provider);
+export const signInWithGoogle = () => auth.signInWithPopup(provider).then(result => {
+const email = result.user.email
+const tokenId = result.credential.idToken
+// console.log(tokenId)
+localStorage.setItem("tokenId", tokenId);
+localStorage.setItem("email", email);
+}).catch(err => {
+  const email = err.email
+  const credential = err.credential
+  throw new Error(email, credential)
+})
 
 export default firebase;
 

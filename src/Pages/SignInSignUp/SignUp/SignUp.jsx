@@ -18,9 +18,31 @@ class SignUp extends Component {
       modal: false
   };
   
+  successfulSignUp = () => {
+    const authData = {
+      email: this.state.email,
+      password: this.state.password,
+      returnSecureToken: true
+    }
+    let url = "https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyAK38e0I2ui4E_FDQAAi6CbtQQQ0jmaPzI"
+    axios.post(url, authData)
+    .then(response => {
+      const tokenId = response.data.idToken
+      const email = response.data.email
+      console.log(response.data.email)
+      console.log(response.data.idToken)
+      localStorage.setItem("tokenId", tokenId);
+      localStorage.setItem("email", email);
+      this.props.tokenIdHandler(tokenId, email)
+   })
+    .catch(err => {
+      console.log(err)
+    })
+  }
+
   handleSubmit = async event => {
     event.preventDefault();
-
+    this.successfulSignUp()
     const { displayName, email, password, confirmPassword } = this.state;
 
     if (password !== confirmPassword) {
@@ -35,19 +57,6 @@ class SignUp extends Component {
       );
 
       await createUserProfileDocument(user, { displayName });
-      const authData = {
-        email: email,
-        password: password,
-        returnSecureToken: true
-      }
-      let url = "https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyAK38e0I2ui4E_FDQAAi6CbtQQQ0jmaPzI"
-      axios.post(url, authData)
-      .then(response => {
-        console.log(response.data);
-       })
-      .catch(err => {
-         console.log(err)
-      })
       this.setState({
         displayName: '',
         email: '',
