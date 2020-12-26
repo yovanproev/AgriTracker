@@ -3,6 +3,7 @@ import 'firebase/firestore';
 import 'firebase/auth';
 import "firebase/database"
 
+
 const config = {
     apiKey: "AIzaSyAK38e0I2ui4E_FDQAAi6CbtQQQ0jmaPzI",
     authDomain: "input-output-data.firebaseapp.com",
@@ -71,6 +72,10 @@ localStorage.setItem("email", email);
   const credential = err.credential
   throw new Error(email, credential)
 })
+
+
+
+
 
 export default firebase;
 

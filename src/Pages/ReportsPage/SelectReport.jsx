@@ -13,7 +13,7 @@ const SelectReport = (props) => {
   function nextPageLoad(){
     const nextPageCount = nextPage();
     getPaginatedTableData(0, nextPageCount, props).then((fullData)=>{
-      const fullDataArray=[]
+      let fullDataArray=[]
       Object.keys(fullData).forEach((key)=>{
         fullDataArray.push(fullData[key]);
       })
@@ -25,7 +25,7 @@ const SelectReport = (props) => {
   function previousPageLoad(){
     const previousPageCount = previousPage();
     getPaginatedTableData(0, previousPageCount, props).then((fullData)=>{
-      const fullDataArray=[]
+      let fullDataArray=[]
       Object.keys(fullData).forEach((key)=>{
         fullDataArray.push(fullData[key]);
       })
@@ -36,7 +36,7 @@ const SelectReport = (props) => {
 
   useEffect(() => {
           getPaginatedTableData(0, 10, props).then((fullData)=>{
-            const fullDataArray=[]
+            let fullDataArray=[]
             Object.keys(fullData).forEach((key)=>{
               fullDataArray.push(fullData[key]);
             })

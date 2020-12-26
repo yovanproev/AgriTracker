@@ -2,29 +2,25 @@ import React, { useEffect, useState } from 'react';
 
 import "./HomePage.scss"
 import BackDrop from "../../Components/Backdrop/Backdrop"
-import { users } from '../../Firebase/Firebase.utils';
 import Table from "../../Components/ReactTableLibrary/Table"
 import { RenderForAdmin } from '../../RoleBasedAccessControl/RoleBaseControl';
 import { getAllUsers } from "../../Firebase/FetchUsersFromFirestore"
+import { updateUsersInFirestore } from '../../Firebase/UpdateUsersInFirestore';
 
 const HomePage = (props) => {
-  // get users to produce table
+   // get users table
   const [ user, setUser ] = useState([])
   useEffect(() => {
     getAllUsers().then(resolve => {
-      // console.log(resolve)
       setUser(resolve)
     })
-    // .catch(err => {
-    //   throw new Error(err)
-    // })
     return (()=> {
       if (!props.stateProps.currentUser) {
-      // console.log("cleanup")
+              // console.log("cleanup")
       setUser(null)
     }
   })
-}, [props.stateProps.currentUser])
+}, [props.stateProps.currentUser, props])
     
   // get the table row number 
   const [ rowIdValue, setRowId ] = useState(undefined);
@@ -42,19 +38,7 @@ const HomePage = (props) => {
   // post the new role to Firebase
   useEffect(() => {
     const rolesPosting = (rowId) => {
-      users.get()
-      .then(function(querySnapshot) {
-        querySnapshot.forEach(function(doc) {
-          // console.log(doc.id, " => ", doc.data());
-          const randomKey = doc.id; 
-          const objectKey = doc.data().id
-         if (rowId === objectKey) {
-            users.doc(randomKey).update({
-                role: role
-            });  
-          }
-        })
-      })
+      updateUsersInFirestore(rowId, role)
     }
    if (rowIdValue !== undefined) rolesPosting(rowIdValue)
   }, [role, rowIdValue])

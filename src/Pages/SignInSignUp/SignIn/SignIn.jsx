@@ -28,18 +28,20 @@ class SignIn extends Component {
     .then(response => {
       const tokenId = response.data.idToken
       const email = response.data.email
-      const role = response.data
-      console.log(role)
-      localStorage.setItem("tokenId", tokenId);
-      localStorage.setItem("email", email);
-      this.props.tokenIdHandler(tokenId, email)
+      // localStorage.setItem("tokenId", tokenId);
+      // localStorage.setItem("email", email);
+            
+      document.cookie = `tokenId=${tokenId}`
+      document.cookie = `email=${email}`
+
+      // this.props.tokenIdHandler(tokenId, email)
    })
     .catch(err => {
       throw new Error(err)
     })
   }
 
-  handleSubmit = async event => {
+    handleSubmit = async event => {
     event.preventDefault();
     this.successfulSignIn()
     const { email, password} = this.state;
@@ -78,7 +80,7 @@ class SignIn extends Component {
       <Modal 
         show={this.state.modal} 
         hide={this.hideModalHanlder}
-      >{this.state.message}</Modal>
+      >{this.state.message ? this.state.message : <LineSpinner />}</Modal>
             
     return (
       <div className='sign-in'>
@@ -106,8 +108,6 @@ class SignIn extends Component {
           
           <div className='buttons'>
           <LogInButton type='submit'> Sign in </LogInButton> 
-          {this.state.modal ? <Modal
-            show={this.state.modal}  hide={this.hideModalHanlder}><LineSpinner /></Modal> : null}
           </div>
 
         </form>

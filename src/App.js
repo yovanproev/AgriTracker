@@ -27,6 +27,7 @@ class App extends React.Component {
     inputForms: false,
     outputTable: false,
     hideModal: true,
+    signedOut: false,
     activityBubbleState: [
       { name: "Fuel Consumption"},
       { name: "Machine Registration"},
@@ -54,10 +55,21 @@ componentDidMount() {
     }
     this.setState({ 
       currentUser: userAuth,
-      token: localStorage.getItem( 'tokenId' ),
-      email: localStorage.getItem( 'email' ), 
+      // token: localStorage.getItem( 'tokenId' ),
+      // email: localStorage.getItem( 'email' ), 
     });
+   if (this.state.currentUser) {
+    const cookieData = document.cookie.split(';');
+    const data = cookieData.map(i => {
+      return i.trim()
+    })
+    this.setState({
+      token: data[0].split('=')[1],
+      email: data[1].split('=')[1],
+    })
+  }
  });
+ 
 }
 
 componentWillUnmount() {
@@ -162,14 +174,19 @@ componentWillUnmount() {
     })
   }
 
-  storeIdTokenHandler = (tokenId, email) => {
-    this.setState({
-      token: tokenId,
-      email: email
-    })
-  }
+  // storeIdTokenHandler = (tokenId, email) => {
+  //   const cookieData = document.cookie.split(';');
+  //   const data = cookieData.map(i => {
+  //     return i.trim()
+  //   })
+  //   this.setState({
+  //     token: data[0].split('=')[0],
+  //     email: data[1].split('=')[1],
+  //   })
+  // }
 
   render() {
+    // console.log(this.state.token, this.state.email)
     return (
       <div className="app" >
         <Router>

@@ -11,14 +11,14 @@ const RolesSelectField = (props) => {
     setFetchRoles(fetchAllRoles()) 
   }, [])
     
-  const [ openModal, setOpenModal ] = useState(false)
+  const [ openTooltip, updateOpenTooltip ] = useState(false)
 
   return (
      <span>
        
        <select className="roles-select-div"
           onBlur={(e) => {props.getRoleValue(e.target.value)}}
-          onChange={() => {props.getRowId(); setOpenModal(()=> true)}}
+          onChange={() => {props.getRowId(); updateOpenTooltip(()=> true)}}
           disabled={props.id === parseInt(6) || props.id === parseInt(4) ? true : null}
          >
           <option key={0} value={"Please select a role"}>
@@ -30,7 +30,7 @@ const RolesSelectField = (props) => {
           </option>)) 
           }  
         </select>
-        {openModal === true ? <Tooltip open={openModal} /> : null}
+        {openTooltip === true ? <Tooltip open={openTooltip} /> : null}
       </span>
     )
   
