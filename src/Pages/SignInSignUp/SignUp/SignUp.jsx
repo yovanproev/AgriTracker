@@ -29,12 +29,10 @@ class SignUp extends Component {
     .then(response => {
       const tokenId = response.data.idToken
       const email = response.data.email
-      // console.log(response.data.email)
-      // console.log(response.data.idToken)
-      localStorage.setItem("tokenId", tokenId);
-      localStorage.setItem("email", email);
-      this.props.tokenIdHandler(tokenId, email)
-   })
+      document.cookie = `tokenId=${tokenId}`
+      document.cookie = `email=${email}`
+      this.props.tokenIdHandler()
+    })
     .catch(err => {
       console.log(err)
     })

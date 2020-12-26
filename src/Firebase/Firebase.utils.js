@@ -64,9 +64,9 @@ provider.setCustomParameters({ prompt: 'select_account' });
 export const signInWithGoogle = () => auth.signInWithPopup(provider).then(result => {
 const email = result.user.email
 const tokenId = result.credential.idToken
-// console.log(tokenId)
-localStorage.setItem("tokenId", tokenId);
-localStorage.setItem("email", email);
+document.cookie = `tokenId=${tokenId}`
+document.cookie = `email=${email}`
+this.props.tokenIdHandler()
 }).catch(err => {
   const email = err.email
   const credential = err.credential

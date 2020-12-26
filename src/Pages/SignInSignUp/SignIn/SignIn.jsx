@@ -28,13 +28,9 @@ class SignIn extends Component {
     .then(response => {
       const tokenId = response.data.idToken
       const email = response.data.email
-      // localStorage.setItem("tokenId", tokenId);
-      // localStorage.setItem("email", email);
-            
       document.cookie = `tokenId=${tokenId}`
       document.cookie = `email=${email}`
-
-      // this.props.tokenIdHandler(tokenId, email)
+      this.props.tokenIdHandler()
    })
     .catch(err => {
       throw new Error(err)

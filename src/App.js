@@ -54,22 +54,16 @@ componentDidMount() {
       });
     }
     this.setState({ 
-      currentUser: userAuth,
-      // token: localStorage.getItem( 'tokenId' ),
-      // email: localStorage.getItem( 'email' ), 
-    });
-   if (this.state.currentUser) {
+      currentUser: userAuth});
     const cookieData = document.cookie.split(';');
     const data = cookieData.map(i => {
       return i.trim()
     })
     this.setState({
-      token: data[0].split('=')[1],
-      email: data[1].split('=')[1],
+      token: data[1].split('=')[1],
+      email: data[0].split('=')[1],
     })
-  }
  });
- 
 }
 
 componentWillUnmount() {
@@ -174,19 +168,18 @@ componentWillUnmount() {
     })
   }
 
-  // storeIdTokenHandler = (tokenId, email) => {
-  //   const cookieData = document.cookie.split(';');
-  //   const data = cookieData.map(i => {
-  //     return i.trim()
-  //   })
-  //   this.setState({
-  //     token: data[0].split('=')[0],
-  //     email: data[1].split('=')[1],
-  //   })
-  // }
+  storeIdTokenHandler = () => {
+    const cookieData = document.cookie.split(';');
+    const data = cookieData.map(i => {
+      return i.trim()
+    })
+    this.setState({
+      token: data[1].split('=')[1],
+      email: data[0].split('=')[1],
+    })
+  }
 
   render() {
-    // console.log(this.state.token, this.state.email)
     return (
       <div className="app" >
         <Router>
