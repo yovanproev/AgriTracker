@@ -1,10 +1,10 @@
 import React from 'react';
 import './App.css';
 import {
-  BrowserRouter as Router,
   Switch,
   Route,
-  Redirect  
+  Redirect,
+  HashRouter as Router 
 } from "react-router-dom";
 
 import Header from "./Pages/Header/Header"
@@ -183,7 +183,7 @@ componentWillUnmount() {
   render() {
     return (
       <div className="app" >
-        <Router>
+        <Router basename="/">
        
           <Header 
             modalHandler={this.hideModalHanlder}
