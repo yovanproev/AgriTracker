@@ -4,8 +4,6 @@ import "./InputForms.css"
 
 import BackButton from "../../../Components/BackButton/BackButton"
 
-import FuelTankImage from "../../../Assets/greenPump.png"
-
 import SelectField from "../SelectField/SelectField";
 import InputField from "../InputField/InputField";
 
@@ -38,15 +36,15 @@ const FuelConsumptionInput = (props) => {
     return (
       <div className="full-div">
         <BackButton onClick={props.onClick}/>
-        <img src={FuelTankImage} alt="img" className="pic"/>
-       
+        <h2>Fuel Consumption</h2>
+               
         <div className="input-forms">
          <form onSubmit={props.formHandler}>
             <SelectField
              id={props.localState.selectFields[0].id}
-             selectData={props.localState.selectFields}
              onChange={props.selectFieldsHandler}
              value={props.localState.selectedMachineId}
+             machineImage={props.localState.selectedMachineImage}
             />
 
             {props.localState.selectedMachineId ?
@@ -82,8 +80,7 @@ const FuelConsumptionInput = (props) => {
             {props.localState.selectedMachineId ?
               <SelectField
               id={props.localState.selectFields[2].id}
-              selectData={props.localState.selectFields}
-              onChange={props.selectFieldsHandler}
+               onChange={props.selectFieldsHandler}
               value={props.localState.selectedLocationId}
              /> : null
             }
@@ -92,8 +89,7 @@ const FuelConsumptionInput = (props) => {
             props.localState.selectedLocationId ?
               <SelectField
               id={props.localState.selectFields[4].id}
-              selectData={props.localState.selectFields}
-              onChange={props.selectFieldsHandler}
+               onChange={props.selectFieldsHandler}
               value={props.localState.selectedOperatorId}
              /> : null
             }

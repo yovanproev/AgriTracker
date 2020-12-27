@@ -7,7 +7,9 @@ import {
   fetchLocationByName, 
   fetchOperatorsByName, 
   fetchProductsByName, 
-  fetchAttachedMachineryByName } from "../../LocalData/InputFormsData";
+  fetchAttachedMachineryByName,
+  fetchMachineByImage,
+  fetchAttachedMachineryByImage } from "../../LocalData/InputFormsData";
 
 import FuelConsumptionInput from "./InputForms/FuelConsumptionInputForm";
 // import IrrigationInput from "./InputForms/IrrigationInputForm";
@@ -62,6 +64,8 @@ class InputSelection extends Component {
         this.setState({
           lastId: Object.values(res) === undefined ? parseInt(0) : parseInt(Object.values(res).slice(-1)[0].id)  
         })
+      }).catch(err => {
+        throw new Error(err)
       })
     }
   }
@@ -81,12 +85,14 @@ class InputSelection extends Component {
     if (id === this.state.selectFields[0].id) {
        this.setState( {
         selectedMachineId: value,
-        selectedMachineName: fetchMachineByName(value)})
+        selectedMachineName: fetchMachineByName(value),
+        selectedMachineImage: fetchMachineByImage(value)})
     }
     else if (id === this.state.selectFields[1].id) {
       this.setState({
      selectedAttachedMachineryId: value,
-     selectedAttachedMachineryName: fetchAttachedMachineryByName(value)})
+     selectedAttachedMachineryName: fetchAttachedMachineryByName(value),
+     selectedAttachedMachineryByImage: fetchAttachedMachineryByImage(value)})
     }
     else if (id === this.state.selectFields[2].id) {
       this.setState({
@@ -197,7 +203,6 @@ class InputSelection extends Component {
     }
 
   render () {
-    
     const moduleInProgress = <Modal show={this.props.stateProps.hideModal} 
     hide={this.props.modal}>Module Still In Progress</Modal> 
     const errorModal = <Modal show={this.state.error} 

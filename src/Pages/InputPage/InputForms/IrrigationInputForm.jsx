@@ -17,7 +17,7 @@ import GrapeSpinner1 from "../../../Components/Spinners/GrapeSpinner"
 class IrrigationInput extends Component {
 
 
-  UNSAFE_componentWillUpdate(nextProps, nextState) {
+  UNSAFE_componentWillUpdate(nextProps, ) {
     nextProps.localState.submitButtonDisabled = (
      nextProps.localState.selectedMachineId && 
      nextProps.localState.selectedAttachedMachineryId &&

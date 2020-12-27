@@ -1,18 +1,27 @@
-import machineDB from "./MachineDB.json"
+import { machineDB } from "./MachineDB.js"
 import locationDB from "./LocationDB.json"
-import attachedMachineryDB from "./AttachedMachineryDB.json"
+import { attachedMachineryDB } from "./AttachedMachineryDB"
 import productsDB from "./ProductsDB.json"
 import operatorsDB from "./OperatorsDB.json"
 import rolesDB from "./Roles.json"
 
 export const fetchAllMachines = () => {
-  return machineDB.data;
+  return machineDB;
 }
 
 export const fetchMachineByName = machineId => {
-  const data = machineDB.data.filter(machine => machine.id === parseInt(machineId));
+  const data = machineDB.filter(machine => machine.id === parseInt(machineId));
   if (data.length > 0) {
     return data[0].name;
+  } else {
+    return data;
+  }
+};
+
+export const fetchMachineByImage = machineId => {
+  const data = machineDB.filter(machine => machine.id === parseInt(machineId));
+  if (data.length > 0) {
+    return data[0].image;
   } else {
     return data;
   }
@@ -32,13 +41,22 @@ export const fetchLocationByName = locationId => {
 };
 
 export const fetchAllAttachedMachinery = () => {
-  return attachedMachineryDB.data;
+  return attachedMachineryDB;
 }
 
 export const fetchAttachedMachineryByName = aMachineId => {
-  const data = attachedMachineryDB.data.filter(aMachine => aMachine.id === parseInt(aMachineId));
+  const data = attachedMachineryDB.filter(aMachine => aMachine.id === parseInt(aMachineId));
   if (data.length > 0) {
     return data[0].name;
+  } else {
+    return data;
+  }
+};
+
+export const fetchAttachedMachineryByImage = aMachineId => {
+  const data = attachedMachineryDB.filter(aMachine => aMachine.id === parseInt(aMachineId));
+  if (data.length > 0) {
+    return data[0].image;
   } else {
     return data;
   }

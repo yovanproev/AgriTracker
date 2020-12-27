@@ -59,6 +59,7 @@ componentDidMount() {
     const data = cookieData.map(i => {
       return i.trim()
     })
+    if (this.state.currentUser)
     this.setState({
       token: data[1].split('=')[1],
       email: data[0].split('=')[1],

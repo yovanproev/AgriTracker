@@ -4,8 +4,6 @@ import "./InputForms.css"
 
 import BackButton from "../../../Components/BackButton/BackButton"
 
-import GroupOfTractors from "../../../Assets/groupOfTractors.jpg"
-
 import SelectField from "../SelectField/SelectField";
 import InputField from "../InputField/InputField";
 
@@ -34,16 +32,16 @@ const MachineRegistrationInput = (props) => {
   const onButtonClick = () => {props.updateId()} 
   
  
-      return (
+  return (
       <div className="full-div">
         <BackButton onClick={props.onClick}/>
-        <img src={GroupOfTractors} alt="img" className="pic"/>
-       
+        <h2>Machine Registration</h2>
+        
         <div className="input-forms">
          <form onSubmit={props.formHandler}>
             <SelectField
              id={props.localState.selectFields[0].id}
-             selectData={props.localState.selectFields}
+             machineImage={props.localState.selectedMachineImage}
              onChange={props.selectFieldsHandler}
              value={props.localState.selectedMachineId}
             />
@@ -51,7 +49,7 @@ const MachineRegistrationInput = (props) => {
             {props.localState.selectedMachineId ?
             <SelectField
              id={props.localState.selectFields[1].id}
-             selectData={props.localState.selectFields}
+             machineImage={props.localState.selectedAttachedMachineryByImage}
              onChange={props.selectFieldsHandler}
              value={props.localState.selectedAttachedMachineryId}
             /> : null }
@@ -59,7 +57,6 @@ const MachineRegistrationInput = (props) => {
             {props.localState.selectedAttachedMachineryId ?
               <SelectField
               id={props.localState.selectFields[2].id}
-              selectData={props.localState.selectFields}
               onChange={props.selectFieldsHandler}
               value={props.localState.selectedLocationId}
              /> : null
@@ -68,7 +65,6 @@ const MachineRegistrationInput = (props) => {
             {props.localState.selectedLocationId ?
               <SelectField
               id={props.localState.selectFields[3].id}
-              selectData={props.localState.selectFields}
               onChange={props.selectFieldsHandler}
               value={props.localState.selectedProductId}
              /> : null
@@ -94,7 +90,6 @@ const MachineRegistrationInput = (props) => {
             {props.localState.selectedProductId ?
               <SelectField
               id={props.localState.selectFields[4].id}
-              selectData={props.localState.selectFields}
               onChange={props.selectFieldsHandler}
               value={props.localState.selectedOperatorId}
              /> : null

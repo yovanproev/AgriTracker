@@ -1,4 +1,4 @@
-import React, { Component } from "react"
+import React, { useState, useEffect } from "react"
 
 import { 
   fetchAllMachines, 
@@ -8,131 +8,45 @@ import {
   fetchAllOperators } from "../../../LocalData/InputFormsData";
 import "./SelectField.css"
 
-class SelectField extends Component {
-  state = {
-    machineChosen: [],
-    aMachineChosen: [],
-    locationChosen: [],
-    productChosen: [],
-    operatorChosen: [],    
-  }
+const SelectField = ({id, onChange, value, machineImage}) => {
+  const [ fethcedData, updateFetchedData ] = useState([]);
+  
+  useEffect(() => {
+    const fetching = id === 1 ? fetchAllMachines() :
+    id === 2 ? fetchAllAttachedMachinery() :
+    id === 3 ? fetchAllLocations() :
+    id === 4 ? fetchAllProducts() :
+    id === 5 ? fetchAllOperators() : "Error"
+   updateFetchedData(fetching)
+ }, [id])
 
-  componentDidMount() {
-    const machineData = fetchAllMachines();
-    const aMachineData = fetchAllAttachedMachinery();
-    const locationData = fetchAllLocations();
-    const productData = fetchAllProducts();
-    const operatorData = fetchAllOperators();
-    this.setState({ 
-      machineChosen: machineData,
-      aMachineChosen: aMachineData,
-      locationChosen: locationData,
-      productChosen: productData,
-      operatorChosen: operatorData
-     });
-  }
-
- render () {
-  const machineData = 
-   this.props.id === 1 ? 
-            <select className="select-div"
-             onChange={(e) => this.props.onChange(parseInt(e.target.value), parseInt(e.target.id))}
-             value={this.props.value ? this.props.value : ""}
-             id={this.props.id}
-             >
-              <option key={0} value={0}>
-               {"Select a machine"}
-              </option>
-                {this.state.machineChosen.map((fields) => (
-                <option key={fields.id} value={fields.id}>
-                {fields.name} 
-                </option>
-               )) }
-            </select>
-           : null
  
-  const aMachineryData = 
-  this.props.id === 2 ? 
-  <select className="select-div"
-    onChange={(e) => this.props.onChange(parseInt(e.target.value), parseInt(e.target.id))}
-    value={this.props.value ? this.props.value : ""}
-    id={this.props.id}
-    >
-    <option key={0} value={0}>
-      {"Select attached machinery"}
-    </option>
-      {this.state.aMachineChosen.map((fields) => (
-      <option key={fields.id} value={fields.id}>
-      {fields.name} 
-      </option>
-      )) }
-  </select>
-  : null
-
-  const locationData = 
-  this.props.id === 3 ? 
-  <select className="select-div"
-    onChange={(e) => this.props.onChange(parseInt(e.target.value), parseInt(e.target.id))}
-    value={this.props.value ? this.props.value : ""}
-    id={this.props.id}
-    >
-    <option key={0} value={0}>
-      {"Select location"}
-    </option>
-      {this.state.locationChosen.map((fields) => (
-      <option key={fields.id} value={fields.id}>
-      {fields.name} 
-      </option>
-      )) }
-  </select>
-  : null
-
-  const productData = 
-  this.props.id === 4 ? 
-  <select className="select-div"
-    onChange={(e) => this.props.onChange(parseInt(e.target.value), parseInt(e.target.id))}
-    value={this.props.value ? this.props.value : ""}
-    id={this.props.id}
-    >
-    <option key={0} value={0}>
-      {"Select a product"}
-    </option>
-      {this.state.productChosen.map((fields) => (
-      <option key={fields.id} value={fields.id}>
-      {fields.name} 
-      </option>
-      )) }
-  </select>
-  : null
-
-  const operatorData = 
-  this.props.id === 5 ? 
-  <select className="select-div"
-    onChange={(e) => this.props.onChange(parseInt(e.target.value), parseInt(e.target.id))}
-    value={this.props.value ? this.props.value : ""}
-    id={this.props.id}
-    >
-    <option key={0} value={0}>
-      {"Select an operator"}
-    </option>
-      {this.state.operatorChosen.map((fields) => (
-      <option key={fields.id} value={fields.id}>
-      {fields.name} 
-      </option>
-      )) }
-  </select>
-  : null
-
-  return (
-          <div >
-               {machineData}
-               {aMachineryData}
-               {locationData}
-               {productData}
-               {operatorData}
-          </div>
-)
-}
+  const defaultValue = id === 1 ? "Select a machine" : 
+  id === 2 ? "Select attached machinery" : 
+  id === 3 ? "Select location" :
+  id === 4 ? "Select a product" :
+  id === 5 ? "Select an operator" : "Error"
+ 
+   return (
+      <div >
+        {id === 1 || id === 2 ? <img alt="" src={value ? machineImage : ""} className="slika"/> : null}
+        <select className="select-div"
+          onChange={(e) => onChange(parseInt(e.target.value), parseInt(e.target.id))}
+          value={value ? value : ""}
+          id={id}
+          >
+          <option key={0} value={0}>
+            {defaultValue}
+          </option>
+            {fethcedData.map((fields) => (
+            <option key={fields.id} value={fields.id}>
+            {fields.name} 
+            </option>
+            )) }
+        </select>
+      </div>
+    )
+  
 }
 
 export default SelectField;
