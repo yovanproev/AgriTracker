@@ -30,7 +30,7 @@ class SignIn extends Component {
       const email = response.data.email
       document.cookie = `tokenId=${tokenId}`
       document.cookie = `email=${email}`
-      this.props.tokenIdHandler()
+      this.props.tokenIdHandler(tokenId, email)
    })
     .catch(err => {
       throw new Error(err)

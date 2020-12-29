@@ -168,14 +168,14 @@ componentWillUnmount() {
     })
   }
 
-  storeIdTokenHandler = () => {
-    const cookieData = document.cookie.split(';');
-    const data = cookieData.map(i => {
-      return i.trim()
-    })
+  storeIdTokenHandler = (tokenId, email) => {
+    // const cookieData = document.cookie.split(';');
+    // const data = cookieData.map(i => {
+    //   return i.trim()
+    // })
     this.setState({
-      token: data[1].split('=')[1],
-      email: data[0].split('=')[1],
+      token: tokenId,
+      email: email,
     })
   }
 
