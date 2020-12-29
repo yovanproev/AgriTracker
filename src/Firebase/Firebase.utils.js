@@ -4,7 +4,7 @@ import 'firebase/auth';
 import "firebase/database"
 
 
-const config = {
+const devConfig = {
     apiKey: "AIzaSyAK38e0I2ui4E_FDQAAi6CbtQQQ0jmaPzI",
     authDomain: "input-output-data.firebaseapp.com",
     databaseURL: "https://input-output-data.firebaseio.com",
@@ -15,7 +15,23 @@ const config = {
     measurementId: "G-1CVRSW18ER"
 };
 
+const prodConfig = {
+  apiKey: "AIzaSyAK38e0I2ui4E_FDQAAi6CbtQQQ0jmaPzI",
+  authDomain: "input-output-data.firebaseapp.com",
+  databaseURL: "https://input-output-data.firebaseio.com",
+  projectId: "input-output-data",
+  storageBucket: "input-output-data.appspot.com",
+  messagingSenderId: "418639019373",
+  appId: "1:418639019373:web:51980782350a970b8aae64",
+  measurementId: "G-1CVRSW18ER"
+};
 
+const config = process.env.NODE_ENV === 'production'
+? prodConfig : devConfig
+
+if (!firebase.apps.length) {
+  firebase.initializeApp(config)
+}
 
 export const createUserProfileDocument = async (userAuth, additionalData) => {
   if (!userAuth) return;
@@ -46,8 +62,6 @@ export const createUserProfileDocument = async (userAuth, additionalData) => {
   return userRef;
 };
 
-firebase.initializeApp(config);
-
 export const firebase_db = firebase.database();
 export const firebase_db_fuelConsump = firebase.database().ref(`fuelConsumptionInput`);
 
@@ -64,6 +78,8 @@ provider.setCustomParameters({ prompt: 'select_account' });
 export const signInWithGoogle = () => auth.signInWithPopup(provider).then(result => {
 const email = result.user.email
 const tokenId = result.credential.idToken
+console.log(email)
+console.log(tokenId)
 document.cookie = `tokenId=${tokenId}`
 document.cookie = `email=${email}`
 this.props.tokenIdHandler()

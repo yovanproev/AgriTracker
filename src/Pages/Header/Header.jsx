@@ -7,11 +7,13 @@ import Logo from "../../Assets/Logo.jpg";
 import { auth } from "../../Firebase/Firebase.utils"
 import { RenderForOperator } from '../../RoleBasedAccessControl/RoleBaseControl';
 
-const Header = ({ currentUser, inputMode, outputMode, modalHandler }) => {
+const Header = ({ currentUser, inputMode, outputMode, modalHandler, signOutHandler }) => {
+  
   const signOutAndModalOff = () => {
     modalHandler()
     auth.signOut()
-  }
+    signOutHandler()
+   }
 
   return (
     <nav className="nav-bar">
@@ -60,7 +62,7 @@ const Header = ({ currentUser, inputMode, outputMode, modalHandler }) => {
           to="/"
           onClick={() => signOutAndModalOff()}>
           <i className="fas fa-sign-out-alt"></i>SIGN OUT
-        </NavLink> : null }
+          </NavLink> : null }
       </div>
     </nav>
   )

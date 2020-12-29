@@ -53,8 +53,7 @@ componentDidMount() {
         });
       });
     }
-    this.setState({ 
-      currentUser: userAuth});
+    this.setState({ currentUser: userAuth});
     const cookieData = document.cookie.split(';');
     const data = cookieData.map(i => {
       return i.trim()
@@ -180,12 +179,17 @@ componentWillUnmount() {
     })
   }
 
+  signoutHandler = () => {
+    this.setState({ currentUser: null})
+  }
+
   render() {
     return (
       <div className="app" >
         <Router basename="/">
        
           <Header 
+            signOutHandler={this.signoutHandler}
             modalHandler={this.hideModalHanlder}
             currentUser={this.state.currentUser}
             inputMode={this.inputModeHandler}
@@ -194,17 +198,16 @@ componentWillUnmount() {
             
           <Switch>
             <Route exact path="/"> 
-              {this.state.currentUser ? <Redirect to="/Home" /> : 
-              <StartingPage
+              {this.state.currentUser ? <Redirect to="/Home" /> :
+               <StartingPage
                 modal={this.hideModalHanlder}
-                tokenIdHandler={this.storeIdTokenHandler}
-              />}
+                tokenIdHandler={this.storeIdTokenHandler}/>
+              }
             </Route>
 
             <Route path="/Home">
-              {this.state.currentUser ? <HomePage 
-              stateProps={this.state}
-              /> : <Redirect to="/" />}
+              {this.state.currentUser ? 
+              <HomePage stateProps={this.state}/> : null} 
             </Route>
 
             {this.state.currentUser ?

@@ -20,7 +20,7 @@ const HomePage = (props) => {
       setUser(null)
     }
   })
-}, [props.stateProps.currentUser, props])
+}, [props.stateProps.currentUser])
     
   // get the table row number 
   const [ rowIdValue, setRowId ] = useState(undefined);
