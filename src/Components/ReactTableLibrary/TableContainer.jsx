@@ -223,7 +223,8 @@ const TableContainer = ({
         </Col> */}
         <Col md={2}>
         {stateProps.outputTable === false ? 
-          <Button color='primary' onClick={previousPage}
+          <Button style={{margin: "10px auto" }}
+          color='primary' onClick={previousPage}
            disabled={!canPreviousPage}>
            {'>'}
          </Button> :

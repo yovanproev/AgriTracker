@@ -14,8 +14,7 @@ export const deleteByRowId =  (rowId, props) => {
      })
     }
     if (props.stateProps.index2) {
-     
-      firebase_db_machineReg.orderByChild("id")
+     firebase_db_machineReg.orderByChild("id")
       .endAt(rowId).limitToLast(1).once('value').then((snapshot)=>{
        const randomKeyMach = Object.keys(snapshot.val())
         db.child("machineRegistrationInput/"+randomKeyMach).remove()
