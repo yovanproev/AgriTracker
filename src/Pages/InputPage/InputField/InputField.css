@@ -1,7 +1,7 @@
 input {
   /* margin: auto; */
   width: 35%;
-  height: 4vh;
+  height: 7%;
 }
 
 .input-div {
@@ -25,7 +25,7 @@ input {
   }
 }
 
-@media screen and (max-height: 520px) {
+/* @media screen and (max-height: 520px) {
   input {
     height: 6vh;
   }
@@ -35,4 +35,4 @@ input {
   input {
     height: 10vh;
   }
-}
+} */

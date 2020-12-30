@@ -29,7 +29,7 @@ const SelectField = ({id, onChange, value, machineImage}) => {
  
    return (
       <div >
-        {id === 1 || id === 2 ? <img alt="" src={value ? machineImage : ""} className="slika"/> : null}
+        {id === 1 || id === 2 ? <img alt="" src={value ? machineImage : ""} className="select-picture"/> : null}
         <select className="select-div"
           onChange={(e) => onChange(parseInt(e.target.value), parseInt(e.target.id))}
           value={value ? value : ""}

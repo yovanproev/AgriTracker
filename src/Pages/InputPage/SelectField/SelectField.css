@@ -1,8 +1,8 @@
 .select-div {
   width: 50vw;
-  margin: auto 10px;
+  margin: 0 10px;
   margin-top: 20px;
-  height: 5vh;
+  height: calc(1em + 0.75rem + 2px);
 }
 
 @media screen and (min-width: 700px) {
@@ -11,7 +11,7 @@
   }
 }
 
-@media screen and (max-height: 520px) {
+/* @media screen and (max-height: 520px) {
   .select-div {
     height: 6vh;
   }
@@ -21,9 +21,9 @@
   .select-div {
     height: 11vh;
   }
-}
+} */
 
-.slika {
+.select-picture {
   width: 20%;
   margin-top: 10px;
 }

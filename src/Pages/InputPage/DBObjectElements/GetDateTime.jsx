@@ -9,8 +9,15 @@ export const getDate = () => {
 export const getTime = () => {
   const currentDate = new Date()
   const currentHour = currentDate.getHours()
-  const currentMinutes = currentDate.getMinutes()+1
-  return currentHour + ":" + currentMinutes
+  const currentMinutes = currentDate.getMinutes()
+  return addZero(currentHour) + ":" + addZero(currentMinutes)
  }
  
  export default getTime;
+
+function addZero(i) {
+  if (i < 10) {
+    i = "0" + i;
+  }
+  return i;
+}

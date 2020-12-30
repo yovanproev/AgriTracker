@@ -154,7 +154,7 @@ class InputSelection extends Component {
       const checkForActivity = this.props.stateProps.index1 ? fuelConsumptionInputObject(this.state) 
       : this.props.stateProps.index2 ? machineRegistrationInputObject(this.state) : null 
     
-     const queryParams = '?auth=' + this.props.tokenId + '&auth.token.email=' + this.props.email;
+      const queryParams = '?auth=' + this.props.stateProps.tokenId + '&auth.token.email=' + this.props.stateProps.email;
     
       const URLPostSource = this.props.stateProps.index1 ? ('/fuelConsumptionInput.json' + queryParams) 
       : this.props.stateProps.index2 ? ('/machineRegistrationInput.json' + queryParams) : null 
@@ -207,7 +207,7 @@ class InputSelection extends Component {
     hide={this.props.modal}>Module Still In Progress</Modal> 
     const errorModal = <Modal show={this.state.error} 
     hide={this.props.modal}>Network error while posting data to Database, your entry is not recorded.</Modal> 
-
+    
       return (
     <div>
       {errorModal}

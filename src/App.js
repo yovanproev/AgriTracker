@@ -60,7 +60,7 @@ componentDidMount() {
     })
     if (this.state.currentUser)
     this.setState({
-      token: data[1].split('=')[1],
+      tokenId: data[1].split('=')[1],
       email: data[0].split('=')[1],
     })
  });
@@ -168,14 +168,14 @@ componentWillUnmount() {
     })
   }
 
-  storeIdTokenHandler = (tokenId, email) => {
-    // const cookieData = document.cookie.split(';');
-    // const data = cookieData.map(i => {
-    //   return i.trim()
-    // })
+  storeIdTokenHandler = () => {
+    const cookieData = document.cookie.split(';');
+    const data = cookieData.map(i => {
+      return i.trim()
+    })
     this.setState({
-      token: tokenId,
-      email: email,
+      tokenId: data[1].split('=')[1],
+      email: data[0].split('=')[1],
     })
   }
 
@@ -216,8 +216,6 @@ componentWillUnmount() {
              <Route path="/Inputs">
                 {this.state.currentUser ? 
                 <SelectActivity 
-                tokenId={this.state.token}
-                email={this.state.email}
                 modal={this.hideModalHanlder}
                 key={this.activityHandler}
                 stateProps={this.state}
@@ -228,8 +226,6 @@ componentWillUnmount() {
               <Route path="/Reports">
                 {this.state.currentUser ? 
                 <SelectActivity
-                tokenId={this.state.token}
-                email={this.state.email}
                 modal={this.hideModalHanlder}
                 key={this.activityHandler}
                 stateProps={this.state}
