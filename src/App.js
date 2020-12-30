@@ -55,13 +55,10 @@ componentDidMount() {
     }
     this.setState({ currentUser: userAuth});
     const cookieData = document.cookie.split(';');
-    const data = cookieData.map(i => {
-      return i.trim()
-    })
     if (this.state.currentUser)
     this.setState({
-      tokenId: data[1].split('=')[1],
-      email: data[0].split('=')[1],
+      tokenId: cookieData[1].includes("tokenId") ? cookieData[1].split('=')[1] : cookieData[0].split('=')[1],
+      email: cookieData[0].includes("email") ? cookieData[0].split('=')[1] : cookieData[1].split('=')[1],
     })
  });
 }
@@ -170,12 +167,9 @@ componentWillUnmount() {
 
   storeIdTokenHandler = () => {
     const cookieData = document.cookie.split(';');
-    const data = cookieData.map(i => {
-      return i.trim()
-    })
     this.setState({
-      tokenId: data[1].split('=')[1],
-      email: data[0].split('=')[1],
+      tokenId: cookieData[1].includes("tokenId") ? cookieData[1].split('=')[1] : cookieData[0].split('=')[1],
+      email: cookieData[0].includes("email") ? cookieData[0].split('=')[1] : cookieData[1].split('=')[1],
     })
   }
 

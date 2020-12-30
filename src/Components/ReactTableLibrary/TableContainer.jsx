@@ -6,7 +6,9 @@ import {
   useExpanded,
   usePagination,
 } from 'react-table';
-import { Table, Row, Col, Button, Input, CustomInput } from 'reactstrap';
+import { Table, Row, Col, Button, Input, 
+  // CustomInput 
+} from 'reactstrap';
 import { Filter, DefaultColumnFilter } from './TableFilters';
 
 import { pageCounter, countNextPage, countPreviousPage } from "../../Firebase/FetchDataFromRealtimeDB"
@@ -42,8 +44,10 @@ const TableContainer = ({
     gotoPage,
     nextPage,
     previousPage,
-    setPageSize,
-    state: { pageIndex, pageSize },
+    // setPageSize,
+    state: { pageIndex, 
+      // pageSize 
+    },
   } = useTable(
     {
       columns,
@@ -77,9 +81,9 @@ const TableContainer = ({
      return column.isSorted ? (column.isSortedDesc ? ' 🔽' : ' 🔼') : '';
   };
 
-  const onChangeInSelect = (event) => {
-    setPageSize(Number(event.target.value));
-  };
+  // const onChangeInSelect = (event) => {
+  //   setPageSize(Number(event.target.value));
+  // };
 
   const onChangeInInput = (event) => {
     const page = event.target.value ? Number(event.target.value) - 1 : 0;
@@ -186,17 +190,23 @@ const TableContainer = ({
             {pageIndex + 1} of {pageOptions.length}
           </strong>
         </Col>
+        <Col md={2} style={{ margin: "7px auto" }}>
+          Records{' '}
+          <strong>
+            {data.length}
+          </strong>
+        </Col>
         <Col md={2}>
           <Input
             type='number'
             min={1}
-            style={{ width: 70 }}
+            style={{ width: 70, margin: "auto" }}
             max={pageOptions.length}
-            // defaultValue={pageIndex + 1}
+            value={pageIndex + 1 || ""}
             onChange={onChangeInInput}
           />
         </Col>
-        <Col md={2}>
+        {/* <Col md={2}> 
           <CustomInput
             id={Math.random() * 10000}
             type='select'
@@ -209,15 +219,16 @@ const TableContainer = ({
                 Show {pageSize}
               </option>
             ))}
-          </CustomInput>
-        </Col>
-        <Col md={3}>
+           </CustomInput>
+        </Col> */}
+        <Col md={2}>
         {stateProps.outputTable === false ? 
           <Button color='primary' onClick={previousPage}
-          disabled={!canPreviousPage}>
+           disabled={!canPreviousPage}>
            {'>'}
          </Button> :
          <Button
+            style={{margin: "7px auto" }} 
             color='primary'
             onClick={() => previousPageClick()}
             disabled={counter === 10 ? true : false}

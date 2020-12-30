@@ -74,19 +74,23 @@ export const firestore = firebase.firestore();
 export const users = firestore.collection("users")
 
 const provider = new firebase.auth.GoogleAuthProvider();
+provider.addScope('profile');
+provider.addScope('email');
 provider.setCustomParameters({ prompt: 'select_account' });
-export const signInWithGoogle = () => auth.signInWithPopup(provider).then(result => {
+export const signInWithGoogle = () => auth.signInWithPopup(provider)
+.then(result => {
 const email = result.user.email
 const tokenId = result.credential.idToken
-console.log(email)
-console.log(tokenId)
+// const accessToken = result.credential.accessToken
+// console.log(result)
+// console.log(email)
+// console.log(tokenId)
 document.cookie = `tokenId=${tokenId}`
 document.cookie = `email=${email}`
-this.props.tokenIdHandler()
 }).catch(err => {
   const email = err.email
   const credential = err.credential
-  throw new Error(email, credential)
+  throw new Error(err, email, credential)
 })
 
 
