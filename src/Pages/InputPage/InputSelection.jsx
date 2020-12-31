@@ -59,17 +59,15 @@ class InputSelection extends Component {
   
   UNSAFE_componentWillMount () {
   const fullData = getLastId(this.props)
-    if (this.props.stateProps.index1 || this.props.stateProps.index2) {  
-      if (fullData !== undefined) {
+  if (this.props.stateProps.index1 || this.props.stateProps.index2) {  
      fullData.then(res => { 
-        this.setState({
-          lastId: Object.values(res) === undefined ? parseInt(0) : parseInt(Object.values(res).slice(-1)[0].id)  
+       this.setState({
+          lastId: res === null ? parseInt(0) : parseInt(Object.values(res).slice(-1)[0].id)  
         })
       }).catch(err => {
         throw new Error(err)
       })
-     } else parseInt(0)
-    }
+   }
   }
       
   shouldComponentUpdate (nextProps, ) {
@@ -175,6 +173,7 @@ class InputSelection extends Component {
           selectedMachineId: undefined,
           selectedAttachedMachineryId: undefined,
           selectedLocationId: undefined,
+          selectedFarmId: undefined,
           selectedProductId: undefined,
           selectedOperatorId: undefined,
           kilometers: undefined,
@@ -192,6 +191,7 @@ class InputSelection extends Component {
           selectedMachineId: undefined,
           selectedAttachedMachineryId: undefined,
           selectedLocationId: undefined,
+          selectedFarmId: undefined,
           selectedProductId: undefined,
           selectedOperatorId: undefined,
           kilometers: undefined,
