@@ -45,9 +45,7 @@ class InputSelection extends Component {
       {id: 1, name: "Kilometers on Machine"},
       {id: 2, name: "Liters"},
       {id: 3, name: "Tank #"},
-      // {id: 4, name: "Line"},
-      // {id: 5, name: "Block"},
-    ],
+   ],
     
     selectFields: [
       {id: 1, name: "Machine"},
@@ -62,13 +60,15 @@ class InputSelection extends Component {
   UNSAFE_componentWillMount () {
   const fullData = getLastId(this.props)
     if (this.props.stateProps.index1 || this.props.stateProps.index2) {  
-    fullData.then(res => { 
+      if (fullData !== undefined) {
+     fullData.then(res => { 
         this.setState({
           lastId: Object.values(res) === undefined ? parseInt(0) : parseInt(Object.values(res).slice(-1)[0].id)  
         })
       }).catch(err => {
         throw new Error(err)
       })
+     } else parseInt(0)
     }
   }
       

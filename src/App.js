@@ -31,8 +31,8 @@ class App extends React.Component {
     activityBubbleState: [
       { name: "Fuel Consumption"},
       { name: "Machine Registration"},
-      { name: "Irrigation"},
-      { name: "Working Hours"},
+      { name: "Maintenance and Repair"},
+      { name: "Working Hours Registration"},
     ],
   } 
 
