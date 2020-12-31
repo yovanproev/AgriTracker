@@ -17,6 +17,13 @@ const fuelConsumptionColumns = [
     Filter: SelectColumnFilter,
     filter: 'equals',
     }, 
+    { 
+      Header: 'Attached Machinery',
+      accessor: "attachedMachinery",
+      disableSortBy: true,
+      Filter: SelectColumnFilter,
+      filter: 'equals',
+     },
   {
     Header: 'Location',
     accessor: "location",
@@ -68,7 +75,7 @@ const machineRegitrationColumns = [
     Filter: SelectColumnFilter,
     filter: 'equals',
     }, 
- { 
+  { 
     Header: 'Attached Machinery',
     accessor: "attachedMachinery",
     disableSortBy: true,
@@ -76,8 +83,8 @@ const machineRegitrationColumns = [
     filter: 'equals',
    },
   {
-    Header: 'Location',
-    accessor: "location",
+    Header: 'Farm Location',
+    accessor: "farmLocation",
     disableSortBy: true,
     Filter: SelectColumnFilter,
     filter: 'equals',
@@ -92,14 +99,6 @@ const machineRegitrationColumns = [
   {
     Header: 'Kilometers',
     accessor: 'kilometers',
-  },
-  {
-    Header: 'Line',
-    accessor: 'line',
-  },
-  {
-    Header: 'Block',
-    accessor: 'block',
   },
   {
     Header: 'Operator',

@@ -17,6 +17,7 @@ const FuelConsumptionInput = (props) => {
 
  useEffect(() => {
   if (props.localState.selectedMachineId && 
+      props.localState.selectedAttachedMachineryId && 
       props.localState.selectedLocationId && 
       props.localState.selectedOperatorId &&
       props.localState.kilometers && 
@@ -48,6 +49,14 @@ const FuelConsumptionInput = (props) => {
             />
 
             {props.localState.selectedMachineId ?
+            <SelectField
+             id={props.localState.selectFields[1].id}
+             machineImage={props.localState.selectedAttachedMachineryByImage}
+             onChange={props.selectFieldsHandler}
+             value={props.localState.selectedAttachedMachineryId}
+            /> : null }
+
+            {props.localState.selectedAttachedMachineryId ?
               <div className="input">
                 <InputField 
                   id={props.localState.inputFields[0].id}
@@ -77,7 +86,7 @@ const FuelConsumptionInput = (props) => {
               </div> : null
             } */}
                         
-            {props.localState.selectedMachineId ?
+            {props.localState.selectedAttachedMachineryId ?
               <SelectField
               id={props.localState.selectFields[2].id}
                onChange={props.selectFieldsHandler}

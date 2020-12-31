@@ -10,16 +10,18 @@ import { updateUsersInFirestore } from '../../Firebase/UpdateUsersInFirestore';
 const HomePage = (props) => {
    // get users table
   const [ user, setUser ] = useState([])
+
+  
   useEffect(() => {
     getAllUsers().then(resolve => {
       setUser(resolve)
     })
-    return (()=> {
+    return () => {
       if (!props.stateProps.currentUser) {
               // console.log("cleanup")
       setUser(null)
     }
-  })
+  }
 }, [props.stateProps.currentUser])
     
   // get the table row number 

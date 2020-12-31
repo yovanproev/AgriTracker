@@ -23,8 +23,12 @@ class SignIn extends Component {
       password: this.state.password,
       returnSecureToken: true
     }
-    let url = "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyAK38e0I2ui4E_FDQAAi6CbtQQQ0jmaPzI"
-    axios.post(url, authData)
+    const urlDev = "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyAK38e0I2ui4E_FDQAAi6CbtQQQ0jmaPzI"
+    const urlProd = "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyCCt9BDd8SSmYYGEQARwJRi9TNYZkAy9Y8"
+    const config = process.env.NODE_ENV === 'production'
+    ? urlProd : urlDev
+
+    axios.post(config, authData)
     .then(response => {
       const tokenId = response.data.idToken
       const email = response.data.email

@@ -16,14 +16,13 @@ const devConfig = {
 };
 
 const prodConfig = {
-  apiKey: "AIzaSyAK38e0I2ui4E_FDQAAi6CbtQQQ0jmaPzI",
-  authDomain: "input-output-data.firebaseapp.com",
-  databaseURL: "https://input-output-data.firebaseio.com",
-  projectId: "input-output-data",
-  storageBucket: "input-output-data.appspot.com",
-  messagingSenderId: "418639019373",
-  appId: "1:418639019373:web:51980782350a970b8aae64",
-  measurementId: "G-1CVRSW18ER"
+  apiKey: "AIzaSyCCt9BDd8SSmYYGEQARwJRi9TNYZkAy9Y8",
+  authDomain: "dfp-app-registrations.firebaseapp.com",
+  projectId: "dfp-app-registrations",
+  storageBucket: "dfp-app-registrations.appspot.com",
+  messagingSenderId: "793084880715",
+  appId: "1:793084880715:web:96334d8fab8a18479faace",
+  measurementId: "G-HFWW03860W"
 };
 
 const config = process.env.NODE_ENV === 'production'

@@ -16,16 +16,18 @@ const SelectField = ({id, onChange, value, machineImage}) => {
     id === 2 ? fetchAllAttachedMachinery() :
     id === 3 ? fetchAllLocations() :
     id === 4 ? fetchAllProducts() :
-    id === 5 ? fetchAllOperators() : "Error"
+    id === 5 ? fetchAllOperators() : 
+    id === 6 ? fetchAllLocations() : "Error"
    updateFetchedData(fetching)
  }, [id])
 
  
   const defaultValue = id === 1 ? "Select a machine" : 
   id === 2 ? "Select attached machinery" : 
-  id === 3 ? "Select location" :
+  id === 3 ? "Select tank location" :
   id === 4 ? "Select a product" :
-  id === 5 ? "Select an operator" : "Error"
+  id === 5 ? "Select an operator" : 
+  id === 6 ? "Select a farm" : "Error"
  
    return (
       <div >

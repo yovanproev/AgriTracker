@@ -19,11 +19,9 @@ const MachineRegistrationInput = (props) => {
  useEffect(() => {
   if (props.localState.selectedMachineId && 
       props.localState.selectedAttachedMachineryId && 
-      props.localState.selectedLocationId && 
-      props.localState.selectedOperatorId &&
+      props.localState.selectedFarmId &&
       props.localState.kilometers && 
-      props.localState.line &&
-      props.localState.block)
+      props.localState.selectedOperatorId)
   setDisableButtton(props.localState.submitButtonDisabled = true) 
   else {
     setDisableButtton(props.localState.submitButtonDisabled = false) }
@@ -56,13 +54,13 @@ const MachineRegistrationInput = (props) => {
 
             {props.localState.selectedAttachedMachineryId ?
               <SelectField
-              id={props.localState.selectFields[2].id}
+              id={props.localState.selectFields[5].id}
               onChange={props.selectFieldsHandler}
-              value={props.localState.selectedLocationId}
+              value={props.localState.selectedFarmId}
              /> : null
             }
 
-            {props.localState.selectedLocationId ?
+            {props.localState.selectedFarmId ?
               <SelectField
               id={props.localState.selectFields[3].id}
               onChange={props.selectFieldsHandler}
@@ -76,14 +74,14 @@ const MachineRegistrationInput = (props) => {
                   id={props.localState.inputFields[0].id}
                   onChange={props.inputFieldsHandler}
                   name={[props.localState.inputFields][0][0].name}/>
-                <InputField 
+                {/* <InputField 
                   id={props.localState.inputFields[3].id}
                   onChange={props.inputFieldsHandler}
                   name={[props.localState.inputFields][0][3].name}/> 
                 <InputField 
                   id={props.localState.inputFields[4].id}
                   onChange={props.inputFieldsHandler}
-                  name={[props.localState.inputFields][0][4].name}/>
+                  name={[props.localState.inputFields][0][4].name}/> */}
               </div>: null
             } 
            

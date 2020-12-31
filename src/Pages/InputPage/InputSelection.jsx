@@ -39,13 +39,14 @@ class InputSelection extends Component {
     selectedLocationId: undefined,
     selectedProductId: undefined,
     selectedOperatorId: undefined,
+    selectedFarmId: undefined,
 
     inputFields: [
-      {id: 1, name: "Kilometers"},
+      {id: 1, name: "Kilometers on Machine"},
       {id: 2, name: "Liters"},
       {id: 3, name: "Tank #"},
-      {id: 4, name: "Line"},
-      {id: 5, name: "Block"},
+      // {id: 4, name: "Line"},
+      // {id: 5, name: "Block"},
     ],
     
     selectFields: [
@@ -54,6 +55,7 @@ class InputSelection extends Component {
       {id: 3, name: "Location"},
       {id: 4, name: "Product"},
       {id: 5, name: "Operator"},
+      {id: 6, name: "Farm"},
     ]
   }
   
@@ -109,6 +111,11 @@ class InputSelection extends Component {
         selectedOperatorId: value,
         selectedOperatorName: fetchOperatorsByName(value)})
     }
+    else if (id === this.state.selectFields[5].id) {
+      this.setState({
+        selectedFarmId: value,
+        selectedFarmName: fetchLocationByName(value)})
+    }
   };
   
    inputFieldsHandler = (value, id) => {
@@ -153,7 +160,7 @@ class InputSelection extends Component {
          
       const checkForActivity = this.props.stateProps.index1 ? fuelConsumptionInputObject(this.state) 
       : this.props.stateProps.index2 ? machineRegistrationInputObject(this.state) : null 
-      console.log(this.props.stateProps.tokenId, this.props.stateProps.email)
+      // console.log(this.props.stateProps.tokenId, this.props.stateProps.email)
       const queryParams = '?auth=' + this.props.stateProps.tokenId + '&auth.token.email=' + this.props.stateProps.email;
     
       const URLPostSource = this.props.stateProps.index1 ? ('/fuelConsumptionInput.json' + queryParams) 

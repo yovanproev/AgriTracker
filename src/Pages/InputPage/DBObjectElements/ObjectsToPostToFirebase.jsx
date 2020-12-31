@@ -4,6 +4,7 @@ export const fuelConsumptionInputObject = (props) => {
   let object = {
   id: props.lastId,
   machine: props.selectedMachineName,
+  attachedMachinery: props.selectedAttachedMachineryName,
   liters: props.liters,
   kilometers: props.kilometers,
   tankNumber: props.tankNumber,
@@ -20,11 +21,9 @@ export const fuelConsumptionInputObject = (props) => {
   id: props.lastId,
   machine: props.selectedMachineName,
   attachedMachinery: props.selectedAttachedMachineryName,
-  location: props.selectedLocationName,
+  farmLocation: props.selectedFarmName,
   product: props.selectedProductName,
   kilometers: props.kilometers,
-  line: props.line,
-  block: props.block,
   operator: props.selectedOperatorName,
   date: getDate(),
   timeOfEntry: getTime() 
