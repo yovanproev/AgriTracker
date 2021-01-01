@@ -3,7 +3,7 @@ export const getDate = () => {
  const currentDay = currentDate.getDate()
  const currentMonth = currentDate.getMonth()+1
  const currentYear = currentDate.getFullYear()
-   return currentDay + "/" + currentMonth + "/" + currentYear
+   return addZero(currentDay) + "-" + addZero(currentMonth) + "-" + currentYear
 }
 
 export const getTime = () => {

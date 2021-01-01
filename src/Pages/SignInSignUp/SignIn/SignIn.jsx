@@ -30,6 +30,7 @@ class SignIn extends Component {
 
     axios.post(config, authData)
     .then(response => {
+      // console.log(response)
       const tokenId = response.data.idToken
       const email = response.data.email
       document.cookie = `tokenId=${tokenId}`

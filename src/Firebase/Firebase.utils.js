@@ -18,6 +18,7 @@ const devConfig = {
 const prodConfig = {
   apiKey: "AIzaSyCCt9BDd8SSmYYGEQARwJRi9TNYZkAy9Y8",
   authDomain: "dfp-app-registrations.firebaseapp.com",
+  databaseURL: "https://dfp-app-registrations-default-rtdb.firebaseio.com",
   projectId: "dfp-app-registrations",
   storageBucket: "dfp-app-registrations.appspot.com",
   messagingSenderId: "793084880715",
