@@ -1,21 +1,14 @@
-export const getDate = () => {
+export const getDateAndTime = () => {
  const currentDate = new Date()
  const currentDay = currentDate.getDate()
  const currentMonth = currentDate.getMonth()+1
  const currentYear = currentDate.getFullYear()
-   return addZero(currentDay) + "-" + addZero(currentMonth) + "-" + currentYear
+ const currentHour = currentDate.getHours()
+  const currentMinutes = currentDate.getMinutes()
+   return addZero(currentDay) + "-" + addZero(currentMonth) + "-" + currentYear + " " + addZero(currentHour) + ":" + addZero(currentMinutes)
 }
 
-export const getTime = () => {
-  const currentDate = new Date()
-  const currentHour = currentDate.getHours()
-  const currentMinutes = currentDate.getMinutes()
-  return addZero(currentHour) + ":" + addZero(currentMinutes)
- }
- 
- export default getTime;
-
-function addZero(i) {
+export function addZero(i) {
   if (i < 10) {
     i = "0" + i;
   }

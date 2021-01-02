@@ -9,9 +9,9 @@
   margin: auto;
   text-align: center;
   width: 100px;
-  /* margin-top: 20px; */
 }
 
 .full-div {
-  margin-top: -20px;
+  margin: auto 20px;
+  background-color: white;
 }

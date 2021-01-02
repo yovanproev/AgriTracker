@@ -18,6 +18,7 @@ import MachineRegistrationInput from "./InputForms/MachineRegistrationInputForm"
 import { getLastId } from "../../Firebase/FetchLastIdRealtimeDB";
 import { fuelConsumptionInputObject, machineRegistrationInputObject } from "./DBObjectElements/ObjectsToPostToFirebase";
 import Modal from "../../Components/Modal/Modal"
+import { addZero } from "./DBObjectElements/GetDateTime";
 
 class InputSelection extends Component { 
   state = {
@@ -29,10 +30,8 @@ class InputSelection extends Component {
     kilometers: undefined,
     liters: undefined,
     tankNumber: undefined,
-    line: undefined,
-    block: undefined,
-    date: undefined,
     timeOfEntry: undefined,
+    date: new Date(),
 
     selectedMachineId: undefined,
     selectedAttachedMachineryId: undefined,
@@ -135,16 +134,16 @@ class InputSelection extends Component {
         tankNumber: oneDecimalOnly
       })
     }
-    else if (id === this.state.inputFields[3].id) {
-      this.setState({
-        line: oneDecimalOnly
-      })
-    }
-    else if (id === this.state.inputFields[4].id) {
-      this.setState({
-        block: oneDecimalOnly
-      })
-    }
+  }
+
+  dateHandler = (value) => {
+    const startingDay = value !== null ? addZero(value.getDate()) : null
+    const startingMonth = value !== null ? addZero(value.getMonth()+1) : null
+    const startingYear = value !== null ? value.getFullYear() :null
+    const final = startingDay + "-" + startingMonth + "-" + startingYear 
+    this.setState({
+      date: final
+    })
   }
 
   formSubmitHandler = (event) => {
@@ -179,9 +178,7 @@ class InputSelection extends Component {
           kilometers: undefined,
           liters: undefined,
           tankNumber:undefined,
-          line: undefined,
-          block: undefined,
-          date: undefined,
+          date: new Date(),
           timeOfEntry: undefined,
           })})
        .catch(error => 
@@ -197,9 +194,7 @@ class InputSelection extends Component {
           kilometers: undefined,
           liters: undefined,
           tankNumber:undefined,
-          line: undefined,
-          block: undefined,
-          date: undefined,
+          date: new Date(),
           timeOfEntry: undefined,
           error: true,
         })})
@@ -220,6 +215,7 @@ class InputSelection extends Component {
       {errorModal}
       {this.props.stateProps.index1 === true ?
       <FuelConsumptionInput 
+      dateHandler={this.dateHandler}
       updateId={this.updateId}
       onClick={this.props.onClick}
       stateProps={this.props.stateProps}
@@ -230,6 +226,7 @@ class InputSelection extends Component {
 
       {this.props.stateProps.index2 === true ?
       <MachineRegistrationInput 
+      dateHandler={this.dateHandler}
       updateId={this.updateId}
       onClick={this.props.onClick}
       stateProps={this.props.stateProps}

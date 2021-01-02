@@ -1,17 +1,30 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import DatePicker from 'react-date-picker';
 
-const Calendar = ({ onClick}) => {
-  const [value, onChange] = useState(new Date());
-    
+const Calendar = ({ stateProps, onChange, }) => {
+  const [value, updateValue] = useState(new Date());
+  const [endValue, updateEndValue] = useState('');
+  
+  useEffect(() => {
+    onChange(value, endValue)
+  }, [endValue, onChange, value])
+  
+
   return (
     <div>
       <DatePicker 
-      format={"dd-MM-y"}
-        onChange={onChange}
-        onClick={() => onClick(value)}
+        showLeadingZeros={true}
+        format={"dd-MM-y"}
+        onChange={updateValue}
         value={value}
-        />
+      />
+      {stateProps.outputTable ?
+        <DatePicker 
+        showLeadingZeros={true}
+        format={"dd-MM-y"}
+        onChange={updateEndValue}
+        value={endValue}
+       /> : null}
     </div>
   );
 }

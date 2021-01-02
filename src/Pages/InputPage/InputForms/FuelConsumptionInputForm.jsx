@@ -11,6 +11,7 @@ import SubmitButton from "../../../Components/SubmitButton/SubmitButton"
 
 import Modal from "../../../Components/Modal/Modal"
 import GrapeSpinner1 from "../../../Components/Spinners/GrapeSpinner"
+import Calendar from "../../../Components/Calendar/Calendar";
 
 const FuelConsumptionInput = (props) => {
  const [ , setDisableButtton ] = useState(false)
@@ -22,7 +23,8 @@ const FuelConsumptionInput = (props) => {
       props.localState.selectedOperatorId &&
       props.localState.kilometers && 
       props.localState.liters &&
-      props.localState.tankNumber)
+      props.localState.tankNumber && 
+      props.localState.date !== "null-null-null")
   setDisableButtton(props.localState.submitButtonDisabled = true) 
   else {
     setDisableButtton(props.localState.submitButtonDisabled = false) }
@@ -30,7 +32,7 @@ const FuelConsumptionInput = (props) => {
 
   const onButtonClick = () => {props.updateId()} 
  
-  // const fuelConsumption = this.state.inputFields.slice(0, 3).map((item) => item)
+   // const fuelConsumption = this.state.inputFields.slice(0, 3).map((item) => item)
   // const machineRegistration = this.state.inputFields.slice(0, 3).map((item) => item)
   // console.log([this.state.inputFields][0][0].value)
   // console.log(fuelConsumption)
@@ -102,6 +104,16 @@ const FuelConsumptionInput = (props) => {
               value={props.localState.selectedOperatorId}
              /> : null
             }
+
+            <div style={{marginTop: "20px"}}>  
+            {props.localState.selectedOperatorId ?
+              <Calendar
+              stateProps={props.stateProps}
+              onChange={props.dateHandler}
+              value={props.localState.date}
+            /> : null
+            }
+            </div>
 
              {props.localState.submit ?
               <SubmitButton 

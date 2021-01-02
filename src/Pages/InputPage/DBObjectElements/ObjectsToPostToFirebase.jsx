@@ -1,4 +1,4 @@
-import { getDate, getTime } from "./GetDateTime";
+import { getDateAndTime } from "./GetDateTime";
 
 export const fuelConsumptionInputObject = (props) => {
   let object = {
@@ -10,8 +10,8 @@ export const fuelConsumptionInputObject = (props) => {
   tankNumber: props.tankNumber,
   location: props.selectedLocationName,
   operator: props.selectedOperatorName,
-  date: getDate(),
-  timeOfEntry: getTime() 
+  date: props.date,
+  timeOfEntry: getDateAndTime()
   }
   return object
 };
@@ -25,8 +25,8 @@ export const fuelConsumptionInputObject = (props) => {
   product: props.selectedProductName,
   kilometers: props.kilometers,
   operator: props.selectedOperatorName,
-  date: getDate(),
-  timeOfEntry: getTime() 
+  date: props.date,
+  timeOfEntry: getDateAndTime()
   }
   return object
 };

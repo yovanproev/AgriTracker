@@ -11,6 +11,7 @@ import SubmitButton from "../../..//Components/SubmitButton/SubmitButton"
 
 import Modal from "../../..//Components/Modal/Modal"
 import GrapeSpinner1 from "../../..//Components/Spinners/GrapeSpinner"
+import Calendar from "../../../Components/Calendar/Calendar";
 
 const MachineRegistrationInput = (props) => {
 
@@ -21,7 +22,8 @@ const MachineRegistrationInput = (props) => {
       props.localState.selectedAttachedMachineryId && 
       props.localState.selectedFarmId &&
       props.localState.kilometers && 
-      props.localState.selectedOperatorId)
+      props.localState.selectedOperatorId &&
+      props.localState.date !== "null-null-null")
   setDisableButtton(props.localState.submitButtonDisabled = true) 
   else {
     setDisableButtton(props.localState.submitButtonDisabled = false) }
@@ -92,6 +94,16 @@ const MachineRegistrationInput = (props) => {
               value={props.localState.selectedOperatorId}
              /> : null
             }
+
+            <div style={{marginTop: "20px"}}>  
+            {props.localState.selectedOperatorId ?
+              <Calendar
+              stateProps={props.stateProps}
+              onChange={props.dateHandler}
+              value={props.localState.date}
+            /> : null
+            }
+            </div>
 
              {props.localState.submit ?
               <SubmitButton 
