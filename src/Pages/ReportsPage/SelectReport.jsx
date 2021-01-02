@@ -65,9 +65,9 @@ const SelectReport = (props) => {
     return (
    <div className="table-reports">
      {props.stateProps.index1 || 
-      props.stateProps.index2 ? errorModal : null}
-      {props.stateProps.index3 || 
-      props.stateProps.index4 ? moduleInProgress :
+      props.stateProps.index2 || 
+      props.stateProps.index3 ? errorModal : null}
+      {props.stateProps.index4 ? moduleInProgress :
       < TableReport
         blockNextButton={blockNextButton}
         counter={counter}

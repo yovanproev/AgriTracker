@@ -3,20 +3,18 @@ import React, { Component } from "react";
 import axiosLocal from "../../AxiosInput";
 
 import { 
-  fetchMachineByName, 
-  fetchLocationByName, 
-  fetchOperatorsByName, 
-  fetchProductsByName, 
-  fetchAttachedMachineryByName,
-  fetchMachineByImage,
-  fetchAttachedMachineryByImage } from "../../LocalData/InputFormsData";
+  fetchMachineByName, fetchLocationByName, 
+  fetchOperatorsByName, fetchProductsByName, 
+  fetchAttachedMachineryByName, fetchMachineByImage,
+  fetchAttachedMachineryByImage, fetchMaintenanceByName,
+  fetchJobDescriptionsByName, fetchExternalTechnicianByName  } from "../../LocalData/InputFormsData";
 
 import FuelConsumptionInput from "./InputForms/FuelConsumptionInputForm";
-// import IrrigationInput from "./InputForms/IrrigationInputForm";
 import MachineRegistrationInput from "./InputForms/MachineRegistrationInputForm";
+import MaintenanceAndRepairInputForm from "./InputForms/MaintenanceAndRepairInputForm";
 // import WorkingHoursInput from "./InputForms/WorkingHoursInputForm";
 import { getLastId } from "../../Firebase/FetchLastIdRealtimeDB";
-import { fuelConsumptionInputObject, machineRegistrationInputObject } from "./DBObjectElements/ObjectsToPostToFirebase";
+import { fuelConsumptionInputObject, machineRegistrationInputObject, maintenanceAndRepairsInputObject } from "./DBObjectElements/ObjectsToPostToFirebase";
 import Modal from "../../Components/Modal/Modal"
 import { addZero } from "./DBObjectElements/GetDateTime";
 
@@ -44,21 +42,27 @@ class InputSelection extends Component {
       {id: 1, name: "Kilometers on Machine"},
       {id: 2, name: "Liters"},
       {id: 3, name: "Tank #"},
+      {id: 4, name: "Worked Hours"},
+      {id: 5, name: "Explain the acitivity"},
+      {id: 6, name: "Man hours"},
    ],
     
     selectFields: [
       {id: 1, name: "Machine"},
-      {id: 2, name: "Attached machinery"},
+      {id: 2, name: "Attached Machinery"},
       {id: 3, name: "Location"},
       {id: 4, name: "Product"},
       {id: 5, name: "Operator"},
       {id: 6, name: "Farm"},
+      {id: 7, name: "Job Description"},
+      {id: 8, name: "Maintenance or Repairs"},
+      {id: 9, name: "External Technician"},
     ]
   }
   
   UNSAFE_componentWillMount () {
   const fullData = getLastId(this.props)
-  if (this.props.stateProps.index1 || this.props.stateProps.index2) {  
+  if (this.props.stateProps.index1 || this.props.stateProps.index2 || this.props.stateProps.index3) {  
      fullData.then(res => { 
        this.setState({
           lastId: res === null ? parseInt(0) : parseInt(Object.values(res).slice(-1)[0].id)  
@@ -113,6 +117,21 @@ class InputSelection extends Component {
         selectedFarmId: value,
         selectedFarmName: fetchLocationByName(value)})
     }
+    else if (id === this.state.selectFields[6].id) {
+      this.setState({
+        selectedJobDescriptionId: value,
+        selectedJobName: fetchJobDescriptionsByName(value)})
+    }
+    else if (id === this.state.selectFields[7].id) {
+      this.setState({
+        selectedMaintenanceId: value,
+        selectedMaintenanceName: fetchMaintenanceByName(value)})
+    }
+    else if (id === this.state.selectFields[8].id) {
+      this.setState({
+        selectedExternalTechnicianId: value,
+        selectedExternalTechinicianName: fetchExternalTechnicianByName(value)})
+    }
   };
   
    inputFieldsHandler = (value, id) => {
@@ -132,6 +151,21 @@ class InputSelection extends Component {
     else if (id === this.state.inputFields[2].id) {
       this.setState({
         tankNumber: oneDecimalOnly
+      })
+    }
+    else if (id === this.state.inputFields[3].id) {
+      this.setState({
+        workedHours: oneDecimalOnly
+      })
+    }
+    else if (id === this.state.inputFields[4].id) {
+      this.setState({
+        explainTheActivity: value
+      })
+    }
+    else if (id === this.state.inputFields[5].id) {
+      this.setState({
+        manHours: oneDecimalOnly
       })
     }
   }
@@ -156,12 +190,14 @@ class InputSelection extends Component {
       }))
          
       const checkForActivity = this.props.stateProps.index1 ? fuelConsumptionInputObject(this.state) 
-      : this.props.stateProps.index2 ? machineRegistrationInputObject(this.state) : null 
-      // console.log(this.props.stateProps.tokenId, this.props.stateProps.email)
+      : this.props.stateProps.index2 ? machineRegistrationInputObject(this.state) 
+      : this.props.stateProps.index3 ? maintenanceAndRepairsInputObject(this.state) : null 
+      
       const queryParams = '?auth=' + this.props.stateProps.tokenId + '&auth.token.email=' + this.props.stateProps.email;
     
       const URLPostSource = this.props.stateProps.index1 ? ('/fuelConsumptionInput.json' + queryParams) 
-      : this.props.stateProps.index2 ? ('/machineRegistrationInput.json' + queryParams) : null 
+      : this.props.stateProps.index2 ? ('/machineRegistrationInput.json' + queryParams)
+      : this.props.stateProps.index3 ? ('/maintenanceAndRepairsInput.json' + queryParams) : null 
       
       if (!isNaN(this.state.lastId)) {
       axiosLocal.post(URLPostSource, checkForActivity)
@@ -178,8 +214,13 @@ class InputSelection extends Component {
           kilometers: undefined,
           liters: undefined,
           tankNumber:undefined,
-          date: new Date(),
           timeOfEntry: undefined,
+          explainTheActivity: undefined,
+          workedHours: undefined,
+          manHours: undefined,
+          selectedJobDescriptionId: undefined,
+          selectedMaintenanceId: undefined,
+          selectedExternalTechnicianId: undefined
           })})
        .catch(error => 
         {this.setState({
@@ -194,9 +235,14 @@ class InputSelection extends Component {
           kilometers: undefined,
           liters: undefined,
           tankNumber:undefined,
-          date: new Date(),
           timeOfEntry: undefined,
           error: true,
+          explainTheActivity: undefined,
+          workedHours: undefined,
+          manHours: undefined,
+          selectedJobDescriptionId: undefined,
+          selectedMaintenanceId: undefined,
+          selectedExternalTechnicianId: undefined
         })})
       } else {
         throw new Error("last enrty ID couldn't be retrieved from the server, please refresh the page")
@@ -235,17 +281,16 @@ class InputSelection extends Component {
       inputFieldsHandler={this.inputFieldsHandler} 
       formHandler={this.formSubmitHandler} /> : null}
       
-      {this.props.stateProps.index3 === true ? 
-      moduleInProgress 
-      // <IrrigationInput 
-      // updateId={this.updateId}
-      // onClick={this.props.onClick}
-      // stateProps={this.props.stateProps}
-      // localState={this.state}
-      // selectFieldsHandler={this.selectFieldsHandler}
-      // inputFieldsHandler={this.inputFieldsHandler} 
-      // formHandler={this.formSubmitHandler} /> 
-      : null}
+      {this.props.stateProps.index3 === true ?
+      <MaintenanceAndRepairInputForm
+      dateHandler={this.dateHandler}
+      updateId={this.updateId}
+      onClick={this.props.onClick}
+      stateProps={this.props.stateProps}
+      localState={this.state}
+      selectFieldsHandler={this.selectFieldsHandler}
+      inputFieldsHandler={this.inputFieldsHandler} 
+      formHandler={this.formSubmitHandler} /> : null}
 
       {this.props.stateProps.index4 === true ?
        moduleInProgress 

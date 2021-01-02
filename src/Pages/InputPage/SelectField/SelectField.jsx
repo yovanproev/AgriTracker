@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from "react"
 
 import { 
-  fetchAllMachines, 
-  fetchAllAttachedMachinery, 
-  fetchAllLocations, 
-  fetchAllProducts, 
-  fetchAllOperators } from "../../../LocalData/InputFormsData";
+  fetchAllMachines, fetchAllAttachedMachinery, 
+  fetchAllLocations, fetchAllProducts, 
+  fetchAllOperators, fetchAllExternalTechnicians,
+  fetchAlljobDescriptions, fetchAllMaintenance } from "../../../LocalData/InputFormsData";
 import "./SelectField.css"
 
 const SelectField = ({id, onChange, value, machineImage}) => {
@@ -17,17 +16,23 @@ const SelectField = ({id, onChange, value, machineImage}) => {
     id === 3 ? fetchAllLocations() :
     id === 4 ? fetchAllProducts() :
     id === 5 ? fetchAllOperators() : 
-    id === 6 ? fetchAllLocations() : "Error"
+    id === 6 ? fetchAllLocations() : 
+    id === 7 ? fetchAlljobDescriptions() : 
+    id === 8 ? fetchAllMaintenance() : 
+    id === 9 ? fetchAllExternalTechnicians() : "Error"
    updateFetchedData(fetching)
  }, [id])
 
  
   const defaultValue = id === 1 ? "Select a machine" : 
   id === 2 ? "Select attached machinery" : 
-  id === 3 ? "Select tank location" :
+  id === 3 ? "Select location" :
   id === 4 ? "Select a product" :
   id === 5 ? "Select an operator" : 
-  id === 6 ? "Select a farm" : "Error"
+  id === 6 ? "Select a farm" : 
+  id === 7 ? "Select a job description" :
+  id === 8 ? "Select activity" :
+  id === 9 ? "Select an External Technician" : "Error"
  
    return (
       <div >

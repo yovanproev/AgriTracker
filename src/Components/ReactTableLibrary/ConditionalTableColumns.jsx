@@ -2,7 +2,8 @@ import { SelectColumnFilter } from './TableFilters';
 
 export const conditionalTableColumns = (props) => {
  return props.stateProps.index1 ? fuelConsumptionColumns : 
-  props.stateProps.index2 ? machineRegitrationColumns : null;
+  props.stateProps.index2 ? machineRegitrationColumns : 
+  props.stateProps.index3 ? maintenanceAndRepairsColumns : null;
 }
 
 const fuelConsumptionColumns = [
@@ -106,6 +107,78 @@ const machineRegitrationColumns = [
     disableSortBy: true,
     Filter: SelectColumnFilter,
     filter: 'equals',
+  },
+  {
+    Header: 'Date',
+    accessor: "date",
+    disableSortBy: true,
+    Filter: SelectColumnFilter,
+    filter: 'equals',
+  },
+  {
+    Header: 'Time of entry',
+    accessor: 'timeOfEntry',
+  },
+]
+
+const maintenanceAndRepairsColumns = [
+  {
+    Header: '#',
+    accessor: "id",
+  },
+  {
+    Header: 'Machine',
+    accessor: "machine",
+    disableSortBy: true,
+    Filter: SelectColumnFilter,
+    filter: 'equals',
+  }, 
+  { 
+    Header: 'Attached Machinery',
+    accessor: "attachedMachinery",
+    disableSortBy: true,
+    Filter: SelectColumnFilter,
+    filter: 'equals',
+    },
+    {
+    Header: 'Worked hours',
+    accessor: 'workedHours',
+  },
+  {
+    Header: 'Location',
+    accessor: "location",
+    disableSortBy: true,
+    Filter: SelectColumnFilter,
+    filter: 'equals',
+  },
+  {
+    Header: 'External Technician',
+    accessor: "externalTechnician",
+    disableSortBy: true,
+    Filter: SelectColumnFilter,
+    filter: 'equals',
+  },
+  {
+    Header: 'Maintenance/Repairs',
+    accessor: "maintenanceOrRerairs",
+    disableSortBy: true,
+    Filter: SelectColumnFilter,
+    filter: 'equals',
+  },
+  {
+    Header: 'Job Description',
+    accessor: "jobDescription",
+    disableSortBy: true,
+    Filter: SelectColumnFilter,
+    filter: 'equals',
+  },
+  {
+    Header: 'Man hours',
+    accessor: 'manHours',
+  },
+  {
+    Header: 'Acitivity Explained',
+    accessor: 'explainTheActivity',
   },
   {
     Header: 'Date',

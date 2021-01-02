@@ -1,4 +1,4 @@
-import { firebase_db_fuelConsump, firebase_db_machineReg } from "./Firebase.utils";
+import { firebase_db_fuelConsump, firebase_db_machineReg, firebase_db_maintenance } from "./Firebase.utils";
 
 export const getPaginatedTableData =  (count, limit, props) => {
   return new Promise((resolve)=>{
@@ -14,6 +14,14 @@ export const getPaginatedTableData =  (count, limit, props) => {
    }
    else if (props.stateProps.index2) {
     firebase_db_machineReg.orderByChild("id")
+      .startAt(count).limitToLast(limit).once('value').then((snapshot)=>{
+        resolve(snapshot.val())
+      }).catch(err => {
+        console.log(err)
+      })
+   }
+   else if (props.stateProps.index3) {
+    firebase_db_maintenance.orderByChild("id")
       .startAt(count).limitToLast(limit).once('value').then((snapshot)=>{
         resolve(snapshot.val())
       }).catch(err => {

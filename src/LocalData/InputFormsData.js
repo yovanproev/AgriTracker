@@ -3,6 +3,9 @@ import locationDB from "./LocationDB.json"
 import { attachedMachineryDB } from "./AttachedMachineryDB"
 import productsDB from "./ProductsDB.json"
 import operatorsDB from "./OperatorsDB.json"
+import externalTechnicianDB from "./ExternalTechnicianDB.json"
+import jobDescriptionDB from "./JobDescriptionDB.json"
+import maintenanceDB from "./MaintenanceDB.json"
 import rolesDB from "./Roles.json"
 
 export const fetchAllMachines = () => {
@@ -94,6 +97,45 @@ export const fetchAllRoles = () => {
 
 export const fetchRolesByName = rolesId => {
   const data = rolesDB.data.filter(roles => roles.id === parseInt(rolesId));
+  if (data.length > 0) {
+    return data[0].name;
+  } else {
+    return data;
+  }
+};
+
+export const fetchAllMaintenance = () => {
+  return maintenanceDB.data;
+}
+
+export const fetchMaintenanceByName = maintenanceId => {
+  const data = maintenanceDB.data.filter(maintenance => maintenance.id === parseInt(maintenanceId));
+  if (data.length > 0) {
+    return data[0].name;
+  } else {
+    return data;
+  }
+};
+
+export const fetchAllExternalTechnicians = () => {
+  return externalTechnicianDB.data;
+}
+
+export const fetchExternalTechnicianByName = techniciansId => {
+  const data = externalTechnicianDB.data.filter(techicians => techicians.id === parseInt(techniciansId));
+  if (data.length > 0) {
+    return data[0].name;
+  } else {
+    return data;
+  }
+};
+
+export const fetchAlljobDescriptions = () => {
+  return jobDescriptionDB.data;
+}
+
+export const fetchJobDescriptionsByName = jobDescriptions => {
+  const data = jobDescriptionDB.data.filter(jobDescription => jobDescription.id === parseInt(jobDescriptions));
   if (data.length > 0) {
     return data[0].name;
   } else {

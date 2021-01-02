@@ -1,0 +1,20 @@
+{
+  "data" : [
+      {
+          "id" : 1,
+          "name": "Technician 1"
+      },
+      {
+          "id": 2,
+          "name": "Technician 2"
+      },
+      {
+          "id": 3,
+          "name": "Technician 3"
+      },
+      {
+          "id": 4,
+          "name": "Technician 4"
+      }
+  ]
+}
