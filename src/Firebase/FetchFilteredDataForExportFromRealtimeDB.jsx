@@ -1,4 +1,5 @@
-import { firebase_db_fuelConsump, firebase_db_machineReg, firebase_db_maintenance } from "./Firebase.utils";
+import { firebase_db_fuelConsump, firebase_db_machineReg, 
+         firebase_db_maintenance, firebase_db_workHours} from "./Firebase.utils";
 
 export const getFilteredDataForExport = (startingDate, endDate, props) => {
   return new Promise((resolve)=>{
@@ -23,6 +24,15 @@ export const getFilteredDataForExport = (startingDate, endDate, props) => {
    }
    else if (props.stateProps.index3) {
     firebase_db_maintenance.orderByChild("date")
+      .startAt(startingDate).once('value').then((snapshot)=>{
+        const initialArray = Object.values(snapshot.val())
+        resolve(getFilteredArray(endDate, initialArray))
+      }).catch(err => {
+        console.log(err)
+      })
+   }
+   else if (props.stateProps.index4) {
+    firebase_db_workHours.orderByChild("date")
       .startAt(startingDate).once('value').then((snapshot)=>{
         const initialArray = Object.values(snapshot.val())
         resolve(getFilteredArray(endDate, initialArray))

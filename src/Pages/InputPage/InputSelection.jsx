@@ -7,14 +7,17 @@ import {
   fetchOperatorsByName, fetchProductsByName, 
   fetchAttachedMachineryByName, fetchMachineByImage,
   fetchAttachedMachineryByImage, fetchMaintenanceByName,
-  fetchJobDescriptionsByName, fetchExternalTechnicianByName  } from "../../LocalData/InputFormsData";
+  fetchJobDescriptionsByName, fetchExternalTechnicianByName,
+  fetchJobDescriptionsEmployeesByName, fetchProjectsByName,
+  fetchTypeOfHoursByName } from "../../LocalData/InputFormsData";
 
 import FuelConsumptionInput from "./InputForms/FuelConsumptionInputForm";
 import MachineRegistrationInput from "./InputForms/MachineRegistrationInputForm";
 import MaintenanceAndRepairInputForm from "./InputForms/MaintenanceAndRepairInputForm";
-// import WorkingHoursInput from "./InputForms/WorkingHoursInputForm";
+import WorkingHoursInputForm from "./InputForms/WorkingHoursInputForm";
 import { getLastId } from "../../Firebase/FetchLastIdRealtimeDB";
-import { fuelConsumptionInputObject, machineRegistrationInputObject, maintenanceAndRepairsInputObject } from "./DBObjectElements/ObjectsToPostToFirebase";
+import { fuelConsumptionInputObject, machineRegistrationInputObject, 
+         maintenanceAndRepairsInputObject, workingHoursInputObject } from "./DBObjectElements/ObjectsToPostToFirebase";
 import Modal from "../../Components/Modal/Modal"
 import { addZero } from "./DBObjectElements/GetDateTime";
 
@@ -57,12 +60,15 @@ class InputSelection extends Component {
       {id: 7, name: "Job Description"},
       {id: 8, name: "Maintenance or Repairs"},
       {id: 9, name: "External Technician"},
+      {id: 10, name: "Type of Hours"},
+      {id: 11, name: "Project"},
+      {id: 12, name: "Multiple Selection Job Decription"},
     ]
   }
   
   UNSAFE_componentWillMount () {
   const fullData = getLastId(this.props)
-  if (this.props.stateProps.index1 || this.props.stateProps.index2 || this.props.stateProps.index3) {  
+  // if (this.props.stateProps.index1 || this.props.stateProps.index2 || this.props.stateProps.index3) {  
      fullData.then(res => { 
        this.setState({
           lastId: res === null ? parseInt(0) : parseInt(Object.values(res).slice(-1)[0].id)  
@@ -70,7 +76,7 @@ class InputSelection extends Component {
       }).catch(err => {
         throw new Error(err)
       })
-   }
+  //  }
   }
       
   shouldComponentUpdate (nextProps, ) {
@@ -85,6 +91,7 @@ class InputSelection extends Component {
   }
 
   selectFieldsHandler = (value, id) => {
+    // console.log(id)
     if (id === this.state.selectFields[0].id) {
        this.setState( {
         selectedMachineId: value,
@@ -131,6 +138,21 @@ class InputSelection extends Component {
       this.setState({
         selectedExternalTechnicianId: value,
         selectedExternalTechinicianName: fetchExternalTechnicianByName(value)})
+    }
+    else if (id === this.state.selectFields[9].id) {
+      this.setState({
+        selectedTypeOfHoursId: value,
+        selectedTypeOfHoursName: fetchTypeOfHoursByName(value)})
+    }
+    else if (id === this.state.selectFields[10].id) {
+      this.setState({
+        selectedProjectId: value,
+        selectedProjectName: fetchProjectsByName(value)})
+    }
+    else  {
+      this.setState({
+        selectedMSJobDescriptionId: value,
+        selectedMSJobDescriptionName: fetchJobDescriptionsEmployeesByName(value)})
     }
   };
   
@@ -191,13 +213,15 @@ class InputSelection extends Component {
          
       const checkForActivity = this.props.stateProps.index1 ? fuelConsumptionInputObject(this.state) 
       : this.props.stateProps.index2 ? machineRegistrationInputObject(this.state) 
-      : this.props.stateProps.index3 ? maintenanceAndRepairsInputObject(this.state) : null 
+      : this.props.stateProps.index3 ? maintenanceAndRepairsInputObject(this.state) 
+      : this.props.stateProps.index4 ? workingHoursInputObject(this.state): null 
       
       const queryParams = '?auth=' + this.props.stateProps.tokenId + '&auth.token.email=' + this.props.stateProps.email;
     
       const URLPostSource = this.props.stateProps.index1 ? ('/fuelConsumptionInput.json' + queryParams) 
       : this.props.stateProps.index2 ? ('/machineRegistrationInput.json' + queryParams)
-      : this.props.stateProps.index3 ? ('/maintenanceAndRepairsInput.json' + queryParams) : null 
+      : this.props.stateProps.index3 ? ('/maintenanceAndRepairsInput.json' + queryParams) 
+      : this.props.stateProps.index4 ? ('/workingHoursInput.json' + queryParams) : null 
       
       if (!isNaN(this.state.lastId)) {
       axiosLocal.post(URLPostSource, checkForActivity)
@@ -220,7 +244,10 @@ class InputSelection extends Component {
           manHours: undefined,
           selectedJobDescriptionId: undefined,
           selectedMaintenanceId: undefined,
-          selectedExternalTechnicianId: undefined
+          selectedExternalTechnicianId: undefined,
+          selectedTypeOfHoursId: undefined,
+          selectedProjectId: undefined,
+          selectedMSJobDescriptionId: undefined
           })})
        .catch(error => 
         {this.setState({
@@ -242,7 +269,10 @@ class InputSelection extends Component {
           manHours: undefined,
           selectedJobDescriptionId: undefined,
           selectedMaintenanceId: undefined,
-          selectedExternalTechnicianId: undefined
+          selectedExternalTechnicianId: undefined,
+          selectedTypeOfHoursId: undefined,
+          selectedProjectId: undefined,
+          selectedMSJobDescriptionId: undefined
         })})
       } else {
         throw new Error("last enrty ID couldn't be retrieved from the server, please refresh the page")
@@ -251,11 +281,11 @@ class InputSelection extends Component {
     }
 
   render () {
-    const moduleInProgress = <Modal show={this.props.stateProps.hideModal} 
-    hide={this.props.modal}>Module Still In Progress</Modal> 
+    // const moduleInProgress = <Modal show={this.props.stateProps.hideModal} 
+    // hide={this.props.modal}>Module Still In Progress</Modal> 
     const errorModal = <Modal show={this.state.error} 
     hide={this.props.modal}>Network error while posting data to Database, your entry is not recorded.</Modal> 
-    
+       
       return (
     <div>
       {errorModal}
@@ -293,16 +323,16 @@ class InputSelection extends Component {
       formHandler={this.formSubmitHandler} /> : null}
 
       {this.props.stateProps.index4 === true ?
-       moduleInProgress 
-      // <WorkingHoursInput 
-      // updateId={this.updateId}
-      // onClick={this.props.onClick}
-      // stateProps={this.props.stateProps}
-      // localState={this.state}
-      // selectFieldsHandler={this.selectFieldsHandler}
-      // inputFieldsHandler={this.inputFieldsHandler} 
-      // formHandler={this.formSubmitHandler} /> 
-      : null}
+      //  moduleInProgress 
+      <WorkingHoursInputForm 
+      dateHandler={this.dateHandler}
+      updateId={this.updateId}
+      onClick={this.props.onClick}
+      stateProps={this.props.stateProps}
+      localState={this.state}
+      selectFieldsHandler={this.selectFieldsHandler}
+      inputFieldsHandler={this.inputFieldsHandler} 
+      formHandler={this.formSubmitHandler} /> : null}
     </div>
   )
  }

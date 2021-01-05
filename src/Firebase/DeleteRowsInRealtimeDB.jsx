@@ -1,4 +1,5 @@
-import { firebase_db, firebase_db_fuelConsump, firebase_db_machineReg, firebase_db_maintenance } from "./Firebase.utils";
+import { firebase_db, firebase_db_fuelConsump, firebase_db_machineReg, 
+         firebase_db_maintenance, firebase_db_workHours } from "./Firebase.utils";
 
 export const deleteByRowId =  (rowId, props) => {
   return new Promise((resolve)=>{
@@ -23,6 +24,14 @@ export const deleteByRowId =  (rowId, props) => {
     }
     else if (props.stateProps.index3) {
       firebase_db_maintenance.orderByChild("id")
+       .endAt(rowId).limitToLast(1).once('value').then((snapshot)=>{
+        const randomKeyMach = Object.keys(snapshot.val())
+         db.child("maintenanceAndRepairsInput/"+randomKeyMach).remove()
+         resolve(snapshot.val())
+       })
+     }
+     else if (props.stateProps.index4) {
+      firebase_db_workHours.orderByChild("id")
        .endAt(rowId).limitToLast(1).once('value').then((snapshot)=>{
         const randomKeyMach = Object.keys(snapshot.val())
          db.child("maintenanceAndRepairsInput/"+randomKeyMach).remove()

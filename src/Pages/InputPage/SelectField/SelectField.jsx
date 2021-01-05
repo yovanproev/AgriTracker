@@ -4,7 +4,8 @@ import {
   fetchAllMachines, fetchAllAttachedMachinery, 
   fetchAllLocations, fetchAllProducts, 
   fetchAllOperators, fetchAllExternalTechnicians,
-  fetchAlljobDescriptions, fetchAllMaintenance } from "../../../LocalData/InputFormsData";
+  fetchAlljobDescriptions, fetchAllMaintenance,
+  fetchAllTypeOfHours, fetchAllProjects } from "../../../LocalData/InputFormsData";
 import "./SelectField.css"
 
 const SelectField = ({id, onChange, value, machineImage}) => {
@@ -19,7 +20,9 @@ const SelectField = ({id, onChange, value, machineImage}) => {
     id === 6 ? fetchAllLocations() : 
     id === 7 ? fetchAlljobDescriptions() : 
     id === 8 ? fetchAllMaintenance() : 
-    id === 9 ? fetchAllExternalTechnicians() : "Error"
+    id === 9 ? fetchAllExternalTechnicians() :
+    id === 10 ? fetchAllTypeOfHours() :
+    id === 11 ? fetchAllProjects() : "Error"
    updateFetchedData(fetching)
  }, [id])
 
@@ -32,7 +35,9 @@ const SelectField = ({id, onChange, value, machineImage}) => {
   id === 6 ? "Select a farm" : 
   id === 7 ? "Select a job description" :
   id === 8 ? "Select activity" :
-  id === 9 ? "Select an External Technician" : "Error"
+  id === 9 ? "Select an External Technician" : 
+  id === 10 ? "Select Type of Hours" :
+  id === 11 ? "Select a Project" : "Error"
  
    return (
       <div >

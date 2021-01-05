@@ -4,7 +4,7 @@ import {
   Switch,
   Route,
   Redirect,
-  HashRouter as Router 
+  BrowserRouter as Router 
 } from "react-router-dom";
 
 import Header from "./Pages/Header/Header"

@@ -4,7 +4,9 @@ import FormInput from '../FormInput/FormInput';
 import LogInButton from '../../../Components/LogInButton/LogInButton';
 import Modal from "../../../Components/Modal/Modal"
 import LineSpinner from "../../../Components/Spinners/Spinner2"
-import { auth, signInWithGoogle } from '../../../Firebase/Firebase.utils.js';
+import { auth, 
+  // signInWithGoogle 
+} from '../../../Firebase/Firebase.utils.js';
 
 import './SignIn.css';
 import axios from 'axios';
@@ -113,9 +115,9 @@ class SignIn extends Component {
 
         </form>
         <span style={{marginTop: "-50px", marginLeft: "170px"}}>
-          <LogInButton onClick={signInWithGoogle} isGoogleSignIn>
+          {/* <LogInButton onClick={signInWithGoogle} isGoogleSignIn>
                 Sign in with Google
-          </LogInButton>
+          </LogInButton> */}
         </span>
       </div>
     );

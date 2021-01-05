@@ -3,7 +3,9 @@ import { SelectColumnFilter } from './TableFilters';
 export const conditionalTableColumns = (props) => {
  return props.stateProps.index1 ? fuelConsumptionColumns : 
   props.stateProps.index2 ? machineRegitrationColumns : 
-  props.stateProps.index3 ? maintenanceAndRepairsColumns : null;
+  props.stateProps.index3 ? maintenanceAndRepairsColumns : 
+  props.stateProps.index4 ? maintenanceAndRepairsColumns : 
+  props.stateProps.index4 && props.stateProps.outputTable ? workingHoursInputColumns : null;
 }
 
 const fuelConsumptionColumns = [
@@ -191,6 +193,17 @@ const maintenanceAndRepairsColumns = [
     Header: 'Time of entry',
     accessor: 'timeOfEntry',
   },
+]
+
+export const workingHoursInputColumns = [
+  {
+    Header: 'Employees',
+    accessor: "displayName",
+  }, 
+  { 
+    Header: 'E-mail',
+    accessor: "email",
+  }
 ]
 
 export const usersCollection = [

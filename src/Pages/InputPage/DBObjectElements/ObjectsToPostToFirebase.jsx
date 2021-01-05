@@ -49,3 +49,22 @@ export const maintenanceAndRepairsInputObject = (props) => {
   }
   return object
 };
+
+export const workingHoursInputObject = (props) => {
+  let object = {
+  id: props.lastId,
+  machine: props.selectedMachineName,
+  attachedMachinery: props.selectedAttachedMachineryName,
+  workedHours: props.workedHours,
+  location: props.selectedLocationName,
+  farmLocation: props.selectedFarmName,
+  maintenanceOrRerairs: props.selectedMaintenanceName,
+  explainTheActivity: props.explainTheActivity,
+  externalTechnician: props.selectedExternalTechinicianName,
+  manHours: props.manHours,
+  jobDescription: props.selectedJobName,
+  date: props.date,
+  timeOfEntry: getDateAndTime()
+  }
+  return object
+};

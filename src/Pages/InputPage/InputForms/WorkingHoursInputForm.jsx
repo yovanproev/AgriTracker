@@ -1,117 +1,106 @@
-import React, { Component } from "react";
+import React, { useState, useEffect } from "react";
 
 import "./InputForms.css"
 
 import BackButton from "../../../Components/BackButton/BackButton"
 
-import WorkingHours from "../../../Assets/workinghours.png"
-
 import SelectField from "../SelectField/SelectField";
-import InputField from "../InputField/InputField";
+import MultiSelectField from "../MultipleSelectField/MultipleSelectField";
 
 import SubmitButton from "../../../Components/SubmitButton/SubmitButton"
 
-import Modal from "../../..//Components/Modal/Modal"
+import Modal from "../../../Components/Modal/Modal"
 import GrapeSpinner1 from "../../../Components/Spinners/GrapeSpinner"
+import Calendar from "../../../Components/Calendar/Calendar";
+import CustomTable from "../../../Components/CustomTable/InputTable";
 
-class WorkingHoursInput extends Component {
+const WorkingHoursInput = (props) => {
+ const [ , setDisableButtton ] = useState(false)
 
+  useEffect(() => {
+    if (props.localState.date !== "null-null-null" &&
+        props.localState.selectedTypeOfHoursId && 
+        props.localState.selectedLocationId && 
+        props.localState.selectedProjectId &&
+        props.localState.selectedMSJobDescriptionId)
+    setDisableButtton(props.localState.submitButtonDisabled = true) 
+    else {
+      setDisableButtton(props.localState.submitButtonDisabled = false) }
+  }, [props])
 
-  UNSAFE_componentWillUpdate(nextProps, nextState) {
-    nextProps.localState.submitButtonDisabled = (
-     nextProps.localState.selectedMachineId && 
-     nextProps.localState.selectedAttachedMachineryId &&
-     nextProps.localState.selectedLocationId && 
-     nextProps.localState.selectedOperatorId &&
-     nextProps.localState.selectedProductId &&
-     nextProps.localState.kilometers && 
-     nextProps.localState.line &&
-     nextProps.localState.blok);
-   }
+  const onButtonClick = () => {props.updateId()} 
 
- render() {
-      return (
+  const arrayOfNames = props.localState.selectedMSJobDescriptionId ? props.localState.selectedMSJobDescriptionId.map(x => x.name) : null
+  const arrayOfIds = props.localState.selectedMSJobDescriptionId ? props.localState.selectedMSJobDescriptionId.map(x => x.id) : null
+   
+  return (
       <div className="full-div">
-        <BackButton onClick={this.props.onClick}/>
-        <img src={WorkingHours} alt="img" className="pic"/>
-       
+        <BackButton onClick={props.onClick}/>
+        <h2>Working Hours Registration</h2>
+               
         <div className="input-forms">
-         <form onSubmit={this.props.formHandler}>
-            
+         <form onSubmit={props.formHandler}>
+
+           <div style={{marginTop: "20px"}}>  
+              <Calendar
+                stateProps={props.stateProps}
+                onChange={props.dateHandler}
+                value={props.localState.date}
+              /> 
+            </div>
+
             <SelectField
-             id={this.props.localState.selectFields[0].id}
-             selectData={this.props.localState.selectFields}
-             onChange={this.props.selectFieldsHandler}
-             value={this.props.localState.selectedMachineId}
+             id={props.localState.selectFields[9].id}
+             onChange={props.selectFieldsHandler}
+             value={props.localState.selectedTypeOfHoursId}
             />
-            
-            {this.props.localState.selectedMachineId ?
+
+            {props.localState.selectedTypeOfHoursId ?
+              <SelectField
+              id={props.localState.selectFields[2].id}
+              onChange={props.selectFieldsHandler}
+              value={props.localState.selectedLocationId}
+              /> : null
+            }
+
+            {props.localState.selectedLocationId ?
             <SelectField
-             id={this.props.localState.selectFields[1].id}
-             selectData={this.props.localState.selectFields}
-             onChange={this.props.selectFieldsHandler}
-             value={this.props.localState.selectedAttachedMachineryId}
+             id={props.localState.selectFields[10].id}
+             onChange={props.selectFieldsHandler}
+             value={props.localState.selectedProjectId}
             /> : null }
 
-            {this.props.localState.selectedAttachedMachineryId ?
-              <SelectField
-              id={this.props.localState.selectFields[2].id}
-              selectData={this.props.localState.selectFields}
-              onChange={this.props.selectFieldsHandler}
-              value={this.props.localState.selectedLocationId}
+            {props.localState.selectedProjectId ?
+             <MultiSelectField
+              id={props.localState.selectFields[11].id}
+              onSelect={props.selectFieldsHandler}
+              value={props.localState.selectedMSJobDescriptionId}
              /> : null
             }
 
-            {this.props.localState.selectedLocationId ?
-              <SelectField
-              id={this.props.localState.selectFields[3].id}
-              selectData={this.props.localState.selectFields}
-              onChange={this.props.selectFieldsHandler}
-              value={this.props.localState.selectedProductId}
-             /> : null
-            }
-
-            {this.props.localState.selectedProductId ?
-              <div className="input">
-                <InputField 
-                  id={this.props.localState.inputFields[0].id}
-                  onChange={this.props.inputFieldsHandler}
-                  name={[this.props.localState.inputFields][0][0].name}/>
-                <InputField 
-                  id={this.props.localState.inputFields[3].id}
-                  onChange={this.props.inputFieldsHandler}
-                  name={[this.props.localState.inputFields][0][3].name}/> 
-                <InputField 
-                  id={this.props.localState.inputFields[4].id}
-                  onChange={this.props.inputFieldsHandler}
-                  name={[this.props.localState.inputFields][0][4].name}/>
-              </div>: null
-            } 
-           
-            {this.props.localState.selectedProductId ?
-              <SelectField
-              id={this.props.localState.selectFields[4].id}
-              selectData={this.props.localState.selectFields}
-              onChange={this.props.selectFieldsHandler}
-              value={this.props.localState.selectedOperatorId}
-             /> : null
-            }
-
-             {this.props.localState.submit ?
+            {props.localState.selectedMSJobDescriptionId ?
+            <CustomTable 
+            jobActivities={props.localState.selectedMSJobDescriptionId}
+            names={arrayOfNames}
+            id={arrayOfIds}
+            /> 
+            : null} 
+              
+             {props.localState.submit ?
               <SubmitButton 
-              disabled={!this.props.localState.submitButtonDisabled}
+              disabled={!props.localState.submitButtonDisabled}
+              onClick={onButtonClick}
               type="submit"/> 
               : <Modal
-              show={this.props.localState.loading}>
+              show={props.localState.loading}>
                 <GrapeSpinner1 />
               </Modal>
-             }
-             
+             }           
           </form>
         </div>
       </div>
     )
-  }
+  
 }
 
 export default WorkingHoursInput;

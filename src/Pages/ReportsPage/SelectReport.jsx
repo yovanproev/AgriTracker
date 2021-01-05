@@ -9,7 +9,8 @@ import TableReport from "./TableReport/TableReport"
 const SelectReport = (props) => {
   const [ table, setTable ] = useState([])
   const [ blockNextButton, updateBlockNextButton ] = useState(undefined)
-  
+  const [ error, setError ] = useState(undefined)
+
   function nextPageLoad(){
     const nextPageCount = nextPage();
     getPaginatedTableData(0, nextPageCount, props).then((fullData)=>{
@@ -40,9 +41,9 @@ const SelectReport = (props) => {
             Object.keys(fullData).forEach((key)=>{
               fullDataArray.push(fullData[key]);
             })
-        // console.log(fullDataArray);
-        setTable(fullDataArray)
-        })
+            setTable(fullDataArray)
+        }).catch(err => 
+          setError(" or no data in the Module."))
   }, [props]);
 
  const [modeChange, setModeChange] = useState('');
@@ -56,18 +57,19 @@ const SelectReport = (props) => {
     setTable(rows) 
   }
 
- const moduleInProgress = <Modal show={props.stateProps.hideModal} hide={props.modal}>
-   Module Still Not Built</Modal> 
+//  const moduleInProgress = <Modal show={props.stateProps.hideModal} hide={props.modal}>
+//    Module Still Not Built</Modal> 
   
- const errorModal = table.length === 0 ? <Modal show={props.stateProps.hideModal} 
-    hide={props.modal}>User has no authorization to read data.</Modal> : null
+ const errorModal = table.length === 0 || table === undefined ? <Modal show={props.stateProps.hideModal} 
+    hide={props.modal}>User has no authorization to read data{error}</Modal> : null
     
     return (
    <div className="table-reports">
      {props.stateProps.index1 || 
       props.stateProps.index2 || 
-      props.stateProps.index3 ? errorModal : null}
-      {props.stateProps.index4 ? moduleInProgress :
+      props.stateProps.index3 ||
+      props.stateProps.index4  ? errorModal : null}
+      {/* {props.stateProps.index4 ? moduleInProgress : */}
       < TableReport
         blockNextButton={blockNextButton}
         counter={counter}
@@ -77,7 +79,7 @@ const SelectReport = (props) => {
         modeChange={modeChange}
         deleteRowHandler={deleteRowHandler} 
         tableData={table}
-        onClick={props.onClick}/> }
+        onClick={props.onClick}/>         
     </div>
   ) 
 }

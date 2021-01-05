@@ -6,6 +6,9 @@ import operatorsDB from "./OperatorsDB.json"
 import externalTechnicianDB from "./ExternalTechnicianDB.json"
 import jobDescriptionDB from "./JobDescriptionDB.json"
 import maintenanceDB from "./MaintenanceDB.json"
+import jobDescriptionEmployeesDB from "./JobDescriptionsEmployees.json"
+import projectsDB from "./Projects.json"
+import typeOfHoursDB from "./TypeOfHours.json"
 import rolesDB from "./Roles.json"
 
 export const fetchAllMachines = () => {
@@ -134,8 +137,47 @@ export const fetchAlljobDescriptions = () => {
   return jobDescriptionDB.data;
 }
 
-export const fetchJobDescriptionsByName = jobDescriptions => {
-  const data = jobDescriptionDB.data.filter(jobDescription => jobDescription.id === parseInt(jobDescriptions));
+export const fetchJobDescriptionsByName = jobDescriptionsId => {
+  const data = jobDescriptionDB.data.filter(jobDescription => jobDescription.id === parseInt(jobDescriptionsId));
+  if (data.length > 0) {
+    return data[0].name;
+  } else {
+    return data;
+  }
+};
+
+export const fetchAllJobDescriptionsEmployees = () => {
+  return jobDescriptionEmployeesDB.data;
+}
+
+export const fetchJobDescriptionsEmployeesByName = jobDescriptionsEmployesId => {
+  const data = jobDescriptionEmployeesDB.data.filter(jobDescriptionEmployees => jobDescriptionEmployees.id === parseInt(jobDescriptionsEmployesId));
+  if (data.length > 0) {
+    return data[0].name;
+  } else {
+    return data;
+  }
+};
+
+export const fetchAllProjects = () => {
+  return projectsDB.data;
+}
+
+export const fetchProjectsByName = projectsId => {
+  const data = projectsDB.data.filter(projects => projects.id === parseInt(projectsId));
+  if (data.length > 0) {
+    return data[0].name;
+  } else {
+    return data;
+  }
+};
+
+export const fetchAllTypeOfHours = () => {
+  return typeOfHoursDB.data;
+}
+
+export const fetchTypeOfHoursByName = typeOfHoursId => {
+  const data = typeOfHoursDB.data.filter(typeOfHours => typeOfHours.id === parseInt(typeOfHoursId));
   if (data.length > 0) {
     return data[0].name;
   } else {

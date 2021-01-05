@@ -56,8 +56,7 @@ const App = (props) => {
         getRoleValue={props.getRoleValue}
         onClick={props.onClick}
         currentRole={props.currentRole}
-        // renderRowSubComponent={renderRowSubComponent}
-      />
+        />
     </Container>
   );
 };

@@ -14,7 +14,7 @@ import Modal from "../../../Components/Modal/Modal"
 import GrapeSpinner1 from "../../../Components/Spinners/GrapeSpinner"
 import Calendar from "../../../Components/Calendar/Calendar";
 
-const FuelConsumptionInput = (props) => {
+const MaintenanceAndRepairsInput = (props) => {
  const [ , setDisableButtton ] = useState(false)
 
  useEffect(() => {
@@ -137,4 +137,4 @@ const FuelConsumptionInput = (props) => {
   
 }
 
-export default FuelConsumptionInput;
+export default MaintenanceAndRepairsInput;

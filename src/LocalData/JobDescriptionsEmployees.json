@@ -1,0 +1,20 @@
+{
+  "data" : [
+    {
+        "id" : 1,
+        "name": "Pruning"
+    },
+    {
+        "id": 2,
+        "name": "Spraying"
+    },
+    {
+        "id": 3,
+        "name": "Picking"
+    },
+    {
+        "id": 4,
+        "name": "Digging"
+    }
+  ]
+}
