@@ -81,6 +81,7 @@ const WorkingHoursInput = (props) => {
             {props.localState.selectedMSJobDescriptionId ?
             <CustomTable 
             jobActivities={props.localState.selectedMSJobDescriptionId}
+            onChange={props.onChange}
             names={arrayOfNames}
             id={arrayOfIds}
             /> 

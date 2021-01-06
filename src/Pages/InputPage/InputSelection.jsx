@@ -9,7 +9,8 @@ import {
   fetchAttachedMachineryByImage, fetchMaintenanceByName,
   fetchJobDescriptionsByName, fetchExternalTechnicianByName,
   fetchJobDescriptionsEmployeesByName, fetchProjectsByName,
-  fetchTypeOfHoursByName } from "../../LocalData/InputFormsData";
+  fetchTypeOfHoursByName, 
+  fetchAllOperators} from "../../LocalData/InputFormsData";
 
 import FuelConsumptionInput from "./InputForms/FuelConsumptionInputForm";
 import MachineRegistrationInput from "./InputForms/MachineRegistrationInputForm";
@@ -40,6 +41,7 @@ class InputSelection extends Component {
     selectedProductId: undefined,
     selectedOperatorId: undefined,
     selectedFarmId: undefined,
+    operators: fetchAllOperators(),
 
     inputFields: [
       {id: 1, name: "Kilometers on Machine"},
@@ -77,6 +79,10 @@ class InputSelection extends Component {
         throw new Error(err)
       })
   //  }
+  }
+
+  componentDidMount() {
+    this.setState({operators: fetchAllOperators()})
   }
       
   shouldComponentUpdate (nextProps, ) {
@@ -202,6 +208,24 @@ class InputSelection extends Component {
     })
   }
 
+  // tableRowsHandler = (event, index, field) => {
+  //   console.log(event, index, field)
+  //   const newValue = event;
+  //   this.setState(state => {
+  //     const rows = [
+  //       ...state.rows.slice(0, index),
+  //       {
+  //         ...state.rows[index],
+  //         [field]: newValue,
+  //       },
+  //       ...state.rows.slice(index + 1),
+  //     ];
+  //     return {
+  //       rows,
+  //     };
+  //   });
+  // };
+
   formSubmitHandler = (event) => {
       event.preventDefault()
   
@@ -325,6 +349,7 @@ class InputSelection extends Component {
       {this.props.stateProps.index4 === true ?
       //  moduleInProgress 
       <WorkingHoursInputForm 
+      onChange={this.tableRowsHandler}
       dateHandler={this.dateHandler}
       updateId={this.updateId}
       onClick={this.props.onClick}
