@@ -21,7 +21,7 @@ const MachineRegistrationInput = (props) => {
   if (props.localState.selectedMachineId && 
       props.localState.selectedAttachedMachineryId && 
       props.localState.selectedFarmId &&
-      props.localState.kilometers && 
+      props.localState.kilometersOnMachine && 
       props.localState.selectedOperatorId &&
       props.localState.date !== "null-null-null")
   setDisableButtton(props.localState.submitButtonDisabled = true) 

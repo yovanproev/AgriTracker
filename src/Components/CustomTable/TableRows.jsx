@@ -33,9 +33,6 @@ export const TableRows = (job, index, onChange) => {
         })
     };
 
-    // console.log(values, checkedFields)
-    
-    
     // values of second column
     const [secondValue, setSecondValue] = useState("");
     const [thirdValue, setThirdValue] = useState("");

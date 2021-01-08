@@ -1,0 +1,23 @@
+export const initialState = {
+          loading: false,
+          submit:true,
+          selectedMachineId: undefined,
+          selectedAttachedMachineryId: undefined,
+          selectedLocationId: undefined,
+          selectedFarmId: undefined,
+          selectedProductId: undefined,
+          selectedOperatorId: undefined,
+          kilometersOnMachine: undefined,
+          liters: undefined,
+          tankNum:undefined,
+          timeOfEntry: undefined,
+          explainTheActivity: undefined,
+          workedHours: undefined,
+          manHours: undefined,
+          selectedJobDescriptionId: undefined,
+          selectedMaintenanceId: undefined,
+          selectedExternalTechnicianId: undefined,
+          selectedTypeOfHoursId: undefined,
+          selectedProjectId: undefined,
+          selectedMSJobDescriptionId: undefined 
+}

@@ -55,7 +55,7 @@ componentDidMount() {
     }
     this.setState({ currentUser: userAuth});
     const cookieData = document.cookie.split(';');
-    if (this.state.currentUser) {
+    if (this.state.currentUser && document.cookie) {
     this.setState({
       tokenId: cookieData[1].includes("tokenId") ? cookieData[1].split('=')[1] : cookieData[0].split('=')[1],
       email: cookieData[0].includes("email") ? cookieData[0].split('=')[1] : cookieData[1].split('=')[1],
@@ -74,7 +74,7 @@ componentWillUnmount() {
     inputMode: true, 
     outputMode: false,
     outputTable: false,
-    hideModal: true 
+    hideModal: true, 
   })
  }
 

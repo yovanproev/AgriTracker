@@ -9,7 +9,8 @@ const TextField = (props) => {
       <textarea 
         type="text" 
         id={props.id}
-        onChange={(e) => props.onChange(e.target.value, parseInt(e.target.id))}
+        name={props.name}
+        onChange={(e) => props.onChange(e.target.value, parseInt(e.target.id), (e.target.name))}
       ></textarea>
     </div>
   )

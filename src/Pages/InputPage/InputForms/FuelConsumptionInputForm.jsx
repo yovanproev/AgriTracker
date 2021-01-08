@@ -21,9 +21,9 @@ const FuelConsumptionInput = (props) => {
       props.localState.selectedAttachedMachineryId && 
       props.localState.selectedLocationId && 
       props.localState.selectedOperatorId &&
-      props.localState.kilometers && 
+      props.localState.kilometersOnMachine && 
       props.localState.liters &&
-      props.localState.tankNumber && 
+      props.localState.tankNum && 
       props.localState.date !== "null-null-null")
   setDisableButtton(props.localState.submitButtonDisabled = true) 
   else {

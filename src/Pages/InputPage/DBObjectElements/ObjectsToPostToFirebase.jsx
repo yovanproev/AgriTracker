@@ -6,8 +6,8 @@ export const fuelConsumptionInputObject = (props) => {
   machine: props.selectedMachineName,
   attachedMachinery: props.selectedAttachedMachineryName,
   liters: props.liters,
-  kilometers: props.kilometers,
-  tankNumber: props.tankNumber,
+  kilometers: props.kilometersOnMachine,
+  tankNumber: props.tankNum,
   location: props.selectedLocationName,
   operator: props.selectedOperatorName,
   date: props.date,
@@ -23,7 +23,7 @@ export const fuelConsumptionInputObject = (props) => {
   attachedMachinery: props.selectedAttachedMachineryName,
   farmLocation: props.selectedFarmName,
   product: props.selectedProductName,
-  kilometers: props.kilometers,
+  kilometers: props.kilometersOnMachine,
   operator: props.selectedOperatorName,
   date: props.date,
   timeOfEntry: getDateAndTime()
@@ -71,7 +71,6 @@ export const workingHoursInputObject = (props) => {
     return object1
   })
 })
-  // console.log(object)
   return object
 };
 

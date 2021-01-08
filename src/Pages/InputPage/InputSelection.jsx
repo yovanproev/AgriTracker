@@ -21,6 +21,7 @@ import { fuelConsumptionInputObject, machineRegistrationInputObject,
          maintenanceAndRepairsInputObject, workingHoursInputObject } from "./DBObjectElements/ObjectsToPostToFirebase";
 import Modal from "../../Components/Modal/Modal"
 import { addZero } from "./DBObjectElements/GetDateTime";
+import { initialState } from "./InitialState"
 
 class InputSelection extends Component { 
   state = {
@@ -29,9 +30,6 @@ class InputSelection extends Component {
     submitButtonDisabled: "",
     lastId: "",
     
-    kilometers: undefined,
-    liters: undefined,
-    tankNumber: undefined,
     timeOfEntry: undefined,
     date: new Date(),
 
@@ -44,12 +42,12 @@ class InputSelection extends Component {
     operators: fetchAllOperators(),
 
     inputFields: [
-      {id: 1, name: "Kilometers on Machine"},
-      {id: 2, name: "Liters"},
-      {id: 3, name: "Tank #"},
-      {id: 4, name: "Worked Hours"},
-      {id: 5, name: "Explain the acitivity"},
-      {id: 6, name: "Man hours"},
+      {id: 1, name: "kilometersOnMachine"},
+      {id: 2, name: "liters"},
+      {id: 3, name: "tankNum"},
+      {id: 4, name: "workedHours"},
+      {id: 5, name: "explainTheActivity"},
+      {id: 6, name: "manHours"},
    ],
     
     selectFields: [
@@ -99,7 +97,7 @@ class InputSelection extends Component {
   selectFieldsHandler = (value, id) => {
     // console.log(id)
     if (id === this.state.selectFields[0].id) {
-       this.setState( {
+       this.setState({
         selectedMachineId: value,
         selectedMachineName: fetchMachineByName(value),
         selectedMachineImage: fetchMachineByImage(value)})
@@ -162,40 +160,13 @@ class InputSelection extends Component {
     }
   };
   
-   inputFieldsHandler = (value, id) => {
+   inputFieldsHandler = (value, id, name) => {
      const oneDecimalOnly = value.toString().split(".")
      .map((el,i)=>i?el.split("").slice(0,1).join(""):el).join(".")
-     
-    if (id === this.state.inputFields[0].id) {
-      this.setState({
-       kilometers: oneDecimalOnly
-      })
-    } 
-    else if (id === this.state.inputFields[1].id) {
-      this.setState({
-        liters: oneDecimalOnly
-      })
-    }
-    else if (id === this.state.inputFields[2].id) {
-      this.setState({
-        tankNumber: oneDecimalOnly
-      })
-    }
-    else if (id === this.state.inputFields[3].id) {
-      this.setState({
-        workedHours: oneDecimalOnly
-      })
-    }
-    else if (id === this.state.inputFields[4].id) {
-      this.setState({
-        explainTheActivity: value
-      })
-    }
-    else if (id === this.state.inputFields[5].id) {
-      this.setState({
-        manHours: oneDecimalOnly
-      })
-    }
+    
+     this.setState({
+     [name] : oneDecimalOnly
+     })
   }
 
   dateHandler = (value) => {
@@ -211,6 +182,7 @@ class InputSelection extends Component {
   tableRowsHandler = (hours, namesOfEmployees) => {
     // console.log(namesOfEmployees[0] ? namesOfEmployees : null)
     var objs = [];
+    // put names of employees into an array
     Object.keys(namesOfEmployees).forEach(function(key) {
       var match = key.match(/(.*)(\d.*)$/);
       var newKey = match[0];
@@ -224,21 +196,13 @@ class InputSelection extends Component {
       manHours: hours,
       namesOfEmployees: objs
     })
-    // const newValue = event;
-    // this.setState(state => {
-    //   const rows = [
-    //     ...state.rows.slice(0, index),
-    //     {
-    //       ...state.rows[index],
-    //       [field]: newValue,
-    //     },
-    //     ...state.rows.slice(index + 1),
-    //   ];
-    //   return {
-    //     rows,
-    //   };
-    // });
   };
+
+  resetState = () => {
+    this.setState({
+         ...initialState
+    })
+  }
 
   formSubmitHandler = (event) => {
       event.preventDefault()
@@ -263,70 +227,21 @@ class InputSelection extends Component {
       
       if (!isNaN(this.state.lastId)) {
       axiosLocal.post(URLPostSource, checkForActivity)
-       .then(response => 
-        {this.setState({
-          loading: false,
-          submit:true,
-          selectedMachineId: undefined,
-          selectedAttachedMachineryId: undefined,
-          selectedLocationId: undefined,
-          selectedFarmId: undefined,
-          selectedProductId: undefined,
-          selectedOperatorId: undefined,
-          kilometers: undefined,
-          liters: undefined,
-          tankNumber:undefined,
-          timeOfEntry: undefined,
-          explainTheActivity: undefined,
-          workedHours: undefined,
-          manHours: undefined,
-          selectedJobDescriptionId: undefined,
-          selectedMaintenanceId: undefined,
-          selectedExternalTechnicianId: undefined,
-          selectedTypeOfHoursId: undefined,
-          selectedProjectId: undefined,
-          selectedMSJobDescriptionId: undefined
-          })})
-       .catch(error => 
-        {this.setState({
-          loading: false,
-          submit:true,
-          selectedMachineId: undefined,
-          selectedAttachedMachineryId: undefined,
-          selectedLocationId: undefined,
-          selectedFarmId: undefined,
-          selectedProductId: undefined,
-          selectedOperatorId: undefined,
-          kilometers: undefined,
-          liters: undefined,
-          tankNumber:undefined,
-          timeOfEntry: undefined,
-          error: true,
-          explainTheActivity: undefined,
-          workedHours: undefined,
-          manHours: undefined,
-          selectedJobDescriptionId: undefined,
-          selectedMaintenanceId: undefined,
-          selectedExternalTechnicianId: undefined,
-          selectedTypeOfHoursId: undefined,
-          selectedProjectId: undefined,
-          selectedMSJobDescriptionId: undefined
-        })})
+       .then(response => this.resetState())  
+       .catch(error => this.resetState())
       } else {
         throw new Error("last enrty ID couldn't be retrieved from the server, please refresh the page")
       }
-  
-    }
+  }
 
   render () {
     // const moduleInProgress = <Modal show={this.props.stateProps.hideModal} 
     // hide={this.props.modal}>Module Still In Progress</Modal> 
     const errorModal = <Modal show={this.state.error} 
     hide={this.props.modal}>Network error while posting data to Database, your entry is not recorded.</Modal> 
-      //  console.log(this.state.namesOfEmployees)
-      //  console.log(this.state.namesOfEmployees ? workingHoursInputObject(this.state) : null)
-      return (
-    <div>
+     
+   return (
+     <div>
       {errorModal}
       {this.props.stateProps.index1 === true ?
       <FuelConsumptionInput 
