@@ -9,6 +9,7 @@ import {
 } from 'reactstrap';
 import TableContainer from './TableContainer';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import "./ReactTable.css"
 
 import  { conditionalTableColumns, usersCollection }  from "./ConditionalTableColumns"
 
@@ -42,7 +43,7 @@ const App = (props) => {
     () => mode, [mode]);
 
   return (
-    <Container style={{ marginTop: "30px" }}>
+    <Container style={{ marginTop: "30px"}} className={props.stateProps.index3 ? "margin-left" : "all-others"}>
       <TableContainer
         blockNextButton={props.blockNextButton}
         counter={props.counter}

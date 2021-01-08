@@ -208,23 +208,37 @@ class InputSelection extends Component {
     })
   }
 
-  // tableRowsHandler = (event, index, field) => {
-  //   console.log(event, index, field)
-  //   const newValue = event;
-  //   this.setState(state => {
-  //     const rows = [
-  //       ...state.rows.slice(0, index),
-  //       {
-  //         ...state.rows[index],
-  //         [field]: newValue,
-  //       },
-  //       ...state.rows.slice(index + 1),
-  //     ];
-  //     return {
-  //       rows,
-  //     };
-  //   });
-  // };
+  tableRowsHandler = (hours, namesOfEmployees) => {
+    // console.log(namesOfEmployees[0] ? namesOfEmployees : null)
+    var objs = [];
+    Object.keys(namesOfEmployees).forEach(function(key) {
+      var match = key.match(/(.*)(\d.*)$/);
+      var newKey = match[0];
+      var index = parseInt(match[2]);
+      objs[index] = objs[index] || {};
+      objs[index][newKey] = namesOfEmployees[key];
+    })
+    console.log(objs);
+
+    this.setState({
+      manHours: hours,
+      namesOfEmployees: objs
+    })
+    // const newValue = event;
+    // this.setState(state => {
+    //   const rows = [
+    //     ...state.rows.slice(0, index),
+    //     {
+    //       ...state.rows[index],
+    //       [field]: newValue,
+    //     },
+    //     ...state.rows.slice(index + 1),
+    //   ];
+    //   return {
+    //     rows,
+    //   };
+    // });
+  };
 
   formSubmitHandler = (event) => {
       event.preventDefault()
@@ -309,7 +323,8 @@ class InputSelection extends Component {
     // hide={this.props.modal}>Module Still In Progress</Modal> 
     const errorModal = <Modal show={this.state.error} 
     hide={this.props.modal}>Network error while posting data to Database, your entry is not recorded.</Modal> 
-       
+      //  console.log(this.state.namesOfEmployees)
+      //  console.log(this.state.namesOfEmployees ? workingHoursInputObject(this.state) : null)
       return (
     <div>
       {errorModal}

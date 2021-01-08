@@ -1,7 +1,7 @@
 import { firebase_db_fuelConsump, firebase_db_machineReg, 
          firebase_db_maintenance, firebase_db_workHours } from "./Firebase.utils";
 
-export const getPaginatedTableData =  (count, limit, props) => {
+export const getPaginatedTableData = (count, limit, props) => {
   return new Promise((resolve)=>{
    
    count = count || 0; 
@@ -30,10 +30,17 @@ export const getPaginatedTableData =  (count, limit, props) => {
       })
    }
    else if (props.stateProps.index4) {
-    firebase_db_workHours.orderByChild("id")
-      .startAt(count).limitToLast(limit).once('value').then((snapshot)=>{
-        resolve(snapshot.val())
-      }).catch(err => {
+     firebase_db_workHours.limitToLast(10).once("value", function(snapshot) {
+        let arr = []
+        let origin = snapshot.val()
+          Object.values(origin).forEach(child => 
+            child.forEach((secondChild)=> {
+              secondChild.map(x => arr.push(x))
+            })
+          )
+        resolve(arr)
+    })
+    .catch(err => {
         console.log(err)
       })
    }

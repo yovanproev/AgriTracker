@@ -4,8 +4,7 @@ export const conditionalTableColumns = (props) => {
  return props.stateProps.index1 ? fuelConsumptionColumns : 
   props.stateProps.index2 ? machineRegitrationColumns : 
   props.stateProps.index3 ? maintenanceAndRepairsColumns : 
-  props.stateProps.index4 ? maintenanceAndRepairsColumns : 
-  props.stateProps.index4 && props.stateProps.outputTable ? workingHoursInputColumns : null;
+  props.stateProps.index4 ? workingHoursInputColumns : null;
 }
 
 const fuelConsumptionColumns = [
@@ -43,7 +42,7 @@ const fuelConsumptionColumns = [
     accessor: 'kilometers',
   },
   {
-    Header: 'Tank Number',
+    Header: 'Tank #',
     accessor: 'tankNumber',
   },
   {
@@ -161,7 +160,7 @@ const maintenanceAndRepairsColumns = [
     filter: 'equals',
   },
   {
-    Header: 'Maintenance/Repairs',
+    Header: 'Maint./Rep.',
     accessor: "maintenanceOrRerairs",
     disableSortBy: true,
     Filter: SelectColumnFilter,
@@ -197,13 +196,59 @@ const maintenanceAndRepairsColumns = [
 
 export const workingHoursInputColumns = [
   {
-    Header: 'Employees',
-    accessor: "displayName",
+    Header: '#',
+    accessor: "id",
+  },
+  {
+    Header: 'Employee',
+    accessor: "namesOfEmployees",
+    disableSortBy: true,
+    Filter: SelectColumnFilter,
+    filter: 'equals',
   }, 
-  { 
-    Header: 'E-mail',
-    accessor: "email",
-  }
+  {
+    Header: 'Type Of Hours',
+    accessor: "typeOfHours",
+    disableSortBy: true,
+    Filter: SelectColumnFilter,
+    filter: 'equals',
+  },
+  {
+    Header: 'Location',
+    accessor: "location",
+    disableSortBy: true,
+    Filter: SelectColumnFilter,
+    filter: 'equals',
+  },
+  {
+    Header: 'Project',
+    accessor: "project",
+    disableSortBy: true,
+    Filter: SelectColumnFilter,
+    filter: 'equals',
+  },
+  {
+    Header: 'Job Description',
+    accessor: "jobDescription",
+    disableSortBy: true,
+    Filter: SelectColumnFilter,
+    filter: 'equals',
+  },
+  {
+    Header: 'Man hours',
+    accessor: 'manHours',
+  },
+  {
+    Header: 'Date',
+    accessor: "date",
+    disableSortBy: true,
+    Filter: SelectColumnFilter,
+    filter: 'equals',
+  },
+  {
+    Header: 'Time of entry',
+    accessor: 'timeOfEntry',
+  },
 ]
 
 export const usersCollection = [
