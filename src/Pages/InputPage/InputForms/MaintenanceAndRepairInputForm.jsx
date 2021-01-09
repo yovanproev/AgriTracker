@@ -62,7 +62,8 @@ const MaintenanceAndRepairsInput = (props) => {
                <InputField 
                 id={props.localState.inputFields[3].id}
                 onChange={props.inputFieldsHandler}
-                name={[props.localState.inputFields][0][3].name}/>
+                name={[props.localState.inputFields][0][3].name}
+                statename={[props.localState.inputFields][0][3].statename}/>
               </div> : null }
 
            {props.localState.selectedAttachedMachineryId ?
@@ -102,11 +103,13 @@ const MaintenanceAndRepairsInput = (props) => {
                 <InputField 
                   id={props.localState.inputFields[5].id}
                   onChange={props.inputFieldsHandler}
-                  name={[props.localState.inputFields][0][5].name}/> 
+                  name={[props.localState.inputFields][0][5].name}
+                  statename={[props.localState.inputFields][0][5].statename}/> 
                 <TextField 
                   id={props.localState.inputFields[4].id}
                   onChange={props.inputFieldsHandler}
-                  name={[props.localState.inputFields][0][4].name}/>
+                  name={[props.localState.inputFields][0][4].name}
+                  statename={[props.localState.inputFields][0][4].statename}/>
               </div>: null
             } 
           

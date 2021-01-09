@@ -52,11 +52,16 @@ export const maintenanceAndRepairsInputObject = (props) => {
 
 export const workingHoursInputObject = (props) => {
   let object = props.namesOfEmployees.map((x, index) => { 
+    let arr = []
+    for (let i = 0; i <= index; i++) {
+     arr.push(i)
+    }
+    let increaseIdForNextEmployee = arr.slice(-1)[0]
+  
     let selectedJobs = props.selectedMSJobDescriptionId
     return selectedJobs.map((y, i) => {
-
     let object1 = {
-    id: props.lastId + index + i,
+    id: props.lastId + i + index + increaseIdForNextEmployee,
     date: props.date,
     typeOfHours: props.selectedTypeOfHoursName,
     location: props.selectedLocationName,

@@ -10,6 +10,8 @@ import jobDescriptionEmployeesDB from "./JobDescriptionsEmployees.json"
 import projectsDB from "./Projects.json"
 import typeOfHoursDB from "./TypeOfHours.json"
 import rolesDB from "./Roles.json"
+import inputFieldsDB from "./InputFields.json"
+import selectFieldsDB from "./SelectFields.json"
 
 export const fetchAllMachines = () => {
   return machineDB;
@@ -184,3 +186,11 @@ export const fetchTypeOfHoursByName = typeOfHoursId => {
     return data;
   }
 };
+
+export const fetchAllinputFields = () => {
+  return inputFieldsDB.inputFields;
+}
+
+export const fetchAllSelectFields = () => {
+  return selectFieldsDB.selectFields;
+}

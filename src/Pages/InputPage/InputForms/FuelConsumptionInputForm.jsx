@@ -48,6 +48,7 @@ const FuelConsumptionInput = (props) => {
              onChange={props.selectFieldsHandler}
              value={props.localState.selectedMachineId}
              machineImage={props.localState.selectedMachineImage}
+             statename={props.localState.selectFields[0].statename}
             />
 
             {props.localState.selectedMachineId ?
@@ -63,15 +64,18 @@ const FuelConsumptionInput = (props) => {
                 <InputField 
                   id={props.localState.inputFields[0].id}
                   onChange={props.inputFieldsHandler}
-                  name={[props.localState.inputFields][0][0].name}/>
+                  name={[props.localState.inputFields][0][0].name}
+                  statename={[props.localState.inputFields][0][0].statename}/>
                 <InputField 
                   id={props.localState.inputFields[1].id}
                   onChange={props.inputFieldsHandler}
-                  name={[props.localState.inputFields][0][1].name}/> 
+                  name={[props.localState.inputFields][0][1].name}
+                  statename={[props.localState.inputFields][0][1].statename}/> 
                 <InputField 
                   id={props.localState.inputFields[2].id}
                   onChange={props.inputFieldsHandler}
-                  name={[props.localState.inputFields][0][2].name}/>
+                  name={[props.localState.inputFields][0][2].name}
+                  statename={[props.localState.inputFields][0][2].statename}/>
               </div>: null
             } 
             {/* {state.selectedMachineId ?

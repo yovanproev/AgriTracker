@@ -7,7 +7,9 @@ export const getLastId = (props) => {
    if (props.stateProps.index1) {
    firebase_db_fuelConsump.orderByChild("id")
      .startAt(1).limitToLast(1).once('value').then((snapshot)=>{
-       resolve(snapshot.val())
+       let lastId = snapshot.val()  === null || snapshot.val()  === undefined ? 
+       parseInt(0) : Object.values(snapshot.val()).slice(-1)[0].id
+       resolve(lastId)
      }).catch(err => {
        console.log(err)
      })
@@ -15,7 +17,9 @@ export const getLastId = (props) => {
     else if (props.stateProps.index2) {
       firebase_db_machineReg.orderByChild("id")
         .startAt(1).limitToLast(1).once('value').then((snapshot)=>{
-          resolve(snapshot.val())
+          let lastId = snapshot.val()  === null || snapshot.val()  === undefined ? 
+          parseInt(0) : Object.values(snapshot.val()).slice(-1)[0].id
+          resolve(lastId)
         }).catch(err => {
         console.log(err)
       })
@@ -23,16 +27,22 @@ export const getLastId = (props) => {
     else if (props.stateProps.index3) {
       firebase_db_maintenance.orderByChild("id")
         .startAt(1).limitToLast(1).once('value').then((snapshot)=>{
-          resolve(snapshot.val())
+          let lastId = snapshot.val()  === null || snapshot.val()  === undefined ? 
+          parseInt(0) : Object.values(snapshot.val()).slice(-1)[0].id
+          resolve(lastId)
         }).catch(err => {
         console.log(err)
       })
     }
     else if (props.stateProps.index4) {
-      firebase_db_workHours.orderByChild("id")
-        .startAt(1).limitToLast(1).once('value').then((snapshot)=>{
-          resolve(snapshot.val())
-        }).catch(err => {
+      firebase_db_workHours.limitToLast(1).once('value').then((snapshot)=>{
+           // resolve(snapshot.val())
+          let origin = snapshot.val() === null || snapshot.val() === undefined ? parseInt(0) : snapshot.val()
+          if (origin !== 0) { 
+          const lastId = Object.values(origin).slice(-1)[0].slice(-1)[0].slice(-1)[0].id
+          resolve(lastId)
+          } else resolve(parseInt(0))
+      }).catch(err => {
         console.log(err)
       })
     }

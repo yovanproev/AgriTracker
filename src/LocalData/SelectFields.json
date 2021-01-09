@@ -1,0 +1,16 @@
+{
+  "selectFields" : [
+      {"id": 1, "name": "Machine", "statename": "selectedMachineName"},
+      {"id": 2, "name": "Attached Machinery", "statename": "selectedAttachedMachineryName"},
+      {"id": 3, "name": "Location", "statename": "location"},
+      {"id": 4, "name": "Product", "statename": "product"},
+      {"id": 5, "name": "Operator", "statename": "operator"},
+      {"id": 6, "name": "Farm", "statename": "farm"},
+      {"id": 7, "name": "Job Description", "statename": "jobDescription"},
+      {"id": 8, "name": "Maintenance or Repairs", "statename": "maintenanceOrRepairs"},
+      {"id": 9, "name": "External Technician", "statename": "externalTechnician"},
+      {"id": 10, "name": "Type of Hours", "statename": "typeOfHours"},
+      {"id": 11, "name": "Project", "statename": "project"},
+      {"id": 12, "name": "Multiple Selection Job Decription", "statename": "multipleSelectionJobDecription"}
+  ]
+}

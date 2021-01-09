@@ -1,0 +1,10 @@
+{
+  "inputFields" : [
+    {"id": 1, "name": "Kilometers On The Machine", "statename": "kilometersOnMachine"},
+    {"id": 2, "name": "Liters", "statename": "liters"},
+    {"id": 3, "name": "Tank Number", "statename": "tankNum"},
+    {"id": 4, "name": "Worked Hours", "statename": "workedHours"},
+    {"id": 5, "name": "Explain The Activity", "statename": "explainTheActivity"},
+    {"id": 6, "name": "Man Hours", "statename": "manHours"}
+  ]
+}

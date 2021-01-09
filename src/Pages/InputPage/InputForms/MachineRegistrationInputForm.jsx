@@ -75,17 +75,9 @@ const MachineRegistrationInput = (props) => {
                 <InputField 
                   id={props.localState.inputFields[0].id}
                   onChange={props.inputFieldsHandler}
-                  name={[props.localState.inputFields][0][0].name}/>
-                {/* <InputField 
-                  id={props.localState.inputFields[3].id}
-                  onChange={props.inputFieldsHandler}
-                  name={[props.localState.inputFields][0][3].name}/> 
-                <InputField 
-                  id={props.localState.inputFields[4].id}
-                  onChange={props.inputFieldsHandler}
-                  name={[props.localState.inputFields][0][4].name}/> */}
-              </div>: null
-            } 
+                  name={[props.localState.inputFields][0][0].name}
+                  statename={[props.localState.inputFields][0][0].statename}/>
+              </div>: null} 
            
             {props.localState.selectedProductId ?
               <SelectField

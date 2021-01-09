@@ -8,9 +8,8 @@ import {
   fetchAttachedMachineryByName, fetchMachineByImage,
   fetchAttachedMachineryByImage, fetchMaintenanceByName,
   fetchJobDescriptionsByName, fetchExternalTechnicianByName,
-  fetchJobDescriptionsEmployeesByName, fetchProjectsByName,
-  fetchTypeOfHoursByName, 
-  fetchAllOperators} from "../../LocalData/InputFormsData";
+  fetchProjectsByName, fetchTypeOfHoursByName, 
+  fetchAllOperators, fetchAllSelectFields} from "../../LocalData/InputFormsData";
 
 import FuelConsumptionInput from "./InputForms/FuelConsumptionInputForm";
 import MachineRegistrationInput from "./InputForms/MachineRegistrationInputForm";
@@ -22,6 +21,7 @@ import { fuelConsumptionInputObject, machineRegistrationInputObject,
 import Modal from "../../Components/Modal/Modal"
 import { addZero } from "./DBObjectElements/GetDateTime";
 import { initialState } from "./InitialState"
+import { fetchAllinputFields } from "../../LocalData/InputFormsData"
 
 class InputSelection extends Component { 
   state = {
@@ -29,54 +29,22 @@ class InputSelection extends Component {
     loading: false,
     submitButtonDisabled: "",
     lastId: "",
-    
-    timeOfEntry: undefined,
+        
     date: new Date(),
-
-    selectedMachineId: undefined,
-    selectedAttachedMachineryId: undefined,
-    selectedLocationId: undefined,
-    selectedProductId: undefined,
-    selectedOperatorId: undefined,
-    selectedFarmId: undefined,
     operators: fetchAllOperators(),
-
-    inputFields: [
-      {id: 1, name: "kilometersOnMachine"},
-      {id: 2, name: "liters"},
-      {id: 3, name: "tankNum"},
-      {id: 4, name: "workedHours"},
-      {id: 5, name: "explainTheActivity"},
-      {id: 6, name: "manHours"},
-   ],
-    
-    selectFields: [
-      {id: 1, name: "Machine"},
-      {id: 2, name: "Attached Machinery"},
-      {id: 3, name: "Location"},
-      {id: 4, name: "Product"},
-      {id: 5, name: "Operator"},
-      {id: 6, name: "Farm"},
-      {id: 7, name: "Job Description"},
-      {id: 8, name: "Maintenance or Repairs"},
-      {id: 9, name: "External Technician"},
-      {id: 10, name: "Type of Hours"},
-      {id: 11, name: "Project"},
-      {id: 12, name: "Multiple Selection Job Decription"},
-    ]
+    inputFields: fetchAllinputFields(),
+    selectFields: fetchAllSelectFields(),
   }
   
   UNSAFE_componentWillMount () {
-  const fullData = getLastId(this.props)
-  // if (this.props.stateProps.index1 || this.props.stateProps.index2 || this.props.stateProps.index3) {  
-     fullData.then(res => { 
-       this.setState({
-          lastId: res === null ? parseInt(0) : parseInt(Object.values(res).slice(-1)[0].id)  
+    const fullData = getLastId(this.props)
+      fullData.then(res => { 
+        this.setState({
+            lastId: res  
+          })
+        }).catch(err => {
+          throw new Error(err)
         })
-      }).catch(err => {
-        throw new Error(err)
-      })
-  //  }
   }
 
   componentDidMount() {
@@ -88,14 +56,10 @@ class InputSelection extends Component {
    return nextProps.lastId !== this.state.lastId 
   }
 
-  updateId = () => {
-    this.setState({
-      lastId: parseInt(this.state.lastId) + parseInt(1)
-    })
-  }
+  updateId = () => {this.setState({lastId: parseInt(this.state.lastId) + parseInt(1)})}
 
   selectFieldsHandler = (value, id) => {
-    // console.log(id)
+    // console.log(value, id)
     if (id === this.state.selectFields[0].id) {
        this.setState({
         selectedMachineId: value,
@@ -156,16 +120,16 @@ class InputSelection extends Component {
     else  {
       this.setState({
         selectedMSJobDescriptionId: value,
-        selectedMSJobDescriptionName: fetchJobDescriptionsEmployeesByName(value)})
+        })
     }
   };
   
-   inputFieldsHandler = (value, id, name) => {
+   inputFieldsHandler = (value, id, statename) => {
      const oneDecimalOnly = value.toString().split(".")
      .map((el,i)=>i?el.split("").slice(0,1).join(""):el).join(".")
     
      this.setState({
-     [name] : oneDecimalOnly
+     [statename] : oneDecimalOnly
      })
   }
 
@@ -182,6 +146,7 @@ class InputSelection extends Component {
   tableRowsHandler = (hours, namesOfEmployees) => {
     // console.log(namesOfEmployees[0] ? namesOfEmployees : null)
     var objs = [];
+
     // put names of employees into an array
     Object.keys(namesOfEmployees).forEach(function(key) {
       var match = key.match(/(.*)(\d.*)$/);
@@ -190,19 +155,11 @@ class InputSelection extends Component {
       objs[index] = objs[index] || {};
       objs[index][newKey] = namesOfEmployees[key];
     })
-    console.log(objs);
-
     this.setState({
       manHours: hours,
       namesOfEmployees: objs
     })
   };
-
-  resetState = () => {
-    this.setState({
-         ...initialState
-    })
-  }
 
   formSubmitHandler = (event) => {
       event.preventDefault()
@@ -227,8 +184,8 @@ class InputSelection extends Component {
       
       if (!isNaN(this.state.lastId)) {
       axiosLocal.post(URLPostSource, checkForActivity)
-       .then(response => this.resetState())  
-       .catch(error => this.resetState())
+       .then(response => this.setState({...initialState}))  
+       .catch(error => this.setState({...initialState}))
       } else {
         throw new Error("last enrty ID couldn't be retrieved from the server, please refresh the page")
       }
@@ -239,7 +196,7 @@ class InputSelection extends Component {
     // hide={this.props.modal}>Module Still In Progress</Modal> 
     const errorModal = <Modal show={this.state.error} 
     hide={this.props.modal}>Network error while posting data to Database, your entry is not recorded.</Modal> 
-     
+    // console.log(this.state.namesOfEmployees ? this.state.namesOfEmployees.length : null)
    return (
      <div>
       {errorModal}

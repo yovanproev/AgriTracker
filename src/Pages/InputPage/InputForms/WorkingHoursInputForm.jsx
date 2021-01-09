@@ -22,7 +22,9 @@ const WorkingHoursInput = (props) => {
         props.localState.selectedTypeOfHoursId && 
         props.localState.selectedLocationId && 
         props.localState.selectedProjectId &&
-        props.localState.selectedMSJobDescriptionId)
+        props.localState.selectedMSJobDescriptionId &&
+        props.localState.namesOfEmployees && 
+        props.localState.manHours)
     setDisableButtton(props.localState.submitButtonDisabled = true) 
     else {
       setDisableButtton(props.localState.submitButtonDisabled = false) }
