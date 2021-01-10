@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { fetchAllOperators } from "../../LocalData/InputFormsData"
 import "./InputTable.css"
 
@@ -6,54 +6,50 @@ export const TableRows = (job, index, onChange) => {
     // names of employees checked   
     const [ checkedFields, updateCheckedFields ] = useState('')
     
-    const checkboxHandler = (e, name) => {
-      const { id } = e.target;
+    const checkboxHandler = (e, name, rowId) => {
+      const { id , checked} = e.target;
        updateCheckedFields({
         ...checkedFields, 
         [id] : name})
+        if(checked === false){ 
+          workHourReg[rowId].workHours = [{ type: job[0], time: 8}];
+          setWorkHourReg(workHourReg);
+        } 
      }
 
-// console.log(checkedFields)
-
-     const initialValues = {
-        0: "",
-        1: "",
-        2: "",
-        3: "",
-     };
-
-
-    // values of first column
-    const [values, setValues] = useState(initialValues);
-    const handleInputChange = (e) => {
-        const { id, value } = e.target;
-        setValues({
-          ...values,
-          [id]: value,
-        })
-    };
-
-    // values of second column
-    const [secondValue, setSecondValue] = useState("");
-    const [thirdValue, setThirdValue] = useState("");
+    let i = 0;
     
-    const handleInputChangeTwo = (e) => {
-      const { id, value } = e.target; 
-      
-      index.map(i => { 
-        console.log(i)    
-          return job.length === 2 ? 
-         setSecondValue({
-           ...secondValue,
-           [id]: value,
-         }) : job.length === 3 ? 
-         setThirdValue({
-           ...thirdValue,
-           [id]: value,
-         }) :  null
-       })        
-      };
+    const [employeesRows, setEmployeesRows] = useState([]);
+    const [workHourReg, setWorkHourReg] = useState([]);
 
+    useEffect(()=>{
+      let employees =[];
+      setEmployeesRows(fetchAllOperators());
+      
+      do {
+        employees.push({name:'Person '+ i, workHours:[{ type: job[0], time: 8.0}]});
+        i++;
+      } while(i < employeesRows.length);
+
+      setWorkHourReg(employees)
+    }, [employeesRows.length, i, job])
+
+    
+    // console.log(workHourReg)
+    const handleInputChangeTwo = (e, rowId, columnId) => {
+      const { value } = e.target;
+      const workHours = (workHourReg[rowId] || {}).workHours || [];
+      if(!workHours[columnId]){
+         workHours.push({type: job[columnId], time: value });
+      } else {
+        workHours[columnId].time = value;
+      }
+      // console.log("Handle input: ", value, workHours);
+      setWorkHourReg({
+           ...workHourReg,
+           workHours,
+         });
+      };
        
       // disable handler
       const [ check, setCheck ] = useState(true)
@@ -65,46 +61,40 @@ export const TableRows = (job, index, onChange) => {
         });
       };
 
-    // makes single digit out of array of id's from
-    // the multi selection field 
-    // const reducedIndex = index.reduce(x => x + x)
+    const column = (rows, columnindex) =>  
+      <td key={rows+columnindex}> 
+        <label style={{display:"grid"}}>
+          <input type="number" className="jobs-input"
+          step="0.1" id={'input'+rows+columnindex} 
+          min="0"
+          value={(((workHourReg[rows] || {}).workHours || {})[columnindex-1] || {}).time || 0 }
+          disabled={!Object.values(check)[rows]}   
+          onChange={(e) => {handleInputChangeTwo(e, rows, columnindex - 1)}}
+              />
+        </label>
+      </td>
  
-    // console.log("second", secondValue)
-    // console.log("third", thirdValue)
-     
-    const column = (x, index) =>  
- <td key={x}> 
-   <label style={{display:"grid"}}>
-     <input type="number" className="jobs-input"
-     step="0.1" id={index} 
-     min="0"
-    //  onBlur={()=>setThirdValue(secondValue, x)}
-     disabled={!Object.values(check)[index]}   
-    //  onClick={() => setIdOfInput(index)}
-     onChange={(e) => {handleInputChangeTwo(e)}}
-        />
-   </label>
- </td>
- 
-  const columns = (i) => {
-      return index.map(x => {
-        if (x === 1) {
-          return null}
-        else return column(x, i)
+  const columns = (rows) => {
+     return index.map(selectedJobs => {
+        if (selectedJobs === 1) {
+          return null
+        } else { 
+          return column(rows, selectedJobs)
+        }
       })
     }
 
     return(
         <tbody key={index}>
-            {fetchAllOperators().map((x, i) => 
-            <tr key={i} className='even'>
+            {employeesRows.map((employee, rowId) => 
+            <tr key={rowId} className='even'>
                 <td className="first-col-rows"> 
-                    {x.name}
+                    {employee.name}
                 </td>
-                <td key={i}>
+                <td key={rowId}>
                     <label>
                         <input type="checkbox" name="checkboxName" value="on" 
-                        onChange={(e) => {disableHandler(e); checkboxHandler(e, x.name)}} id={i} 
+                        onChange={(e) => {disableHandler(e); checkboxHandler(e, employee.name, rowId)}} id={rowId} 
                         style={{width:"20px", height:"20px", margin: "auto 20px"}}/>
                     </label>
                 </td>
@@ -112,22 +102,20 @@ export const TableRows = (job, index, onChange) => {
                 <td > 
                     <label style={{display:"grid"}}>
                         <input 
-                        // onClick={() => setIdOfInput(i)}
-                        disabled={!Object.values(check)[i]}   
-                        type="number" defaultValue={"8.0"} className="jobs-input"
+                        disabled={!Object.values(check)[rowId]}   
+                        type="number" 
+                        value={(((workHourReg[rowId] || {}).workHours || {})[0] || {}).time || 8 }
+                        className="jobs-input"
                         step="0.1"
-                        id={i} 
-                        onChange={(e) => {handleInputChange(e); onChange(values, checkedFields)}}/>
+                        
+                        onChange={(e) => {handleInputChangeTwo(e, rowId, 0)}}/>
                     </label>
                 </td>
-                {columns(i)}
+                {columns(rowId)}
                 <td >
-                {values !== "" ? ((+parseFloat(Object.values(values)[i]).toFixed(1) || parseInt(8)) + 
-                (+parseFloat(Object.values(secondValue)[i]).toFixed(1) || parseInt(0))  +
-                (+parseFloat(Object.values(thirdValue)[i]).toFixed(1) || parseInt(0)) 
-                // +(+parseFloat(Object.values(fourthValue)[i]).toFixed(1) || parseInt(0))
-                ) 
-                : 8}
+                {parseFloat((((workHourReg[rowId] || {}).workHours || [])
+                .reduce((prevVal,currentVal)=> parseFloat(prevVal) + parseFloat(currentVal.time), 0)) || 8)
+                .toFixed(1)}
                 </td>
                 </tr>
             )}  

@@ -31,11 +31,11 @@ export const deleteByRowId =  (rowId, props) => {
        })
      }
      else if (props.stateProps.index4) {
-      firebase_db_workHours.orderByChild("id")
-       .endAt(rowId).limitToLast(1).once('value').then((snapshot)=>{
+      firebase_db_workHours.limitToLast(1).once("value", function(snapshot) {
         const randomKeyWorking = Object.keys(snapshot.val())
         const childKey = Object.values(snapshot.val())
         console.log(childKey)
+        console.log(randomKeyWorking)
          db.child("workHoursInput/"+ randomKeyWorking).remove()
          resolve(snapshot.val())
        })
