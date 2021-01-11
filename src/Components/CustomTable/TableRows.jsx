@@ -2,53 +2,56 @@ import React, { useEffect, useState } from 'react'
 import { fetchAllOperators } from "../../LocalData/InputFormsData"
 import "./InputTable.css"
 
-export const TableRows = (job, index, onChange) => {
+export const TableRows = ({jobActivities, index, tableRowsHandler}) => {
+    
+    const [employeesRows, setEmployeesRows] = useState([]);
+    const [workHourReg, setWorkHourReg] = useState([]);
+
     // names of employees checked   
     const [ checkedFields, updateCheckedFields ] = useState('')
     
     const checkboxHandler = (e, name, rowId) => {
+      
       const { id , checked} = e.target;
        updateCheckedFields({
         ...checkedFields, 
         [id] : name})
         if(checked === false){ 
-          workHourReg[rowId].workHours = [{ type: job[0], time: 8}];
+          workHourReg[rowId].workHours = [{ type: jobActivities[index]?.name, time: 0.0}];
           setWorkHourReg(workHourReg);
         } 
+        tableRowsHandler(workHourReg)
      }
 
     let i = 0;
     
-    const [employeesRows, setEmployeesRows] = useState([]);
-    const [workHourReg, setWorkHourReg] = useState([]);
-
     useEffect(()=>{
       let employees =[];
       setEmployeesRows(fetchAllOperators());
       
       do {
-        employees.push({name:'Person '+ i, workHours:[{ type: job[0], time: 8.0}]});
+        employees.push({name: employeesRows[i]?.name, workHours:[{ type: jobActivities[i]?.name, time: 0.0}]});
         i++;
       } while(i < employeesRows.length);
 
       setWorkHourReg(employees)
-    }, [employeesRows.length, i, job])
+    }, [employeesRows, employeesRows.length, i, jobActivities])
 
-    
-    // console.log(workHourReg)
-    const handleInputChangeTwo = (e, rowId, columnId) => {
+     // console.log(workHourReg)
+    const handleInputChange = (e, rowId, columnId) => {
       const { value } = e.target;
       const workHours = (workHourReg[rowId] || {}).workHours || [];
       if(!workHours[columnId]){
-         workHours.push({type: job[columnId], time: value });
+         workHours.push({type: jobActivities[columnId]?.name, time: value });
       } else {
         workHours[columnId].time = value;
       }
       // console.log("Handle input: ", value, workHours);
       setWorkHourReg({
            ...workHourReg,
-           workHours,
+          //  workHours,
          });
+         tableRowsHandler(workHourReg)
       };
        
       // disable handler
@@ -65,11 +68,12 @@ export const TableRows = (job, index, onChange) => {
       <td key={rows+columnindex}> 
         <label style={{display:"grid"}}>
           <input type="number" className="jobs-input"
-          step="0.1" id={'input'+rows+columnindex} 
-          min="0"
+          step="0.1" id={rows+columnindex} 
+          min="0" 
+          // onBlur={() => tableRowsHandler(workHourReg)}
           value={(((workHourReg[rows] || {}).workHours || {})[columnindex-1] || {}).time || 0 }
           disabled={!Object.values(check)[rows]}   
-          onChange={(e) => {handleInputChangeTwo(e, rows, columnindex - 1)}}
+          onChange={(e) => {handleInputChange(e, rows, columnindex - 1)}}
               />
         </label>
       </td>
@@ -103,18 +107,18 @@ export const TableRows = (job, index, onChange) => {
                     <label style={{display:"grid"}}>
                         <input 
                         disabled={!Object.values(check)[rowId]}   
-                        type="number" 
-                        value={(((workHourReg[rowId] || {}).workHours || {})[0] || {}).time || 8 }
+                        type="number" id={rowId}
+                        value={(((workHourReg[rowId] || {}).workHours || {})[0] || {}).time || 0 }
                         className="jobs-input"
-                        step="0.1"
-                        
-                        onChange={(e) => {handleInputChangeTwo(e, rowId, 0)}}/>
+                        step="0.1" 
+                        // onBlur={() => tableRowsHandler(workHourReg)}
+                        onChange={(e) => {handleInputChange(e, rowId, 0)}}/>
                     </label>
                 </td>
                 {columns(rowId)}
                 <td >
                 {parseFloat((((workHourReg[rowId] || {}).workHours || [])
-                .reduce((prevVal,currentVal)=> parseFloat(prevVal) + parseFloat(currentVal.time), 0)) || 8)
+                .reduce((prevVal,currentVal)=> parseFloat(prevVal) + parseFloat(currentVal.time), 0)) || 0)
                 .toFixed(1)}
                 </td>
                 </tr>

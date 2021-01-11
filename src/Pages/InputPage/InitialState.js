@@ -19,5 +19,6 @@ export const initialState = {
           selectedExternalTechnicianId: undefined,
           selectedTypeOfHoursId: undefined,
           selectedProjectId: undefined,
-          selectedMSJobDescriptionId: undefined 
+          selectedMSJobDescriptionId: undefined,
+          disableMultiSelectOption: false 
 }

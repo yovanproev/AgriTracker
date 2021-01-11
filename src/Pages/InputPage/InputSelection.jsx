@@ -29,6 +29,7 @@ class InputSelection extends Component {
     loading: false,
     submitButtonDisabled: "",
     lastId: "",
+    disableMultiSelectOption: false,
         
     date: new Date(),
     operators: fetchAllOperators(),
@@ -143,23 +144,29 @@ class InputSelection extends Component {
     })
   }
 
-  tableRowsHandler = (hours, namesOfEmployees) => {
-    // console.log(namesOfEmployees[0] ? namesOfEmployees : null)
-    var objs = [];
-
-    // put names of employees into an array
-    Object.keys(namesOfEmployees).forEach(function(key) {
-      var match = key.match(/(.*)(\d.*)$/);
-      var newKey = match[0];
-      var index = parseInt(match[2]);
-      objs[index] = objs[index] || {};
-      objs[index][newKey] = namesOfEmployees[key];
-    })
+  tableRowsHandler = (workingHours) => {
+    let employeesNames = []
     this.setState({
-      manHours: hours,
-      namesOfEmployees: objs
+       manHours: workingHours,
+      nameOfEmployee: employeesNames,
     })
   };
+
+  disableMultiSelectOptionHandler = () => {
+    this.setState({ disableMultiSelectOption: true})
+  }
+
+  restartFormHandler = () => {
+    this.setState((prevState)=> ({ 
+      ...prevState, 
+      selectedTypeOfHoursId: undefined,
+      selectedLocationId: undefined,
+      selectedProjectId:undefined,
+      selectedMSJobDescriptionId: undefined,
+      namesOfEmployees: undefined,
+      manHours: undefined,
+      disableMultiSelectOption: false }))
+  }
 
   formSubmitHandler = (event) => {
       event.preventDefault()
@@ -196,7 +203,7 @@ class InputSelection extends Component {
     // hide={this.props.modal}>Module Still In Progress</Modal> 
     const errorModal = <Modal show={this.state.error} 
     hide={this.props.modal}>Network error while posting data to Database, your entry is not recorded.</Modal> 
-    // console.log(this.state.namesOfEmployees ? this.state.namesOfEmployees.length : null)
+    
    return (
      <div>
       {errorModal}
@@ -236,7 +243,7 @@ class InputSelection extends Component {
       {this.props.stateProps.index4 === true ?
       //  moduleInProgress 
       <WorkingHoursInputForm 
-      onChange={this.tableRowsHandler}
+      tableRowsHandler={this.tableRowsHandler}
       dateHandler={this.dateHandler}
       updateId={this.updateId}
       onClick={this.props.onClick}
@@ -244,7 +251,9 @@ class InputSelection extends Component {
       localState={this.state}
       selectFieldsHandler={this.selectFieldsHandler}
       inputFieldsHandler={this.inputFieldsHandler} 
-      formHandler={this.formSubmitHandler} /> : null}
+      formHandler={this.formSubmitHandler} 
+      disableMultiSelectOptionHandler={this.disableMultiSelectOptionHandler}
+      restartFormHandler={this.restartFormHandler}/> : null}
     </div>
   )
  }

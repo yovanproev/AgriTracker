@@ -51,15 +51,21 @@ export const maintenanceAndRepairsInputObject = (props) => {
 };
 
 export const workingHoursInputObject = (props) => {
-  let object = props.namesOfEmployees.map((x, index) => { 
+  // console.log(props)
+  let object = props.nameOfEmployee.map((nameOfEmployee, index) => { 
     let arr = []
     for (let i = 0; i <= index; i++) {
      arr.push(i)
     }
     let increaseIdForNextEmployee = arr.slice(-1)[0]
-  
+    console.log("index", index)
+    
     let selectedJobs = props.selectedMSJobDescriptionId
-    return selectedJobs.map((y, i) => {
+    return selectedJobs.map((jobDescription, i) => {
+      
+      console.log("i", i)
+      // console.log(props.manHours[index].workHours[i].time)
+
     let object1 = {
     id: props.lastId + i + index + increaseIdForNextEmployee,
     date: props.date,
@@ -67,9 +73,9 @@ export const workingHoursInputObject = (props) => {
     location: props.selectedLocationName,
     project: props.selectedProjectName,
     
-    jobDescription: y.name,
-    manHours: Object.values(props.manHours)[index],
-    namesOfEmployees: Object.values(x)[0],
+    jobDescription: jobDescription.name,
+    manHours: (props.manHours[index].workHours[i] || []).time,
+    nameOfEmployee: nameOfEmployee,
     
     timeOfEntry: getDateAndTime()
     }

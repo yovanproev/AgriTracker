@@ -2,7 +2,7 @@ import React, { useState} from "react"
 import { Multiselect } from 'multiselect-react-dropdown';
 import { fetchAllJobDescriptionsEmployees} from "../../../LocalData/InputFormsData"
 
-const MultiSelectField = ({ onSelect, id, value }) => {
+const MultiSelectField = ({ onSelect, id, value, disableMultiSelectOption }) => {
  const [ selectedValue, updateSelectedValue ] = useState([])
 
  const state = {
@@ -21,6 +21,7 @@ const MultiSelectField = ({ onSelect, id, value }) => {
 
   return (
     <Multiselect
+    disable={disableMultiSelectOption}
     value={value}
     id={id}
     style={{multiselectContainer: 

@@ -30,7 +30,7 @@ export const getPaginatedTableData = (count, limit, props) => {
       })
    }
    else if (props.stateProps.index4) {
-     firebase_db_workHours.limitToLast(10).once("value", function(snapshot) {
+     firebase_db_workHours.limitToLast(1).once("value", function(snapshot) {
         let arr = []
         let origin = snapshot.val()
           Object.values(origin).forEach(child => 

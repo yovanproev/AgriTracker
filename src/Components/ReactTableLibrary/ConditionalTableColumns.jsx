@@ -201,7 +201,7 @@ export const workingHoursInputColumns = [
   },
   {
     Header: 'Employee',
-    accessor: "namesOfEmployees",
+    accessor: "nameOfEmployee",
     disableSortBy: true,
     Filter: SelectColumnFilter,
     filter: 'equals',

@@ -32,10 +32,12 @@ export const deleteByRowId =  (rowId, props) => {
      }
      else if (props.stateProps.index4) {
       firebase_db_workHours.limitToLast(1).once("value", function(snapshot) {
+        console.log(snapshot)
         const randomKeyWorking = Object.keys(snapshot.val())
+        // const id = Object.keys(snapshot.key) // id-to na sekoj vnes
         const childKey = Object.values(snapshot.val())
-        console.log(childKey)
-        console.log(randomKeyWorking)
+        console.log(childKey) // array od eden cel vnes
+        console.log(randomKeyWorking) // cackali buckali bukvite so se keys vo baazta
          db.child("workHoursInput/"+ randomKeyWorking).remove()
          resolve(snapshot.val())
        })

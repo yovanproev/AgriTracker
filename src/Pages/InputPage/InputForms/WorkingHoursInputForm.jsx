@@ -16,15 +16,16 @@ import CustomTable from "../../../Components/CustomTable/InputTable";
 
 const WorkingHoursInput = (props) => {
  const [ , setDisableButtton ] = useState(false)
-
+ 
   useEffect(() => {
     if (props.localState.date !== "null-null-null" &&
         props.localState.selectedTypeOfHoursId && 
         props.localState.selectedLocationId && 
         props.localState.selectedProjectId &&
         props.localState.selectedMSJobDescriptionId &&
-        props.localState.namesOfEmployees && 
-        props.localState.manHours)
+        props.localState.nameOfEmployee &&
+        props.localState.manHours
+        )
     setDisableButtton(props.localState.submitButtonDisabled = true) 
     else {
       setDisableButtton(props.localState.submitButtonDisabled = false) }
@@ -77,13 +78,20 @@ const WorkingHoursInput = (props) => {
               id={props.localState.selectFields[11].id}
               onSelect={props.selectFieldsHandler}
               value={props.localState.selectedMSJobDescriptionId}
+              disableMultiSelectOption={props.localState.disableMultiSelectOption}
              /> : null
             }
 
-            {props.localState.selectedMSJobDescriptionId ?
+            {props.localState.selectedMSJobDescriptionId && props.localState.disableMultiSelectOption === false ?
+            <button type="button" className="btn" style={{marginTop: "15px", backgroundColor: "green"}} 
+            onClick={props.disableMultiSelectOptionHandler}>Create Table</button> : null}
+            {props.localState.disableMultiSelectOption ? <button type="button" className="btn btn-danger" 
+            style={{marginTop: "15px"}} onClick={props.restartFormHandler}>Restart Entries</button> : null}
+
+            {props.localState.selectedMSJobDescriptionId && props.localState.disableMultiSelectOption ?
             <CustomTable 
             jobActivities={props.localState.selectedMSJobDescriptionId}
-            onChange={props.onChange}
+            tableRowsHandler={props.tableRowsHandler}
             names={arrayOfNames}
             id={arrayOfIds}
             /> 
