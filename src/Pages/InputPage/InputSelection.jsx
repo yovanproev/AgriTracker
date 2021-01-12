@@ -146,6 +146,10 @@ class InputSelection extends Component {
 
   tableRowsHandler = (workingHours) => {
     let employeesNames = []
+    // put names of employees into an array
+    Object.keys(workingHours).forEach(function(key) {
+       employeesNames.push(workingHours[key].name)
+    })    
     this.setState({
        manHours: workingHours,
       nameOfEmployee: employeesNames,

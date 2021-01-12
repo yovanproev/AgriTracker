@@ -3,7 +3,7 @@ import React from "react";
 import "./InputField.css"
 
 const TextField = (props) => {
-  console.log(props)
+  
   return (
     <div className="input-div">
       <p>{props.name}</p>

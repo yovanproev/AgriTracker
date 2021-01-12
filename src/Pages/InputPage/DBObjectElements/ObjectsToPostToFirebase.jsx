@@ -74,7 +74,7 @@ export const workingHoursInputObject = (props) => {
     project: props.selectedProjectName,
     
     jobDescription: jobDescription.name,
-    manHours: (props.manHours[index].workHours[i] || []).time,
+    manHours: (props.manHours[index].workHours[i] || []).time || 0,
     nameOfEmployee: nameOfEmployee,
     
     timeOfEntry: getDateAndTime()
