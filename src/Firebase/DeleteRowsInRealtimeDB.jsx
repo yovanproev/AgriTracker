@@ -1,7 +1,7 @@
 import { firebase_db, firebase_db_fuelConsump, firebase_db_machineReg, 
          firebase_db_maintenance, firebase_db_workHours } from "./Firebase.utils";
 
-export const deleteByRowId =  (rowId, props) => {
+export const deleteByRowId =  (rowId, props, numberOfEmployee, numberOfJob) => {
   return new Promise((resolve)=>{
     let db = firebase_db.ref();
     
@@ -31,16 +31,12 @@ export const deleteByRowId =  (rowId, props) => {
        })
      }
      else if (props.stateProps.index4) {
-      firebase_db_workHours.limitToLast(1).once("value", function(snapshot) {
-        console.log(snapshot)
-        const randomKeyWorking = Object.keys(snapshot.val())
-        // const id = Object.keys(snapshot.key) // id-to na sekoj vnes
-        const childKey = Object.values(snapshot.val())
-        console.log(childKey) // array od eden cel vnes
-        console.log(randomKeyWorking) // cackali buckali bukvite so se keys vo baazta
-         db.child("workHoursInput/"+ randomKeyWorking).remove()
-         resolve(snapshot.val())
-       })
+      firebase_db_workHours.orderByChild("id")
+      .endAt(rowId).limitToLast(1).once('value').then((snapshot)=>{
+       const randomKeyMain = Object.keys(snapshot.val())
+       db.child("workingHoursInput/"+ randomKeyMain + "/" + numberOfEmployee + "/" + numberOfJob).remove()
+       resolve(snapshot.val())
+      })
      }
   })
 }

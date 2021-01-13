@@ -30,7 +30,7 @@ export const getPaginatedTableData = (count, limit, props) => {
       })
    }
    else if (props.stateProps.index4) {
-     firebase_db_workHours.limitToLast(1).once("value", function(snapshot) {
+      firebase_db_workHours.limitToLast(limit).once("value", function(snapshot) {
         let arr = []
         let origin = snapshot.val()
           Object.values(origin).forEach(child => 
@@ -46,18 +46,45 @@ export const getPaginatedTableData = (count, limit, props) => {
    }
   })
 }
- 
-export let counter = 10;
 
-export const nextPage = () => {
+let secondCounter = 1;
+export const workHoursNextPage = () => {
+  for (let i = 0; i < 1; i++) {
+    secondCounter += 1;
+  }
+  return secondCounter 
+}
+
+export const workHoursPreviousPage = () => {
+  for (let i = 0; i < 1; i++) {
+    secondCounter -= 1;
+  }
+   return secondCounter
+}
+
+
+export let counter = 10;
+export const nextPage = (props) => {
  for (let i = 0; i < 1; i++) {
-    counter += 10;
+  if (props.stateProps.index4) {
+    counter = 10
+    secondCounter++
+    return counter += (counter - 20) + secondCounter}  
+  else {
+    // counter = 10;
+    return counter += 10;
+   }
   }
  return counter;
 }
 
-export const previousPage = () => {
+export const previousPage = (props) => {
   for (let i = 0; i < 1; i++) {
+    if (props.stateProps.index4) {
+      counter = 0
+    secondCounter--
+    return counter -= (counter) - secondCounter
+  }
     if (counter > 10) {
     counter -= 10
   } 

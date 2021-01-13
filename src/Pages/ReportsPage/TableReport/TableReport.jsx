@@ -17,9 +17,9 @@ const TableReport = (props) => {
   //name of the excel file
   const [ name, setName ] = useState(null)
 
-  function handleChange(event) {
+  function handleChange(rowId, numberOfEmployee, numberOfJob) {
     // Here, we invoke the callback with the new value
-   props.deleteRowHandler(event);
+    props.deleteRowHandler(rowId, numberOfEmployee, numberOfJob);
   }
 
   // produce table for excel export

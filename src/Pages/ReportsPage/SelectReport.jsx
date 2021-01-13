@@ -12,31 +12,33 @@ const SelectReport = (props) => {
   const [ error, setError ] = useState(undefined)
 
   function nextPageLoad(){
-    const nextPageCount = nextPage();
+    const nextPageCount = nextPage(props);
     getPaginatedTableData(0, nextPageCount, props).then((fullData)=>{
       let fullDataArray=[]
       Object.keys(fullData).forEach((key)=>{
         fullDataArray.push(fullData[key]);
       })
-    updateBlockNextButton(fullDataArray.length < counter ? true : false)
+      updateBlockNextButton(fullDataArray.length < counter ? true : false )
     setTable(fullDataArray)
     })
   }
 
   function previousPageLoad(){
-    const previousPageCount = previousPage();
+    const previousPageCount = previousPage(props);
     getPaginatedTableData(0, previousPageCount, props).then((fullData)=>{
       let fullDataArray=[]
       Object.keys(fullData).forEach((key)=>{
         fullDataArray.push(fullData[key]);
       })
+      console.log(counter)
     updateBlockNextButton(fullDataArray.length > counter ? true : false)
     setTable(fullDataArray)
     })
   }
 
   useEffect(() => {
-          getPaginatedTableData(0, 10, props).then((fullData)=>{
+    const workHoursQuery = props.stateProps.index4 ? 1 : 10
+          getPaginatedTableData(0, workHoursQuery, props).then((fullData)=>{
             let fullDataArray=[]
             Object.keys(fullData).forEach((key)=>{
               fullDataArray.push(fullData[key]);
@@ -51,9 +53,9 @@ const SelectReport = (props) => {
    setModeChange(props.stateProps.outputMode)
  }, [props.stateProps.outputMode])
 
- const deleteRowHandler = (rowId) => {
+ const deleteRowHandler = (rowId, numberOfEmployee, numberOfJob) => {
     const rows = table.filter((row) => row.id !== rowId);
-    deleteByRowId(rowId, props)
+    deleteByRowId(rowId, props, numberOfEmployee, numberOfJob)
     setTable(rows) 
   }
 

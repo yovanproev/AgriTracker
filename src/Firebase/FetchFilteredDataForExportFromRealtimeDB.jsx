@@ -35,6 +35,7 @@ export const getFilteredDataForExport = (startingDate, endDate, props) => {
     firebase_db_workHours.orderByChild("date")
       .startAt(startingDate).once('value').then((snapshot)=>{
         const initialArray = Object.values(snapshot.val())
+        console.log(initialArray)
         resolve(getFilteredArray(endDate, initialArray))
       }).catch(err => {
         console.log(err)
@@ -43,6 +44,20 @@ export const getFilteredDataForExport = (startingDate, endDate, props) => {
   })
 }
  
+const getFilteredDataForExport1 = () => {
+  firebase_db_workHours
+  // .orderByChild("date")
+   // .startAt("13-01-2021")
+  .once('value').then((snapshot)=>{
+    const initialArray = Object.values(snapshot.val())[0][1][1]
+    console.log(initialArray)
+    console.log(snapshot.val())
+  })
+  }
+
+  getFilteredDataForExport1()
+
+
 // Firebase doesn't allow querying the base with start and end parameter at the same time,
 // so this function filters the array fetched from the starting date to the end of the base
 // by filtering with the set end date
