@@ -30,7 +30,7 @@ export const TableRows = ({jobActivities, index, tableRowsHandler}) => {
       setEmployeesRows(fetchAllOperators());
       
       do {
-        employees.push({name: employeesRows[i]?.name, workHours:[{ type: jobActivities[i]?.name, time: 0.0}]});
+        employees.push({name: employeesRows[i]?.name, workHours:[{ type: jobActivities[i]?.name, time: ""}]});
         i++;
       } while(i < employeesRows.length);
 
@@ -70,7 +70,7 @@ export const TableRows = ({jobActivities, index, tableRowsHandler}) => {
           <input type="number" className="jobs-input"
           step="0.1" id={rows+columnindex} 
           min="0" 
-          value={(((workHourReg[rows] || {}).workHours || {})[columnindex-1] || {}).time || 0 }
+          value={(((workHourReg[rows] || {}).workHours || {})[columnindex-1] || {}).time || "" }
           disabled={!Object.values(check)[rows]}   
           onChange={(e) => {handleInputChange(e, rows, columnindex - 1)}}
               />
@@ -107,7 +107,7 @@ export const TableRows = ({jobActivities, index, tableRowsHandler}) => {
                         <input 
                         disabled={!Object.values(check)[rowId]}   
                         type="number" id={rowId}
-                        value={(((workHourReg[rowId] || {}).workHours || {})[0] || {}).time || 0 }
+                        value={(((workHourReg[rowId] || {}).workHours || {})[0] || {}).time || "" }
                         className="jobs-input"
                         step="0.1" 
                         onChange={(e) => {handleInputChange(e, rowId, 0)}}/>

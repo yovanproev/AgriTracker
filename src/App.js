@@ -112,7 +112,6 @@ componentWillUnmount() {
       index2: false,
       index3: true,
       index4: false,
-      hideModal: true 
     });
     break;
     case 3: 
@@ -121,7 +120,7 @@ componentWillUnmount() {
       index2: false,
       index3: false,
       index4: true,
-      hideModal: true 
+      // hideModal: true 
     });
     break;
     default:

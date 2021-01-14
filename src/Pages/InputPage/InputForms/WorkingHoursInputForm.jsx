@@ -56,6 +56,8 @@ const WorkingHoursInput = (props) => {
              id={props.localState.selectFields[9].id}
              onChange={props.selectFieldsHandler}
              value={props.localState.selectedTypeOfHoursId}
+             selectedId={props.localState.selectFields[9].value}
+             statename={props.localState.selectFields[9].statename}
             />
 
             {props.localState.selectedTypeOfHoursId ?
@@ -63,6 +65,8 @@ const WorkingHoursInput = (props) => {
               id={props.localState.selectFields[2].id}
               onChange={props.selectFieldsHandler}
               value={props.localState.selectedLocationId}
+              selectedId={props.localState.selectFields[2].value}
+              statename={props.localState.selectFields[2].statename}
               /> : null
             }
 
@@ -71,15 +75,17 @@ const WorkingHoursInput = (props) => {
              id={props.localState.selectFields[10].id}
              onChange={props.selectFieldsHandler}
              value={props.localState.selectedProjectId}
+             selectedId={props.localState.selectFields[10].value}
+             statename={props.localState.selectFields[10].statename}
             /> : null }
 
             {props.localState.selectedProjectId ?
              <MultiSelectField
               id={props.localState.selectFields[11].id}
-              onSelect={props.selectFieldsHandler}
+              onSelect={props.multiSelectHandler}
               value={props.localState.selectedMSJobDescriptionId}
               disableMultiSelectOption={props.localState.disableMultiSelectOption}
-             /> : null
+            /> : null
             }
 
             {props.localState.selectedMSJobDescriptionId && props.localState.disableMultiSelectOption === false ?

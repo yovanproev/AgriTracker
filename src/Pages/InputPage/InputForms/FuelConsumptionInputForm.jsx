@@ -32,11 +32,7 @@ const FuelConsumptionInput = (props) => {
 
   const onButtonClick = () => {props.updateId()} 
  
-   // const fuelConsumption = this.state.inputFields.slice(0, 3).map((item) => item)
-  // const machineRegistration = this.state.inputFields.slice(0, 3).map((item) => item)
-  // console.log([this.state.inputFields][0][0].value)
-  // console.log(fuelConsumption)
-    return (
+   return (
       <div className="full-div">
         <BackButton onClick={props.onClick}/>
         <h2>Fuel Consumption</h2>
@@ -49,14 +45,19 @@ const FuelConsumptionInput = (props) => {
              value={props.localState.selectedMachineId}
              machineImage={props.localState.selectedMachineImage}
              statename={props.localState.selectFields[0].statename}
+             selectedId={props.localState.selectFields[0].value}
+             selectedMachineImage={props.localState.selectFields[0].image}
             />
 
             {props.localState.selectedMachineId ?
             <SelectField
              id={props.localState.selectFields[1].id}
-             machineImage={props.localState.selectedAttachedMachineryByImage}
+             machineImage={props.localState.selectedAttachedMachineryImage}
              onChange={props.selectFieldsHandler}
              value={props.localState.selectedAttachedMachineryId}
+             statename={props.localState.selectFields[1].statename}
+             selectedId={props.localState.selectFields[1].value}
+             selectedMachineImage={props.localState.selectFields[1].image}
             /> : null }
 
             {props.localState.selectedAttachedMachineryId ?
@@ -78,34 +79,25 @@ const FuelConsumptionInput = (props) => {
                   statename={[props.localState.inputFields][0][2].statename}/>
               </div>: null
             } 
-            {/* {state.selectedMachineId ?
-              <div className="input">
-                {fuelConsumption.map((actitivity, index) => (
-                <InputFields 
-                id={actitivity.id}
-                name={actitivity.name}
-                // onChange={inputsHandler}
-                onChange={inputsHandler}
-                index={index}
-                count={actitivity.value}
-                children={actitivity.name}/>))} 
-              </div> : null
-            } */}
-                        
+                                    
             {props.localState.selectedAttachedMachineryId ?
               <SelectField
               id={props.localState.selectFields[2].id}
-               onChange={props.selectFieldsHandler}
+              onChange={props.selectFieldsHandler}
               value={props.localState.selectedLocationId}
-             /> : null
+              selectedId={props.localState.selectFields[2].value}
+              statename={props.localState.selectFields[2].statename}
+            /> : null
             }
 
             {props.localState.selectedMachineId && 
             props.localState.selectedLocationId ?
               <SelectField
               id={props.localState.selectFields[4].id}
-               onChange={props.selectFieldsHandler}
+              onChange={props.selectFieldsHandler}
               value={props.localState.selectedOperatorId}
+              selectedId={props.localState.selectFields[4].value}
+              statename={props.localState.selectFields[4].statename}
              /> : null
             }
 

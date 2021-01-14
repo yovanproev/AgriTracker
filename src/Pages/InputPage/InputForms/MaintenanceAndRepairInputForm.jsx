@@ -47,14 +47,20 @@ const MaintenanceAndRepairsInput = (props) => {
              onChange={props.selectFieldsHandler}
              value={props.localState.selectedMachineId}
              machineImage={props.localState.selectedMachineImage}
+             selectedId={props.localState.selectFields[0].value}
+             selectedMachineImage={props.localState.selectFields[0].image}
+             statename={props.localState.selectFields[0].statename}
             />
 
             {props.localState.selectedMachineId ?
             <SelectField
              id={props.localState.selectFields[1].id}
-             machineImage={props.localState.selectedAttachedMachineryByImage}
+             machineImage={props.localState.selectedAttachedMachineryImage}
              onChange={props.selectFieldsHandler}
              value={props.localState.selectedAttachedMachineryId}
+             selectedId={props.localState.selectFields[1].value}
+             selectedMachineImage={props.localState.selectFields[1].image}
+             statename={props.localState.selectFields[1].statename}
             /> : null }
 
             {props.localState.selectedAttachedMachineryId ?
@@ -71,6 +77,8 @@ const MaintenanceAndRepairsInput = (props) => {
               id={props.localState.selectFields[2].id}
               onChange={props.selectFieldsHandler}
               value={props.localState.selectedLocationId}
+              selectedId={props.localState.selectFields[2].value}
+              statename={props.localState.selectFields[2].statename}
              /> : null
             }
 
@@ -79,6 +87,8 @@ const MaintenanceAndRepairsInput = (props) => {
               id={props.localState.selectFields[8].id}
               onChange={props.selectFieldsHandler}
               value={props.localState.selectedExternalTechnicianId}
+              selectedId={props.localState.selectFields[8].value}
+              statename={props.localState.selectFields[8].statename}
              /> : null
             }
 
@@ -87,6 +97,8 @@ const MaintenanceAndRepairsInput = (props) => {
               id={props.localState.selectFields[7].id}
               onChange={props.selectFieldsHandler}
               value={props.localState.selectedMaintenanceId}
+              selectedId={props.localState.selectFields[7].value}
+              statename={props.localState.selectFields[7].statename}
              /> : null
             }
 
@@ -95,6 +107,8 @@ const MaintenanceAndRepairsInput = (props) => {
               id={props.localState.selectFields[6].id}
               onChange={props.selectFieldsHandler}
               value={props.localState.selectedJobDescriptionId}
+              selectedId={props.localState.selectFields[6].value}
+              statename={props.localState.selectFields[6].statename}
              /> : null
             }            
 

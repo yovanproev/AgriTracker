@@ -44,14 +44,20 @@ const MachineRegistrationInput = (props) => {
              machineImage={props.localState.selectedMachineImage}
              onChange={props.selectFieldsHandler}
              value={props.localState.selectedMachineId}
+             selectedId={props.localState.selectFields[0].value}
+             selectedMachineImage={props.localState.selectFields[0].image}
+             statename={props.localState.selectFields[0].statename}
             />
             
             {props.localState.selectedMachineId ?
             <SelectField
              id={props.localState.selectFields[1].id}
-             machineImage={props.localState.selectedAttachedMachineryByImage}
+             machineImage={props.localState.selectedAttachedMachineryImage}
              onChange={props.selectFieldsHandler}
              value={props.localState.selectedAttachedMachineryId}
+             selectedId={props.localState.selectFields[1].value}
+             selectedMachineImage={props.localState.selectFields[1].image}
+             statename={props.localState.selectFields[1].statename}
             /> : null }
 
             {props.localState.selectedAttachedMachineryId ?
@@ -59,6 +65,8 @@ const MachineRegistrationInput = (props) => {
               id={props.localState.selectFields[5].id}
               onChange={props.selectFieldsHandler}
               value={props.localState.selectedFarmId}
+              selectedId={props.localState.selectFields[5].value}
+              statename={props.localState.selectFields[5].statename}
              /> : null
             }
 
@@ -67,6 +75,8 @@ const MachineRegistrationInput = (props) => {
               id={props.localState.selectFields[3].id}
               onChange={props.selectFieldsHandler}
               value={props.localState.selectedProductId}
+              selectedId={props.localState.selectFields[3].value}
+              statename={props.localState.selectFields[3].statename}
              /> : null
             }
 
@@ -84,6 +94,8 @@ const MachineRegistrationInput = (props) => {
               id={props.localState.selectFields[4].id}
               onChange={props.selectFieldsHandler}
               value={props.localState.selectedOperatorId}
+              selectedId={props.localState.selectFields[4].value}
+              statename={props.localState.selectFields[4].statename}
              /> : null
             }
 

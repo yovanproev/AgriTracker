@@ -61,71 +61,29 @@ class InputSelection extends Component {
 
   updateId = () => {this.setState({lastId: parseInt(this.state.lastId) + parseInt(1)})}
 
-  selectFieldsHandler = (value, id) => {
-    // console.log(value, id)
-    if (id === this.state.selectFields[0].id) {
+  selectFieldsHandler = (value, id, statename, selectedid, selectedmachineimage) => {
+    
        this.setState({
-        selectedMachineId: value,
-        selectedMachineName: fetchMachineByName(value),
-        selectedMachineImage: fetchMachineByImage(value)})
-    }
-    else if (id === this.state.selectFields[1].id) {
-      this.setState({
-     selectedAttachedMachineryId: value,
-     selectedAttachedMachineryName: fetchAttachedMachineryByName(value),
-     selectedAttachedMachineryByImage: fetchAttachedMachineryByImage(value)})
-    }
-    else if (id === this.state.selectFields[2].id) {
-      this.setState({
-     selectedLocationId: value,
-     selectedLocationName: fetchLocationByName(value)})
-    }
-    else if (id === this.state.selectFields[3].id) {
-      this.setState({
-        selectedProductId: value,
-        selectedProductName: fetchProductsByName(value)})
-    }
-    else if (id === this.state.selectFields[4].id) {
-      this.setState({
-        selectedOperatorId: value,
-        selectedOperatorName: fetchOperatorsByName(value)})
-    }
-    else if (id === this.state.selectFields[5].id) {
-      this.setState({
-        selectedFarmId: value,
-        selectedFarmName: fetchLocationByName(value)})
-    }
-    else if (id === this.state.selectFields[6].id) {
-      this.setState({
-        selectedJobDescriptionId: value,
-        selectedJobName: fetchJobDescriptionsByName(value)})
-    }
-    else if (id === this.state.selectFields[7].id) {
-      this.setState({
-        selectedMaintenanceId: value,
-        selectedMaintenanceName: fetchMaintenanceByName(value)})
-    }
-    else if (id === this.state.selectFields[8].id) {
-      this.setState({
-        selectedExternalTechnicianId: value,
-        selectedExternalTechinicianName: fetchExternalTechnicianByName(value)})
-    }
-    else if (id === this.state.selectFields[9].id) {
-      this.setState({
-        selectedTypeOfHoursId: value,
-        selectedTypeOfHoursName: fetchTypeOfHoursByName(value)})
-    }
-    else if (id === this.state.selectFields[10].id) {
-      this.setState({
-        selectedProjectId: value,
-        selectedProjectName: fetchProjectsByName(value)})
-    }
-    else  {
-      this.setState({
-        selectedMSJobDescriptionId: value,
-        })
-    }
+        [selectedid]: value, 
+        
+        [statename]: id === this.state.selectFields[0].id ? fetchMachineByName(value) : 
+        id === this.state.selectFields[1].id ? fetchAttachedMachineryByName(value) : 
+        id === this.state.selectFields[2].id ? fetchLocationByName(value) :
+        id === this.state.selectFields[3].id ? fetchProductsByName(value) : 
+        id === this.state.selectFields[4].id ? fetchOperatorsByName(value) : 
+        id === this.state.selectFields[5].id ? fetchLocationByName(value) :
+        id === this.state.selectFields[6].id ? fetchJobDescriptionsByName(value) :
+        id === this.state.selectFields[7].id ? fetchMaintenanceByName(value) :
+        id === this.state.selectFields[8].id ? fetchExternalTechnicianByName(value) : 
+        id === this.state.selectFields[9].id ? fetchTypeOfHoursByName(value) : 
+        id === this.state.selectFields[10].id ? fetchProjectsByName(value) : null,
+        
+        [selectedmachineimage] : id === this.state.selectFields[0].id ? fetchMachineByImage(value) :
+        id === this.state.selectFields[1].id ? fetchAttachedMachineryByImage(value) : null
+      })
   };
+
+  multiSelectHandler = (value) => {this.setState({ selectedMSJobDescriptionId: value })}
   
    inputFieldsHandler = (value, id, statename) => {
      const oneDecimalOnly = value.toString().split(".")
@@ -259,7 +217,8 @@ class InputSelection extends Component {
       inputFieldsHandler={this.inputFieldsHandler} 
       formHandler={this.formSubmitHandler} 
       disableMultiSelectOptionHandler={this.disableMultiSelectOptionHandler}
-      restartFormHandler={this.restartFormHandler}/> : null}
+      restartFormHandler={this.restartFormHandler}
+      multiSelectHandler={this.multiSelectHandler}/> : null}
     </div>
   )
  }
