@@ -70,7 +70,6 @@ export const TableRows = ({jobActivities, index, tableRowsHandler}) => {
           <input type="number" className="jobs-input"
           step="0.1" id={rows+columnindex} 
           min="0" 
-          // onBlur={() => tableRowsHandler(workHourReg)}
           value={(((workHourReg[rows] || {}).workHours || {})[columnindex-1] || {}).time || 0 }
           disabled={!Object.values(check)[rows]}   
           onChange={(e) => {handleInputChange(e, rows, columnindex - 1)}}
@@ -111,7 +110,6 @@ export const TableRows = ({jobActivities, index, tableRowsHandler}) => {
                         value={(((workHourReg[rowId] || {}).workHours || {})[0] || {}).time || 0 }
                         className="jobs-input"
                         step="0.1" 
-                        // onBlur={() => tableRowsHandler(workHourReg)}
                         onChange={(e) => {handleInputChange(e, rowId, 0)}}/>
                     </label>
                 </td>

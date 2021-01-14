@@ -24,20 +24,26 @@ import { initialState } from "./InitialState"
 import { fetchAllinputFields } from "../../LocalData/InputFormsData"
 
 class InputSelection extends Component { 
-  state = {
-    submit: true,
-    loading: false,
-    submitButtonDisabled: "",
-    lastId: "",
-    disableMultiSelectOption: false,
-        
-    date: new Date(),
-    operators: fetchAllOperators(),
-    inputFields: fetchAllinputFields(),
-    selectFields: fetchAllSelectFields(),
-  }
+  constructor (props) {
+    super(props)
+    const fullData = getLastId(this.props)
+      this.state = {
+      submit: true,
+      loading: false,
+      submitButtonDisabled: "",
+      lastId: fullData.then(res => res),
+      disableMultiSelectOption: false,
+          
+      date: new Date(),
+      operators: fetchAllOperators(),
+      inputFields: fetchAllinputFields(),
+      selectFields: fetchAllSelectFields(),
+    }
+}
   
-  UNSAFE_componentWillMount () {
+  componentDidMount() {
+    this.setState({operators: fetchAllOperators()})
+    
     const fullData = getLastId(this.props)
       fullData.then(res => { 
         this.setState({
@@ -46,10 +52,6 @@ class InputSelection extends Component {
         }).catch(err => {
           throw new Error(err)
         })
-  }
-
-  componentDidMount() {
-    this.setState({operators: fetchAllOperators()})
   }
       
   shouldComponentUpdate (nextProps, ) {
@@ -196,7 +198,7 @@ class InputSelection extends Component {
       if (!isNaN(this.state.lastId)) {
       axiosLocal.post(URLPostSource, checkForActivity)
        .then(response => this.setState({...initialState}))  
-       .catch(error => this.setState({...initialState}))
+       .catch(error => this.setState({...initialState, error: true}))
       } else {
         throw new Error("last enrty ID couldn't be retrieved from the server, please refresh the page")
       }

@@ -47,44 +47,29 @@ export const getPaginatedTableData = (count, limit, props) => {
   })
 }
 
-let secondCounter = 1;
-export const workHoursNextPage = () => {
-  for (let i = 0; i < 1; i++) {
-    secondCounter += 1;
-  }
-  return secondCounter 
-}
-
-export const workHoursPreviousPage = () => {
-  for (let i = 0; i < 1; i++) {
-    secondCounter -= 1;
-  }
-   return secondCounter
-}
-
+// let secondCounter = 1;
 
 export let counter = 10;
-export const nextPage = (props) => {
+export const nextPage = () => {
  for (let i = 0; i < 1; i++) {
-  if (props.stateProps.index4) {
-    counter = 10
-    secondCounter++
-    return counter += (counter - 20) + secondCounter}  
-  else {
-    // counter = 10;
+  // if (props.stateProps.index4) {
+  //   counter = 10
+  //   secondCounter++
+  //   return counter += (counter - 20) + secondCounter}  
+  // else {
     return counter += 10;
-   }
+  //  }
   }
  return counter;
 }
 
-export const previousPage = (props) => {
+export const previousPage = () => {
   for (let i = 0; i < 1; i++) {
-    if (props.stateProps.index4) {
-      counter = 0
-    secondCounter--
-    return counter -= (counter) - secondCounter
-  }
+  //   if (props.stateProps.index4) {
+  //     counter = 0
+  //   secondCounter--
+  //   return counter -= (counter) - secondCounter
+  // }
     if (counter > 10) {
     counter -= 10
   } 

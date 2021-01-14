@@ -18,6 +18,8 @@ const SelectReport = (props) => {
       Object.keys(fullData).forEach((key)=>{
         fullDataArray.push(fullData[key]);
       })
+      // console.log(counter)
+      // console.log(fullDataArray.length)
       updateBlockNextButton(fullDataArray.length < counter ? true : false )
     setTable(fullDataArray)
     })
@@ -37,8 +39,8 @@ const SelectReport = (props) => {
   }
 
   useEffect(() => {
-    const workHoursQuery = props.stateProps.index4 ? 1 : 10
-          getPaginatedTableData(0, workHoursQuery, props).then((fullData)=>{
+    // const workHoursQuery = props.stateProps.index4 ? 1 : 10
+          getPaginatedTableData(0, 10, props).then((fullData)=>{
             let fullDataArray=[]
             Object.keys(fullData).forEach((key)=>{
               fullDataArray.push(fullData[key]);

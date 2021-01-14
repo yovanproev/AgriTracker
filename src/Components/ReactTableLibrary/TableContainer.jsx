@@ -147,7 +147,8 @@ const TableContainer = ({
                 
                 {stateProps.outputTable === true ?
                 <td>  
-                 <DeleteButton onClick={() => onDelete(data[row.id].id, data[row.id].numberOfEmployee, data[row.id].numberOfJob)}/>
+                 <DeleteButton onClick={() => onDelete(data[row.id].id, 
+                  data[row.id].numberOfEmployee, data[row.id].numberOfJob)}/>
                 </td> : null}
                 </RenderForAdmin>
                 </tr>

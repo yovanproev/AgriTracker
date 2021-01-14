@@ -60,7 +60,7 @@ const TableReport = (props) => {
       const endYear = endDate.length !== 0 ? addZero(endDate.getFullYear()) : null
         return endDay + "-" + endMonth + "-" + endYear
     }
-    if (endDate.length !== 0) getFilteredDataForExport(getStartingDate(), getEndDate(), props.stateProps)
+    if (endDate !== null) getFilteredDataForExport(getStartingDate(), getEndDate(), props.stateProps)
     .then(res => updateExcelData(res))
     .catch(err => {
       console.log(err)
