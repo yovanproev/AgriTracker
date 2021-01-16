@@ -124,7 +124,8 @@ class App extends React.Component {
     this.setState({ currentUser: null})
     auth.signOut()}
 
-  expiredToken = () => {this.setState({ role: "Disabled"})}
+  expiredToken = () => {this.setState({ role: "Disabled"})
+  auth.signOut()}
 
   render() {
     return (

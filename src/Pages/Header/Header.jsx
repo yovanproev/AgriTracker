@@ -55,7 +55,7 @@ const Header = ({ stateProps, inputMode, outputMode, modalHandler, signOutHandle
         </ul>
         </RenderForOperator> : null}
 
-         {stateProps.currentUser ?        
+         {stateProps.currentUser || stateProps.logOutError ?        
         <NavLink className="sign-out-link"  
           to="/"
           onClick={() => signOutAndModalOff()}>
