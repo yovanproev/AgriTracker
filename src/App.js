@@ -20,13 +20,13 @@ class App extends React.Component {
   constructor (props) {
     super(props)
 
-    const cookieData = document.cookie.split(';');
-    const expirationDate = cookieData[1].includes("expirationDate") ? cookieData[1].split('=')[1] : 
-    cookieData[0].includes("expirationDate") ? cookieData[0].split('=')[1] : cookieData[2].split('=')[1]
-    const tokenId = cookieData[1].includes("tokenId") ? cookieData[1].split('=')[1] : 
-    cookieData[0].includes("tokenId") ? cookieData[0].split('=')[1] : cookieData[2].split('=')[1]
-    const email = cookieData[1].includes("email") ? cookieData[1].split('=')[1] : 
-    cookieData[0].includes("email") ? cookieData[0].split('=')[1] : cookieData[2].split('=')[1]
+    const cookieData = document.cookie?.split(';');
+    const expirationDate = cookieData[1]?.includes("expirationDate") ? cookieData[1]?.split('=')[1] : 
+    cookieData[0]?.includes("expirationDate") ? cookieData[0]?.split('=')[1] : cookieData[2]?.split('=')[1]
+    const tokenId = cookieData[1]?.includes("tokenId") ? cookieData[1]?.split('=')[1] : 
+    cookieData[0]?.includes("tokenId") ? cookieData[0]?.split('=')[1] : cookieData[2]?.split('=')[1]
+    const email = cookieData[1]?.includes("email") ? cookieData[1]?.split('=')[1] : 
+    cookieData[0]?.includes("email") ? cookieData[0]?.split('=')[1] : cookieData[2]?.split('=')[1]
 
     this.state = {
       currentUser: null,
