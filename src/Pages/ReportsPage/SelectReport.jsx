@@ -39,7 +39,7 @@ const SelectReport = (props) => {
   }
 
   useEffect(() => {
-    // const workHoursQuery = props.stateProps.index4 ? 1 : 10
+    // const workHoursQuery = props.stateProps.selectActivity === 3 ? 1 : 10
           getPaginatedTableData(0, 10, props).then((fullData)=>{
             let fullDataArray=[]
             Object.keys(fullData).forEach((key)=>{
@@ -63,17 +63,13 @@ const SelectReport = (props) => {
 
 //  const moduleInProgress = <Modal show={props.stateProps.hideModal} hide={props.modal}>
 //    Module Still Not Built</Modal> 
-  
- const errorModal = table.length === 0 || table === undefined ? <Modal show={props.stateProps.hideModal} 
+   const errorModal = table.length === 0 || table === undefined ? <Modal show={props.stateProps.hideModal} 
     hide={props.modal}>User has no authorization to read data{error}</Modal> : null
     
     return (
    <div className="table-reports">
-     {props.stateProps.index1 || 
-      props.stateProps.index2 || 
-      props.stateProps.index3 ||
-      props.stateProps.index4  ? errorModal : null}
-      {/* {props.stateProps.index4 ? moduleInProgress : */}
+     {props.stateProps.selectedActivity  ? errorModal : null}
+      {/* {props.stateProps.selectActivity === 3 ? moduleInProgress :} */}
       < TableReport
         blockNextButton={blockNextButton}
         counter={counter}

@@ -34,9 +34,12 @@ class SignUp extends Component {
     .then(response => {
       const tokenId = response.data.idToken
       const email = response.data.email
+      const expirationDate = new Date(new Date().getTime() + response.data.expiresIn * 1000)
+
       document.cookie = `tokenId=${tokenId}`
       document.cookie = `email=${email}`
-      this.props.tokenIdHandler()
+      document.cookie = `expirationDate=${expirationDate}`
+      // this.props.tokenIdHandler()
     })
     .catch(err => {
       console.log(err)

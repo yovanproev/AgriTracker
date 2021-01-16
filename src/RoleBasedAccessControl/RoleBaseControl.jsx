@@ -1,22 +1,22 @@
 import Modal from "../Components/Modal/Modal"
 
-export const RenderForAdmin = ({currentUser, ...other}) => {
-  // console.log("render for admin")
-if (currentUser.role === "Administrator") {
+export const RenderForAdmin = ({stateProps, ...other}) => {
+  if (stateProps.role === "Administrator") {
  return other.children
  } else return null
 }
 
-export const RenderForOperator = ({currentUser, ...other}) => {
-  if (currentUser.role === "Operator") {
+export const RenderForOperator = ({stateProps, ...other}) => {
+  if (stateProps.role === "Operator") {
     return other.children
     } 
-  else if (currentUser.role === "Administrator") {
+  else if (stateProps.role === "Administrator") {
     return other.children
   }
-  else if (currentUser.role === "Disabled") {
-   return <Modal show={true}>Your account is disabled, please contact the Administrator!</Modal>
+  else if (stateProps.role === "Disabled") {
+   return stateProps.logOutError ? <Modal show={true}>Your token has expired, please sign in again!</Modal> : 
+   <Modal show={true}>Your account is disabled, please contact the Administrator!</Modal>
   }
-  return  <Modal show={true}>Please contact the Administrator to get authorization!</Modal>
+  else return  <Modal show={true}>Please contact the Administrator to get authorization!</Modal>
 }
 

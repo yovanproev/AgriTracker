@@ -2,41 +2,36 @@ import { firebase_db, firebase_db_fuelConsump, firebase_db_machineReg,
          firebase_db_maintenance, firebase_db_workHours } from "./Firebase.utils";
 
 export const deleteByRowId =  (rowId, props, numberOfEmployee, numberOfJob) => {
-  return new Promise((resolve)=>{
+  return new Promise((resolve, reject)=>{
     let db = firebase_db.ref();
     
-   if (props.stateProps.index1) {
-   firebase_db_fuelConsump.orderByChild("id")
-     .endAt(rowId).limitToLast(1).once('value').then((snapshot)=>{
-      //  console.log(Object.keys(snapshot.val()))
-       const randomKeyFuel = Object.keys(snapshot.val())
-       db.child("fuelConsumptionInput/"+ randomKeyFuel).remove()
-       resolve(snapshot.val())
-     })
-    }
-   else if (props.stateProps.index2) {
-     firebase_db_machineReg.orderByChild("id")
-      .endAt(rowId).limitToLast(1).once('value').then((snapshot)=>{
-       const randomKeyMach = Object.keys(snapshot.val())
-        db.child("machineRegistrationInput/"+ randomKeyMach).remove()
-        resolve(snapshot.val())
-      })
-    }
-    else if (props.stateProps.index3) {
-      firebase_db_maintenance.orderByChild("id")
-       .endAt(rowId).limitToLast(1).once('value').then((snapshot)=>{
-        const randomKeyMain = Object.keys(snapshot.val())
-         db.child("maintenanceAndRepairsInput/"+ randomKeyMain).remove()
-         resolve(snapshot.val())
-       })
-     }
-     else if (props.stateProps.index4) {
+    const database = props.stateProps.selectedActivity === 0 ? firebase_db_fuelConsump : 
+    props.stateProps.selectedActivity === 1 ? firebase_db_machineReg : 
+    props.stateProps.selectedActivity === 2 ? firebase_db_maintenance : null
+
+    const firstChild = props.stateProps.selectedActivity === 0 ? "fuelConsumptionInput/" : 
+    props.stateProps.selectedActivity === 1 ? "machineRegistrationInput/" : 
+    props.stateProps.selectedActivity === 2 ? "maintenanceAndRepairsInput/" : null
+
+    if (props.stateProps.selectedActivity === 3) {
       firebase_db_workHours.orderByChild("id")
       .endAt(rowId).limitToLast(1).once('value').then((snapshot)=>{
-       const randomKeyMain = Object.keys(snapshot.val())
-       db.child("workingHoursInput/"+ randomKeyMain + "/" + numberOfEmployee + "/" + numberOfJob).remove()
+       const randomKey = Object.keys(snapshot.val())
+       db.child("workingHoursInput/"+ randomKey + "/" + numberOfEmployee + "/" + numberOfJob).remove()
        resolve(snapshot.val())
+      }).catch(err => {
+        reject(err)
       })
+     }
+     else {
+      database.orderByChild("id")
+        .endAt(rowId).limitToLast(1).once('value').then((snapshot)=>{
+          const randomKey = Object.keys(snapshot.val())
+          db.child(firstChild + randomKey).remove()
+          resolve(snapshot.val())
+        }).catch(err => {
+          reject(err)
+        })
      }
   })
 }

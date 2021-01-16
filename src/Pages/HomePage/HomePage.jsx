@@ -13,7 +13,7 @@ const HomePage = (props) => {
 
   
   useEffect(() => {
-    getAllUsers().then(resolve => {
+    getAllUsers(props).then(resolve => {
       setUser(resolve)
     })
     return () => {
@@ -22,7 +22,7 @@ const HomePage = (props) => {
       setUser(null)
     }
   }
-}, [props.stateProps.currentUser])
+}, [props, props.stateProps.currentUser])
     
   // get the table row number 
   const [ rowIdValue, setRowId ] = useState(undefined);
@@ -53,7 +53,8 @@ const HomePage = (props) => {
        <div>
          <h4>Welcome to your App, to choose a module pick yourself a cherry.</h4>
        </div>
-       <RenderForAdmin currentUser={props.stateProps.currentUser}>
+       <RenderForAdmin currentUser={props.stateProps.currentUser}
+       stateProps={props.stateProps}>
        <Table
           stateProps={props.stateProps}
           data={user}

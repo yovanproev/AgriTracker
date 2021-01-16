@@ -35,9 +35,12 @@ class SignIn extends Component {
       // console.log(response)
       const tokenId = response.data.idToken
       const email = response.data.email
+      const expirationDate = new Date(new Date().getTime() + response.data.expiresIn * 1000)
+      
       document.cookie = `tokenId=${tokenId}`
       document.cookie = `email=${email}`
-      this.props.tokenIdHandler()
+      document.cookie = `expirationDate=${expirationDate}`
+      // this.props.tokenIdHandler()
    })
     .catch(err => {
       throw new Error(err)

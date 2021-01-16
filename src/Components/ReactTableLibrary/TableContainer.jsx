@@ -133,7 +133,7 @@ const TableContainer = ({
                       <td {...cell.getCellProps()}>{cell.render('Cell')}</td>
                     );
                   })}
-                <RenderForAdmin currentUser={currentUser}>  
+                <RenderForAdmin stateProps={stateProps}>  
                 {stateProps.outputTable === true ? null : 
                 <td>
                 <AdminTableElements 

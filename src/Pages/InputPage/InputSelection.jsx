@@ -141,17 +141,17 @@ class InputSelection extends Component {
       loading: true
       }))
          
-      const checkForActivity = this.props.stateProps.index1 ? fuelConsumptionInputObject(this.state) 
-      : this.props.stateProps.index2 ? machineRegistrationInputObject(this.state) 
-      : this.props.stateProps.index3 ? maintenanceAndRepairsInputObject(this.state) 
-      : this.props.stateProps.index4 ? workingHoursInputObject(this.state): null 
+      const checkForActivity = this.props.stateProps.selectedActivity === 0 ? fuelConsumptionInputObject(this.state) 
+      : this.props.stateProps.selectedActivity === 1 ? machineRegistrationInputObject(this.state) 
+      : this.props.stateProps.selectedActivity === 2 ? maintenanceAndRepairsInputObject(this.state) 
+      : this.props.stateProps.selectedActivity === 3 ? workingHoursInputObject(this.state): null 
       
       const queryParams = '?auth=' + this.props.stateProps.tokenId + '&auth.token.email=' + this.props.stateProps.email;
     
-      const URLPostSource = this.props.stateProps.index1 ? ('/fuelConsumptionInput.json' + queryParams) 
-      : this.props.stateProps.index2 ? ('/machineRegistrationInput.json' + queryParams)
-      : this.props.stateProps.index3 ? ('/maintenanceAndRepairsInput.json' + queryParams) 
-      : this.props.stateProps.index4 ? ('/workingHoursInput.json' + queryParams) : null 
+      const URLPostSource = this.props.stateProps.selectedActivity === 0 ? ('/fuelConsumptionInput.json' + queryParams) 
+      : this.props.stateProps.selectedActivity === 1 ? ('/machineRegistrationInput.json' + queryParams)
+      : this.props.stateProps.selectedActivity === 2 ? ('/maintenanceAndRepairsInput.json' + queryParams) 
+      : this.props.stateProps.selectedActivity === 3 ? ('/workingHoursInput.json' + queryParams) : null 
       
       if (!isNaN(this.state.lastId)) {
       axiosLocal.post(URLPostSource, checkForActivity)
@@ -171,7 +171,7 @@ class InputSelection extends Component {
    return (
      <div>
       {errorModal}
-      {this.props.stateProps.index1 === true ?
+      {this.props.stateProps.selectedActivity === 0 ?
       <FuelConsumptionInput 
       dateHandler={this.dateHandler}
       updateId={this.updateId}
@@ -182,7 +182,7 @@ class InputSelection extends Component {
       inputFieldsHandler={this.inputFieldsHandler} 
       formHandler={this.formSubmitHandler} /> : null}
 
-      {this.props.stateProps.index2 === true ?
+      {this.props.stateProps.selectedActivity === 1 ?
       <MachineRegistrationInput 
       dateHandler={this.dateHandler}
       updateId={this.updateId}
@@ -193,7 +193,7 @@ class InputSelection extends Component {
       inputFieldsHandler={this.inputFieldsHandler} 
       formHandler={this.formSubmitHandler} /> : null}
       
-      {this.props.stateProps.index3 === true ?
+      {this.props.stateProps.selectedActivity === 2 ?
       <MaintenanceAndRepairInputForm
       dateHandler={this.dateHandler}
       updateId={this.updateId}
@@ -204,7 +204,7 @@ class InputSelection extends Component {
       inputFieldsHandler={this.inputFieldsHandler} 
       formHandler={this.formSubmitHandler} /> : null}
 
-      {this.props.stateProps.index4 === true ?
+      {this.props.stateProps.selectedActivity === 3 ?
       //  moduleInProgress 
       <WorkingHoursInputForm 
       tableRowsHandler={this.tableRowsHandler}

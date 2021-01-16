@@ -1,10 +1,8 @@
 import React from 'react';
 import './App.css';
 import {
-  Switch,
-  Route,
-  Redirect,
-  HashRouter as Router 
+  Switch, Route,
+  Redirect, HashRouter as Router 
 } from "react-router-dom";
 
 import Header from "./Pages/Header/Header"
@@ -16,56 +14,63 @@ import SelectActivity from './Pages/SelectActivity';
 import { resetCounter } from "./Firebase/FetchDataFromRealtimeDB";
 import { auth, createUserProfileDocument } from "./Firebase/Firebase.utils"
 import { RenderForOperator } from './RoleBasedAccessControl/RoleBaseControl';
-
+// import Modal from "./Components/Modal/Modal"
 
 class App extends React.Component {
+  constructor (props) {
+    super(props)
 
-  state = {
-    currentUser: null,
-    inputMode: JSON.parse(localStorage.getItem( 'SelectedMode' )),
-    outputMode: undefined,
-    inputForms: false,
-    outputTable: false,
-    hideModal: true,
-    signedOut: false,
-    activityBubbleState: [
-      { name: "Fuel Consumption"},
-      { name: "Machine Registration"},
-      { name: "Maintenance and Repair"},
-      { name: "Working Hours Registration"},
-    ],
-  } 
-
-unsubscribeFromAuth = null
-
-componentDidMount() {
-  this.unsubscribeFromAuth = auth.onAuthStateChanged(async userAuth => {
-    if (userAuth) {
-      const userRef = await createUserProfileDocument(userAuth);
-
-      userRef.onSnapshot(snapShot => {
-        this.setState({
-          currentUser: {
-            id: snapShot.id,
-            ...snapShot.data()
-          },
-          
-        });
-      });
-    }
-    this.setState({ currentUser: userAuth});
     const cookieData = document.cookie.split(';');
-    if (this.state.currentUser && document.cookie) {
-    this.setState({
-      tokenId: cookieData[1].includes("tokenId") ? cookieData[1].split('=')[1] : cookieData[0].split('=')[1],
-      email: cookieData[0].includes("email") ? cookieData[0].split('=')[1] : cookieData[1].split('=')[1],
-    })}
- })
-}
+    const expirationDate = cookieData[1].includes("expirationDate") ? cookieData[1].split('=')[1] : 
+    cookieData[0].includes("expirationDate") ? cookieData[0].split('=')[1] : cookieData[2].split('=')[1]
+    const tokenId = cookieData[1].includes("tokenId") ? cookieData[1].split('=')[1] : 
+    cookieData[0].includes("tokenId") ? cookieData[0].split('=')[1] : cookieData[2].split('=')[1]
+    const email = cookieData[1].includes("email") ? cookieData[1].split('=')[1] : 
+    cookieData[0].includes("email") ? cookieData[0].split('=')[1] : cookieData[2].split('=')[1]
 
-componentWillUnmount() {
-  this.unsubscribeFromAuth();
-}
+    this.state = {
+      currentUser: null,
+      inputMode: JSON.parse(localStorage.getItem( 'SelectedMode' )),
+      outputMode: undefined,
+      inputForms: false,
+      outputTable: false,
+      hideModal: true,
+      expirationDate: expirationDate,
+      tokenId: tokenId,
+      email: email,
+      activityBubbleState: [
+        { name: "Fuel Consumption"},
+        { name: "Machine Registration"},
+        { name: "Maintenance and Repair"},
+        { name: "Working Hours Registration"},
+      ],
+    } 
+  }
+  unsubscribeFromAuth = null
+
+  componentDidMount() {
+    this.unsubscribeFromAuth = auth.onAuthStateChanged(async userAuth => {
+      if (userAuth) {
+        const userRef = await createUserProfileDocument(userAuth);
+
+        userRef.onSnapshot(snapShot => {
+          this.setState({
+            currentUser: {
+              id: snapShot.id,
+              ...snapShot.data()
+            }, role: snapShot.data().role});
+        });
+      }
+      this.setState({ currentUser: userAuth})})
+        
+      if (new Date(this.state.expirationDate) <= new Date()) {
+        this.expiredToken()
+        // document.cookie = "tokenId=; expires=" + new Date(this.state.expirationDate).toUTCString + ";path=/;";
+        this.setState({ logOutError: true })
+    }
+  }
+
+ componentWillUnmount() {this.unsubscribeFromAuth()}
 
  inputModeHandler = (mode) => {
   localStorage.setItem( 'SelectedMode', mode.bubbles );
@@ -78,61 +83,19 @@ componentWillUnmount() {
   })
  }
 
- outputModeHandler = () => {
-  localStorage.setItem( 'SelectedMode', false );
-  this.setState({
-    inputMode: false, 
-    outputMode: true,
-    inputForms: false,
-    hideModal: true 
-  })
-}
+  outputModeHandler = () => {
+    localStorage.setItem( 'SelectedMode', false );
+    this.setState({
+      inputMode: false, 
+      outputMode: true,
+      inputForms: false,
+      hideModal: true 
+    })
+  }
 
  activityHandler = (e) => {
-  switch (e) {
-    case 0: 
-    this.setState({
-      index1: true,
-      index2: false,
-      index3: false,
-      index4: false,
-    });
-    break;
-    case 1: 
-    this.setState({
-      index1: false,
-      index2: true,
-      index3: false,
-      index4: false,
-    });
-    break;
-    case 2: 
-    this.setState({
-      index1: false,
-      index2: false,
-      index3: true,
-      index4: false,
-    });
-    break;
-    case 3: 
-    this.setState({
-      index1: false,
-      index2: false,
-      index3: false,
-      index4: true,
-      // hideModal: true 
-    });
-    break;
-    default:
-      this.setState({
-        index1: false,
-        index2: false,
-        index3: false,
-        index4: false,
-        hideModal: true 
-      });
-  } 
-
+   this.setState({ selectedActivity: [e][0] })
+ 
   if (this.state.inputMode) {
   this.setState({
     inputForms: true,
@@ -147,44 +110,33 @@ componentWillUnmount() {
    this.setState({
      outputTable: false,
      inputForms: false,
-     index1: false,
-     index2: false,
-     index3: false,
-     index4: false,
-    })
-  }
+   })}
 
   hideModalHanlder = () => {
     this.setState({
       hideModal: false,
-      index3: false,
-      index4: false,
       outputTable: false,
       inputForms: false,
-    })
-  }
+      logOutError: false
+    })}
 
-  storeIdTokenHandler = () => {
-    const cookieData = document.cookie.split(';');
-    this.setState({
-      tokenId: cookieData[1].includes("tokenId") ? cookieData[1].split('=')[1] : cookieData[0].split('=')[1],
-      email: cookieData[0].includes("email") ? cookieData[0].split('=')[1] : cookieData[1].split('=')[1],
-    })
-  }
-
-  signoutHandler = () => {
+  signOutHandler = () => {
     this.setState({ currentUser: null})
-  }
+    auth.signOut()}
+
+  expiredToken = () => {this.setState({ role: "Disabled"})}
 
   render() {
     return (
       <div className="app" >
+        {/* {this.state.logOutError ? <Modal show={this.state.logOutError} hide={this.hideModalHanlder}>
+         Your token has expired, please sign in again!</Modal> : null} */}
         <Router basename="/">
        
           <Header 
-            signOutHandler={this.signoutHandler}
+            signOutHandler={this.signOutHandler}
             modalHandler={this.hideModalHanlder}
-            currentUser={this.state.currentUser}
+            stateProps={this.state}
             inputMode={this.inputModeHandler}
             outputMode={this.outputModeHandler}
           />  
@@ -204,7 +156,7 @@ componentWillUnmount() {
             </Route>
 
             {this.state.currentUser ?
-             <RenderForOperator currentUser={this.state.currentUser}>
+             <RenderForOperator stateProps={this.state}>
                                           
              <Route path="/Inputs">
                 {this.state.currentUser ? 

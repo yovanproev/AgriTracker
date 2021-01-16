@@ -1,10 +1,10 @@
 import { SelectColumnFilter } from './TableFilters';
 
 export const conditionalTableColumns = (props) => {
- return props.stateProps.index1 ? fuelConsumptionColumns : 
-  props.stateProps.index2 ? machineRegitrationColumns : 
-  props.stateProps.index3 ? maintenanceAndRepairsColumns : 
-  props.stateProps.index4 ? workingHoursInputColumns : null;
+ return props.stateProps.selectedActivity === 0 ? fuelConsumptionColumns : 
+  props.stateProps.selectedActivity === 1 ? machineRegitrationColumns : 
+  props.stateProps.selectedActivity === 2 ? maintenanceAndRepairsColumns : 
+  props.stateProps.selectedActivity === 3 ? workingHoursInputColumns : null;
 }
 
 const fuelConsumptionColumns = [

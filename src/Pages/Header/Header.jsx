@@ -4,21 +4,19 @@ import { NavLink } from "react-router-dom";
 import "./Header.css"
 import Logo from "../../Assets/Logo.jpg";
 
-import { auth } from "../../Firebase/Firebase.utils"
 import { RenderForOperator } from '../../RoleBasedAccessControl/RoleBaseControl';
 
-const Header = ({ currentUser, inputMode, outputMode, modalHandler, signOutHandler }) => {
+const Header = ({ stateProps, inputMode, outputMode, modalHandler, signOutHandler }) => {
   
   const signOutAndModalOff = () => {
     modalHandler()
-    auth.signOut()
-    signOutHandler()
+     signOutHandler()
    }
 
   return (
     <nav className="nav-bar">
         
-      {currentUser ?  
+      {stateProps.currentUser ?  
         <NavLink to="/Home" onClick={inputMode}> 
         <img className="picture" src={Logo} 
         alt="Logo_image" width="100px" >
@@ -30,8 +28,8 @@ const Header = ({ currentUser, inputMode, outputMode, modalHandler, signOutHandl
       <h2 className="your-company">Your Company Name</h2>
       <div className="menu-wrap">
 
-        {currentUser ?
-          <RenderForOperator currentUser={currentUser}>
+        {stateProps.currentUser ?
+          <RenderForOperator stateProps={stateProps}>
         <ul className="ul-bar">
           <div className="item">
             <li className="list-item">
@@ -57,7 +55,7 @@ const Header = ({ currentUser, inputMode, outputMode, modalHandler, signOutHandl
         </ul>
         </RenderForOperator> : null}
 
-         {currentUser ?        
+         {stateProps.currentUser ?        
         <NavLink className="sign-out-link"  
           to="/"
           onClick={() => signOutAndModalOff()}>

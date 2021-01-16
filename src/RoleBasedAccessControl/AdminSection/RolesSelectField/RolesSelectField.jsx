@@ -19,7 +19,7 @@ const RolesSelectField = (props) => {
        <select className="roles-select-div"
           onBlur={(e) => {props.getRoleValue(e.target.value)}}
           onChange={() => {props.getRowId(); updateOpenTooltip(()=> true)}}
-          disabled={props.id === parseInt(6) || props.id === parseInt(4) ? true : null}
+          disabled={props.id === parseInt(1) || props.id === parseInt(2) ? true : null}
          >
           <option key={0} value={"Please select a role"}>
             {"Select a role"}

@@ -36,13 +36,13 @@ const TableReport = (props) => {
 
   useEffect(() => {
     let headerName =
-    props.stateProps.stateProps.index1 ? 
+    props.stateProps.stateProps.selectedActivity === 0 ? 
     props.stateProps.stateProps.activityBubbleState[0].name : 
-    props.stateProps.stateProps.index2 ? 
+    props.stateProps.stateProps.selectedActivity === 1 ? 
     props.stateProps.stateProps.activityBubbleState[1].name: 
-    props.stateProps.stateProps.index3 ? 
+    props.stateProps.stateProps.selectedActivity === 2 ? 
     props.stateProps.stateProps.activityBubbleState[2].name: 
-    props.stateProps.stateProps.index4 ? 
+    props.stateProps.stateProps.selectedActivity === 3 ? 
     props.stateProps.stateProps.activityBubbleState[3].name: 
     null   
     setName(headerName)

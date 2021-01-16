@@ -2,54 +2,42 @@ import { firebase_db_fuelConsump, firebase_db_machineReg,
          firebase_db_maintenance, firebase_db_workHours} from "./Firebase.utils";
 
 export const getFilteredDataForExport = (startingDate, endDate, props) => {
-  return new Promise((resolve)=>{
+  return new Promise((resolve, reject)=>{
     
+    const database = props.stateProps.selectedActivity === 0 ? firebase_db_fuelConsump : 
+    props.stateProps.selectedActivity === 1 ? firebase_db_machineReg : 
+    props.stateProps.selectedActivity === 2 ? firebase_db_maintenance : null
+
     if (startingDate !== "null-null-null" && endDate !== "null-null-null") { 
-      if (props.stateProps.index1) {
-    firebase_db_fuelConsump.orderByChild("date")
-    .startAt(startingDate).once('value').then((snapshot)=>{
-      const initialArray = Object.values(snapshot.val())
-      resolve(getFilteredArray(endDate, initialArray))
-      }).catch(err => {
-      console.log(err)
-      })
-    }
-    else if (props.stateProps.index2) {
-      firebase_db_machineReg.orderByChild("date")
+      if (props.stateProps.selectedActivity === 3) {
+        firebase_db_workHours.once('value').then((snapshot)=>{
+          let arr = []
+          let secondArray = []
+          let lengthOfArr = []
+          let origin = snapshot.val()
+            Object.values(origin).forEach(child => 
+              child.forEach((secondChild)=> {
+                secondChild.map(x => arr.push(x))
+                secondArray.push(getFilteredArrayStartDate(startingDate, arr))
+                const arrayLength = secondArray.length - 1
+                lengthOfArr.push(arrayLength)
+              })
+            )
+            resolve(getFilteredArray(endDate, secondArray[lengthOfArr.slice(-1)[0]]))
+        }).catch(err => {
+          reject(err)
+        })
+      }
+       else {
+        database.orderByChild("date")
         .startAt(startingDate).once('value').then((snapshot)=>{
           const initialArray = Object.values(snapshot.val())
           resolve(getFilteredArray(endDate, initialArray))
-        }).catch(err => {
-          console.log(err)
+          }).catch(err => {
+          reject(err)
         })
+      }
     }
-    else if (props.stateProps.index3) {
-      firebase_db_maintenance.orderByChild("date")
-        .startAt(startingDate).once('value').then((snapshot)=>{
-          const initialArray = Object.values(snapshot.val())
-          resolve(getFilteredArray(endDate, initialArray))
-        }).catch(err => {
-          console.log(err)
-        })
-    }
-    else if (props.stateProps.index4) {
-      firebase_db_workHours.once('value').then((snapshot)=>{
-        let arr = []
-        let secondArray = []
-        let lengthOfArr = []
-        let origin = snapshot.val()
-          Object.values(origin).forEach(child => 
-            child.forEach((secondChild)=> {
-              secondChild.map(x => arr.push(x))
-              secondArray.push(getFilteredArrayStartDate(startingDate, arr))
-              const arrayLength = secondArray.length - 1
-              lengthOfArr.push(arrayLength)
-            })
-          )
-          resolve(getFilteredArray(endDate, secondArray[lengthOfArr.slice(-1)[0]]))
-      })
-    }
-  }
   })
 }
  
