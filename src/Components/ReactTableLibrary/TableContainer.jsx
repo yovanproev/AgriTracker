@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useState } from 'react';
 import {
   useTable,
   useSortBy,
@@ -81,12 +81,10 @@ const TableContainer = ({
      return column.isSorted ? (column.isSortedDesc ? ' 🔽' : ' 🔼') : '';
   };
 
-  // const onChangeInSelect = (event) => {
-  //   setPageSize(Number(event.target.value));
-  // };
-
+ const [ pageNumber, setPageNumber ] = useState('')
   const onChangeInInput = (event) => {
     const page = event.target.value ? Number(event.target.value) - 1 : 0;
+    setPageNumber(event.target.value)
     gotoPage(page);
   };
 
@@ -199,13 +197,18 @@ const TableContainer = ({
         </Col>
         <Col md={2}>
           <Input
+            list="defaultNumbers"
             type='number'
+            placeholder={"Page"}
             min={1}
-            style={{ width: 70, margin: "auto" }}
+            style={{ width: 80, margin: "auto" }}
             max={pageOptions.length}
-            value={pageIndex + 1 || ""}
+            value={pageNumber}
             onChange={onChangeInInput}
           />
+          {/* <datalist id="defaultNumbers">
+            {[pageIndex].map(x=> <option value={x +1}></option>)}
+          </datalist> */}
         </Col>
         {/* <Col md={2}> 
           <CustomInput

@@ -14,7 +14,7 @@ import SelectActivity from './Pages/SelectActivity';
 import { resetCounter } from "./Firebase/FetchDataFromRealtimeDB";
 import { auth, createUserProfileDocument } from "./Firebase/Firebase.utils"
 import { RenderForOperator } from './RoleBasedAccessControl/RoleBaseControl';
-// import Modal from "./Components/Modal/Modal"
+import Modal from "./Components/Modal/Modal"
 
 class App extends React.Component {
   constructor (props) {
@@ -62,15 +62,37 @@ class App extends React.Component {
         });
       }
       this.setState({ currentUser: userAuth})})
-        
+    
+    const cookieData = document.cookie?.split(';');
+    const expirationDate = cookieData[1]?.includes("expirationDate") ? cookieData[1]?.split('=')[1] : 
+    cookieData[0]?.includes("expirationDate") ? cookieData[0]?.split('=')[1] : cookieData[2]?.split('=')[1]
+    const tokenId = cookieData[1]?.includes("tokenId") ? cookieData[1]?.split('=')[1] : 
+    cookieData[0]?.includes("tokenId") ? cookieData[0]?.split('=')[1] : cookieData[2]?.split('=')[1]
+    const email = cookieData[1]?.includes("email") ? cookieData[1]?.split('=')[1] : 
+    cookieData[0]?.includes("email") ? cookieData[0]?.split('=')[1] : cookieData[2]?.split('=')[1]  
+
+    this.setState({ 
+      expirationDate: expirationDate,
+      tokenId: tokenId,
+      email: email })
       if (new Date(this.state.expirationDate) <= new Date()) {
         this.expiredToken()
-        // document.cookie = "tokenId=; expires=" + new Date(this.state.expirationDate).toUTCString + ";path=/;";
-        this.setState({ logOutError: true })
-    }
+         // document.cookie = "tokenId=; expires=" + new Date(this.state.expirationDate).toUTCString + ";path=/;";
+       }
   }
 
- componentWillUnmount() {this.unsubscribeFromAuth()}
+  expiredToken = () => {this.setState({ 
+    role: "Disabled", logOutError: true})
+    auth.signOut()
+  }
+
+  componentDidUpdate(prevState) {
+    if (new Date(this.state.expirationDate) <= new Date()) {
+     if (prevState.selectedActivity !== this.state.selectedActivity) {
+      this.expiredToken()}}
+  }
+
+  componentWillUnmount() {this.unsubscribeFromAuth()}
 
  inputModeHandler = (mode) => {
   localStorage.setItem( 'SelectedMode', mode.bubbles );
@@ -124,14 +146,11 @@ class App extends React.Component {
     this.setState({ currentUser: null})
     auth.signOut()}
 
-  expiredToken = () => {this.setState({ role: "Disabled"})
-  auth.signOut()}
-
-  render() {
+   render() {
     return (
       <div className="app" >
-        {/* {this.state.logOutError ? <Modal show={this.state.logOutError} hide={this.hideModalHanlder}>
-         Your token has expired, please sign in again!</Modal> : null} */}
+        {this.state.logOutError ? <Modal show={this.state.logOutError} >
+         Your token has expired, please sign in again!</Modal> : null}
         <Router basename="/">
        
           <Header 

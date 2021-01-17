@@ -53,7 +53,7 @@ const HomePage = (props) => {
        <div>
          <h4>Welcome to your App, to choose a module pick yourself a cherry.</h4>
        </div>
-       <RenderForAdmin currentUser={props.stateProps.currentUser}
+       <RenderForAdmin 
        stateProps={props.stateProps}>
        <Table
           stateProps={props.stateProps}

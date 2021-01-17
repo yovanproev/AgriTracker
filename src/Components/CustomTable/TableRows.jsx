@@ -1,8 +1,11 @@
-import React, { useEffect, useState } from 'react'
-import { fetchAllOperators } from "../../LocalData/InputFormsData"
+import React, { useEffect, useState, useMemo } from 'react'
+import { fetchOperatorsByTypeOfWorker } from "../../LocalData/InputFormsData"
 import "./InputTable.css"
 
-export const TableRows = ({jobActivities, index, tableRowsHandler}) => {
+export const TableRows = ({jobActivities, index, tableRowsHandler, localState}) => {
+    
+    const memoizedValue = useMemo(() => 
+    fetchOperatorsByTypeOfWorker(localState.selectedTypeOfHoursName), [localState.selectedTypeOfHoursName]);
     
     const [employeesRows, setEmployeesRows] = useState([]);
     const [workHourReg, setWorkHourReg] = useState([]);
@@ -26,8 +29,9 @@ export const TableRows = ({jobActivities, index, tableRowsHandler}) => {
     let i = 0;
     
     useEffect(()=>{
+      
       let employees =[];
-      setEmployeesRows(fetchAllOperators());
+      setEmployeesRows(memoizedValue);
       
       do {
         employees.push({name: employeesRows[i]?.name, workHours:[{ type: jobActivities[i]?.name, time: ""}]});
@@ -35,7 +39,7 @@ export const TableRows = ({jobActivities, index, tableRowsHandler}) => {
       } while(i < employeesRows.length);
 
       setWorkHourReg(employees)
-    }, [employeesRows, employeesRows.length, i, jobActivities])
+    }, [employeesRows, employeesRows.length, i, jobActivities, memoizedValue])
 
      // console.log(workHourReg)
     const handleInputChange = (e, rowId, columnId) => {

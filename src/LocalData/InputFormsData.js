@@ -96,6 +96,11 @@ export const fetchOperatorsByName = operatorsId => {
   }
 };
 
+export const fetchOperatorsByTypeOfWorker = typeOfWork => {
+  const data = operatorsDB.data.filter(operators => operators.typeOfWorker === typeOfWork);
+     return data;
+ };
+
 export const fetchAllRoles = () => {
   return rolesDB.data;
 }

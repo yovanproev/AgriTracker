@@ -14,8 +14,7 @@ export const RenderForOperator = ({stateProps, ...other}) => {
     return other.children
   }
   else if (stateProps.role === "Disabled") {
-   return stateProps.logOutError ? <Modal show={true}>Your token has expired, please sign in again!</Modal> : 
-   <Modal show={true}>Your account is disabled, please contact the Administrator!</Modal>
+   return <Modal show={true}>Your account is disabled, please contact the Administrator!</Modal>
   }
   else return  <Modal show={true}>Please contact the Administrator to get authorization!</Modal>
 }

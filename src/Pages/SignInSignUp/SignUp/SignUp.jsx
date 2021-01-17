@@ -39,10 +39,6 @@ class SignUp extends Component {
       document.cookie = `tokenId=${tokenId}`
       document.cookie = `email=${email}`
       document.cookie = `expirationDate=${expirationDate}`
-      // this.props.tokenIdHandler()
-    })
-    .catch(err => {
-      console.log(err)
     })
   }
 

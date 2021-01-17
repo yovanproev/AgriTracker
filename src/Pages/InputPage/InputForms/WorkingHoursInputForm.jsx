@@ -100,6 +100,7 @@ const WorkingHoursInput = (props) => {
             tableRowsHandler={props.tableRowsHandler}
             names={arrayOfNames}
             id={arrayOfIds}
+            localState={props.localState}
             /> 
             : null} 
               
