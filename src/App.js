@@ -20,14 +20,6 @@ class App extends React.Component {
   constructor (props) {
     super(props)
 
-    const cookieData = document.cookie?.split(';');
-    const expirationDate = cookieData[1]?.includes("expirationDate") ? cookieData[1]?.split('=')[1] : 
-    cookieData[0]?.includes("expirationDate") ? cookieData[0]?.split('=')[1] : cookieData[2]?.split('=')[1]
-    const tokenId = cookieData[1]?.includes("tokenId") ? cookieData[1]?.split('=')[1] : 
-    cookieData[0]?.includes("tokenId") ? cookieData[0]?.split('=')[1] : cookieData[2]?.split('=')[1]
-    const email = cookieData[1]?.includes("email") ? cookieData[1]?.split('=')[1] : 
-    cookieData[0]?.includes("email") ? cookieData[0]?.split('=')[1] : cookieData[2]?.split('=')[1]
-
     this.state = {
       currentUser: null,
       inputMode: JSON.parse(localStorage.getItem( 'SelectedMode' )),
@@ -35,9 +27,7 @@ class App extends React.Component {
       inputForms: false,
       outputTable: false,
       hideModal: true,
-      expirationDate: expirationDate,
-      tokenId: tokenId,
-      email: email,
+      
       activityBubbleState: [
         { name: "Fuel Consumption"},
         { name: "Machine Registration"},
@@ -47,6 +37,20 @@ class App extends React.Component {
     } 
   }
   unsubscribeFromAuth = null
+
+ UNSAFE_componentWillMount () {
+  const cookieData = document.cookie?.split(';');
+  const expirationDate = cookieData[1]?.includes("expirationDate") ? cookieData[1]?.split('=')[1] : 
+  cookieData[0]?.includes("expirationDate") ? cookieData[0]?.split('=')[1] : cookieData[2]?.split('=')[1]
+  const tokenId = cookieData[1]?.includes("tokenId") ? cookieData[1]?.split('=')[1] : 
+  cookieData[0]?.includes("tokenId") ? cookieData[0]?.split('=')[1] : cookieData[2]?.split('=')[1]
+  const email = cookieData[1]?.includes("email") ? cookieData[1]?.split('=')[1] : 
+  cookieData[0]?.includes("email") ? cookieData[0]?.split('=')[1] : cookieData[2]?.split('=')[1]
+this.setState({
+  expirationDate: expirationDate,
+  tokenId: tokenId,
+  email: email,}) 
+}
 
   componentDidMount() {
     this.unsubscribeFromAuth = auth.onAuthStateChanged(async userAuth => {
