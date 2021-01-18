@@ -17,7 +17,7 @@
       {"id": 6, "name": "Farm", "statename": "selectedFarmName", "value": "selectedFarmId"},
       {"id": 7, "name": "Job Description", "statename": "selectedJobName", "value": "selectedJobDescriptionId"},
       {"id": 8, "name": "Maintenance or Repairs", "statename": "selectedMaintenanceName", "value": "selectedMaintenanceId"},
-      {"id": 9, "name": "External Technician", "statename": "selectedExternalTechinicianName", "value": "selectedExternalTechnicianId"},
+      {"id": 9, "name": "Technician", "statename": "selectedTechinicianName", "value": "selectedTechnicianId"},
       {"id": 10, "name": "Type of Hours", "statename": "selectedTypeOfHoursName", "value": "selectedTypeOfHoursId"},
       {"id": 11, "name": "Project", "statename": "selectedProjectName", "value": "selectedProjectId"},
       {"id": 12, "name": "Multiple Selection Job Decription", "statename": "jobDescription", "value": "selectedMSJobDescriptionId"}

@@ -5,6 +5,7 @@
     {"id": 3, "name": "Tank Number", "statename": "tankNum"},
     {"id": 4, "name": "Worked Hours", "statename": "workedHours"},
     {"id": 5, "name": "Explain The Activity", "statename": "explainTheActivity"},
-    {"id": 6, "name": "Man Hours", "statename": "manHours"}
+    {"id": 6, "name": "Man Hours", "statename": "manHours"},
+    {"id": 7, "name": "Cost of Technician", "statename": "costOfTechnician"}
   ]
 }

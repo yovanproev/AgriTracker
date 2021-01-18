@@ -6,8 +6,8 @@ import SignUp from "./SignUp/SignUp"
 
   const startingPage = (props) => (
     <div className='sign-in-and-sign-up'>
-      <SignIn tokenIdHandler={props.tokenIdHandler}/>
-      <SignUp tokenIdHandler={props.tokenIdHandler}/>
+      <SignIn setCredentialsHandler={props.setCredentialsHandler}/>
+      <SignUp setCredentialsHandler={props.setCredentialsHandler}/>
     </div>
   )
   

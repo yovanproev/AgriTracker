@@ -22,11 +22,12 @@ const MaintenanceAndRepairsInput = (props) => {
       props.localState.selectedAttachedMachineryId && 
       props.localState.workedHours &&
       props.localState.selectedLocationId && 
-      props.localState.selectedExternalTechnicianId &&
+      props.localState.selectedTechnicianId &&
       props.localState.selectedMaintenanceId &&
       props.localState.selectedJobDescriptionId &&
-      props.localState.manHours && 
+      // props.localState.manHours && 
       props.localState.explainTheActivity &&  
+      props.localState.costOfTechnician &&  
       props.localState.date !== "null-null-null")
   setDisableButtton(props.localState.submitButtonDisabled = true) 
   else {
@@ -39,9 +40,26 @@ const MaintenanceAndRepairsInput = (props) => {
       <div className="full-div">
         <BackButton onClick={props.onClick}/>
         <h2>Maintenance and Repairs</h2>
-               
+
+        <div style={{marginTop: "20px"}}>  
+           <Calendar
+              stateProps={props.stateProps}
+              onChange={props.dateHandler}
+              value={props.localState.date}
+            /> 
+        </div>       
         <div className="input-forms">
+          <SelectField
+            id={props.localState.selectFields[2].id}
+            onChange={props.selectFieldsHandler}
+            value={props.localState.selectedLocationId}
+            selectedId={props.localState.selectFields[2].value}
+            statename={props.localState.selectFields[2].statename}
+          /> 
+          
+        
          <form onSubmit={props.formHandler}>
+           {props.localState.selectedLocationId ?
             <SelectField
              id={props.localState.selectFields[0].id}
              onChange={props.selectFieldsHandler}
@@ -50,7 +68,7 @@ const MaintenanceAndRepairsInput = (props) => {
              selectedId={props.localState.selectFields[0].value}
              selectedMachineImage={props.localState.selectFields[0].image}
              statename={props.localState.selectFields[0].statename}
-            />
+            /> : null}
 
             {props.localState.selectedMachineId ?
             <SelectField
@@ -63,36 +81,8 @@ const MaintenanceAndRepairsInput = (props) => {
              statename={props.localState.selectFields[1].statename}
             /> : null }
 
+
             {props.localState.selectedAttachedMachineryId ?
-              <div className="input">
-               <InputField 
-                id={props.localState.inputFields[3].id}
-                onChange={props.inputFieldsHandler}
-                name={[props.localState.inputFields][0][3].name}
-                statename={[props.localState.inputFields][0][3].statename}/>
-              </div> : null }
-
-           {props.localState.selectedAttachedMachineryId ?
-              <SelectField
-              id={props.localState.selectFields[2].id}
-              onChange={props.selectFieldsHandler}
-              value={props.localState.selectedLocationId}
-              selectedId={props.localState.selectFields[2].value}
-              statename={props.localState.selectFields[2].statename}
-             /> : null
-            }
-
-            {props.localState.selectedLocationId ?
-              <SelectField
-              id={props.localState.selectFields[8].id}
-              onChange={props.selectFieldsHandler}
-              value={props.localState.selectedExternalTechnicianId}
-              selectedId={props.localState.selectFields[8].value}
-              statename={props.localState.selectFields[8].statename}
-             /> : null
-            }
-
-            {props.localState.selectedExternalTechnicianId ?
               <SelectField
               id={props.localState.selectFields[7].id}
               onChange={props.selectFieldsHandler}
@@ -102,7 +92,17 @@ const MaintenanceAndRepairsInput = (props) => {
              /> : null
             }
 
-            {props.localState.selectedMaintenanceId ?
+           {props.localState.selectedMaintenanceId ?
+              <SelectField
+              id={props.localState.selectFields[8].id}
+              onChange={props.selectFieldsHandler}
+              value={props.localState.selectedTechnicianId}
+              selectedId={props.localState.selectFields[8].value}
+              statename={props.localState.selectFields[8].statename}
+             /> : null
+            }
+
+            {props.localState.selectedTechnicianId ?
               <SelectField
               id={props.localState.selectFields[6].id}
               onChange={props.selectFieldsHandler}
@@ -110,34 +110,37 @@ const MaintenanceAndRepairsInput = (props) => {
               selectedId={props.localState.selectFields[6].value}
               statename={props.localState.selectFields[6].statename}
              /> : null
-            }            
+            }    
 
-            {props.localState.selectedJobDescriptionId ?
+           {props.localState.selectedJobDescriptionId ?
               <div className="input">
-                <InputField 
-                  id={props.localState.inputFields[5].id}
-                  onChange={props.inputFieldsHandler}
-                  name={[props.localState.inputFields][0][5].name}
-                  statename={[props.localState.inputFields][0][5].statename}/> 
-                <TextField 
+               <TextField 
                   id={props.localState.inputFields[4].id}
                   onChange={props.inputFieldsHandler}
                   name={[props.localState.inputFields][0][4].name}
                   statename={[props.localState.inputFields][0][4].statename}/>
               </div>: null
             } 
-          
-            <div style={{marginTop: "20px"}}>  
-            {props.localState.selectedJobDescriptionId ?
-              <Calendar
-              stateProps={props.stateProps}
-              onChange={props.dateHandler}
-              value={props.localState.date}
-            /> : null
-            }
-            </div>
 
-             {props.localState.submit ?
+            {props.localState.selectedJobDescriptionId ?
+              <div className="input">
+               <InputField 
+                id={props.localState.inputFields[3].id}
+                onChange={props.inputFieldsHandler}
+                name={[props.localState.inputFields][0][3].name}
+                statename={[props.localState.inputFields][0][3].statename}/>
+              </div> : null }
+
+              {props.localState.selectedJobDescriptionId ?
+              <div className="input">
+                <InputField 
+                    id={props.localState.inputFields[6].id}
+                    onChange={props.inputFieldsHandler}
+                    name={[props.localState.inputFields][0][6].name}
+                    statename={[props.localState.inputFields][0][6].statename}/> 
+                </div>: null}
+
+            {props.localState.submit ?
               <SubmitButton 
               disabled={!props.localState.submitButtonDisabled}
               onClick={onButtonClick}

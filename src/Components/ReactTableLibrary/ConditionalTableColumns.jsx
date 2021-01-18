@@ -173,9 +173,13 @@ const maintenanceAndRepairsColumns = [
     Filter: SelectColumnFilter,
     filter: 'equals',
   },
+  // {
+  //   Header: 'Man hours',
+  //   accessor: 'manHours',
+  // },
   {
-    Header: 'Man hours',
-    accessor: 'manHours',
+    Header: 'Cost Of Technician',
+    accessor: 'costOfTechnician',
   },
   {
     Header: 'Acitivity Explained',

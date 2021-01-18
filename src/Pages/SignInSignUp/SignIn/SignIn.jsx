@@ -40,6 +40,7 @@ class SignIn extends Component {
       document.cookie = `tokenId=${tokenId}`
       document.cookie = `email=${email}`
       document.cookie = `expirationDate=${expirationDate}`
+      this.props.setCredentialsHandler()
    })
   }
 
@@ -73,9 +74,18 @@ class SignIn extends Component {
   hideModalHanlder = () => {
     this.setState({
       modal: false,
+      passwordReset: false
     })
   }
   
+  resetPassword = () => {
+  auth.sendPasswordResetEmail(this.state.email).then(function() {
+   
+  }).catch(function(error) {
+    console.log(error)
+  });
+  this.setState({passwordReset: true})
+}
   render() {
     
     const errorModal = 
@@ -118,6 +128,13 @@ class SignIn extends Component {
                 Sign in with Google
           </LogInButton> */}
         </span>
+        <div style={{marginTop: "60px"}}>
+          <p>Forgot your password? Just type your email in the sign in section and press the Reset password button</p>
+              <button className="btn btn-danger"  
+              onClick={this.resetPassword} type='submit'> Reset password </button> 
+              {<Modal show={this.state.passwordReset} hide={this.hideModalHanlder}>
+                Please check your email to reset your password.</Modal>}
+            </div>
       </div>
     );
   }

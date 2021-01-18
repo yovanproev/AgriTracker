@@ -17,17 +17,13 @@ import { RenderForOperator } from './RoleBasedAccessControl/RoleBaseControl';
 import Modal from "./Components/Modal/Modal"
 
 class App extends React.Component {
-  constructor (props) {
-    super(props)
-
-    this.state = {
+  state = {
       currentUser: null,
       inputMode: JSON.parse(localStorage.getItem( 'SelectedMode' )),
       outputMode: undefined,
       inputForms: false,
       outputTable: false,
       hideModal: true,
-      
       activityBubbleState: [
         { name: "Fuel Consumption"},
         { name: "Machine Registration"},
@@ -35,22 +31,8 @@ class App extends React.Component {
         { name: "Working Hours Registration"},
       ],
     } 
-  }
+  
   unsubscribeFromAuth = null
-
- UNSAFE_componentWillMount () {
-  const cookieData = document.cookie?.split(';');
-  const expirationDate = cookieData[1]?.includes("expirationDate") ? cookieData[1]?.split('=')[1] : 
-  cookieData[0]?.includes("expirationDate") ? cookieData[0]?.split('=')[1] : cookieData[2]?.split('=')[1]
-  const tokenId = cookieData[1]?.includes("tokenId") ? cookieData[1]?.split('=')[1] : 
-  cookieData[0]?.includes("tokenId") ? cookieData[0]?.split('=')[1] : cookieData[2]?.split('=')[1]
-  const email = cookieData[1]?.includes("email") ? cookieData[1]?.split('=')[1] : 
-  cookieData[0]?.includes("email") ? cookieData[0]?.split('=')[1] : cookieData[2]?.split('=')[1]
-this.setState({
-  expirationDate: expirationDate,
-  tokenId: tokenId,
-  email: email,}) 
-}
 
   componentDidMount() {
     this.unsubscribeFromAuth = auth.onAuthStateChanged(async userAuth => {
@@ -66,23 +48,19 @@ this.setState({
         });
       }
       this.setState({ currentUser: userAuth})})
-    
-    const cookieData = document.cookie?.split(';');
-    const expirationDate = cookieData[1]?.includes("expirationDate") ? cookieData[1]?.split('=')[1] : 
-    cookieData[0]?.includes("expirationDate") ? cookieData[0]?.split('=')[1] : cookieData[2]?.split('=')[1]
-    const tokenId = cookieData[1]?.includes("tokenId") ? cookieData[1]?.split('=')[1] : 
-    cookieData[0]?.includes("tokenId") ? cookieData[0]?.split('=')[1] : cookieData[2]?.split('=')[1]
-    const email = cookieData[1]?.includes("email") ? cookieData[1]?.split('=')[1] : 
-    cookieData[0]?.includes("email") ? cookieData[0]?.split('=')[1] : cookieData[2]?.split('=')[1]  
-
-    this.setState({ 
-      expirationDate: expirationDate,
-      tokenId: tokenId,
-      email: email })
-      if (new Date(this.state.expirationDate) <= new Date()) {
-        this.expiredToken()
-         // document.cookie = "tokenId=; expires=" + new Date(this.state.expirationDate).toUTCString + ";path=/;";
-       }
+      
+      const cookieData = document.cookie?.split(';');
+      const expirationDate = cookieData[1]?.includes("expirationDate") ? cookieData[1]?.split('=')[1] : 
+      cookieData[0]?.includes("expirationDate") ? cookieData[0]?.split('=')[1] : cookieData[2]?.split('=')[1]
+      const tokenId = cookieData[1]?.includes("tokenId") ? cookieData[1]?.split('=')[1] : 
+      cookieData[0]?.includes("tokenId") ? cookieData[0]?.split('=')[1] : cookieData[2]?.split('=')[1]
+      const email = cookieData[1]?.includes("email") ? cookieData[1]?.split('=')[1] : 
+      cookieData[0]?.includes("email") ? cookieData[0]?.split('=')[1] : cookieData[2]?.split('=')[1]  
+      
+      this.setState({ 
+        expirationDate: expirationDate,
+        tokenId: tokenId,
+        email: email })
   }
 
   expiredToken = () => {this.setState({ 
@@ -90,11 +68,11 @@ this.setState({
     auth.signOut()
   }
 
-  componentDidUpdate(prevState) {
-    if (new Date(this.state.expirationDate) <= new Date()) {
-     if (prevState.selectedActivity !== this.state.selectedActivity) {
-      this.expiredToken()}}
-  }
+  // componentDidUpdate(prevState) {
+  //   if (new Date(this.state.expirationDate) <= new Date()) {
+  //    if (prevState.selectedActivity !== this.state.selectedActivity) {
+  //     this.expiredToken()}}
+  // }
 
   componentWillUnmount() {this.unsubscribeFromAuth()}
 
@@ -146,6 +124,20 @@ this.setState({
       logOutError: false
     })}
 
+  setCredentialsHandler = () => {
+    const cookieData = document.cookie?.split(';');
+    const expirationDate = cookieData[1]?.includes("expirationDate") ? cookieData[1]?.split('=')[1] : 
+    cookieData[0]?.includes("expirationDate") ? cookieData[0]?.split('=')[1] : cookieData[2]?.split('=')[1]
+    const tokenId = cookieData[1]?.includes("tokenId") ? cookieData[1]?.split('=')[1] : 
+    cookieData[0]?.includes("tokenId") ? cookieData[0]?.split('=')[1] : cookieData[2]?.split('=')[1]
+    const email = cookieData[1]?.includes("email") ? cookieData[1]?.split('=')[1] : 
+    cookieData[0]?.includes("email") ? cookieData[0]?.split('=')[1] : cookieData[2]?.split('=')[1]
+    this.setState({
+    expirationDate: expirationDate,
+    tokenId: tokenId,
+    email: email,}) 
+  }
+
   signOutHandler = () => {
     this.setState({ currentUser: null})
     auth.signOut()}
@@ -170,7 +162,7 @@ this.setState({
               {this.state.currentUser ? <Redirect to="/Home" /> :
                <StartingPage
                 modal={this.hideModalHanlder}
-                tokenIdHandler={this.storeIdTokenHandler}/>
+                setCredentialsHandler={this.setCredentialsHandler}/>
               }
             </Route>
 

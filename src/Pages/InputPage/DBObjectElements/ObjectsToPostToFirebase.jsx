@@ -42,7 +42,8 @@ export const maintenanceAndRepairsInputObject = (props) => {
   maintenanceOrRerairs: props.selectedMaintenanceName,
   explainTheActivity: props.explainTheActivity,
   externalTechnician: props.selectedExternalTechinicianName,
-  manHours: props.manHours,
+  // manHours: props.manHours,
+  costOfTechnician: props.costOfTechnician,
   jobDescription: props.selectedJobName,
   date: props.date,
   timeOfEntry: getDateAndTime()

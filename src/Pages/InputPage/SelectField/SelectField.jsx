@@ -35,7 +35,7 @@ const SelectField = ({id, onChange, value, machineImage, statename, selectedId, 
   id === 6 ? "Select a farm" : 
   id === 7 ? "Select a job description" :
   id === 8 ? "Select activity" :
-  id === 9 ? "Select an External Technician" : 
+  id === 9 ? "Select a Technician" : 
   id === 10 ? "Select Type of Hours" :
   id === 11 ? "Select a Project" : "Error"
  
