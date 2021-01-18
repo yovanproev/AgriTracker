@@ -41,7 +41,7 @@ export const maintenanceAndRepairsInputObject = (props) => {
   farmLocation: props.selectedFarmName,
   maintenanceOrRerairs: props.selectedMaintenanceName,
   explainTheActivity: props.explainTheActivity,
-  externalTechnician: props.selectedExternalTechinicianName,
+  technician: props.selectedTechnicianName,
   // manHours: props.manHours,
   costOfTechnician: props.costOfTechnician,
   jobDescription: props.selectedJobName,

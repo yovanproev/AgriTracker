@@ -153,8 +153,8 @@ const maintenanceAndRepairsColumns = [
     filter: 'equals',
   },
   {
-    Header: 'External Technician',
-    accessor: "externalTechnician",
+    Header: 'Technician',
+    accessor: "technician",
     disableSortBy: true,
     Filter: SelectColumnFilter,
     filter: 'equals',

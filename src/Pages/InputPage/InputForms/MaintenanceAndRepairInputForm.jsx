@@ -41,7 +41,7 @@ const MaintenanceAndRepairsInput = (props) => {
         <BackButton onClick={props.onClick}/>
         <h2>Maintenance and Repairs</h2>
 
-        <div style={{marginTop: "20px"}}>  
+        <div style={{margin: "20px auto"}}>  
            <Calendar
               stateProps={props.stateProps}
               onChange={props.dateHandler}

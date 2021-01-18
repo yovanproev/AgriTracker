@@ -16,7 +16,7 @@ export const initialState = {
           manHours: undefined,
           selectedJobDescriptionId: undefined,
           selectedMaintenanceId: undefined,
-          selectedExternalTechnicianId: undefined,
+          selectedTechnicianId: undefined,
           selectedTypeOfHoursId: undefined,
           selectedProjectId: undefined,
           selectedMSJobDescriptionId: undefined,

@@ -61,6 +61,7 @@ class App extends React.Component {
         expirationDate: expirationDate,
         tokenId: tokenId,
         email: email })
+        console.log("componentDidMount")
   }
 
   expiredToken = () => {this.setState({ 
@@ -69,9 +70,12 @@ class App extends React.Component {
   }
 
   // componentDidUpdate(prevState) {
+  //   console.log("component did update")
   //   if (new Date(this.state.expirationDate) <= new Date()) {
   //    if (prevState.selectedActivity !== this.state.selectedActivity) {
-  //     this.expiredToken()}}
+  //     this.expiredToken()
+  //    } else return null
+  //   } else return null
   // }
 
   componentWillUnmount() {this.unsubscribeFromAuth()}
