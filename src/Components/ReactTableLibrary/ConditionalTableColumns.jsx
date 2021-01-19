@@ -1,7 +1,8 @@
 import { SelectColumnFilter } from './TableFilters';
 
 export const conditionalTableColumns = (props) => {
- return props.stateProps.selectedActivity === 0 ? fuelConsumptionColumns : 
+  
+  return props.stateProps.selectedActivity === 0 ? fuelConsumptionColumns : 
   props.stateProps.selectedActivity === 1 ? machineRegitrationColumns : 
   props.stateProps.selectedActivity === 2 ? maintenanceAndRepairsColumns : 
   props.stateProps.selectedActivity === 3 ? workingHoursInputColumns : null;
@@ -12,6 +13,13 @@ const fuelConsumptionColumns = [
     Header: '#',
     accessor: "id",
   },
+  {
+    Header: 'Fuel Registration',
+    accessor: "fuelChoice",
+    disableSortBy: true,
+    Filter: SelectColumnFilter,
+    filter: 'equals',
+    },
   {
     Header: 'Machine',
     accessor: "machine",
@@ -42,6 +50,17 @@ const fuelConsumptionColumns = [
     accessor: 'kilometers',
   },
   {
+    Header: 'Fuel Supplier',
+    accessor: 'supplierOfFuel',
+    disableSortBy: true,
+    Filter: SelectColumnFilter,
+    filter: 'equals',
+  },
+  {
+    Header: 'Delivery Note',
+    accessor: 'deliveryNote',
+  },
+  {
     Header: 'Tank #',
     accessor: 'tankNumber',
   },
@@ -51,6 +70,10 @@ const fuelConsumptionColumns = [
     disableSortBy: true,
     Filter: SelectColumnFilter,
     filter: 'equals',
+  },
+  {
+    Header: 'Tank residual',
+    accessor: "tankResidual",
   },
   {
     Header: 'Date',
@@ -64,6 +87,7 @@ const fuelConsumptionColumns = [
     accessor: 'timeOfEntry',
   },
 ]
+
 
 const machineRegitrationColumns = [
   {

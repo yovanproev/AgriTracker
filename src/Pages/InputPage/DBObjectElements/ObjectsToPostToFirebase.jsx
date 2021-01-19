@@ -1,18 +1,39 @@
 import { getDateAndTime } from "./GetDateTime";
 
+ 
 export const fuelConsumptionInputObject = (props) => {
-  let object = {
-  id: props.lastId,
-  machine: props.selectedMachineName,
-  attachedMachinery: props.selectedAttachedMachineryName,
-  liters: props.liters,
-  kilometers: props.kilometersOnMachine,
-  tankNumber: props.tankNum,
-  location: props.selectedLocationName,
-  operator: props.selectedOperatorName,
-  date: props.date,
-  timeOfEntry: getDateAndTime()
-  }
+  let object
+   
+  const toNegativeNumber = (num) => -Math.abs(num);
+  
+  props.selectedSpendingOrPurchaseId === 1 ?
+  object = {
+    id: props.lastId,
+    fuelChoice: props.spendingOrPurchase,
+    machine: props.selectedMachineName,
+    attachedMachinery: props.selectedAttachedMachineryName,
+    liters: toNegativeNumber(props.liters),
+    kilometers: props.kilometersOnMachine,
+    tankNumber: props.tankNum,
+    location: props.selectedLocationName,
+    operator: props.selectedOperatorName,
+    date: props.date,
+    tankResidual: props.tankResidual ? props.tankResidual - parseFloat(props.liters) : parseInt(0),
+    timeOfEntry: getDateAndTime()
+  } :
+  object = {
+    id: props.lastId,
+    date: props.date,
+    fuelChoice: props.spendingOrPurchase,
+    operator: props.selectedOperatorName,
+    supplierOfFuel: props.supplierOfFuel,
+    liters: props.liters,
+    tankNumber: props.tankNum,
+    location: props.selectedLocationName,
+    tankResidual: props.tankResidual ? props.tankResidual + parseFloat(props.liters) : parseFloat(props.liters),
+    deliveryNote: props.deliveryNote,
+    timeOfEntry: getDateAndTime()
+    }
   return object
 };
  

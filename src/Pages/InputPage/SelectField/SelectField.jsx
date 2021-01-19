@@ -5,14 +5,15 @@ import {
   fetchAllLocations, fetchAllProducts, 
   fetchAllOperators, fetchAllExternalTechnicians,
   fetchAlljobDescriptions, fetchAllMaintenance,
-  fetchAllTypeOfHours, fetchAllProjects } from "../../../LocalData/InputFormsData";
+  fetchAllTypeOfHours, fetchAllProjects, fetchAllFuelChoices } from "../../../LocalData/InputFormsData";
 import "./SelectField.css"
 
 const SelectField = ({id, onChange, value, machineImage, statename, selectedId, selectedMachineImage}) => {
   const [ fethcedData, updateFetchedData ] = useState([]);
   
   useEffect(() => {
-    const fetching = id === 1 ? fetchAllMachines() :
+    const fetching = 
+    id === 1 ? fetchAllMachines() :
     id === 2 ? fetchAllAttachedMachinery() :
     id === 3 ? fetchAllLocations() :
     id === 4 ? fetchAllProducts() :
@@ -22,7 +23,8 @@ const SelectField = ({id, onChange, value, machineImage, statename, selectedId, 
     id === 8 ? fetchAllMaintenance() : 
     id === 9 ? fetchAllExternalTechnicians() :
     id === 10 ? fetchAllTypeOfHours() :
-    id === 11 ? fetchAllProjects() : "Error"
+    id === 11 ? fetchAllProjects() : 
+    id === 13 ? fetchAllFuelChoices() : "Error"
    updateFetchedData(fetching)
  }, [id])
 
@@ -37,7 +39,8 @@ const SelectField = ({id, onChange, value, machineImage, statename, selectedId, 
   id === 8 ? "Select activity" :
   id === 9 ? "Select a Technician" : 
   id === 10 ? "Select Type of Hours" :
-  id === 11 ? "Select a Project" : "Error"
+  id === 11 ? "Select a Project" : 
+  id === 13 ? "Select type of entry" : "Error"
  
    return (
       <div >

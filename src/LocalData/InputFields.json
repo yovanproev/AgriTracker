@@ -6,6 +6,8 @@
     {"id": 4, "name": "Worked Hours", "statename": "workedHours"},
     {"id": 5, "name": "Explain The Activity", "statename": "explainTheActivity"},
     {"id": 6, "name": "Man Hours", "statename": "manHours"},
-    {"id": 7, "name": "Cost of Technician", "statename": "costOfTechnician"}
+    {"id": 7, "name": "Cost of Technician", "statename": "costOfTechnician"},
+    {"id": 8, "name": "Supplier of Fuel", "statename": "supplierOfFuel"},
+    {"id": 9, "name": "Delivery Note", "statename": "deliveryNote"}
   ]
 }

@@ -12,6 +12,7 @@ import typeOfHoursDB from "./TypeOfHours.json"
 import rolesDB from "./Roles.json"
 import inputFieldsDB from "./InputFields.json"
 import selectFieldsDB from "./SelectFields.json"
+import fuelChoice from "./FuelChoice.json"
 
 export const fetchAllMachines = () => {
   return machineDB;
@@ -199,3 +200,16 @@ export const fetchAllinputFields = () => {
 export const fetchAllSelectFields = () => {
   return selectFieldsDB.selectFields;
 }
+
+export const fetchAllFuelChoices = () => {
+  return fuelChoice.data;
+}
+
+export const fetchFuelChoicesByName = fuelChoiceId => {
+  const data = fuelChoice.data.filter(fuelChoice => fuelChoice.id === parseInt(fuelChoiceId));
+  if (data.length > 0) {
+    return data[0].name;
+  } else {
+    return data;
+  }
+};

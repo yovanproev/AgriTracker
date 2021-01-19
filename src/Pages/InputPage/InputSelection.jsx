@@ -9,7 +9,7 @@ import {
   fetchAttachedMachineryByImage, fetchMaintenanceByName,
   fetchJobDescriptionsByName, fetchExternalTechnicianByName,
   fetchProjectsByName, fetchTypeOfHoursByName, 
-  fetchAllOperators, fetchAllSelectFields} from "../../LocalData/InputFormsData";
+  fetchAllOperators, fetchAllSelectFields, fetchFuelChoicesByName} from "../../LocalData/InputFormsData";
 
 import FuelConsumptionInput from "./InputForms/FuelConsumptionInputForm";
 import MachineRegistrationInput from "./InputForms/MachineRegistrationInputForm";
@@ -22,6 +22,7 @@ import Modal from "../../Components/Modal/Modal"
 import { addZero } from "./DBObjectElements/GetDateTime";
 import { initialState } from "./InitialState"
 import { fetchAllinputFields } from "../../LocalData/InputFormsData"
+import { getTankResidual } from "../../Firebase/FetchLastFuelEntryRealtimeDB"
 
 class InputSelection extends Component { 
   constructor (props) {
@@ -52,8 +53,20 @@ class InputSelection extends Component {
         }).catch(err => {
           throw new Error(err)
         })
+    getTankResidual(this.state.selectedLocationName).then(liters => {
+      this.setState({ tankResidual: parseFloat(liters) })
+    })
   }
       
+  componentDidUpdate(prevState) {
+    if (prevState.selectedLocationName !== this.state.selectedLocationName) {
+      getTankResidual(this.state.selectedLocationName)
+      .then(liters => {
+        this.setState({ tankResidual: parseFloat(liters) })
+      })
+    } 
+  }
+
   shouldComponentUpdate (nextProps, ) {
     // console.log("shouldComponent Update")
    return nextProps.lastId !== this.state.lastId 
@@ -76,7 +89,8 @@ class InputSelection extends Component {
         id === this.state.selectFields[7].id ? fetchMaintenanceByName(value) :
         id === this.state.selectFields[8].id ? fetchExternalTechnicianByName(value) : 
         id === this.state.selectFields[9].id ? fetchTypeOfHoursByName(value) : 
-        id === this.state.selectFields[10].id ? fetchProjectsByName(value) : null,
+        id === this.state.selectFields[10].id ? fetchProjectsByName(value) :
+        id === this.state.selectFields[12].id ? fetchFuelChoicesByName(value) : null,
         
         [selectedmachineimage] : id === this.state.selectFields[0].id ? fetchMachineByImage(value) :
         id === this.state.selectFields[1].id ? fetchAttachedMachineryByImage(value) : null
@@ -132,9 +146,9 @@ class InputSelection extends Component {
       disableMultiSelectOption: false }))
   }
 
-  formSubmitHandler = (event) => {
+   formSubmitHandler = (event) => {
       event.preventDefault()
-  
+ 
       this.setState((prevState)=> ({ 
       ...prevState,
       submit: false,
@@ -167,7 +181,7 @@ class InputSelection extends Component {
     // hide={this.props.modal}>Module Still In Progress</Modal> 
     const errorModal = <Modal show={this.state.error} 
     hide={this.props.modal}>Network error while posting data to Database, your entry is not recorded.</Modal> 
-    
+    // console.log(this.state.tankResidual)
    return (
      <div>
       {errorModal}

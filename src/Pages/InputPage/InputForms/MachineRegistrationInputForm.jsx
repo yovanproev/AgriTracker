@@ -39,6 +39,14 @@ const MachineRegistrationInput = (props) => {
         
         <div className="input-forms">
          <form onSubmit={props.formHandler}>
+         <div style={{marginTop: "20px"}}>  
+            <Calendar
+              stateProps={props.stateProps}
+              onChange={props.dateHandler}
+              value={props.localState.date}
+            />             
+          </div>
+            
             <SelectField
              id={props.localState.selectFields[0].id}
              machineImage={props.localState.selectedMachineImage}
@@ -99,17 +107,7 @@ const MachineRegistrationInput = (props) => {
              /> : null
             }
 
-            <div style={{marginTop: "20px"}}>  
-            {props.localState.selectedOperatorId ?
-              <Calendar
-              stateProps={props.stateProps}
-              onChange={props.dateHandler}
-              value={props.localState.date}
-            /> : null
-            }
-            </div>
-
-             {props.localState.submit ?
+            {props.localState.submit ?
               <SubmitButton 
               disabled={!props.localState.submitButtonDisabled}
               onClick={onButtonClick}

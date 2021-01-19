@@ -25,7 +25,7 @@ class App extends React.Component {
       outputTable: false,
       hideModal: true,
       activityBubbleState: [
-        { name: "Fuel Consumption"},
+        { name: "Fuel Registration"},
         { name: "Machine Registration"},
         { name: "Maintenance and Repair"},
         { name: "Working Hours Registration"},
@@ -36,7 +36,7 @@ class App extends React.Component {
 
   componentDidMount() {
     this.unsubscribeFromAuth = auth.onAuthStateChanged(async userAuth => {
-      if (userAuth) {
+      if (userAuth && !this.state.logOutError) {
         const userRef = await createUserProfileDocument(userAuth);
 
         userRef.onSnapshot(snapShot => {
@@ -61,22 +61,17 @@ class App extends React.Component {
         expirationDate: expirationDate,
         tokenId: tokenId,
         email: email })
-        console.log("componentDidMount")
+        
+      // if (new Date(this.state.expirationDate) <= new Date()) {
+      //   this.expiredToken()}        
   }
 
-  expiredToken = () => {this.setState({ 
+  expiredToken = () => {
+    if (new Date(this.state.expirationDate) <= new Date()) {
+    this.setState({ 
     role: "Disabled", logOutError: true})
     auth.signOut()
-  }
-
-  // componentDidUpdate(prevState) {
-  //   console.log("component did update")
-  //   if (new Date(this.state.expirationDate) <= new Date()) {
-  //    if (prevState.selectedActivity !== this.state.selectedActivity) {
-  //     this.expiredToken()
-  //    } else return null
-  //   } else return null
-  // }
+  }}
 
   componentWillUnmount() {this.unsubscribeFromAuth()}
 
@@ -147,13 +142,15 @@ class App extends React.Component {
     auth.signOut()}
 
    render() {
+    
     return (
       <div className="app" >
         {this.state.logOutError ? <Modal show={this.state.logOutError} >
          Your token has expired, please sign in again!</Modal> : null}
         <Router basename="/">
        
-          <Header 
+          <Header
+           expiredToken={this.expiredToken} 
             signOutHandler={this.signOutHandler}
             modalHandler={this.hideModalHanlder}
             stateProps={this.state}

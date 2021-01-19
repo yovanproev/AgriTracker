@@ -43,7 +43,8 @@ const App = (props) => {
     () => mode, [mode]);
 
   return (
-    <Container style={{ marginTop: "30px"}} className={props.stateProps.selectedActivity === 2 ? "margin-left" : props.stateProps.outputTable === false ? "home-table" :"all-others"}>
+    <Container style={{ marginTop: "30px"}} className={props.stateProps.selectedActivity === 2 ? 
+    "margin-left" : props.stateProps.outputTable === false ? "home-table" :"all-others"}>
       <TableContainer
         blockNextButton={props.blockNextButton}
         counter={props.counter}

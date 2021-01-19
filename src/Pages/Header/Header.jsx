@@ -6,8 +6,7 @@ import Logo from "../../Assets/Logo.jpg";
 
 import { RenderForOperator } from '../../RoleBasedAccessControl/RoleBaseControl';
 
-const Header = ({ stateProps, inputMode, outputMode, modalHandler, signOutHandler }) => {
-  
+const Header = ({ stateProps, inputMode, outputMode, modalHandler, signOutHandler, expiredToken }) => {
   const signOutAndModalOff = () => {
     modalHandler()
      signOutHandler()
@@ -35,7 +34,7 @@ const Header = ({ stateProps, inputMode, outputMode, modalHandler, signOutHandle
             <li className="list-item">
               <NavLink className="link" 
                   activeClassName="active-style"
-                  onClick={inputMode}
+                  onClick={(e) => {inputMode(e); expiredToken()}}
                   to="/Inputs"
                   > 
                   <div className="cherry cherry1"> Input Forms </div>
@@ -45,7 +44,7 @@ const Header = ({ stateProps, inputMode, outputMode, modalHandler, signOutHandle
             <li className="list-item">
                 <NavLink className="link"  
                   activeClassName="active-style"
-                  onClick={outputMode}
+                  onClick={(e) => {outputMode(e); expiredToken()}}
                   to="/Reports"
                 >
                   <div className="cherry cherry2">Reports</div>
