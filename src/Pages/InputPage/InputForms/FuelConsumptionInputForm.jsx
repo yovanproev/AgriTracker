@@ -157,7 +157,7 @@ const FuelConsumptionInput = (props) => {
               </div>: null
             } 
 
-            {props.localState.selectedLocationId ?
+            {props.localState.selectedOperatorId ?
              <TextField 
                   id={props.localState.inputFields[8].id}
                   onChange={props.inputFieldsHandler}
@@ -172,6 +172,7 @@ const FuelConsumptionInput = (props) => {
               value={props.localState.selectedLocationId}
               selectedId={props.localState.selectFields[2].value}
               statename={props.localState.selectFields[2].statename}
+              stopComponentDidUpdate={props.stopComponentDidUpdate}
             /> : null
             }
              

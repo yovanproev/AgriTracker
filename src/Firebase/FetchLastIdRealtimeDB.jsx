@@ -12,8 +12,10 @@ export const getLastId = (props) => {
     if (props.stateProps.selectedActivity === 3) {
       firebase_db_workHours.limitToLast(1).once('value').then((snapshot)=>{
           let origin = snapshot.val() === null || snapshot.val() === undefined ? parseInt(0) : snapshot.val()
+          console.log("origin", origin)
           if (origin !== 0) { 
           const lastId = Object.values(origin).slice(-1)[0].slice(-1)[0].slice(-1)[0].id
+          console.log(lastId)
           resolve(lastId)
           } else resolve(parseInt(0))
       }).catch(err => {

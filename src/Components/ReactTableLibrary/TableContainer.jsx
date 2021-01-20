@@ -102,7 +102,7 @@ const TableContainer = ({
 
    return (
     <Fragment>
-      <Table bordered hover striped responsive="md" {...getTableProps()}>
+      <Table bordered hover striped responsive {...getTableProps()}>
         <thead>
           {headerGroups.map((headerGroup) => (
             <tr {...headerGroup.getHeaderGroupProps()}>

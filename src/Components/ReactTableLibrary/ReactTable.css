@@ -3,8 +3,8 @@
 }
 
 .all-others {
-  /* white-space: nowrap; */
-  margin-left: 15px;
+  white-space: nowrap;
+  /* margin-left: 15px; */
 }
 
 .home-table {

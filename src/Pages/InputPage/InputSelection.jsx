@@ -46,8 +46,8 @@ class InputSelection extends Component {
     this.setState({operators: fetchAllOperators()})
     
     const fullData = getLastId(this.props)
-      fullData.then(res => { this.setState({lastId: res })})
-        .catch(err => {throw new Error(err)})
+      fullData.then((res, rej) => { this.setState({lastId: res, error: rej })})
+        // .catch(err => {throw new Error(err)})
     getTankResidual(this.state.selectedLocationName).then(liters => {
       this.setState({ tankResidual: parseFloat(liters) })})
     workedHoursPerMachine(this.state.selectedMachineName).then(hours => {
