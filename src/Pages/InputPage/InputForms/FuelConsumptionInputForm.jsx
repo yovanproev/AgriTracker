@@ -88,6 +88,7 @@ const FuelConsumptionInput = (props) => {
               statename={props.localState.selectFields[0].statename}
               selectedId={props.localState.selectFields[0].value}
               selectedMachineImage={props.localState.selectFields[0].image}
+              stopComponentDidUpdate={props.stopComponentDidUpdate}
               /> : null}
 
               {props.localState.selectedMachineId ?
@@ -123,6 +124,7 @@ const FuelConsumptionInput = (props) => {
                                       
               {props.localState.selectedAttachedMachineryId ?
                 <SelectField
+                stopComponentDidUpdate={props.stopComponentDidUpdate}
                 id={props.localState.selectFields[2].id}
                 onChange={props.selectFieldsHandler}
                 value={props.localState.selectedLocationId}
@@ -154,6 +156,14 @@ const FuelConsumptionInput = (props) => {
                   statename={[props.localState.inputFields][0][2].statename}/>
               </div>: null
             } 
+
+            {props.localState.selectedLocationId ?
+             <TextField 
+                  id={props.localState.inputFields[8].id}
+                  onChange={props.inputFieldsHandler}
+                  name={[props.localState.inputFields][0][8].name}
+                  statename={[props.localState.inputFields][0][8].statename}/>
+               : null}
                                     
             {props.localState.selectedOperatorId ?
               <SelectField
@@ -165,13 +175,6 @@ const FuelConsumptionInput = (props) => {
             /> : null
             }
              
-             {props.localState.selectedLocationId ?
-             <TextField 
-                  id={props.localState.inputFields[8].id}
-                  onChange={props.inputFieldsHandler}
-                  name={[props.localState.inputFields][0][8].name}
-                  statename={[props.localState.inputFields][0][8].statename}/>
-               : null}
           </div>}
 
             {props.localState.submit ?

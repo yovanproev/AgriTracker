@@ -2,19 +2,38 @@
   "data" : [
     {
         "id" : 1,
-        "name": "Pruning"
+        "name": "Pruning",
+        "costCenter": "Production"
     },
     {
         "id": 2,
-        "name": "Spraying"
+        "name": "Spraying",
+        "costCenter": "Production"
     },
     {
         "id": 3,
-        "name": "Picking"
+        "name": "Picking",
+        "costCenter": "Production"
     },
     {
         "id": 4,
-        "name": "Digging"
+        "name": "Digging",
+        "costCenter": "Production"
+    },
+    {
+      "id": 5,
+      "name": "Administration",
+      "costCenter": "Overhead"
+    },
+    {
+      "id": 6,
+      "name": "Guarding",
+      "costCenter": "Overhead"
+    },
+    {
+      "id": 7,
+      "name": "Warehouse Management",
+      "costCenter": "Overhead"
     }
   ]
 }

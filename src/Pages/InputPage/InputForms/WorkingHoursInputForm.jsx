@@ -67,6 +67,7 @@ const WorkingHoursInput = (props) => {
               value={props.localState.selectedLocationId}
               selectedId={props.localState.selectFields[2].value}
               statename={props.localState.selectFields[2].statename}
+              stopComponentDidUpdate={props.stopComponentDidUpdate}
               /> : null
             }
 

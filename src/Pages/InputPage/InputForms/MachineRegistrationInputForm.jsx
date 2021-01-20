@@ -55,6 +55,7 @@ const MachineRegistrationInput = (props) => {
              selectedId={props.localState.selectFields[0].value}
              selectedMachineImage={props.localState.selectFields[0].image}
              statename={props.localState.selectFields[0].statename}
+             stopComponentDidUpdate={props.stopComponentDidUpdate}
             />
             
             {props.localState.selectedMachineId ?

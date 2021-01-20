@@ -43,7 +43,9 @@ const TableReport = (props) => {
     props.stateProps.stateProps.selectedActivity === 2 ? 
     props.stateProps.stateProps.activityBubbleState[2].name: 
     props.stateProps.stateProps.selectedActivity === 3 ? 
-    props.stateProps.stateProps.activityBubbleState[3].name: 
+    props.stateProps.stateProps.activityBubbleState[3].name:
+    props.stateProps.stateProps.selectedActivity === 4 ? 
+    props.stateProps.stateProps.activityBubbleState[4].name: 
     null   
     setName(headerName)
     

@@ -8,7 +8,7 @@ import {
   fetchAllTypeOfHours, fetchAllProjects, fetchAllFuelChoices } from "../../../LocalData/InputFormsData";
 import "./SelectField.css"
 
-const SelectField = ({id, onChange, value, machineImage, statename, selectedId, selectedMachineImage}) => {
+const SelectField = ({id, onChange, value, machineImage, statename, selectedId, selectedMachineImage, stopComponentDidUpdate}) => {
   const [ fethcedData, updateFetchedData ] = useState([]);
   
   useEffect(() => {
@@ -46,12 +46,14 @@ const SelectField = ({id, onChange, value, machineImage, statename, selectedId, 
       <div >
         {id === 1 || id === 2 ? <img alt="" src={value ? machineImage : ""} className="select-picture"/> : null}
         <select className="select-div"
-          onChange={(e) => onChange(parseInt(e.target.value), parseInt(e.target.id), e.target.name, selectedId, selectedMachineImage)}
+          onChange={(e) => {onChange(parseInt(e.target.value), parseInt(e.target.id), 
+            e.target.name, selectedId, selectedMachineImage); if(id === 3 || id === 1) {stopComponentDidUpdate()}}}
           value={value ? value : ""}
           id={id}
           name={statename}
           selectedid={selectedId}
           selectedmachineimage={selectedMachineImage}
+          
           >
           <option key={0} value={0}>
             {defaultValue}

@@ -5,7 +5,8 @@ export const conditionalTableColumns = (props) => {
   return props.stateProps.selectedActivity === 0 ? fuelConsumptionColumns : 
   props.stateProps.selectedActivity === 1 ? machineRegitrationColumns : 
   props.stateProps.selectedActivity === 2 ? maintenanceAndRepairsColumns : 
-  props.stateProps.selectedActivity === 3 ? workingHoursInputColumns : null;
+  props.stateProps.selectedActivity === 3 ? workingHoursInputColumns : 
+  props.stateProps.selectedActivity === 4 ? workingHoursInputColumns : null;
 }
 
 const fuelConsumptionColumns = [
@@ -134,6 +135,10 @@ const machineRegitrationColumns = [
     filter: 'equals',
   },
   {
+    Header: 'Hours spent on last Activity',
+    accessor: 'hoursSpentOnLastActivity',
+  },
+  {
     Header: 'Date',
     accessor: "date",
     disableSortBy: true,
@@ -258,6 +263,13 @@ export const workingHoursInputColumns = [
   {
     Header: 'Job Description',
     accessor: "jobDescription",
+    disableSortBy: true,
+    Filter: SelectColumnFilter,
+    filter: 'equals',
+  },
+  {
+    Header: 'Cost Center',
+    accessor: "costCenter",
     disableSortBy: true,
     Filter: SelectColumnFilter,
     filter: 'equals',

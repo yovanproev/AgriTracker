@@ -22,7 +22,7 @@ import Modal from "../../Components/Modal/Modal"
 import { addZero } from "./DBObjectElements/GetDateTime";
 import { initialState } from "./InitialState"
 import { fetchAllinputFields } from "../../LocalData/InputFormsData"
-import { getTankResidual } from "../../Firebase/FetchLastFuelEntryRealtimeDB"
+import { getTankResidual, workedHoursPerMachine } from "../../Firebase/FetchLastFuelEntryRealtimeDB"
 
 class InputSelection extends Component { 
   constructor (props) {
@@ -34,7 +34,7 @@ class InputSelection extends Component {
       submitButtonDisabled: "",
       lastId: fullData.then(res => res),
       disableMultiSelectOption: false,
-          
+      stopComponentDidUpdate: false,    
       date: new Date(),
       operators: fetchAllOperators(),
       inputFields: fetchAllinputFields(),
@@ -46,25 +46,27 @@ class InputSelection extends Component {
     this.setState({operators: fetchAllOperators()})
     
     const fullData = getLastId(this.props)
-      fullData.then(res => { 
-        this.setState({
-            lastId: res  
-          })
-        }).catch(err => {
-          throw new Error(err)
-        })
+      fullData.then(res => { this.setState({lastId: res })})
+        .catch(err => {throw new Error(err)})
     getTankResidual(this.state.selectedLocationName).then(liters => {
-      this.setState({ tankResidual: parseFloat(liters) })
-    })
+      this.setState({ tankResidual: parseFloat(liters) })})
+    workedHoursPerMachine(this.state.selectedMachineName).then(hours => {
+      this.setState({ hoursSpentOnLastActivity: parseFloat(hours) })})
+  }
+
+  stopComponentDidUpdate = () => {
+     this.setState(({ prevState }) => ({ stopComponentDidUpdate: !prevState }))
   }
       
   componentDidUpdate(prevState) {
-    if (prevState.selectedLocationName !== this.state.selectedLocationName) {
-      getTankResidual(this.state.selectedLocationName)
-      .then(liters => {
-        this.setState({ tankResidual: parseFloat(liters) })
-      })
-    } 
+    if (prevState.stopComponentDidUpdate !== this.state.stopComponentDidUpdate) {
+      getTankResidual(this.state.selectedLocationName).then(liters => {
+      this.setState({ tankResidual: parseFloat(liters), 
+        stopComponentDidUpdate: prevState.stopComponentDidUpdate})}) 
+    workedHoursPerMachine(this.state.selectedMachineName).then(hours => {
+      this.setState({ hoursSpentOnLastActivity: parseFloat(hours),
+        stopComponentDidUpdate: prevState.stopComponentDidUpdate})})
+    }
   }
 
   shouldComponentUpdate (nextProps, ) {
@@ -113,17 +115,14 @@ class InputSelection extends Component {
     const startingMonth = value !== null ? addZero(value.getMonth()+1) : null
     const startingYear = value !== null ? value.getFullYear() :null
     const final = startingDay + "-" + startingMonth + "-" + startingYear 
-    this.setState({
-      date: final
-    })
+    this.setState({ date: final })
   }
 
   tableRowsHandler = (workingHours) => {
     let employeesNames = []
     // put names of employees into an array
     Object.keys(workingHours).forEach(function(key) {
-       employeesNames.push(workingHours[key].name)
-    })    
+       employeesNames.push(workingHours[key].name) })    
     this.setState({
        manHours: workingHours,
       nameOfEmployee: employeesNames,
@@ -177,16 +176,16 @@ class InputSelection extends Component {
   }
 
   render () {
-    // const moduleInProgress = <Modal show={this.props.stateProps.hideModal} 
-    // hide={this.props.modal}>Module Still In Progress</Modal> 
+    const moduleInProgress = <Modal show={this.props.stateProps.hideModal} 
+    hide={this.props.modal}>Module Still In Progress</Modal> 
     const errorModal = <Modal show={this.state.error} 
     hide={this.props.modal}>Network error while posting data to Database, your entry is not recorded.</Modal> 
-    // console.log(this.state.tankResidual)
-   return (
+    return (
      <div>
       {errorModal}
       {this.props.stateProps.selectedActivity === 0 ?
       <FuelConsumptionInput 
+      stopComponentDidUpdate={this.stopComponentDidUpdate}
       dateHandler={this.dateHandler}
       updateId={this.updateId}
       onClick={this.props.onClick}
@@ -198,6 +197,7 @@ class InputSelection extends Component {
 
       {this.props.stateProps.selectedActivity === 1 ?
       <MachineRegistrationInput 
+      stopComponentDidUpdate={this.stopComponentDidUpdate}
       dateHandler={this.dateHandler}
       updateId={this.updateId}
       onClick={this.props.onClick}
@@ -209,6 +209,7 @@ class InputSelection extends Component {
       
       {this.props.stateProps.selectedActivity === 2 ?
       <MaintenanceAndRepairInputForm
+      stopComponentDidUpdate={this.stopComponentDidUpdate}
       dateHandler={this.dateHandler}
       updateId={this.updateId}
       onClick={this.props.onClick}
@@ -219,8 +220,8 @@ class InputSelection extends Component {
       formHandler={this.formSubmitHandler} /> : null}
 
       {this.props.stateProps.selectedActivity === 3 ?
-      //  moduleInProgress 
       <WorkingHoursInputForm 
+      stopComponentDidUpdate={this.stopComponentDidUpdate}
       tableRowsHandler={this.tableRowsHandler}
       dateHandler={this.dateHandler}
       updateId={this.updateId}
@@ -233,6 +234,10 @@ class InputSelection extends Component {
       disableMultiSelectOptionHandler={this.disableMultiSelectOptionHandler}
       restartFormHandler={this.restartFormHandler}
       multiSelectHandler={this.multiSelectHandler}/> : null}
+
+      {this.props.stateProps.selectedActivity === 4 ?
+       moduleInProgress : null }
+
     </div>
   )
  }

@@ -61,15 +61,15 @@ const SelectReport = (props) => {
     setTable(rows) 
   }
 
-//  const moduleInProgress = <Modal show={props.stateProps.hideModal} hide={props.modal}>
-//    Module Still Not Built</Modal> 
+ const moduleInProgress = <Modal show={props.stateProps.hideModal} hide={props.modal}>
+   Module Still Not Built</Modal> 
    const errorModal = table.length === 0 || table === undefined ? <Modal show={props.stateProps.hideModal} 
     hide={props.modal}>User has no authorization to read data{error}</Modal> : null
     
     return (
    <div className="table-reports">
-     {props.stateProps.selectedActivity  ? errorModal : null}
-      {/* {props.stateProps.selectActivity === 3 ? moduleInProgress :} */}
+     {props.stateProps.selectedActivity ? errorModal : null}
+      {props.stateProps.selectedActivity === 4 ? moduleInProgress : null}
       < TableReport
         blockNextButton={blockNextButton}
         counter={counter}

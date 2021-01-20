@@ -29,6 +29,7 @@ class App extends React.Component {
         { name: "Machine Registration"},
         { name: "Maintenance and Repair"},
         { name: "Working Hours Registration"},
+        { name: "Purchase Requests"},
       ],
     } 
   
@@ -48,22 +49,7 @@ class App extends React.Component {
         });
       }
       this.setState({ currentUser: userAuth})})
-      
-      const cookieData = document.cookie?.split(';');
-      const expirationDate = cookieData[1]?.includes("expirationDate") ? cookieData[1]?.split('=')[1] : 
-      cookieData[0]?.includes("expirationDate") ? cookieData[0]?.split('=')[1] : cookieData[2]?.split('=')[1]
-      const tokenId = cookieData[1]?.includes("tokenId") ? cookieData[1]?.split('=')[1] : 
-      cookieData[0]?.includes("tokenId") ? cookieData[0]?.split('=')[1] : cookieData[2]?.split('=')[1]
-      const email = cookieData[1]?.includes("email") ? cookieData[1]?.split('=')[1] : 
-      cookieData[0]?.includes("email") ? cookieData[0]?.split('=')[1] : cookieData[2]?.split('=')[1]  
-      
-      this.setState({ 
-        expirationDate: expirationDate,
-        tokenId: tokenId,
-        email: email })
-        
-      // if (new Date(this.state.expirationDate) <= new Date()) {
-      //   this.expiredToken()}        
+      this.setCredentialsHandler()
   }
 
   expiredToken = () => {
@@ -98,7 +84,7 @@ class App extends React.Component {
 
  activityHandler = (e) => {
    this.setState({ selectedActivity: [e][0] })
- 
+   this.expiredToken();
   if (this.state.inputMode) {
   this.setState({
     inputForms: true,

@@ -6,7 +6,8 @@ export const getFilteredDataForExport = (startingDate, endDate, props) => {
     
     const database = props.stateProps.selectedActivity === 0 ? firebase_db_fuelConsump : 
     props.stateProps.selectedActivity === 1 ? firebase_db_machineReg : 
-    props.stateProps.selectedActivity === 2 ? firebase_db_maintenance : null
+    props.stateProps.selectedActivity === 2 ? firebase_db_maintenance : 
+    props.stateProps.selectedActivity === 4 ? firebase_db_maintenance : null
 
     if (startingDate !== "null-null-null" && endDate !== "null-null-null") { 
       if (props.stateProps.selectedActivity === 3) {

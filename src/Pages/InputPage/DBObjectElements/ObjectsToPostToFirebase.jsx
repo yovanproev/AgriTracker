@@ -18,7 +18,8 @@ export const fuelConsumptionInputObject = (props) => {
     location: props.selectedLocationName,
     operator: props.selectedOperatorName,
     date: props.date,
-    tankResidual: props.tankResidual ? props.tankResidual - parseFloat(props.liters) : parseInt(0),
+    tankResidual: props.tankResidual ? 
+    (parseFloat(props.tankResidual).toFixed(1) - parseFloat(props.liters).toFixed(1)).toFixed(1) : parseInt(0),
     timeOfEntry: getDateAndTime()
   } :
   object = {
@@ -30,7 +31,8 @@ export const fuelConsumptionInputObject = (props) => {
     liters: props.liters,
     tankNumber: props.tankNum,
     location: props.selectedLocationName,
-    tankResidual: props.tankResidual ? props.tankResidual + parseFloat(props.liters) : parseFloat(props.liters),
+    tankResidual: props.tankResidual ? 
+    (parseFloat(props.tankResidual).toFixed(1) + parseFloat(props.liters).toFixed(1)).toFixed(1) : parseFloat(props.liters),
     deliveryNote: props.deliveryNote,
     timeOfEntry: getDateAndTime()
     }
@@ -46,6 +48,8 @@ export const fuelConsumptionInputObject = (props) => {
   product: props.selectedProductName,
   kilometers: props.kilometersOnMachine,
   operator: props.selectedOperatorName,
+  hoursSpentOnLastActivity: props.hoursSpentOnLastActivity ? 
+  (parseFloat(props.hoursSpentOnLastActivity).toFixed(1) - parseFloat(props.kilometersOnMachine).toFixed(1)).toFixed(1) : parseFloat(0),
   date: props.date,
   timeOfEntry: getDateAndTime()
   }
@@ -89,6 +93,7 @@ export const workingHoursInputObject = (props) => {
     typeOfHours: props.selectedTypeOfHoursName,
     location: props.selectedLocationName,
     project: props.selectedProjectName,
+    costCenter: jobDescription.costCenter,
     
     jobDescription: jobDescription.name,
     manHours: (props.manHours[index].workHours[i] || []).time || 0,
