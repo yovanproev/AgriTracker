@@ -23,6 +23,21 @@
   color: rgb(59, 26, 4);
 }
 
+.link-admin {
+  color: rgb(59, 26, 4);
+  margin-right: 15px;
+  font-weight: bold;
+  border: #d2e90a solid;
+  padding: 20px;
+}
+
+.active-style-admin {
+  background-color: rgb(17, 87, 4);
+  padding: 20px;
+  color: #d2e90a;
+  font-size: larger;
+}
+
 .sign-out-link {
   color: rgb(59, 26, 4);
   margin-top: 30px;

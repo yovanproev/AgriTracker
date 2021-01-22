@@ -1,19 +1,16 @@
 import { firebase_db_fuelConsump, firebase_db_machineReg, 
          firebase_db_maintenance, firebase_db_workHours } from "./Firebase.utils";
 
-export const getPaginatedTableData = (count, limit, props) => {
+export const getFullDatabase = (machine, limit, props) => {
   return new Promise((resolve, reject)=>{
    
-   count = count || 0; 
-   limit = limit  || 10;
-
-   const database = props.stateProps.selectedActivity === 0 && !props.stateProps.adminSection ? firebase_db_fuelConsump : 
-   props.stateProps.selectedActivity === 1 && !props.stateProps.adminSection ? firebase_db_machineReg : 
-   props.stateProps.selectedActivity === 2 && !props.stateProps.adminSection ? firebase_db_maintenance : 
-   props.stateProps.selectedActivity === 4 && !props.stateProps.adminSection ? firebase_db_maintenance : null
+   const database = 
+   props.stateProps.selectedActivity === 1 && props.stateProps.adminSection ? firebase_db_fuelConsump : 
+   props.stateProps.selectedActivity === 2 && props.stateProps.adminSection ? firebase_db_machineReg :
+   props.stateProps.selectedActivity === 3 && props.stateProps.adminSection ? firebase_db_maintenance : null
    
-    if (props.stateProps.selectedActivity === 3 && !props.stateProps.adminSection) {
-      firebase_db_workHours.limitToLast(limit).once("value", function(snapshot) {
+    if (props.stateProps.selectedActivity === 3 && props.stateProps.adminSection) {
+      firebase_db_workHours.once("value", function(snapshot) {
         let arr = []
         let origin = snapshot.val()
           Object.values(origin).forEach(child => 
@@ -28,7 +25,7 @@ export const getPaginatedTableData = (count, limit, props) => {
     }
     else {
       database.orderByChild("id")
-      .startAt(count).limitToLast(limit).once('value').then((snapshot)=>{
+      .startAt(1).once('value').then((snapshot)=>{
         resolve(snapshot.val())
       }).catch(err => {
         reject(err)

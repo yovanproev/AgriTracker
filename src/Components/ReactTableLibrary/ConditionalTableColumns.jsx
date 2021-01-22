@@ -2,11 +2,13 @@ import { SelectColumnFilter } from './TableFilters';
 
 export const conditionalTableColumns = (props) => {
   
-  return props.stateProps.selectedActivity === 0 ? fuelConsumptionColumns : 
-  props.stateProps.selectedActivity === 1 ? machineRegitrationColumns : 
-  props.stateProps.selectedActivity === 2 ? maintenanceAndRepairsColumns : 
-  props.stateProps.selectedActivity === 3 ? workingHoursInputColumns : 
-  props.stateProps.selectedActivity === 4 ? workingHoursInputColumns : null;
+  return props.stateProps.selectedActivity === 0 && props.stateProps.outputTable ? fuelConsumptionColumns : 
+  props.stateProps.selectedActivity === 1 && props.stateProps.outputTable ? machineRegitrationColumns : 
+  props.stateProps.selectedActivity === 2 && props.stateProps.outputTable ? maintenanceAndRepairsColumns : 
+  props.stateProps.selectedActivity === 3 && props.stateProps.outputTable ? workingHoursInputColumns : 
+  props.stateProps.selectedActivity === 4 && props.stateProps.outputTable ? workingHoursInputColumns : 
+  props.stateProps.selectedActivity === 1 && props.stateProps.adminSection ? fuelManagementColumns : 
+  props.stateProps.selectedActivity === 2 && props.stateProps.adminSection ? machineRegistrationManagementColumns : null;
 }
 
 const fuelConsumptionColumns = [
@@ -309,3 +311,58 @@ export const usersCollection = [
    }, 
 ]
 
+const fuelManagementColumns = [
+  {
+    Header: 'Machine',
+    accessor: "machine",
+    disableSortBy: true,
+    Filter: SelectColumnFilter,
+    filter: 'equals',
+    }, 
+    { 
+      Header: 'Attached Machinery',
+      accessor: "attachedMachinery",
+      disableSortBy: true,
+      Filter: SelectColumnFilter,
+      filter: 'equals',
+     },
+  {
+    Header: 'Location',
+    accessor: "location",
+    disableSortBy: true,
+    Filter: SelectColumnFilter,
+    filter: 'equals',
+  },
+  {
+    Header: 'Total Liters Spent',
+    accessor: 'liters',
+  },
+]
+
+const machineRegistrationManagementColumns = [
+  {
+    Header: 'Machine',
+    accessor: "machine",
+    disableSortBy: true,
+    Filter: SelectColumnFilter,
+    filter: 'equals',
+    }, 
+    { 
+      Header: 'Attached Machinery',
+      accessor: "attachedMachinery",
+      disableSortBy: true,
+      Filter: SelectColumnFilter,
+      filter: 'equals',
+     },
+  {
+    Header: 'Farm',
+    accessor: "farmLocation",
+    disableSortBy: true,
+    Filter: SelectColumnFilter,
+    filter: 'equals',
+  },
+  {
+    Header: 'Total Kilometars',
+    accessor: 'hoursSpentOnLastActivity',
+  },
+]

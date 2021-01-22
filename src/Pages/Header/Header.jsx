@@ -4,9 +4,9 @@ import { NavLink } from "react-router-dom";
 import "./Header.css"
 import Logo from "../../Assets/Logo.jpg";
 
-import { RenderForOperator } from '../../RoleBasedAccessControl/RoleBaseControl';
+import { RenderForAdmin, RenderForOperator } from '../../RoleBasedAccessControl/RoleBaseControl';
 
-const Header = ({ stateProps, inputMode, outputMode, modalHandler, signOutHandler, expiredToken }) => {
+const Header = ({ stateProps, inputMode, outputMode, adminMode, modalHandler, signOutHandler, expiredToken }) => {
   const signOutAndModalOff = () => {
     modalHandler()
      signOutHandler()
@@ -16,7 +16,7 @@ const Header = ({ stateProps, inputMode, outputMode, modalHandler, signOutHandle
     <nav className="nav-bar">
         
       {stateProps.currentUser ?  
-        <NavLink to="/Home" onClick={inputMode}> 
+        <NavLink to="/home" onClick={inputMode}> 
         <img className="picture" src={Logo} 
         alt="Logo_image" width="100px" >
         </img></NavLink> : 
@@ -24,35 +24,54 @@ const Header = ({ stateProps, inputMode, outputMode, modalHandler, signOutHandle
         alt="Logo_image" width="100px" >
         </img>}
 
-      <h2 className="your-company">Your Company Name</h2>
+      <h2 className="your-company">DFP Forms</h2>
       <div className="menu-wrap">
+      
+      {stateProps.currentUser ?  
+      <RenderForAdmin stateProps={stateProps}>
+      <ul className="ul-bar">
+            <li className="list-item">
+                <NavLink className="link-admin"  
+                  activeClassName="active-style-admin"
+                  onClick={(e) => {adminMode(e); expiredToken()}}
+                  to="/admin"
+                >ADMIN
+                </NavLink> 
+            </li> 
+            </ul>
+     </RenderForAdmin> : null}
+
 
         {stateProps.currentUser ?
-          <RenderForOperator stateProps={stateProps}>
+          
         <ul className="ul-bar">
           <div className="item">
+          <RenderForOperator stateProps={stateProps}>
             <li className="list-item">
               <NavLink className="link" 
                   activeClassName="active-style"
                   onClick={(e) => {inputMode(e); expiredToken()}}
-                  to="/Inputs"
+                  to="/inputs"
                   > 
                   <div className="cherry cherry1"> Input Forms </div>
                   <div className="cherry-join"></div>
               </NavLink>
             </li>
+            </RenderForOperator>
+            <RenderForAdmin stateProps={stateProps}>
             <li className="list-item">
                 <NavLink className="link"  
                   activeClassName="active-style"
                   onClick={(e) => {outputMode(e); expiredToken()}}
-                  to="/Reports"
+                  to="/reports"
                 >
                   <div className="cherry cherry2">Reports</div>
                 </NavLink> 
             </li> 
+            </RenderForAdmin>
           </div>
         </ul>
-        </RenderForOperator> : null}
+         : null}
 
          {stateProps.currentUser || stateProps.logOutError ?        
         <NavLink className="sign-out-link"  

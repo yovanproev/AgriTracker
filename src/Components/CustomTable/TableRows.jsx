@@ -29,7 +29,6 @@ export const TableRows = ({jobActivities, index, tableRowsHandler, localState}) 
     let i = 0;
     
     useEffect(()=>{
-      
       let employees =[];
       setEmployeesRows(memoizedValue);
       
@@ -37,11 +36,10 @@ export const TableRows = ({jobActivities, index, tableRowsHandler, localState}) 
         employees.push({name: employeesRows[i]?.name, workHours:[{ type: jobActivities[i]?.name, time: ""}]});
         i++;
       } while(i < employeesRows.length);
-
       setWorkHourReg(employees)
     }, [employeesRows, employeesRows.length, i, jobActivities, memoizedValue])
 
-     // console.log(workHourReg)
+     
     const handleInputChange = (e, rowId, columnId) => {
       const { value } = e.target;
       const workHours = (workHourReg[rowId] || {}).workHours || [];
@@ -64,7 +62,7 @@ export const TableRows = ({jobActivities, index, tableRowsHandler, localState}) 
         const { id, checked } = e.target;
         setCheck({
           ...check,
-          [id]: checked,
+          [id] : checked,
         });
       };
 
@@ -75,14 +73,16 @@ export const TableRows = ({jobActivities, index, tableRowsHandler, localState}) 
           step="0.1" id={rows+columnindex} 
           min="0" 
           value={(((workHourReg[rows] || {}).workHours || {})[columnindex-1] || {}).time || "" }
-          disabled={!Object.values(check)[rows]}   
+          disabled={!check[rows]}   
           onChange={(e) => {handleInputChange(e, rows, columnindex - 1)}}
               />
         </label>
       </td>
  
   const columns = (rows) => {
+    
      return index.map(selectedJobs => {
+    
         if (selectedJobs === 1) {
           return null
         } else { 
@@ -90,7 +90,7 @@ export const TableRows = ({jobActivities, index, tableRowsHandler, localState}) 
         }
       })
     }
-
+    // console.log(workHourReg)
     return(
         <tbody key={index}>
             {employeesRows.map((employee, rowId) => 
@@ -101,7 +101,8 @@ export const TableRows = ({jobActivities, index, tableRowsHandler, localState}) 
                 <td key={rowId}>
                     <label>
                         <input type="checkbox" name="checkboxName" value="on" 
-                        onChange={(e) => {disableHandler(e); checkboxHandler(e, employee.name, rowId)}} id={rowId} 
+                        onChange={(e) => {disableHandler(e); checkboxHandler(e, employee.name, rowId)}} 
+                        id={rowId} 
                         style={{width:"20px", height:"20px", margin: "auto 20px"}}/>
                     </label>
                 </td>
@@ -109,7 +110,7 @@ export const TableRows = ({jobActivities, index, tableRowsHandler, localState}) 
                 <td > 
                     <label style={{display:"grid"}}>
                         <input 
-                        disabled={!Object.values(check)[rowId]}   
+                        disabled={!check[rowId]}   
                         type="number" id={rowId}
                         value={(((workHourReg[rowId] || {}).workHours || {})[0] || {}).time || "" }
                         className="jobs-input"
@@ -120,8 +121,10 @@ export const TableRows = ({jobActivities, index, tableRowsHandler, localState}) 
                 {columns(rowId)}
                 <td >
                 {parseFloat((((workHourReg[rowId] || {}).workHours || [])
-                .reduce((prevVal,currentVal)=> parseFloat(prevVal) + parseFloat(currentVal.time), 0)) || 0)
-                .toFixed(1)}
+                .reduce((prevVal,currentVal)=> isNaN(prevVal) ? 0 : parseFloat(prevVal) 
+                + parseFloat(currentVal.time), 0)) || 0)
+                .toFixed(1)
+                }
                 </td>
                 </tr>
             )}  

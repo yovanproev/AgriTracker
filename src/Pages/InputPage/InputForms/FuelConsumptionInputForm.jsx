@@ -26,8 +26,9 @@ const FuelConsumptionInput = (props) => {
       props.localState.kilometersOnMachine && 
       props.localState.liters &&
       props.localState.tankNum && 
-      props.localState.date !== "null-null-null")
-      setDisableButtton(props.localState.submitButtonDisabled = true) 
+      props.localState.date !== "null-null-null") {
+      setDisableButtton(props.localState.submitButtonDisabled = true) }
+      else return setDisableButtton(props.localState.submitButtonDisabled = false) 
   } else if (props.localState.selectedSpendingOrPurchaseId === 2) {
     if (props.localState.supplierOfFuel && 
       props.localState.deliveryNote && 
@@ -35,9 +36,10 @@ const FuelConsumptionInput = (props) => {
       props.localState.selectedOperatorId &&
       props.localState.liters &&
       props.localState.tankNum && 
-      props.localState.date !== "null-null-null")
-      setDisableButtton(props.localState.submitButtonDisabled = true) 
-    }
+      props.localState.date !== "null-null-null") {
+      setDisableButtton(props.localState.submitButtonDisabled = true) }
+      else return setDisableButtton(props.localState.submitButtonDisabled = false) 
+  }
     else {
     setDisableButtton(props.localState.submitButtonDisabled = false) }
   }, [props])

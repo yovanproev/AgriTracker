@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {Fragment} from 'react';
 import './App.css';
 import {
   Switch, Route,
@@ -13,7 +13,7 @@ import SelectActivity from './Pages/SelectActivity';
 
 import { resetCounter } from "./Firebase/FetchDataFromRealtimeDB";
 import { auth, createUserProfileDocument } from "./Firebase/Firebase.utils"
-import { RenderForOperator } from './RoleBasedAccessControl/RoleBaseControl';
+import { RenderForAdmin, RenderForOperator } from './RoleBasedAccessControl/RoleBaseControl';
 import Modal from "./Components/Modal/Modal"
 
 class App extends React.Component {
@@ -23,6 +23,7 @@ class App extends React.Component {
       outputMode: undefined,
       inputForms: false,
       outputTable: false,
+      adminMode: false,
       hideModal: true,
       activityBubbleState: [
         { name: "Fuel Registration"},
@@ -30,6 +31,14 @@ class App extends React.Component {
         { name: "Maintenance and Repair"},
         { name: "Working Hours Registration"},
         { name: "Purchase Requests"},
+      ],
+      adminActivity: [
+        { name: "Users Management"},
+        { name: "Fuel Management"},
+        { name: "Machine Management"},
+        { name: "Maintenance and Repair Management"},
+        { name: "Working Hours Registration Management"},
+        { name: "Add selection Fields"},
       ],
     } 
   
@@ -68,6 +77,8 @@ class App extends React.Component {
     inputMode: true, 
     outputMode: false,
     outputTable: false,
+    adminMode: false,
+    adminSection: false,
     hideModal: true, 
   })
  }
@@ -78,9 +89,23 @@ class App extends React.Component {
       inputMode: false, 
       outputMode: true,
       inputForms: false,
+      adminMode: false,
+      adminSection: false,
       hideModal: true 
     })
   }
+
+  adminModeHandler = (mode) => {
+    // localStorage.setItem( 'SelectedMode', mode.bubbles );
+    resetCounter();
+    this.setState({
+      inputMode: false, 
+      outputMode: false,
+      outputTable: false,
+      adminMode: true,
+      hideModal: true, 
+    })
+   }
 
  activityHandler = (e) => {
    this.setState({ selectedActivity: [e][0] })
@@ -89,16 +114,25 @@ class App extends React.Component {
   this.setState({
     inputForms: true,
     outputTable: false,
-  })} else if (!this.state.inputMode) {
+    adminSection: false
+  })} else if (this.state.outputMode) {
   this.setState({
     inputForms: false,
     outputTable: true,
-  })}}
+    adminSection: false
+  })} else if (this.state.adminMode) {
+    this.setState({
+      inputForms: false,
+      outputTable: false,
+      adminSection: true
+    })}
+ }
  
   backButtonHandler = () => {
    this.setState({
      outputTable: false,
      inputForms: false,
+     adminSection: false,
    })}
 
   hideModalHanlder = () => {
@@ -106,6 +140,7 @@ class App extends React.Component {
       hideModal: false,
       outputTable: false,
       inputForms: false,
+      adminSection: false,
       logOutError: false
     })}
 
@@ -142,48 +177,65 @@ class App extends React.Component {
             stateProps={this.state}
             inputMode={this.inputModeHandler}
             outputMode={this.outputModeHandler}
+            adminMode={this.adminModeHandler}
           />  
             
           <Switch>
             <Route exact path="/"> 
-              {this.state.currentUser ? <Redirect to="/Home" /> :
+              {this.state.currentUser ? <Redirect to="/home" /> :
                <StartingPage
                 modal={this.hideModalHanlder}
                 setCredentialsHandler={this.setCredentialsHandler}/>
               }
             </Route>
 
-            <Route path="/Home">
+            <Route path="/home">
               {this.state.currentUser ? 
               <HomePage stateProps={this.state}/> : null} 
             </Route>
 
             {this.state.currentUser ?
-             <RenderForOperator stateProps={this.state}>
-                                          
-             <Route path="/Inputs">
-                {this.state.currentUser ? 
-                <SelectActivity 
-                modal={this.hideModalHanlder}
-                key={this.activityHandler}
-                stateProps={this.state}
-                onClick={this.activityHandler} 
-                backButton={this.backButtonHandler}/> : <StartingPage />} 
-              </Route>
+              <Fragment>
+                <RenderForAdmin stateProps={this.state}>
+                  <Route path="/admin">
+                    {this.state.currentUser ? 
+                    <SelectActivity
+                    modal={this.hideModalHanlder}
+                    key={this.activityHandler}
+                    stateProps={this.state}
+                    onClick={this.activityHandler}
+                    backButton={this.backButtonHandler}/> : <StartingPage />} 
+                  </Route>
+                </RenderForAdmin> 
 
-              <Route path="/Reports">
-                {this.state.currentUser ? 
-                <SelectActivity
-                modal={this.hideModalHanlder}
-                key={this.activityHandler}
-                stateProps={this.state}
-                onClick={this.activityHandler}
-                backButton={this.backButtonHandler}/> : <StartingPage />} 
-              </Route>
-              </RenderForOperator> : null 
-            }    
+                <RenderForOperator stateProps={this.state}>
+                                              
+                  <Route path="/inputs">
+                      {this.state.currentUser ? 
+                      <SelectActivity 
+                      modal={this.hideModalHanlder}
+                      key={this.activityHandler}
+                      stateProps={this.state}
+                      onClick={this.activityHandler} 
+                      backButton={this.backButtonHandler}/> : <StartingPage />} 
+                    </Route>
+                </RenderForOperator>  
+                
+                <RenderForAdmin stateProps={this.state}>
+                  <Route path="/reports">
+                    {this.state.currentUser ? 
+                    <SelectActivity
+                    modal={this.hideModalHanlder}
+                    key={this.activityHandler}
+                    stateProps={this.state}
+                    onClick={this.activityHandler}
+                    backButton={this.backButtonHandler}/> : <StartingPage />} 
+                  </Route>
+                </RenderForAdmin> 
+              </Fragment>: null 
+            } 
           </Switch>
-
+          
         </Router>
      </div>    
     );

@@ -132,7 +132,8 @@ const TableContainer = ({
                     );
                   })}
                 <RenderForAdmin stateProps={stateProps}>  
-                {stateProps.outputTable === true ? null : 
+                {stateProps.outputTable === true || stateProps.selectedActivity !== 0 
+                ? null : 
                 <td>
                 <AdminTableElements 
                 // stateProps={stateProps}
