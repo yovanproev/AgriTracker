@@ -72,7 +72,7 @@ export const TableRows = ({jobActivities, index, tableRowsHandler, localState}) 
           <input type="number" className="jobs-input"
           step="0.1" id={rows+columnindex} 
           min="0" 
-          value={(((workHourReg[rows] || {}).workHours || {})[columnindex-1] || {}).time || "" }
+          value={(((workHourReg[rows] || {}).workHours || {})[columnindex-1] || {}).time || 0 }
           disabled={!check[rows]}   
           onChange={(e) => {handleInputChange(e, rows, columnindex - 1)}}
               />
@@ -121,7 +121,7 @@ export const TableRows = ({jobActivities, index, tableRowsHandler, localState}) 
                 {columns(rowId)}
                 <td >
                 {parseFloat((((workHourReg[rowId] || {}).workHours || [])
-                .reduce((prevVal,currentVal)=> isNaN(prevVal) ? 0 : parseFloat(prevVal) 
+                .reduce((prevVal,currentVal) => isNaN(prevVal) ? 0 : parseFloat(prevVal) 
                 + parseFloat(currentVal.time), 0)) || 0)
                 .toFixed(1)
                 }

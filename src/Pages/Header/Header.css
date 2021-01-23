@@ -28,7 +28,7 @@
   margin-right: 15px;
   font-weight: bold;
   border: #d2e90a solid;
-  padding: 20px;
+  padding: 18px 15px;
 }
 
 .active-style-admin {
@@ -46,6 +46,20 @@
 @media screen and (max-width: 600px) {
   .sign-out-link {
     margin-top: 15px;
+    margin-left: -70px;
+  }
+  .link-admin {
+    display: flex;
+    margin-left: -70px;
+  }
+  .ul-bar {
+    margin-left: -10px;
+  }
+  .cherry,
+  .cherry1,
+  .cherry-join {
+    margin-left: -20px;
+    margin-top: 40px;
   }
 }
 
