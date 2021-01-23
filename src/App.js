@@ -24,7 +24,7 @@ class App extends React.Component {
       inputForms: false,
       outputTable: false,
       adminMode: false,
-      hideModal: true,
+      hideModal: false,
       activityBubbleState: [
         { name: "Fuel Registration"},
         { name: "Machine Registration"},
@@ -59,14 +59,15 @@ class App extends React.Component {
       }
       this.setState({ currentUser: userAuth})})
       this.setCredentialsHandler()
+      this.expiredToken()
   }
 
   expiredToken = () => {
     if (new Date(this.state.expirationDate) <= new Date()) {
     this.setState({ 
     role: "Disabled", logOutError: true})
-    auth.signOut()
-  }}
+    auth.signOut() }
+  }
 
   componentWillUnmount() {this.unsubscribeFromAuth()}
 
@@ -74,37 +75,26 @@ class App extends React.Component {
   localStorage.setItem( 'SelectedMode', mode.bubbles );
   resetCounter();
   this.setState({
-    inputMode: true, 
-    outputMode: false,
-    outputTable: false,
-    adminMode: false,
-    adminSection: false,
-    hideModal: true, 
-  })
- }
+    inputMode: true, outputMode: false,
+    outputTable: false, adminMode: false,
+    adminSection: false, hideModal: true, })
+}
 
   outputModeHandler = () => {
     localStorage.setItem( 'SelectedMode', false );
     this.setState({
-      inputMode: false, 
-      outputMode: true,
-      inputForms: false,
-      adminMode: false,
-      adminSection: false,
-      hideModal: true 
-    })
+      inputMode: false, outputMode: true,
+      inputForms: false, adminMode: false,
+      adminSection: false, hideModal: true })
   }
 
   adminModeHandler = (mode) => {
     // localStorage.setItem( 'SelectedMode', mode.bubbles );
     resetCounter();
     this.setState({
-      inputMode: false, 
-      outputMode: false,
-      outputTable: false,
-      adminMode: true,
-      hideModal: true, 
-    })
+      inputMode: false, outputMode: false,
+      outputTable: false, adminMode: true,
+      hideModal: true, })
    }
 
  activityHandler = (e) => {
@@ -112,35 +102,29 @@ class App extends React.Component {
    this.expiredToken();
   if (this.state.inputMode) {
   this.setState({
-    inputForms: true,
-    outputTable: false,
+    inputForms: true, outputTable: false,
     adminSection: false
   })} else if (this.state.outputMode) {
   this.setState({
-    inputForms: false,
-    outputTable: true,
+    inputForms: false, outputTable: true,
     adminSection: false
   })} else if (this.state.adminMode) {
     this.setState({
-      inputForms: false,
-      outputTable: false,
+      inputForms: false, outputTable: false,
       adminSection: true
     })}
  }
  
   backButtonHandler = () => {
    this.setState({
-     outputTable: false,
-     inputForms: false,
+     outputTable: false, inputForms: false,
      adminSection: false,
    })}
 
   hideModalHanlder = () => {
     this.setState({
-      hideModal: false,
-      outputTable: false,
-      inputForms: false,
-      adminSection: false,
+      hideModal: !this.state.hideModal, outputTable: false,
+      inputForms: false, adminSection: false,
       logOutError: false
     })}
 
@@ -154,8 +138,7 @@ class App extends React.Component {
     cookieData[0]?.includes("email") ? cookieData[0]?.split('=')[1] : cookieData[2]?.split('=')[1]
     this.setState({
     expirationDate: expirationDate,
-    tokenId: tokenId,
-    email: email,}) 
+    tokenId: tokenId, email: email,}) 
   }
 
   signOutHandler = () => {

@@ -16,7 +16,7 @@ const Header = ({ stateProps, inputMode, outputMode, adminMode, modalHandler, si
     <nav className="nav-bar">
         
       {stateProps.currentUser ?  
-        <NavLink to="/home" onClick={inputMode}> 
+        <NavLink to="/home" onClick={(e) => {inputMode(e); expiredToken()}}> 
         <img className="picture" src={Logo} 
         alt="Logo_image" width="100px" >
         </img></NavLink> : 

@@ -16,23 +16,44 @@ const AdminReports = (props) => {
   useEffect(() => {
     getFullDatabase(0, 10, props).then((fullData)=>{
             let fullDataArray=[]
+            if (props.stateProps.selectedActivity === 1) {
             Object.keys(fullData).forEach((key)=>{
-              fullDataArray.push(fullData[key]);
+             fullDataArray.push(fullData[key]);
               const onlyFuelConsumption = fullDataArray.filter(machine => machine.machine)
-              const ifNotFuelManagement = props.stateProps.selectedActivity === 1 ? onlyFuelConsumption : fullDataArray
-              console.log(ifNotFuelManagement)
+            
+              // console.log(ifNotFuelManagement)
               const object = {}; //(1)
-              
-                let result = ifNotFuelManagement.reduce(function(prevValue, nextValue) {
-                  let key = nextValue.machine + '-' + nextValue.attachedMachinery + '-' + nextValue.location;
-
+                let result = onlyFuelConsumption.reduce(function(prevValue, nextValue) {
+                  let key = nextValue.machine + '-' + nextValue.attachedMachinery + '-' + nextValue.location 
                   if(!object[key]) {
-                    object[key] = Object.assign({}, nextValue); // create a copy of o
+                    object[key] = Object.assign({}, nextValue); // create a copy of next value
                     prevValue.push(object[key]);
-                  } else if (props.stateProps.selectedActivity === 1) {
+                  } else {
                      object[key].liters += nextValue.liters
                      // helper[key].instances += o.instances;
-                  } else if (props.stateProps.selectedActivity === 2) {
+                  }                 
+                  return prevValue;
+                }, []);
+              setTable(result)
+            })
+          } else if (props.stateProps.selectedActivity === 2) {
+              Object.keys(fullData).forEach((key)=>{
+              
+              fullDataArray.push(fullData[key]);
+              // const onlyFuelConsumption = fullDataArray.filter(machine => machine.machine)
+              // const ifNotFuelManagement = props.stateProps.selectedActivity === 1 ? onlyFuelConsumption : fullDataArray
+              // console.log(ifNotFuelManagement)
+              
+              const object = {}; //(1)
+                let result = fullDataArray.reduce(function(prevValue, nextValue) {
+                  let key = nextValue.machine + '-' + nextValue.attachedMachinery + '-' 
+                  + nextValue.location + '-' + nextValue.product;
+                  
+                  if(!object[key]) {
+                    object[key] = Object.assign({}, nextValue); // create a copy of next value
+                    prevValue.push(object[key]);
+                  } else {
+                    // object[key].liters += nextValue.liters
                     object[key].hoursSpentOnLastActivity -= nextValue.hoursSpentOnLastActivity
                   }
                 
@@ -40,7 +61,51 @@ const AdminReports = (props) => {
                 }, []);
               setTable(result)
             })
-                        
+          } else if (props.stateProps.selectedActivity === 3) {
+            Object.keys(fullData).forEach((key)=>{
+             fullDataArray.push(fullData[key]);
+            const object = {}; //(1)
+              let result = fullDataArray.reduce(function(prevValue, nextValue) {
+                let key = nextValue.machine + '-' + nextValue.attachedMachinery + '-' 
+                + nextValue.jobDescription + '-' + nextValue.maintenanceOrRerairs;
+                
+                if(!object[key]) {
+                  object[key] = Object.assign({}, nextValue); // create a copy of next value
+                  prevValue.push(object[key]);
+                } else {
+                  object[key].costOfTechnician += nextValue.costOfTechnician
+                  object[key].workedHours += nextValue.workedHours
+                }
+              
+                return prevValue;
+              }, []);
+            setTable(result)
+          })
+        }
+          else if (props.stateProps.selectedActivity === 4) {
+            Object.keys(fullData).forEach((key)=>{
+               fullDataArray.push(fullData[key]);
+              const object = {}; //(1)
+                let result = fullDataArray.reduce(function(prevValue, nextValue) {
+                  let key = nextValue.date + '-' + nextValue.nameOfEmployee 
+                  // + '-' + nextValue.project
+                  // + '-' + nextValue.jobDescription 
+                  // + '-' + nextValue.costCenter  ;
+                  console.log(prevValue, "prev")
+                  console.log(nextValue, "next")
+                  if(!object[key]) {
+                    object[key] = Object.assign({}, nextValue); // create a copy of next value
+                    prevValue.push(object[key]);
+                  } else {
+                    // object[key].jobDescription += nextValue.jobDescription
+                    object[key].manHours += parseFloat(nextValue.manHours) 
+                  }
+                
+                  return prevValue;
+                }, []);
+              setTable(result)
+            })
+          }
         }).catch(err => err)
           // setError(" or no data in the Module."))
   }, [props]);
@@ -52,7 +117,7 @@ const AdminReports = (props) => {
    setModeChange(props.stateProps.outputMode)
  }, [props.stateProps.outputMode])
 
- const moduleInProgress = <Modal show={props.stateProps.hideModal} hide={props.modal}>
+ const moduleInProgress = <Modal show={props.modal} hide={props.modal}>
    Module Still Not Built</Modal> 
   //  const errorModal = table.length === 0 || table === undefined ? <Modal show={props.stateProps.hideModal} 
   //   hide={props.modal}>User has no authorization to read data{error}</Modal> : null
@@ -64,15 +129,16 @@ const AdminReports = (props) => {
      <UsersData stateProps={props.stateProps} onClick={props.onClick}/> : null}
      
      {props.stateProps.selectedActivity === 1 ||
-     props.stateProps.selectedActivity === 2  ? 
+     props.stateProps.selectedActivity === 2  || 
+     props.stateProps.selectedActivity === 3  ||
+     props.stateProps.selectedActivity === 4 ? 
      <TableReport 
         stateProps={props}
         modeChange={modeChange}
         tableData={table}
         onClick={props.onClick}/> : null }
     
-    {props.stateProps.selectedActivity === 3 ||
-      props.stateProps.selectedActivity === 4 ? moduleInProgress : null}
+    {props.stateProps.selectedActivity === 5 ? moduleInProgress : null}
      
     </div>
   ) 

@@ -8,7 +8,9 @@ export const conditionalTableColumns = (props) => {
   props.stateProps.selectedActivity === 3 && props.stateProps.outputTable ? workingHoursInputColumns : 
   props.stateProps.selectedActivity === 4 && props.stateProps.outputTable ? workingHoursInputColumns : 
   props.stateProps.selectedActivity === 1 && props.stateProps.adminSection ? fuelManagementColumns : 
-  props.stateProps.selectedActivity === 2 && props.stateProps.adminSection ? machineRegistrationManagementColumns : null;
+  props.stateProps.selectedActivity === 2 && props.stateProps.adminSection ? machineRegistrationManagementColumns :
+  props.stateProps.selectedActivity === 3 && props.stateProps.adminSection ? maintenanceAndRepairsManagementColumns :
+  props.stateProps.selectedActivity === 4 && props.stateProps.adminSection ? workingHoursManagementColumns : null;
 }
 
 const fuelConsumptionColumns = [
@@ -362,7 +364,124 @@ const machineRegistrationManagementColumns = [
     filter: 'equals',
   },
   {
-    Header: 'Total Kilometars',
+    Header: 'Product',
+    accessor: "product",
+    disableSortBy: true,
+    Filter: SelectColumnFilter,
+    filter: 'equals',
+  },
+  {
+    Header: 'Total Kilometers',
     accessor: 'hoursSpentOnLastActivity',
+  },
+]
+
+const maintenanceAndRepairsManagementColumns = [
+  {
+    Header: 'Machine',
+    accessor: "machine",
+    disableSortBy: true,
+    Filter: SelectColumnFilter,
+    filter: 'equals',
+  }, 
+  { 
+    Header: 'Attached Machinery',
+    accessor: "attachedMachinery",
+    disableSortBy: true,
+    Filter: SelectColumnFilter,
+    filter: 'equals',
+    },
+    {
+    Header: 'Location',
+    accessor: "location",
+    disableSortBy: true,
+    Filter: SelectColumnFilter,
+    filter: 'equals',
+  },
+  {
+    Header: 'Technician',
+    accessor: "technician",
+    disableSortBy: true,
+    Filter: SelectColumnFilter,
+    filter: 'equals',
+  },
+  {
+    Header: 'Maint./Rep.',
+    accessor: "maintenanceOrRerairs",
+    disableSortBy: true,
+    Filter: SelectColumnFilter,
+    filter: 'equals',
+  },
+  {
+    Header: 'Job Description',
+    accessor: "jobDescription",
+    disableSortBy: true,
+    Filter: SelectColumnFilter,
+    filter: 'equals',
+  },
+  {
+    Header: 'Cost Of Technician',
+    accessor: 'costOfTechnician',
+  },
+  {
+    Header: 'Worked hours',
+    accessor: 'workedHours',
+  },
+   
+]
+
+export const workingHoursManagementColumns = [
+  {
+    Header: 'Date',
+    accessor: "date",
+    disableSortBy: true,
+    Filter: SelectColumnFilter,
+    filter: 'equals',
+  },
+  {
+    Header: 'Employee',
+    accessor: "nameOfEmployee",
+    disableSortBy: true,
+    Filter: SelectColumnFilter,
+    filter: 'equals',
+  },
+  {
+    Header: 'Location',
+    accessor: "location",
+    disableSortBy: true,
+    Filter: SelectColumnFilter,
+    filter: 'equals',
+  }, 
+  {
+    Header: 'Type Of Hours',
+    accessor: "typeOfHours",
+    disableSortBy: true,
+    Filter: SelectColumnFilter,
+    filter: 'equals',
+  },
+  {
+    Header: 'Project',
+    accessor: "project",
+    disableSortBy: true,
+    Filter: SelectColumnFilter,
+    filter: 'equals',
+  },
+  // {
+  //   Header: 'Cost Center',
+  //   accessor: "costCenter",
+  //   disableSortBy: true,
+  //   Filter: SelectColumnFilter,
+  //   filter: 'equals',
+  // },
+  // {
+  //   Header: 'Job Description',
+  //   accessor: "jobDescription",
+  //   disableSortBy: true,
+  //   Filter: SelectColumnFilter,
+  //   filter: 'equals',
+  // },
+  {
+    Header: 'Man hours',
+    accessor: 'manHours',
   },
 ]

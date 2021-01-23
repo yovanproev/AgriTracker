@@ -9,7 +9,7 @@ export const getFullDatabase = (machine, limit, props) => {
    props.stateProps.selectedActivity === 2 && props.stateProps.adminSection ? firebase_db_machineReg :
    props.stateProps.selectedActivity === 3 && props.stateProps.adminSection ? firebase_db_maintenance : null
    
-    if (props.stateProps.selectedActivity === 3 && props.stateProps.adminSection) {
+    if (props.stateProps.selectedActivity === 4 && props.stateProps.adminSection) {
       firebase_db_workHours.once("value", function(snapshot) {
         let arr = []
         let origin = snapshot.val()
@@ -18,14 +18,35 @@ export const getFullDatabase = (machine, limit, props) => {
               secondChild.map(x => arr.push(x))
             })
           )
+          console.log(arr)
         resolve(arr)
       }).catch(err => {
+        reject(err)
+      })
+    } else if (props.stateProps.selectedActivity === 2) {
+      // let mergeFuelAndMachineReg = []
+      // firebase_db_fuelConsump.orderByChild("id")
+      // .startAt(1).once('value').then((snapshot)=>{
+        // console.log(snapshot.val())
+        
+        // mergeFuelAndMachineReg.push(snapshot.val())
+      // })
+      firebase_db_machineReg.orderByChild("id")
+      .startAt(1).once('value').then((snapshot)=>{
+        // console.log(snapshot.val())
+        // mergeFuelAndMachineReg.push(snapshot.val())
+        resolve(snapshot.val())
+        // console.log(mergeFuelAndMachineReg)
+      })
+           
+      .catch(err => {
         reject(err)
       })
     }
     else {
       database.orderByChild("id")
       .startAt(1).once('value').then((snapshot)=>{
+        console.log(snapshot.val())
         resolve(snapshot.val())
       }).catch(err => {
         reject(err)

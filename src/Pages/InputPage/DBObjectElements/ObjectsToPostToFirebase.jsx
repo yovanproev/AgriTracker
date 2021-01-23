@@ -61,14 +61,14 @@ export const maintenanceAndRepairsInputObject = (props) => {
   id: props.lastId,
   machine: props.selectedMachineName,
   attachedMachinery: props.selectedAttachedMachineryName,
-  workedHours: props.workedHours,
+  workedHours: parseFloat(props.workedHours).toFixed(1),
   location: props.selectedLocationName,
   farmLocation: props.selectedFarmName,
   maintenanceOrRerairs: props.selectedMaintenanceName,
   explainTheActivity: props.explainTheActivity,
   technician: props.selectedTechnicianName,
   // manHours: props.manHours,
-  costOfTechnician: props.costOfTechnician,
+  costOfTechnician: parseFloat(props.costOfTechnician).toFixed(1),
   jobDescription: props.selectedJobName,
   date: props.date,
   timeOfEntry: getDateAndTime()
@@ -96,7 +96,7 @@ export const workingHoursInputObject = (props) => {
     costCenter: jobDescription.costCenter,
     
     jobDescription: jobDescription.name,
-    manHours: (props.manHours[index].workHours[i] || []).time || 0,
+    manHours: parseFloat((props.manHours[index].workHours[i] || []).time).toFixed(1) || parseFloat(0),
     nameOfEmployee: nameOfEmployee,
     
     numberOfEmployee: index,

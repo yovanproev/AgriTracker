@@ -55,7 +55,11 @@
   .ul-bar {
     margin-left: -10px;
   }
-  .cherry,
+  .cherry {
+    height: 1.5em;
+    margin-left: -20px;
+    margin-top: 40px;
+  }
   .cherry1,
   .cherry-join {
     margin-left: -20px;

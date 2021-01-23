@@ -61,7 +61,7 @@ const SelectReport = (props) => {
     setTable(rows) 
   }
 
- const moduleInProgress = <Modal show={props.stateProps.hideModal} hide={props.modal}>
+ const moduleInProgress = <Modal show={props.modal} hide={props.modal}>
    Module Still Not Built</Modal> 
    const errorModal = table.length === 0 || table === undefined ? <Modal show={props.stateProps.hideModal} 
     hide={props.modal}>User has no authorization to read data{error}</Modal> : null

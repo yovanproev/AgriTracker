@@ -176,7 +176,7 @@ class InputSelection extends Component {
   }
 
   render () {
-    const moduleInProgress = <Modal show={this.props.stateProps.hideModal} 
+    const moduleInProgress = <Modal show={this.props.modal} 
     hide={this.props.modal}>Module Still In Progress</Modal> 
     const errorModal = <Modal show={this.state.error} 
     hide={this.props.modal}>Network error while posting data to Database, your entry is not recorded.</Modal> 
