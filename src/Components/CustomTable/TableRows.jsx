@@ -35,7 +35,7 @@ export const TableRows = ({jobActivities, index, tableRowsHandler, localState}) 
       do {
         employees.push({name: employeesRows[i]?.name, workHours:[{ type: jobActivities[i]?.name, time: ""}]});
         i++;
-      } while(i < employeesRows.length);
+      } while (i < employeesRows.length);
       setWorkHourReg(employees)
     }, [employeesRows, employeesRows.length, i, jobActivities, memoizedValue])
 

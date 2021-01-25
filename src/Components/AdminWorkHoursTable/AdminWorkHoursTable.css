@@ -22,9 +22,9 @@
 }
 
 .first-col-header {
-  position: absolute;
+  position: sticky;
   width: 7em;
-  left: 40px;
+  left: 0px;
   top: auto;
   border-top-width: 1px;
   /*only relevant for first row*/
@@ -34,9 +34,9 @@
 }
 
 .first-col-rows {
-  position: absolute;
+  position: sticky;
   width: 7em;
-  left: 40px;
+  left: 0px;
   top: auto;
   border-top-width: 1px;
   /*only relevant for first row*/
@@ -47,9 +47,9 @@
 
 @media screen and (min-width: 760px) {
   .first-col-header {
-    position: absolute;
-    width: 7em;
-    left: 310px;
+    position: sticky;
+    /* width: 0em; */
+    left: 0px;
     top: auto;
     border-top-width: 1px;
     /*only relevant for first row*/
@@ -59,9 +59,9 @@
   }
 
   .first-col-rows {
-    position: absolute;
-    width: 7em;
-    left: 310px;
+    position: sticky;
+    /* width: 7em; */
+    left: 0px;
     top: auto;
     border-top-width: 1px;
     /*only relevant for first row*/
@@ -75,7 +75,3 @@
 .custom-table td {
   white-space: nowrap;
 }
-
-/* .custom-table {
-  margin-left: 120px;
-} */

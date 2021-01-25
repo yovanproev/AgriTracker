@@ -18,7 +18,7 @@ export const getFullDatabase = (machine, limit, props) => {
               secondChild.map(x => arr.push(x))
             })
           )
-          console.log(arr)
+          // console.log(arr)
         resolve(arr)
       }).catch(err => {
         reject(err)

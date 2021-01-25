@@ -7,7 +7,7 @@ import { getFullDatabase } from "../../Firebase/FetchCumulativeDataFromRealtimeD
 
 import UsersData from "./UsersData/UsersData";
 
-const AdminReports = (props) => {
+const CumulateData = (props) => {
   const [ table, setTable ] = useState([])
   
   // const [ error, setError ] = useState(undefined)
@@ -54,7 +54,7 @@ const AdminReports = (props) => {
                     prevValue.push(object[key]);
                   } else {
                     // object[key].liters += nextValue.liters
-                    object[key].hoursSpentOnLastActivity -= nextValue.hoursSpentOnLastActivity 
+                    object[key].hoursSpentOnLastActivity -= nextValue.hoursSpentOnLastActivity
                   }
                 
                   return prevValue;
@@ -98,7 +98,7 @@ const AdminReports = (props) => {
                     prevValue.push(object[key]);
                   } else {
                     // object[key].jobDescription += nextValue.jobDescription
-                    object[key].manHours += parseFloat(nextValue.manHours) || {}
+                    object[key].manHours += parseFloat(nextValue.manHours) 
                   }
                 
                   return prevValue;
@@ -144,4 +144,4 @@ const AdminReports = (props) => {
   ) 
 }
 
-export default AdminReports;
+export default CumulateData;

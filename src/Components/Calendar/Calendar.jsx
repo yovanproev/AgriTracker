@@ -18,7 +18,7 @@ const Calendar = ({ stateProps, onChange, }) => {
         onChange={updateValue}
         value={value}
       />
-      {stateProps.outputTable ?
+      {stateProps.outputTable || stateProps.adminSection ?
         <DatePicker 
         showLeadingZeros={true}
         format={"dd-MM-y"}

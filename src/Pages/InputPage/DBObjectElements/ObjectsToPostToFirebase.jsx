@@ -19,7 +19,7 @@ export const fuelConsumptionInputObject = (props) => {
     operator: props.selectedOperatorName,
     date: props.date,
     tankResidual: props.tankResidual ? 
-    (parseFloat(props.tankResidual) - parseFloat(props.liters)).toFixed(1) : parseInt(0),
+    (+parseFloat(props.tankResidual) - +parseFloat(props.liters)).toFixed(1) : parseInt(0),
     timeOfEntry: getDateAndTime()
   } :
   object = {
@@ -32,7 +32,7 @@ export const fuelConsumptionInputObject = (props) => {
     tankNumber: props.tankNum,
     location: props.selectedLocationName,
     tankResidual: props.tankResidual ? 
-    (parseFloat(props.tankResidual) + parseFloat(props.liters)).toFixed(1) : parseFloat(props.liters),
+    (+parseFloat(props.tankResidual) + +parseFloat(props.liters)).toFixed(1) : parseFloat(props.liters),
     deliveryNote: props.deliveryNote,
     timeOfEntry: getDateAndTime()
     }
@@ -49,7 +49,7 @@ export const fuelConsumptionInputObject = (props) => {
   kilometers: props.kilometersOnMachine,
   operator: props.selectedOperatorName,
   hoursSpentOnLastActivity: props.hoursSpentOnLastActivity ? 
-  (parseFloat(props.hoursSpentOnLastActivity) - parseFloat(props.kilometersOnMachine)).toFixed(1) : parseFloat(0),
+  (+parseFloat(props.hoursSpentOnLastActivity) - +parseFloat(props.kilometersOnMachine)).toFixed(1) : parseFloat(0),
   date: props.date,
   timeOfEntry: getDateAndTime()
   }
@@ -61,14 +61,14 @@ export const maintenanceAndRepairsInputObject = (props) => {
   id: props.lastId,
   machine: props.selectedMachineName,
   attachedMachinery: props.selectedAttachedMachineryName,
-  workedHours: parseFloat(props.workedHours).toFixed(1),
+  workedHours: +parseFloat(props.workedHours).toFixed(1),
   location: props.selectedLocationName,
   farmLocation: props.selectedFarmName,
   maintenanceOrRerairs: props.selectedMaintenanceName,
   explainTheActivity: props.explainTheActivity,
   technician: props.selectedTechnicianName,
   // manHours: props.manHours,
-  costOfTechnician: parseFloat(props.costOfTechnician).toFixed(1),
+  costOfTechnician: +parseFloat(props.costOfTechnician).toFixed(1),
   jobDescription: props.selectedJobName,
   date: props.date,
   timeOfEntry: getDateAndTime()
@@ -96,7 +96,7 @@ export const workingHoursInputObject = (props) => {
     costCenter: jobDescription.costCenter,
     
     jobDescription: jobDescription.name,
-    manHours: parseFloat((props.manHours[index].workHours[i] || []).time).toFixed(1) || parseFloat(0),
+    manHours: +parseFloat((props.manHours[index].workHours[i] || []).time).toFixed(1) || parseFloat(0),
     nameOfEmployee: nameOfEmployee,
     
     numberOfEmployee: index,

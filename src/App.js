@@ -59,7 +59,6 @@ class App extends React.Component {
       }
       this.setState({ currentUser: userAuth})})
       this.setCredentialsHandler()
-      this.expiredToken()
   }
 
   expiredToken = () => {
@@ -151,6 +150,7 @@ class App extends React.Component {
       <div className="app" >
         {this.state.logOutError ? <Modal show={this.state.logOutError} >
          Your token has expired, please sign in again!</Modal> : null}
+       
         <Router basename="/">
        
           <Header

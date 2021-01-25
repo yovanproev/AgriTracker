@@ -371,7 +371,7 @@ const machineRegistrationManagementColumns = [
     filter: 'equals',
   },
   {
-    Header: 'Total Kilometers',
+    Header: 'Total Hours/KM Spent',
     accessor: 'hoursSpentOnLastActivity',
   },
 ]
@@ -431,13 +431,13 @@ const maintenanceAndRepairsManagementColumns = [
 ]
 
 export const workingHoursManagementColumns = [
-  {
-    Header: 'Date',
-    accessor: "date",
-    disableSortBy: true,
-    Filter: SelectColumnFilter,
-    filter: 'equals',
-  },
+  // {
+  //   Header: 'Date',
+  //   accessor: "date",
+  //   disableSortBy: true,
+  //   Filter: SelectColumnFilter,
+  //   filter: 'equals',
+  // },
   {
     Header: 'Employee',
     accessor: "nameOfEmployee",
@@ -480,8 +480,10 @@ export const workingHoursManagementColumns = [
   //   Filter: SelectColumnFilter,
   //   filter: 'equals',
   // },
+  
   {
-    Header: 'Man hours',
+    
+    Header: "date",
     accessor: 'manHours',
   },
 ]

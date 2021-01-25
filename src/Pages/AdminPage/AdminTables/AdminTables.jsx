@@ -7,32 +7,33 @@ import { TableHeaderAdmin } from './TableHeaderAdmin/TableHeaderAdmin'
 // import { ExportCSV } from './ExcelExport/ExcelExport'
 import Table from "../../../Components/ReactTableLibrary/Table"
 
-import { resetCounter } from "../../../Firebase/FetchDataFromRealtimeDB"
+// import { resetCounter } from "../../../Firebase/FetchDataFromRealtimeDB"
 import BackButton from '../../../Components/BackButton/BackButton';
-// import Calendar from '../../../Components/Calendar/Calendar';
-// import { getFilteredDataForExport } from '../../../Firebase/FetchFilteredDataForExportFromRealtimeDB';
-// import { addZero } from '../../InputPage/DBObjectElements/GetDateTime';
+import Calendar from '../../../Components/Calendar/Calendar';
+import { getFilteredDataForExport } from '../../../Firebase/FetchFilteredDataForExportFromRealtimeDB';
+import { addZero } from '../../InputPage/DBObjectElements/GetDateTime';
+import AdminWorkHoursTable from '../../../Components/AdminWorkHoursTable/AdminWorkHoursTable';
 
-const TableReport = (props) => {
+const AdminTables = (props) => {
   //name of the excel file
   const [ name, setName ] = useState(null)
 
-  function handleChange(rowId, numberOfEmployee, numberOfJob) {
-    // Here, we invoke the callback with the new value
-    props.deleteRowHandler(rowId, numberOfEmployee, numberOfJob);
-  }
+  // function handleChange(rowId, numberOfEmployee, numberOfJob) {
+  //   // Here, we invoke the callback with the new value
+  //   props.deleteRowHandler(rowId, numberOfEmployee, numberOfJob);
+  // }
 
   // produce table for excel export
-  // const [ excelData, updateExcelData ] = useState([]) 
+  const [ onlylastDayData, updateOnlyLastDayData ] = useState([]) 
 
   // fetch dates for excel export
-  // const [ startingDate, updateStartingDate ] = useState([])
-  // const [ endDate, updateEndDate ] = useState([])
+  const [ startingDate, updateStartingDate ] = useState([])
+  const [ endDate, updateEndDate ] = useState([])
   
-  // const fetchFilteredDateForExport = (startingDate, endDate) => {
-  //  updateStartingDate(startingDate)
-  //  updateEndDate(endDate)
-  // }
+  const fetchFilteredDateForExport = (startingDate, endDate) => {
+   updateStartingDate(startingDate)
+   updateEndDate(endDate)
+  }
 
   useEffect(() => {
     let headerName =
@@ -51,51 +52,59 @@ const TableReport = (props) => {
     null   
     setName(headerName)
     
-    // const getStartingDate = () => {
-    //   const startingDay = startingDate.length !== 0 ? addZero(startingDate.getDate()) : null
-    //   const startingMonth = startingDate.length !== 0 ? addZero(startingDate.getMonth()+1) : null
-    //   const startingYear = startingDate.length !== 0 ? addZero(startingDate.getFullYear()) : null
-    //     return startingDay + "-" + startingMonth + "-" + startingYear
-    // }
+    const getStartingDate = () => {
+      const startingDay = startingDate.length !== 0 ? addZero(startingDate.getDate()) : null
+      const startingMonth = startingDate.length !== 0 ? addZero(startingDate.getMonth()+1) : null
+      const startingYear = startingDate.length !== 0 ? addZero(startingDate.getFullYear()) : null
+        return startingDay + "-" + startingMonth + "-" + startingYear
+    }
 
-    // const getEndDate = () => {
-    //   const endDay = endDate.length !== 0 ? addZero(endDate.getDate()) : null
-    //   const endMonth = endDate.length !== 0 ? addZero(endDate.getMonth()+1) : null
-    //   const endYear = endDate.length !== 0 ? addZero(endDate.getFullYear()) : null
-    //     return endDay + "-" + endMonth + "-" + endYear
-    // }
-    // if (endDate !== null) getFilteredDataForExport(getStartingDate(), getEndDate(), props.stateProps)
-    // .then(res => updateExcelData(res))
-    // .catch(err => {
-    //   console.log(err)
-    // })
+    const getEndDate = () => {
+      const endDay = endDate.length !== 0 ? addZero(endDate.getDate()) : null
+      const endMonth = endDate.length !== 0 ? addZero(endDate.getMonth()+1) : null
+      const endYear = endDate.length !== 0 ? addZero(endDate.getFullYear()) : null
+        return endDay + "-" + endMonth + "-" + endYear
+    }
+    if (endDate !== null) getFilteredDataForExport(getStartingDate(), getEndDate(), props.stateProps)
+    .then(res => updateOnlyLastDayData(res))
+    .catch(err => {
+      console.log(err)
+    })
     
-  }, [props.stateProps.stateProps.adminActivity, props.stateProps.stateProps.selectedActivity])
+  }, [endDate, props.stateProps, startingDate])
   
   return (
     <div className="table-report">
       <TableHeaderAdmin>{name}</TableHeaderAdmin>
-          {/* <div style={{border: "solid 3px", padding: "10px", margin: "15px"}}>
-            <h5>Choose a date range for export</h5>
+          <div style={{border: "solid 3px", padding: "10px", margin: "15px"}}>
+            <h5>Choose a date</h5>
            <div style={{display: "inline-flex"}}> 
              <Calendar onChange={fetchFilteredDateForExport} stateProps={props.stateProps.stateProps}/>
            </div>
-            <ExportCSV  csvData={excelData} 
-            fileName={name} />
-          </div> */}
-      <Table
-        blockNextButton={props.blockNextButton}
-        counter={props.counter}
-        nextPageLoad={props.nextPageLoad}  
-        previousPageLoad={props.previousPageLoad}
+            {/* <ExportCSV  csvData={excelData} 
+            fileName={name} /> */}
+          </div>
+      
+        {props.stateProps.stateProps.selectedActivity === 4 ?  <AdminWorkHoursTable 
         stateProps={props.stateProps.stateProps}
         data={props.tableData}
         modeChange={props.modeChange}
-        onDelete={handleChange}/>
+        /> : null}
+      {props.stateProps.stateProps.selectedActivity !== 4 ? <Table
+        // blockNextButton={props.blockNextButton}
+        // counter={props.counter}
+        // nextPageLoad={props.nextPageLoad}  
+        // previousPageLoad={props.previousPageLoad}
+        stateProps={props.stateProps.stateProps}
+        data={props.tableData}
+        modeChange={props.modeChange}
+        // onDelete={handleChange}
+        /> : null }
       <BackButton onClick={props.onClick}
-       onFocus={resetCounter}/>
+      //  onFocus={resetCounter}
+       />
     </div>
   )
 }
 
-export default TableReport;
+export default AdminTables;
