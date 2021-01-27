@@ -1,47 +1,20 @@
-import React, { useEffect, useState, useMemo } from 'react';
-import {
-  Container,
-  // Card,
-  // CardImg,
-  // CardText,
-  // CardBody,
-  // CardTitle,
-} from 'reactstrap';
+import React, { useEffect, useState } from 'react';
+import { Container } from 'reactstrap';
 import TableContainer from './TableContainer';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import "./ReactTable.css"
 
-import  { conditionalTableColumns, usersCollection }  from "./ConditionalTableColumns"
+import  { conditionalTableColumns, usersCollection, selectionFieldsCollection }  from "./ConditionalTableColumns"
 
-const App = (props) => {
-    
-  const [mode, setMode] = useState(usersCollection);
-
-    useEffect(() => {
-    if (props.modeChange !== undefined) setMode(conditionalTableColumns(props)) 
-    }, [props])
+const Table = (props) => {
+  const [ tableData, setTableData ] = useState([])
   
-  // const renderRowSubComponent = (row) => {
-  //      return (
-  //     <Card style={{ width: '18rem', margin: '0 auto' }}>
-  //       <CardImg top src={operator} alt='Card image cap' />
-  //       <CardBody>
-  //         <CardTitle>
-  //           {/* <strong>{`${machine}`} </strong> */}
-  //         </CardTitle>
-  //         <CardText>
-  //           <strong>Phone</strong>:  <br />
-  //           <strong>Address:</strong>{' '}
-  //           {/* {`${location}`} */}
-  //         </CardText>
-  //       </CardBody>
-  //     </Card>
-  //   );
-  // };
-
-  const columns = useMemo(
-    () => mode, [mode]);
-
+    useEffect(() => {
+    setTableData(conditionalTableColumns(props))
+    if (props.stateProps.selectedActivity === 0 && props.stateProps.adminSection) setTableData(usersCollection);
+    if (props.stateProps.selectedActivity === 5 && props.stateProps.adminSection)  setTableData(selectionFieldsCollection(props.selectFieldToModify)) 
+    }, [props])
+ 
   return (
     <Container style={{ margin: "30px auto", whiteSpace: "nowrap"}} >
       <TableContainer
@@ -52,7 +25,7 @@ const App = (props) => {
         stateProps={props.stateProps}
         currentUser={props.stateProps.currentUser}
         onDelete={props.onDelete}
-        columns={columns}
+        columns={tableData}
         data={props.data}
         getRoleValue={props.getRoleValue}
         onClick={props.onClick}
@@ -62,4 +35,4 @@ const App = (props) => {
   );
 };
 
-export default App;
+export default Table;

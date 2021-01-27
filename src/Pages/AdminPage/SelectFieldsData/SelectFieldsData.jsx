@@ -1,28 +1,28 @@
 import React, { useEffect, useState } from 'react';
 
-import "./UsersData.scss"
-// import BackDrop from "../../../Components/Backdrop/Backdrop"
+import "./SelectFieldsData.scss"
+import SelectField from "./SelectField/SelectField"
 import BackButton from "../../../Components/BackButton/BackButton"
 import Table from "../../../Components/ReactTableLibrary/Table"
-import { RenderForAdmin } from '../../../RoleBasedAccessControl/RoleBaseControl';
-import { getAllUsers } from "../../../Firebase/FetchCollectionsFromFirestore"
+import { getAllSelectionFields } from "../../../Firebase/FetchCollectionsFromFirestore"
 import { updateUsersInFirestore } from '../../../Firebase/UpdateUsersInFirestore';
 
-const UsersData = (props) => {
-   // get users table
-  const [ user, setUser ] = useState([])
-  
+const SelectionFieldsUpdate = (props) => {
+  const [ selectFieldValue, setSelectFieldValue ] = useState('')
+
+   const [ fieldToModify, setfieldToModify ] = useState([])
+
   useEffect(() => {
-    getAllUsers(props).then(resolve => {
-      setUser(resolve)
-    })
-    return () => {
-      if (!props.stateProps.currentUser) {
-     setUser(null)
-    }
-  }
-}, [props, props.stateProps.currentUser])
-    
+    getAllSelectionFields(selectFieldValue).then(resolve => {
+      setfieldToModify(resolve)})
+    // return () => {
+    //   if (!props.stateProps.currentUser) {
+    //   setfieldToModify(null)
+    //}
+  // }
+}, [selectFieldValue])
+console.log(fieldToModify)    
+
   // get the table row number 
   const [ rowIdValue, setRowId ] = useState(undefined);
   const onClickRowId = (rowId) => {
@@ -48,20 +48,19 @@ const UsersData = (props) => {
     <div>
      {/* <BackDrop />  */}
      <div className='home-page'>
-        <RenderForAdmin 
-       stateProps={props.stateProps}>
-         <BackButton onClick={props.onClick}/>
-       <Table
+       <BackButton onClick={props.onClick}/>
+       <SelectField onChange={setSelectFieldValue} value={selectFieldValue}/>
+      <Table
           stateProps={props.stateProps}
-          data={user}
+          selectFieldToModify={selectFieldValue}
+          data={fieldToModify}
           getRoleValue={getRoleValue}
           onClick={onClickRowId}
           currentRole={role}
         />  
-       </RenderForAdmin>
       </div> 
     </div>
   )
 }
   
-export default UsersData;
+export default SelectionFieldsUpdate;

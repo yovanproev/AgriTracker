@@ -73,6 +73,18 @@ export const auth = firebase.auth();
 export const firestore = firebase.firestore();
 
 export const users = firestore.collection("users")
+export const machines = firestore.collection("machines")
+export const attachedMachines = firestore.collection("attachedMachinery")
+export const location = firestore.collection("location")
+export const product = firestore.collection("product")
+export const employees = firestore.collection("employees")
+export const jobDescriptions = firestore.collection("jobDescriptions")
+export const technicians = firestore.collection("technicians")
+export const projects = firestore.collection("projects")
+export const typeOfStaff = firestore.collection("typeOfStaff")
+export const typeOfWorkOnTractors = firestore.collection("typeOfWorkOnTractors")
+export const spendingOrPurchaseOfFuel = firestore.collection("spendingOrPurchaseOfFuel")
+export const jobDescriptionsTractors = firestore.collection("jobDescriptionsTractors")
 
 const provider = new firebase.auth.GoogleAuthProvider();
 provider.addScope('profile');

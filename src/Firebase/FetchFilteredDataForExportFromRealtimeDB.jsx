@@ -49,7 +49,24 @@ export const getFilteredDataForExport = (startingDate, endDate, props) => {
         }).catch(err => {
           reject(err)
         })
-      }
+      } 
+      // else if (props.stateProps.selectedActivity === 2 && props.stateProps.adminSection) {
+      //     // let mergeFuelAndMachineReg = []
+      //     firebase_db_fuelConsump.orderByChild("date")
+      //     .startAt(startingDate).once('value').then((snapshot)=>{
+      //       const initialArray = Object.values(snapshot.val())
+      //       resolve(getFilteredArray(endDate, initialArray))
+      //       })
+
+      //       firebase_db_machineReg.orderByChild("date")
+      //       .startAt(startingDate).once('value').then((snapshot)=>{
+      //         const initialArray = Object.values(snapshot.val())
+      //         resolve(getFilteredArray(endDate, initialArray))
+            
+      //   }).catch(err => {
+      //     reject(err)
+      //   })
+      // }
        else {
         database.orderByChild("date")
         .startAt(startingDate).once('value').then((snapshot)=>{

@@ -431,13 +431,6 @@ const maintenanceAndRepairsManagementColumns = [
 ]
 
 export const workingHoursManagementColumns = [
-  // {
-  //   Header: 'Date',
-  //   accessor: "date",
-  //   disableSortBy: true,
-  //   Filter: SelectColumnFilter,
-  //   filter: 'equals',
-  // },
   {
     Header: 'Employee',
     accessor: "nameOfEmployee",
@@ -466,24 +459,25 @@ export const workingHoursManagementColumns = [
     Filter: SelectColumnFilter,
     filter: 'equals',
   },
-  // {
-  //   Header: 'Cost Center',
-  //   accessor: "costCenter",
-  //   disableSortBy: true,
-  //   Filter: SelectColumnFilter,
-  //   filter: 'equals',
-  // },
-  // {
-  //   Header: 'Job Description',
-  //   accessor: "jobDescription",
-  //   disableSortBy: true,
-  //   Filter: SelectColumnFilter,
-  //   filter: 'equals',
-  // },
-  
   {
     
     Header: "date",
     accessor: 'manHours',
   },
 ]
+
+export const selectionFieldsCollection = (selectFieldToModify) => {
+  return [
+    {
+      Header: selectFieldToModify === 1 ? 'Machines' : 
+      selectFieldToModify === 2 ? 'Attached Machinery' :
+      selectFieldToModify === 3 ? 'Location' :
+      selectFieldToModify === 4 ? 'Product' :
+      selectFieldToModify === 5 ? 'Employees' :
+      selectFieldToModify === 7 ? "Job Descriptions" :
+      selectFieldToModify === 9 ? 'Technicians' :
+      selectFieldToModify === 11 ? 'Projects' : "null",
+      accessor: "name",
+    }, 
+  ]
+}

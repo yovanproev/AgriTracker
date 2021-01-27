@@ -2,27 +2,24 @@ import React, { Component } from "react";
 
 import axiosLocal from "../../AxiosInput";
 
-import { 
-  fetchMachineByName, fetchLocationByName, 
-  fetchOperatorsByName, fetchProductsByName, 
-  fetchAttachedMachineryByName, fetchMachineByImage,
-  fetchAttachedMachineryByImage, fetchMaintenanceByName,
-  fetchJobDescriptionsByName, fetchExternalTechnicianByName,
-  fetchProjectsByName, fetchTypeOfHoursByName, 
-  fetchAllOperators, fetchAllSelectFields, fetchFuelChoicesByName} from "../../LocalData/InputFormsData";
+import { fetchMachineByImage, fetchAttachedMachineryByImage, 
+  fetchAllSelectFields, fetchAllinputFields} from "../../LocalData/InputFormsData";
 
 import FuelConsumptionInput from "./InputForms/FuelConsumptionInputForm";
 import MachineRegistrationInput from "./InputForms/MachineRegistrationInputForm";
 import MaintenanceAndRepairInputForm from "./InputForms/MaintenanceAndRepairInputForm";
 import WorkingHoursInputForm from "./InputForms/WorkingHoursInputForm";
+
+import { getSelectionByField } from "../../Firebase/FetchCollectionsFromFirestore";
 import { getLastId } from "../../Firebase/FetchLastIdRealtimeDB";
+import { getTankResidual, workedHoursPerMachine } from "../../Firebase/FetchLastFuelEntryRealtimeDB"
+
+import { addZero } from "./DBObjectElements/GetDateTime";
 import { fuelConsumptionInputObject, machineRegistrationInputObject, 
          maintenanceAndRepairsInputObject, workingHoursInputObject } from "./DBObjectElements/ObjectsToPostToFirebase";
 import Modal from "../../Components/Modal/Modal"
-import { addZero } from "./DBObjectElements/GetDateTime";
+
 import { initialState } from "./InitialState"
-import { fetchAllinputFields } from "../../LocalData/InputFormsData"
-import { getTankResidual, workedHoursPerMachine } from "../../Firebase/FetchLastFuelEntryRealtimeDB"
 
 class InputSelection extends Component { 
   constructor (props) {
@@ -36,15 +33,12 @@ class InputSelection extends Component {
       disableMultiSelectOption: false,
       stopComponentDidUpdate: false,    
       date: new Date(),
-      operators: fetchAllOperators(),
       inputFields: fetchAllinputFields(),
       selectFields: fetchAllSelectFields(),
     }
 }
   
   componentDidMount() {
-    this.setState({operators: fetchAllOperators()})
-    
     const fullData = getLastId(this.props)
       fullData.then((res, rej) => { this.setState({lastId: res, error: rej })})
         // .catch(err => {throw new Error(err)})
@@ -63,9 +57,9 @@ class InputSelection extends Component {
       getTankResidual(this.state.selectedLocationName).then(liters => {
       this.setState({ tankResidual: parseFloat(liters), 
         stopComponentDidUpdate: prevState.stopComponentDidUpdate})}) 
-    workedHoursPerMachine(this.state.selectedMachineName).then(hours => {
-      this.setState({ hoursSpentOnLastActivity: parseFloat(hours),
-        stopComponentDidUpdate: prevState.stopComponentDidUpdate})})
+      workedHoursPerMachine(this.state.selectedMachineName).then(hours => {
+        this.setState({ hoursSpentOnLastActivity: parseFloat(hours),
+          stopComponentDidUpdate: prevState.stopComponentDidUpdate})})
     }
   }
 
@@ -78,22 +72,11 @@ class InputSelection extends Component {
 
   selectFieldsHandler = (value, id, statename, selectedid, selectedmachineimage) => {
     
+    getSelectionByField(id).then(selectField => {
+    this.setState({ [statename]: selectField[value -1].name })})
+    
        this.setState({
         [selectedid]: value, 
-        
-        [statename]: id === this.state.selectFields[0].id ? fetchMachineByName(value) : 
-        id === this.state.selectFields[1].id ? fetchAttachedMachineryByName(value) : 
-        id === this.state.selectFields[2].id ? fetchLocationByName(value) :
-        id === this.state.selectFields[3].id ? fetchProductsByName(value) : 
-        id === this.state.selectFields[4].id ? fetchOperatorsByName(value) : 
-        id === this.state.selectFields[5].id ? fetchLocationByName(value) :
-        id === this.state.selectFields[6].id ? fetchJobDescriptionsByName(value) :
-        id === this.state.selectFields[7].id ? fetchMaintenanceByName(value) :
-        id === this.state.selectFields[8].id ? fetchExternalTechnicianByName(value) : 
-        id === this.state.selectFields[9].id ? fetchTypeOfHoursByName(value) : 
-        id === this.state.selectFields[10].id ? fetchProjectsByName(value) :
-        id === this.state.selectFields[12].id ? fetchFuelChoicesByName(value) : null,
-        
         [selectedmachineimage] : id === this.state.selectFields[0].id ? fetchMachineByImage(value) :
         id === this.state.selectFields[1].id ? fetchAttachedMachineryByImage(value) : null
       })
@@ -124,7 +107,7 @@ class InputSelection extends Component {
     Object.keys(workingHours).forEach(function(key) {
        employeesNames.push(workingHours[key].name) })    
     this.setState({
-       manHours: workingHours,
+      manHours: workingHours,
       nameOfEmployee: employeesNames,
     })
   };
@@ -180,6 +163,7 @@ class InputSelection extends Component {
     hide={this.props.modal}>Module Still In Progress</Modal> 
     const errorModal = <Modal show={this.state.error} 
     hide={this.props.modal}>Network error while posting data to Database, your entry is not recorded.</Modal> 
+    
     return (
      <div>
       {errorModal}

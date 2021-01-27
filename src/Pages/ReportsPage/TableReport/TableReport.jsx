@@ -35,19 +35,7 @@ const TableReport = (props) => {
   }
 
   useEffect(() => {
-    let headerName =
-    props.stateProps.stateProps.selectedActivity === 0 ? 
-    props.stateProps.stateProps.activityBubbleState[0].name : 
-    props.stateProps.stateProps.selectedActivity === 1 ? 
-    props.stateProps.stateProps.activityBubbleState[1].name: 
-    props.stateProps.stateProps.selectedActivity === 2 ? 
-    props.stateProps.stateProps.activityBubbleState[2].name: 
-    props.stateProps.stateProps.selectedActivity === 3 ? 
-    props.stateProps.stateProps.activityBubbleState[3].name:
-    props.stateProps.stateProps.selectedActivity === 4 ? 
-    props.stateProps.stateProps.activityBubbleState[4].name: 
-    null   
-    setName(headerName)
+    setName(props.stateProps.stateProps.activityBubbleState[props.stateProps.stateProps.selectedActivity].name)
     
     const getStartingDate = () => {
       const startingDay = startingDate.length !== 0 ? addZero(startingDate.getDate()) : null
@@ -88,7 +76,7 @@ const TableReport = (props) => {
         previousPageLoad={props.previousPageLoad}
         stateProps={props.stateProps.stateProps}
         data={props.tableData}
-        modeChange={props.modeChange}
+        // modeChange={props.modeChange}
         onDelete={handleChange}/>
       <BackButton onClick={props.onClick}
        onFocus={resetCounter}/>

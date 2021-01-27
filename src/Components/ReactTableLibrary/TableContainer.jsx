@@ -122,18 +122,19 @@ const TableContainer = ({
 
         <tbody {...getTableBodyProps()}>
           {page.map((row) => {
+            // console.log(row.cell.getCellProps())
             prepareRow(row);
             return (
               <Fragment key={row.getRowProps().key}>
                 <tr>
                   {row.cells.map((cell) => {
                     return (
-                      <td {...cell.getCellProps()}>{cell.render('Cell')}</td>
+                      <td {...cell.getCellProps()}>{isNaN(cell.render('Cell').props.value) === false ? 
+                      +parseFloat(cell.render('Cell').props.value).toFixed(1) : cell.render('Cell')}</td>
                     );
                   })}
                 <RenderForAdmin stateProps={stateProps}>  
-                {stateProps.outputTable === true || stateProps.selectedActivity !== 0 
-                ? null : 
+                {stateProps.outputTable === true || stateProps.selectedActivity !== 0 ? null :                 
                 <td>
                 <AdminTableElements 
                 // stateProps={stateProps}
@@ -144,7 +145,13 @@ const TableContainer = ({
                 currentRole={currentRole}/>
                 </td> }
                 
-                {stateProps.outputTable === true ?
+                {stateProps.outputTable ?
+                <td>  
+                 <DeleteButton onClick={() => onDelete(data[row.id].id, 
+                  data[row.id].numberOfEmployee, data[row.id].numberOfJob)}/>
+                </td> : null}
+                {(stateProps.adminSection && stateProps.selectedActivity === 0) ||
+                (stateProps.adminSection && stateProps.selectedActivity === 5) ?
                 <td>  
                  <DeleteButton onClick={() => onDelete(data[row.id].id, 
                   data[row.id].numberOfEmployee, data[row.id].numberOfJob)}/>

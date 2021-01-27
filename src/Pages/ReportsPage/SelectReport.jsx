@@ -50,11 +50,6 @@ const SelectReport = (props) => {
           setError(" or no data in the Module."))
   }, [props]);
 
- const [modeChange, setModeChange] = useState('');
- useEffect(() => {
-   setModeChange(props.stateProps.outputMode)
- }, [props.stateProps.outputMode])
-
  const deleteRowHandler = (rowId, numberOfEmployee, numberOfJob) => {
     const rows = table.filter((row) => row.id !== rowId);
     deleteByRowId(rowId, props, numberOfEmployee, numberOfJob)
@@ -76,7 +71,6 @@ const SelectReport = (props) => {
         nextPageLoad={nextPageLoad}
         previousPageLoad={previousPageLoad}
         stateProps={props}
-        modeChange={modeChange}
         deleteRowHandler={deleteRowHandler} 
         tableData={table}
         onClick={props.onClick}/>         

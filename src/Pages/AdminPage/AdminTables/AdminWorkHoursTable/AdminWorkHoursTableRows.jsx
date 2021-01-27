@@ -1,12 +1,9 @@
 import React, { useEffect, useState } from 'react'
-import { fetchAllOperators } from "../../LocalData/InputFormsData"
+import { fetchAllOperators } from "../../../../LocalData/InputFormsData"
 import "./AdminWorkHoursTable.css"
 
 export const AdminWorkHoursTableRows = ({data}) => {
-    // const memoizedValue = useMemo(() => 
-    // fetchOperatorsByTypeOfWorker(localState.selectedTypeOfHoursName), [localState.selectedTypeOfHoursName]);
     const [employeesRows, setEmployeesRows] = useState([]);
-    
     const employees = fetchAllOperators()
 
     useEffect(()=>{
@@ -18,13 +15,13 @@ export const AdminWorkHoursTableRows = ({data}) => {
     const nameOfEmployee = "nameOfEmployee";
     const dateOfWork = "date";
 
-    let result = data.reduce((map, obj) => {
-      if (!map[obj[nameOfEmployee]]) map[obj[nameOfEmployee]] = {};
-        [].concat(obj[dateOfWork]).forEach(subEl => {
-            if (!map[obj[nameOfEmployee]][subEl]) map[obj[nameOfEmployee]][subEl] = [];
-            map[obj[nameOfEmployee]][subEl].push(obj);
+    let result = data.reduce((prevValue, nextValue) => {
+      if (!prevValue[nextValue[nameOfEmployee]]) prevValue[nextValue[nameOfEmployee]] = {};
+        [].concat(nextValue[dateOfWork]).forEach(subEl => {
+            if (!prevValue[nextValue[nameOfEmployee]][subEl]) prevValue[nextValue[nameOfEmployee]][subEl] = [];
+            prevValue[nextValue[nameOfEmployee]][subEl].push(nextValue);
         });
-        return map;
+        return prevValue;
     }, {});
   
     // Person 1 -> [date1]: {manHours1}
@@ -34,13 +31,9 @@ export const AdminWorkHoursTableRows = ({data}) => {
     //          -> [date2]: {manHours2}
     
     const column = (rowId, date, columnId, employee) => {
-      // console.log("columnId", columnId)
-      // console.log("rowId", rowId)
-      // console.log("date", date)
-      // console.log(result[employee] ? ((result[employee][date] || [])[rowId !== 0 ? 0 : rowId] || [])?.manHours || "" : null)
       return <td key={rowId+columnId}> 
-        {result[employee] ? ((result[employee][date] || [])[rowId !== 0 ? 0 : rowId] || [])?.manHours || 0 : null}
-      </td>
+                {result[employee] ? +parseFloat(((result[employee][date] || [])[rowId !== 0 ? 0 : rowId] || [])?.manHours).toFixed(1) || parseInt(0) : null}
+             </td>
     }
 
  return(

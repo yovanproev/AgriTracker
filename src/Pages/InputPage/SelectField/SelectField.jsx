@@ -1,35 +1,25 @@
 import React, { useState, useEffect } from "react"
+import { getSelectionByField } from "../../../Firebase/FetchCollectionsFromFirestore";
 
-import { 
-  fetchAllMachines, fetchAllAttachedMachinery, 
-  fetchAllLocations, fetchAllProducts, 
-  fetchAllOperators, fetchAllExternalTechnicians,
-  fetchAlljobDescriptions, fetchAllMaintenance,
-  fetchAllTypeOfHours, fetchAllProjects, fetchAllFuelChoices } from "../../../LocalData/InputFormsData";
 import "./SelectField.css"
 
-const SelectField = ({id, onChange, value, machineImage, statename, selectedId, selectedMachineImage, stopComponentDidUpdate}) => {
-  const [ fethcedData, updateFetchedData ] = useState([]);
+const SelectField = ({id, onChange, value, machineImage, statename, selectedId, 
+                       selectedMachineImage, stopComponentDidUpdate}) => {
+  
+  const [ fetchedData, updateFetchedData ] = useState([]);
   
   useEffect(() => {
-    const fetching = 
-    id === 1 ? fetchAllMachines() :
-    id === 2 ? fetchAllAttachedMachinery() :
-    id === 3 ? fetchAllLocations() :
-    id === 4 ? fetchAllProducts() :
-    id === 5 ? fetchAllOperators() : 
-    id === 6 ? fetchAllLocations() : 
-    id === 7 ? fetchAlljobDescriptions() : 
-    id === 8 ? fetchAllMaintenance() : 
-    id === 9 ? fetchAllExternalTechnicians() :
-    id === 10 ? fetchAllTypeOfHours() :
-    id === 11 ? fetchAllProjects() : 
-    id === 13 ? fetchAllFuelChoices() : "Error"
-   updateFetchedData(fetching)
- }, [id])
-
- 
-  const defaultValue = id === 1 ? "Select a machine" : 
+    getSelectionByField(id).then(resolve => {
+      updateFetchedData(resolve)})
+    // return () => {
+    //   if (!props.stateProps.currentUser) {
+    //   updateFetchedData(null)
+    //}
+  // }
+}, [id])
+// console.log(fetchedData)
+  
+ const defaultValue = id === 1 ? "Select a machine" : 
   id === 2 ? "Select attached machinery" : 
   id === 3 ? "Select location" :
   id === 4 ? "Select a product" :
@@ -47,18 +37,18 @@ const SelectField = ({id, onChange, value, machineImage, statename, selectedId, 
         {id === 1 || id === 2 ? <img alt="" src={value ? machineImage : ""} className="select-picture"/> : null}
         <select className="select-div"
           onChange={(e) => {onChange(parseInt(e.target.value), parseInt(e.target.id), 
-            e.target.name, selectedId, selectedMachineImage); if(id === 3 || id === 1) {stopComponentDidUpdate()}}}
+            e.target.name, selectedId, selectedMachineImage); if(id === 3 || id === 1) 
+            {stopComponentDidUpdate()}}}
           value={value ? value : ""}
           id={id}
           name={statename}
           selectedid={selectedId}
           selectedmachineimage={selectedMachineImage}
-          
           >
           <option key={0} value={0}>
             {defaultValue}
           </option>
-            {fethcedData.map((fields) => (
+            {fetchedData.map((fields) => (
             <option key={fields.id} value={fields.id}>
             {fields.name} 
             </option>

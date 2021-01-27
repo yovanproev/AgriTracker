@@ -7,10 +7,12 @@ import { AdminWorkHoursTableRows } from './AdminWorkHoursTableRows';
 
 const AdminWorkHoursTable = ({data, stateProps}) => {
     // console.log(data)
+    const reducedToUniqueDates = [...new Set(data.map(date => date.date))];  
+    
      return (
         <div className="table-div-input">
         <Table striped bordered hover responsive>
-            <AdminWorkHoursTableHeader data={data}/>
+            <AdminWorkHoursTableHeader datesOfWork={reducedToUniqueDates}/>
             {data.length !== 0 ?  
             <AdminWorkHoursTableRows 
              data={data}/> 
