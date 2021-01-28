@@ -1,9 +1,7 @@
 import React, { Component } from "react";
 
 import axiosLocal from "../../AxiosInput";
-
-import { fetchMachineByImage, fetchAttachedMachineryByImage, 
-  fetchAllSelectFields, fetchAllinputFields} from "../../LocalData/InputFormsData";
+import { fetchAllSelectFields, fetchAllinputFields} from "../../LocalData/InputFormsData";
 
 import FuelConsumptionInput from "./InputForms/FuelConsumptionInputForm";
 import MachineRegistrationInput from "./InputForms/MachineRegistrationInputForm";
@@ -20,6 +18,7 @@ import { fuelConsumptionInputObject, machineRegistrationInputObject,
 import Modal from "../../Components/Modal/Modal"
 
 import { initialState } from "./InitialState"
+import { getImage } from "../../Firebase/FetchImagesFromStorage";
 
 class InputSelection extends Component { 
   constructor (props) {
@@ -71,15 +70,14 @@ class InputSelection extends Component {
   updateId = () => {this.setState({lastId: parseInt(this.state.lastId) + parseInt(1)})}
 
   selectFieldsHandler = (value, id, statename, selectedid, selectedmachineimage) => {
-    
+    this.setState({ [selectedid]: value })
+
+    if (value !== 0) {
     getSelectionByField(id).then(selectField => {
     this.setState({ [statename]: selectField[value -1].name })})
-    
-       this.setState({
-        [selectedid]: value, 
-        [selectedmachineimage] : id === this.state.selectFields[0].id ? fetchMachineByImage(value) :
-        id === this.state.selectFields[1].id ? fetchAttachedMachineryByImage(value) : null
-      })
+    }
+   
+    getImage(id, value).then(res => this.setState({ [selectedmachineimage]: res }))
   };
 
   multiSelectHandler = (value) => {this.setState({ selectedMSJobDescriptionId: value })}

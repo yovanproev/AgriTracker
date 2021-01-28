@@ -1,7 +1,8 @@
 import firebase from 'firebase/app';
 import 'firebase/firestore';
 import 'firebase/auth';
-import "firebase/database"
+import "firebase/database";
+import 'firebase/storage';
 
 
 const devConfig = {
@@ -85,6 +86,8 @@ export const typeOfStaff = firestore.collection("typeOfStaff")
 export const typeOfWorkOnTractors = firestore.collection("typeOfWorkOnTractors")
 export const spendingOrPurchaseOfFuel = firestore.collection("spendingOrPurchaseOfFuel")
 export const jobDescriptionsTractors = firestore.collection("jobDescriptionsTractors")
+
+export const storage = firebase.storage();
 
 const provider = new firebase.auth.GoogleAuthProvider();
 provider.addScope('profile');

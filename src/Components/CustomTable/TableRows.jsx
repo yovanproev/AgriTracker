@@ -1,13 +1,15 @@
 import React, { useEffect, useState, useMemo } from 'react'
-import { fetchOperatorsByTypeOfWorker } from "../../LocalData/InputFormsData"
+import { getSelectionByField } from "../../Firebase/FetchCollectionsFromFirestore"
 import "./InputTable.css"
 
 export const TableRows = ({jobActivities, index, tableRowsHandler, localState}) => {
+  const [employeesRows, setEmployeesRows] = useState([]);
     
-    const memoizedValue = useMemo(() => 
-    fetchOperatorsByTypeOfWorker(localState.selectedTypeOfHoursName), [localState.selectedTypeOfHoursName]);
+  useMemo(() => 
+    getSelectionByField(5).then(res => {
+      const data = res.filter(operators => operators.typeOfWorker !== localState.selectedTypeOfHoursName);
+        return setEmployeesRows(data)}), [localState.selectedTypeOfHoursName]);
     
-    const [employeesRows, setEmployeesRows] = useState([]);
     const [workHourReg, setWorkHourReg] = useState([]);
 
     // names of employees checked   
@@ -30,14 +32,13 @@ export const TableRows = ({jobActivities, index, tableRowsHandler, localState}) 
     
     useEffect(()=>{
       let employees =[];
-      setEmployeesRows(memoizedValue);
       
       do {
         employees.push({name: employeesRows[i]?.name, workHours:[{ type: jobActivities[i]?.name, time: ""}]});
         i++;
       } while (i < employeesRows.length);
       setWorkHourReg(employees)
-    }, [employeesRows, employeesRows.length, i, jobActivities, memoizedValue])
+    }, [employeesRows, i, jobActivities])
 
      
     const handleInputChange = (e, rowId, columnId) => {
@@ -90,7 +91,7 @@ export const TableRows = ({jobActivities, index, tableRowsHandler, localState}) 
         }
       })
     }
-    // console.log(workHourReg)
+    
     return(
         <tbody key={index}>
             {employeesRows.map((employee, rowId) => 

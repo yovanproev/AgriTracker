@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from 'react'
-import { fetchAllOperators } from "../../../../LocalData/InputFormsData"
+import { getSelectionByField } from '../../../../Firebase/FetchCollectionsFromFirestore';
 import "./AdminWorkHoursTable.css"
 
 export const AdminWorkHoursTableRows = ({data}) => {
     const [employeesRows, setEmployeesRows] = useState([]);
-    const employees = fetchAllOperators()
-
+    
     useEffect(()=>{
-      setEmployeesRows(employees);
-    }, [employees])
-
+      getSelectionByField(5).then(res => setEmployeesRows(res))
+      
+    }, [])
+    
     const reducedToUniqueDate = [...new Set(data.map(date => date.date))];  
     
     const nameOfEmployee = "nameOfEmployee";

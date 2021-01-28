@@ -1,13 +1,14 @@
-import React, { useState} from "react"
+import React, { useState, useMemo} from "react"
 import { Multiselect } from 'multiselect-react-dropdown';
-import { fetchAllJobDescriptionsEmployees} from "../../../LocalData/InputFormsData"
+import { getSelectionByField } from "../../../Firebase/FetchCollectionsFromFirestore";
 
 const MultiSelectField = ({ onSelect, id, value, disableMultiSelectOption }) => {
  const [ selectedValue, updateSelectedValue ] = useState([])
 
- const state = {
-    options: fetchAllJobDescriptionsEmployees()
- };
+ const [employeesRows, setEmployeesRows] = useState([]);
+    
+  useMemo(() => 
+    getSelectionByField(12).then(res => setEmployeesRows(res)), []);
 
   const onSelectHandler = (selectedList) => {
    onSelect(selectedList) 
@@ -26,7 +27,7 @@ const MultiSelectField = ({ onSelect, id, value, disableMultiSelectOption }) => 
     id={id}
     style={{multiselectContainer: 
       {width: "50%", margin: "auto", marginTop: "20px"}}}
-    options={state.options} // Options to display in the dropdown
+    options={employeesRows} // Options to display in the dropdown
     selectedValues={selectedValue} // Preselected value to persist in dropdown
     onSelect={onSelectHandler} // Function will trigger on select event
     onRemove={onRemove} // Function will trigger on remove event

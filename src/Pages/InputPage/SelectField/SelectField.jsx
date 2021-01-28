@@ -17,7 +17,6 @@ const SelectField = ({id, onChange, value, machineImage, statename, selectedId,
     //}
   // }
 }, [id])
-// console.log(fetchedData)
   
  const defaultValue = id === 1 ? "Select a machine" : 
   id === 2 ? "Select attached machinery" : 
