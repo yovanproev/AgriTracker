@@ -53,7 +53,7 @@ export async function getSelectionByField(selectField) {
   field === 10 ? typeOfStaff :
   field === 11 ? projects : 
   field === 12 ?  jobDescriptions: 
-  field === 13 ? spendingOrPurchaseOfFuel : machines
+  field === 13 ? spendingOrPurchaseOfFuel : null
   
   const snapshot = await selectionFields.get();
   let arr = []

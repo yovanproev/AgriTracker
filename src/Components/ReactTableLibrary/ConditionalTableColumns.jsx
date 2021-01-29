@@ -476,8 +476,20 @@ export const selectionFieldsCollection = (selectFieldToModify) => {
       selectFieldToModify === 5 ? 'Employees' :
       selectFieldToModify === 7 ? "Job Descriptions" :
       selectFieldToModify === 9 ? 'Technicians' :
-      selectFieldToModify === 11 ? 'Projects' : "null",
+      selectFieldToModify === 11 ? 'Projects' : "Please select a field to update",
       accessor: "name",
+    },
+    {
+      Header: selectFieldToModify === 1 ? "N/A" : 
+      selectFieldToModify === 2 ? "N/A" :
+      selectFieldToModify === 3 ? "N/A" :
+      selectFieldToModify === 4 ? "N/A" :
+      selectFieldToModify === 5 ? 'Type of Worker' :
+      selectFieldToModify === 7 ? "Cost Center" :
+      selectFieldToModify === 9 ? "N/A" :
+      selectFieldToModify === 11 ? "N/A" : "N/A",
+      accessor: selectFieldToModify === 5 ? 'typeOfWorker' : 
+      selectFieldToModify === 7 ? "costCenter" : null
     }, 
   ]
 }

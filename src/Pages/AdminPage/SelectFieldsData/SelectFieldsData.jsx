@@ -5,59 +5,88 @@ import SelectField from "./SelectField/SelectField"
 import BackButton from "../../../Components/BackButton/BackButton"
 import Table from "../../../Components/ReactTableLibrary/Table"
 import { getAllSelectionFields } from "../../../Firebase/FetchCollectionsFromFirestore"
-import { updateUsersInFirestore } from '../../../Firebase/UpdateUsersInFirestore';
+import { updateSelectFieldsInFirestore } from '../../../Firebase/SetAndUpdateCollectionsInFirestore';
+import { deleteByRowId } from '../../../Firebase/DeleteRowsInFirestore';
 
 const SelectionFieldsUpdate = (props) => {
-  const [ selectFieldValue, setSelectFieldValue ] = useState('')
+  const [ selectFieldId, setSelectFielId ] = useState('')
 
-   const [ fieldToModify, setfieldToModify ] = useState([])
+  const [ categoryOfSelection, setCategoryOfSelection ] = useState([])
 
   useEffect(() => {
-    getAllSelectionFields(selectFieldValue).then(resolve => {
-      setfieldToModify(resolve)})
-    // return () => {
-    //   if (!props.stateProps.currentUser) {
-    //   setfieldToModify(null)
-    //}
-  // }
-}, [selectFieldValue])
-console.log(fieldToModify)    
+    getAllSelectionFields(selectFieldId).then(resolve => {
+      setCategoryOfSelection(resolve)})
+ }, [selectFieldId])
+ 
+  const [ newEntry, setNewEntry ] = useState('')
 
-  // get the table row number 
-  const [ rowIdValue, setRowId ] = useState(undefined);
-  const onClickRowId = (rowId) => {
-    if (rowId.id !== undefined) setRowId(rowId.id)
-    else return 0
+  const onChangeHandler = (value) => {
+   setNewEntry(value)
   }
 
-  // get the name of the Role from Firebase based on the id of the row
-  const [ role, setRole ] = useState([])
-  const getRoleValue = (roleValue) => {
-    setRole(roleValue)
+  const [ newSubEntry, setNewSubEntry ] = useState('')
+
+  const onChangeHandlerForSubEntry = (value) => {
+    setNewSubEntry(value)
   }
 
-  // post the new role to Firebase
-  useEffect(() => {
-    const rolesPosting = (rowId) => {
-      updateUsersInFirestore(rowId, role)
-    }
-   if (rowIdValue !== undefined) rolesPosting(rowIdValue)
-  }, [role, rowIdValue])
+  const [ newImage, setNewImage ] = useState('')
 
-  return (
+  const onChangeHandlerForImage = (value) => {
+    setNewImage(value)
+  }
+
+  const deleteRowHandler = (rowId) => {
+    const rows = categoryOfSelection.filter((row) => row.id !== rowId);
+    deleteByRowId(rowId, selectFieldId)
+    setCategoryOfSelection(rows) 
+  }
+
+    return (
     <div>
      {/* <BackDrop />  */}
      <div className='home-page'>
        <BackButton onClick={props.onClick}/>
-       <SelectField onChange={setSelectFieldValue} value={selectFieldValue}/>
+       <SelectField onChange={setSelectFielId} value={selectFieldId}/>
       <Table
           stateProps={props.stateProps}
-          selectFieldToModify={selectFieldValue}
-          data={fieldToModify}
-          getRoleValue={getRoleValue}
-          onClick={onClickRowId}
-          currentRole={role}
-        />  
+          selectFieldToModify={selectFieldId}
+          data={categoryOfSelection}
+          onDelete={deleteRowHandler}
+       /> 
+       <label className="form-check-label">
+       <input type="text" className="form-control" placeholder="name" value={newEntry} 
+       onChange={(e) => onChangeHandler(e.target.value)}/>
+       </label>
+       {(selectFieldId !== 5 && selectFieldId !== 7 && selectFieldId !== 1 && selectFieldId !== 2) ? 
+       <button type="submit" className="btn btn-success" 
+       onClick={() => updateSelectFieldsInFirestore(selectFieldId, newEntry) }
+       >Submit new field</button> : null } 
+       
+
+       
+       {selectFieldId === 5 || selectFieldId === 7 ? 
+       <div style={{margin: "20px 0"}}>
+       <label className="form-check-label">
+       <input type="text" className="form-control" value={newSubEntry} placeholder="subcategory" 
+       onChange={(e) => onChangeHandlerForSubEntry(e.target.value)}/>
+       </label>
+       <button type="submit" className="btn btn-success" 
+       onClick={() => updateSelectFieldsInFirestore(selectFieldId, newEntry, newSubEntry) }
+       >Submit new field</button> 
+       </div> : null}
+
+       {selectFieldId === 1 || selectFieldId === 2 ? 
+       <div style={{margin: "20px 0"}}>
+       <label htmlFor="exampleFormControlFile1">
+       <input  type="file" className="form-control-file" value={newImage} placeholder="subcategory" 
+       onChange={(e) => onChangeHandlerForImage(e.target.value)}/>
+       </label>
+       <button type="submit" className="btn btn-success" 
+       onClick={() => updateSelectFieldsInFirestore(selectFieldId, newEntry) }
+       >Submit new field</button> 
+       </div> : null}    
+       
       </div> 
     </div>
   )

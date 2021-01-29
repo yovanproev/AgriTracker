@@ -150,11 +150,10 @@ const TableContainer = ({
                  <DeleteButton onClick={() => onDelete(data[row.id].id, 
                   data[row.id].numberOfEmployee, data[row.id].numberOfJob)}/>
                 </td> : null}
-                {(stateProps.adminSection && stateProps.selectedActivity === 0) ||
-                (stateProps.adminSection && stateProps.selectedActivity === 5) ?
+                
+                {stateProps.adminSection && stateProps.selectedActivity === 5 ?
                 <td>  
-                 <DeleteButton onClick={() => onDelete(data[row.id].id, 
-                  data[row.id].numberOfEmployee, data[row.id].numberOfJob)}/>
+                 <DeleteButton onClick={() => onDelete(data[row.id].id)}/>
                 </td> : null}
                 </RenderForAdmin>
                 </tr>
