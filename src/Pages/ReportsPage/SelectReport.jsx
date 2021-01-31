@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Modal from "../../Components/Modal/Modal";
-
+import Spinner2 from "../../Components/Spinners/Spinner2"
 import { getPaginatedTableData, nextPage, previousPage, counter } from "../../Firebase/FetchDataFromRealtimeDB";
 import { deleteByRowId } from "../../Firebase/DeleteRowsInRealtimeDB"
 
@@ -9,11 +9,15 @@ import TableReport from "./TableReport/TableReport"
 const SelectReport = (props) => {
   const [ table, setTable ] = useState([])
   const [ blockNextButton, updateBlockNextButton ] = useState(undefined)
-  const [ error, setError ] = useState(undefined)
+  const [ error, setError ] = useState(false)
+
+  const errorOnDB = () => {
+    setError(true)
+  }
 
   function nextPageLoad(){
     const nextPageCount = nextPage(props);
-    getPaginatedTableData(0, nextPageCount, props).then((fullData)=>{
+    getPaginatedTableData(0, nextPageCount, props, errorOnDB).then((fullData)=>{
       let fullDataArray=[]
       Object.keys(fullData).forEach((key)=>{
         fullDataArray.push(fullData[key]);
@@ -27,7 +31,7 @@ const SelectReport = (props) => {
 
   function previousPageLoad(){
     const previousPageCount = previousPage(props);
-    getPaginatedTableData(0, previousPageCount, props).then((fullData)=>{
+    getPaginatedTableData(0, previousPageCount, props, errorOnDB).then((fullData)=>{
       let fullDataArray=[]
       Object.keys(fullData).forEach((key)=>{
         fullDataArray.push(fullData[key]);
@@ -40,14 +44,13 @@ const SelectReport = (props) => {
 
   useEffect(() => {
     // const workHoursQuery = props.stateProps.selectActivity === 3 ? 1 : 10
-          getPaginatedTableData(0, 10, props).then((fullData)=>{
+          getPaginatedTableData(0, 10, props, errorOnDB).then((fullData)=>{
             let fullDataArray=[]
             Object.keys(fullData).forEach((key)=>{
               fullDataArray.push(fullData[key]);
             })
             setTable(fullDataArray)
-        }).catch(err => 
-          setError(" or no data in the Module."))
+        })
   }, [props]);
 
  const deleteRowHandler = (rowId, numberOfEmployee, numberOfJob) => {
@@ -58,12 +61,16 @@ const SelectReport = (props) => {
 
  const moduleInProgress = <Modal show={props.modal} hide={props.modal}>
    Module Still Not Built</Modal> 
-   const errorModal = table.length === 0 || table === undefined ? <Modal show={props.stateProps.hideModal} 
-    hide={props.modal}>User has no authorization to read data{error}</Modal> : null
+   const loader = table.length === 0 || table === undefined ? 
+   <Modal show={props.stateProps.hideModal} hide={props.modal}><Spinner2 /></Modal> : null
     
+ const errorModal = <Modal show={error} 
+    hide={props.modal}>User has no authorization to read data or no data in the DB.</Modal>
+
     return (
-   <div className="table-reports">
-     {props.stateProps.selectedActivity ? errorModal : null}
+    <div className="table-reports">
+      {errorModal}
+     {props.stateProps.selectedActivity && error === false ? loader : null}
       {props.stateProps.selectedActivity === 4 ? moduleInProgress : null}
       < TableReport
         blockNextButton={blockNextButton}

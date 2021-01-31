@@ -1,8 +1,8 @@
 import { firebase_db_fuelConsump, firebase_db_machineReg, 
          firebase_db_maintenance, firebase_db_workHours } from "./Firebase.utils";
 
-export const getPaginatedTableData = (count, limit, props) => {
-  return new Promise((resolve, reject)=>{
+export const getPaginatedTableData = (count, limit, props, errorOnDB) => {
+  return new Promise((resolve)=>{
    
    count = count || 0; 
    limit = limit  || 10;
@@ -23,7 +23,7 @@ export const getPaginatedTableData = (count, limit, props) => {
           )
         resolve(arr)
       }).catch(err => {
-        reject(err)
+        errorOnDB()
       })
     }
     else {
@@ -31,7 +31,7 @@ export const getPaginatedTableData = (count, limit, props) => {
       .startAt(count).limitToLast(limit).once('value').then((snapshot)=>{
         resolve(snapshot.val())
       }).catch(err => {
-        reject(err)
+         errorOnDB()
       })
     }
   })
