@@ -38,8 +38,9 @@ export async function getAllSelectionFields(selectField) {
 }
 
 export async function getSelectionByField(selectField) {
-  const field =  [selectField]?.slice(-1)[0];
-  
+  // console.log(selectField, "par")
+  const field = [selectField]?.slice(-1)[0];
+  // console.log(field)
   const selectionFields = field === 0 ? null :
   field === 1 ? machines :
   field === 2 ? attachedMachines :
@@ -52,7 +53,7 @@ export async function getSelectionByField(selectField) {
   field === 9 ? technicians :
   field === 10 ? typeOfStaff :
   field === 11 ? projects : 
-  field === 12 ?  jobDescriptions: 
+  field === 12 ? jobDescriptions: 
   field === 13 ? spendingOrPurchaseOfFuel : null
   
   const snapshot = await selectionFields.get();

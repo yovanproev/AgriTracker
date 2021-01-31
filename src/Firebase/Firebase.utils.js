@@ -88,6 +88,7 @@ export const spendingOrPurchaseOfFuel = firestore.collection("spendingOrPurchase
 export const jobDescriptionsTractors = firestore.collection("jobDescriptionsTractors")
 
 export const storage = firebase.storage();
+export const storageRef = firebase.storage().ref();
 
 const provider = new firebase.auth.GoogleAuthProvider();
 provider.addScope('profile');
@@ -108,10 +109,6 @@ document.cookie = `email=${email}`
   const credential = err.credential
   throw new Error(err, email, credential)
 })
-
-
-
-
 
 export default firebase;
 

@@ -60,6 +60,8 @@ const TableReport = (props) => {
   
   return (
     <div className="table-report">
+      <BackButton onClick={props.onClick}
+       onFocus={resetCounter}/>
       <TableHeader>{name}</TableHeader>
           <div style={{border: "solid 3px", padding: "10px", margin: "15px"}}>
             <h5>Choose a date range for export</h5>
@@ -78,8 +80,7 @@ const TableReport = (props) => {
         data={props.tableData}
         // modeChange={props.modeChange}
         onDelete={handleChange}/>
-      <BackButton onClick={props.onClick}
-       onFocus={resetCounter}/>
+      
     </div>
   )
 }

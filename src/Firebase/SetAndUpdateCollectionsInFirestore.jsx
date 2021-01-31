@@ -14,7 +14,7 @@ export function updateUsersInFirestore(rowId, role) {
   })
 }
 
-export async function updateSelectFieldsInFirestore(selectField, newEntry, newSubCategory) {
+export async function updateSelectFieldsInFirestore(selectField, newEntry, newSubCategory, hideModal) {
   const selectionFields = selectField === 0 ? null : 
     selectField === 1 ? machines :
     selectField === 2 ? attachedMachines :
@@ -49,7 +49,8 @@ export async function updateSelectFieldsInFirestore(selectField, newEntry, newSu
   selectionFields.doc().set({
    ...category
   })
-  }
+  hideModal()
+}
 
   
 

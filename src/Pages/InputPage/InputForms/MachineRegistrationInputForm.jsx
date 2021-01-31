@@ -55,6 +55,7 @@ const MachineRegistrationInput = (props) => {
              selectedId={props.localState.selectFields[0].value}
              selectedMachineImage={props.localState.selectFields[0].image}
              statename={props.localState.selectFields[0].statename}
+             onFocusHandler={props.onFocusHandler}
              stopComponentDidUpdate={props.stopComponentDidUpdate}
             />
             
@@ -67,6 +68,8 @@ const MachineRegistrationInput = (props) => {
              selectedId={props.localState.selectFields[1].value}
              selectedMachineImage={props.localState.selectFields[1].image}
              statename={props.localState.selectFields[1].statename}
+             onFocusHandler={props.onFocusHandler}
+             stopComponentDidUpdate={props.stopComponentDidUpdate}
             /> : null }
 
             {props.localState.selectedAttachedMachineryId ?

@@ -4,47 +4,86 @@ import "./SelectFieldsData.scss"
 import SelectField from "./SelectField/SelectField"
 import BackButton from "../../../Components/BackButton/BackButton"
 import Table from "../../../Components/ReactTableLibrary/Table"
+
 import { getAllSelectionFields } from "../../../Firebase/FetchCollectionsFromFirestore"
 import { updateSelectFieldsInFirestore } from '../../../Firebase/SetAndUpdateCollectionsInFirestore';
 import { deleteByRowId } from '../../../Firebase/DeleteRowsInFirestore';
+import { attachImagetoStorage } from "../../../Firebase/FetchAndUpdateImagesFromStorage"
+
+import Modal from '../../../Components/Modal/Modal';
+import Spinner2 from '../../../Components/Spinners/Spinner2';
 
 const SelectionFieldsUpdate = (props) => {
+  // console.log(props)
   const [ selectFieldId, setSelectFielId ] = useState('')
 
   const [ categoryOfSelection, setCategoryOfSelection ] = useState([])
+
+  const [ newImage, setNewImage ] = useState('')
+  const [ imageName, setImageName ] = useState('')
+
+  const onChangeHandlerForImage = (file, imageName) => {
+     setNewImage(file)
+     setImageName(imageName)
+  }
 
   useEffect(() => {
     getAllSelectionFields(selectFieldId).then(resolve => {
       setCategoryOfSelection(resolve)})
  }, [selectFieldId])
- 
-  const [ newEntry, setNewEntry ] = useState('')
 
+  const [ newEntry, setNewEntry ] = useState('')
   const onChangeHandler = (value) => {
    setNewEntry(value)
   }
 
   const [ newSubEntry, setNewSubEntry ] = useState('')
-
   const onChangeHandlerForSubEntry = (value) => {
     setNewSubEntry(value)
   }
 
-  const [ newImage, setNewImage ] = useState('')
+  const [ uploadDone, updateUploadDone ] = useState(false)
 
-  const onChangeHandlerForImage = (value) => {
-    setNewImage(value)
+  const onClickAttachImage = () => {
+    updateProgressBar(true)
+    attachImagetoStorage(selectFieldId, newImage, imageName, hideModal)
+    
   }
-
   const deleteRowHandler = (rowId) => {
     const rows = categoryOfSelection.filter((row) => row.id !== rowId);
     deleteByRowId(rowId, selectFieldId)
     setCategoryOfSelection(rows) 
   }
 
+  const [ progressBar, updateProgressBar ] = useState(false)
+  
+  const clearInputFileds = () => {
+  setNewEntry("")
+  setNewSubEntry("")
+  setImageName("")
+  setNewImage("")
+  }
+
+  const hideModal = () => {
+    updateProgressBar(false)
+    updateUploadDone(true)
+  }
+  
+  const hideEntryRecordedModal = () => {
+    updateUploadDone(false)
+  }
+
+   const loadingModal = <Modal show={progressBar} 
+    hide={hideModal}
+    ><Spinner2 /></Modal> 
+  const entryRecordedModal = <Modal show={uploadDone} 
+  hide={hideEntryRecordedModal} onClick={() => hideEntryRecordedModal()}>
+    Your entry has been recorded.</Modal> 
+
     return (
     <div>
-     {/* <BackDrop />  */}
+     {loadingModal}
+     {entryRecordedModal}
      <div className='home-page'>
        <BackButton onClick={props.onClick}/>
        <SelectField onChange={setSelectFielId} value={selectFieldId}/>
@@ -60,7 +99,8 @@ const SelectionFieldsUpdate = (props) => {
        </label>
        {(selectFieldId !== 5 && selectFieldId !== 7 && selectFieldId !== 1 && selectFieldId !== 2) ? 
        <button type="submit" className="btn btn-success" 
-       onClick={() => updateSelectFieldsInFirestore(selectFieldId, newEntry) }
+       onClick={() => {updateSelectFieldsInFirestore(selectFieldId, newEntry, newSubEntry, hideModal); 
+        clearInputFileds()} }
        >Submit new field</button> : null } 
        
 
@@ -72,19 +112,22 @@ const SelectionFieldsUpdate = (props) => {
        onChange={(e) => onChangeHandlerForSubEntry(e.target.value)}/>
        </label>
        <button type="submit" className="btn btn-success" 
-       onClick={() => updateSelectFieldsInFirestore(selectFieldId, newEntry, newSubEntry) }
+       onClick={() => {updateSelectFieldsInFirestore(selectFieldId, newEntry, newSubEntry, hideModal); 
+        clearInputFileds()} }
        >Submit new field</button> 
        </div> : null}
 
        {selectFieldId === 1 || selectFieldId === 2 ? 
-       <div style={{margin: "20px 0"}}>
-       <label htmlFor="exampleFormControlFile1">
-       <input  type="file" className="form-control-file" value={newImage} placeholder="subcategory" 
-       onChange={(e) => onChangeHandlerForImage(e.target.value)}/>
+       <div style={{margin: "20px auto", background: "white", padding: "15px", width: "50%", color: "black"}}>
+       <label htmlFor="p_file">
+       <input  type="file" className="form-control-file" defaultValue={newImage} placeholder="subcategory" 
+       onChange={(e) => onChangeHandlerForImage(e.target.files[0], e.target.files[0].name)}/>
        </label>
        <button type="submit" className="btn btn-success" 
-       onClick={() => updateSelectFieldsInFirestore(selectFieldId, newEntry) }
+       onClick={() => {updateSelectFieldsInFirestore(selectFieldId, newEntry, newSubEntry, hideModal); 
+        onClickAttachImage(); clearInputFileds()} }
        >Submit new field</button> 
+       <p style={{marginTop: "20px"}}>*The name of the new entry has to be identical with the name of the file attached</p>
        </div> : null}    
        
       </div> 

@@ -104,6 +104,7 @@ const ManagementReports = (props) => {
     <div className="table-report">
       {loadingModal}
       {errorModal}
+      <BackButton onClick={props.onClick}/>
       <TableHeaderAdmin>{nameOfModule}</TableHeaderAdmin>
           <div style={{border: "solid 3px", padding: "10px", margin: "15px"}}>
             <h5>Choose a date</h5>
@@ -125,7 +126,7 @@ const ManagementReports = (props) => {
             data={dataPaginatedByDate}
             modeChange={props.modeChange}
            /> : null }
-      <BackButton onClick={props.onClick}/>
+      
     </div>
   )
 }

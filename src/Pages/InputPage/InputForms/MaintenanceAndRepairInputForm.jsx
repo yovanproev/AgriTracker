@@ -70,6 +70,7 @@ const MaintenanceAndRepairsInput = (props) => {
              selectedMachineImage={props.localState.selectFields[0].image}
              statename={props.localState.selectFields[0].statename}
              stopComponentDidUpdate={props.stopComponentDidUpdate}
+             onFocusHandler={props.onFocusHandler}
             /> : null}
 
             {props.localState.selectedMachineId ?
@@ -81,6 +82,8 @@ const MaintenanceAndRepairsInput = (props) => {
              selectedId={props.localState.selectFields[1].value}
              selectedMachineImage={props.localState.selectFields[1].image}
              statename={props.localState.selectFields[1].statename}
+             stopComponentDidUpdate={props.stopComponentDidUpdate}
+             onFocusHandler={props.onFocusHandler}
             /> : null }
 
 

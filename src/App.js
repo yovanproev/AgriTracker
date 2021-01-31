@@ -93,8 +93,8 @@ class App extends React.Component {
     resetCounter();
     this.setState({
       inputMode: false, outputMode: false,
-      outputTable: false, adminMode: true,
-      hideModal: true, })
+      outputTable: false, inputForms: false,
+      adminMode: true, hideModal: true, })
    }
 
  activityHandler = (e) => {

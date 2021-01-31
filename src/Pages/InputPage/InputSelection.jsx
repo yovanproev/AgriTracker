@@ -11,6 +11,7 @@ import WorkingHoursInputForm from "./InputForms/WorkingHoursInputForm";
 import { getSelectionByField } from "../../Firebase/FetchCollectionsFromFirestore";
 import { getLastId } from "../../Firebase/FetchLastIdRealtimeDB";
 import { getTankResidual, workedHoursPerMachine } from "../../Firebase/FetchLastFuelEntryRealtimeDB"
+import { getImage, getNamesOfImages } from "../../Firebase/FetchAndUpdateImagesFromStorage";
 
 import { addZero } from "./DBObjectElements/GetDateTime";
 import { fuelConsumptionInputObject, machineRegistrationInputObject, 
@@ -18,7 +19,6 @@ import { fuelConsumptionInputObject, machineRegistrationInputObject,
 import Modal from "../../Components/Modal/Modal"
 
 import { initialState } from "./InitialState"
-import { getImage } from "../../Firebase/FetchImagesFromStorage";
 
 class InputSelection extends Component { 
   constructor (props) {
@@ -45,6 +45,9 @@ class InputSelection extends Component {
       this.setState({ tankResidual: parseFloat(liters) })})
     workedHoursPerMachine(this.state.selectedMachineName).then(hours => {
       this.setState({ hoursSpentOnLastActivity: parseFloat(hours) })})
+    getNamesOfImages(this.state.idOfSelectField).then(fullList => {
+      this.setState({ namesOfImages: fullList})
+    })
   }
 
   stopComponentDidUpdate = () => {
@@ -59,6 +62,10 @@ class InputSelection extends Component {
       workedHoursPerMachine(this.state.selectedMachineName).then(hours => {
         this.setState({ hoursSpentOnLastActivity: parseFloat(hours),
           stopComponentDidUpdate: prevState.stopComponentDidUpdate})})
+      getNamesOfImages(this.state.idOfSelectField).then(fullList => {
+         this.setState({ namesOfImages: fullList, 
+          stopComponentDidUpdate: prevState.stopComponentDidUpdate})
+      })
     }
   }
 
@@ -69,16 +76,26 @@ class InputSelection extends Component {
 
   updateId = () => {this.setState({lastId: parseInt(this.state.lastId) + parseInt(1)})}
 
-  selectFieldsHandler = (value, id, statename, selectedid, selectedmachineimage) => {
-    this.setState({ [selectedid]: value })
+  onFocusHandler = (idOfSelectField) => {
+     getNamesOfImages(parseInt(idOfSelectField)).then(fullList => {
+        this.setState({ namesOfImages: fullList}) })}
 
-    if (value !== 0) {
-    getSelectionByField(id).then(selectField => {
-    this.setState({ [statename]: selectField[value -1].name })})
-    }
-   
-    getImage(id, value).then(res => this.setState({ [selectedmachineimage]: res }))
-  };
+  selectFieldsHandler = (idOfOptionElement, idOfSelectField, statename, selectedid, selectedmachineimage) => {
+    this.setState({ [selectedid]: idOfOptionElement, idOfSelectField: idOfSelectField })
+    
+    if (idOfOptionElement !== 0) {
+      getSelectionByField(idOfSelectField).then(selectField => {
+        selectField.filter(id => {
+          if (id.id === idOfOptionElement) { 
+            this.setState({ [statename]: id.name })
+            getImage(idOfSelectField, idOfOptionElement, this.state.namesOfImages, id.name)
+             .then(res => this.setState({ [selectedmachineimage]: res }))
+          }
+          return null
+        })
+     })  
+   }
+ }
 
   multiSelectHandler = (value) => {this.setState({ selectedMSJobDescriptionId: value })}
   
@@ -161,7 +178,8 @@ class InputSelection extends Component {
     hide={this.props.modal}>Module Still In Progress</Modal> 
     const errorModal = <Modal show={this.state.error} 
     hide={this.props.modal}>Network error while posting data to Database, your entry is not recorded.</Modal> 
-    
+    // console.log(this.state.namesOfImages)
+    // console.log(this.state.idOfSelectField)
     return (
      <div>
       {errorModal}
@@ -175,7 +193,8 @@ class InputSelection extends Component {
       localState={this.state}
       selectFieldsHandler={this.selectFieldsHandler}
       inputFieldsHandler={this.inputFieldsHandler} 
-      formHandler={this.formSubmitHandler} /> : null}
+      formHandler={this.formSubmitHandler} 
+      onFocusHandler={this.onFocusHandler}/> : null}
 
       {this.props.stateProps.selectedActivity === 1 ?
       <MachineRegistrationInput 
@@ -187,7 +206,8 @@ class InputSelection extends Component {
       localState={this.state}
       selectFieldsHandler={this.selectFieldsHandler}
       inputFieldsHandler={this.inputFieldsHandler} 
-      formHandler={this.formSubmitHandler} /> : null}
+      formHandler={this.formSubmitHandler}
+      onFocusHandler={this.onFocusHandler} /> : null}
       
       {this.props.stateProps.selectedActivity === 2 ?
       <MaintenanceAndRepairInputForm
@@ -199,7 +219,8 @@ class InputSelection extends Component {
       localState={this.state}
       selectFieldsHandler={this.selectFieldsHandler}
       inputFieldsHandler={this.inputFieldsHandler} 
-      formHandler={this.formSubmitHandler} /> : null}
+      formHandler={this.formSubmitHandler} 
+      onFocusHandler={this.onFocusHandler}/> : null}
 
       {this.props.stateProps.selectedActivity === 3 ?
       <WorkingHoursInputForm 

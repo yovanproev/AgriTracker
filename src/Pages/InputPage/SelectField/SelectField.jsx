@@ -4,7 +4,7 @@ import { getSelectionByField } from "../../../Firebase/FetchCollectionsFromFires
 import "./SelectField.css"
 
 const SelectField = ({id, onChange, value, machineImage, statename, selectedId, 
-                       selectedMachineImage, stopComponentDidUpdate}) => {
+                       selectedMachineImage, stopComponentDidUpdate, onFocusHandler }) => {
   
   const [ fetchedData, updateFetchedData ] = useState([]);
   
@@ -43,6 +43,7 @@ const SelectField = ({id, onChange, value, machineImage, statename, selectedId,
           name={statename}
           selectedid={selectedId}
           selectedmachineimage={selectedMachineImage}
+          onFocus={(e) => id === 1 || id === 2 ? onFocusHandler(e.target.id) : null}
           >
           <option key={0} value={0}>
             {defaultValue}

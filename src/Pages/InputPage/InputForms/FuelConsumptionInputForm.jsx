@@ -91,6 +91,7 @@ const FuelConsumptionInput = (props) => {
               selectedId={props.localState.selectFields[0].value}
               selectedMachineImage={props.localState.selectFields[0].image}
               stopComponentDidUpdate={props.stopComponentDidUpdate}
+              onFocusHandler={props.onFocusHandler}
               /> : null}
 
               {props.localState.selectedMachineId ?
@@ -102,6 +103,8 @@ const FuelConsumptionInput = (props) => {
               statename={props.localState.selectFields[1].statename}
               selectedId={props.localState.selectFields[1].value}
               selectedMachineImage={props.localState.selectFields[1].image}
+              stopComponentDidUpdate={props.stopComponentDidUpdate}
+              onFocusHandler={props.onFocusHandler}
               /> : null }
 
               {props.localState.selectedAttachedMachineryId ?

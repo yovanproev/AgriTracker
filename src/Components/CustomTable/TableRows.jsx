@@ -7,7 +7,7 @@ export const TableRows = ({jobActivities, index, tableRowsHandler, localState}) 
     
   useMemo(() => 
     getSelectionByField(5).then(res => {
-      const data = res.filter(operators => operators.typeOfWorker !== localState.selectedTypeOfHoursName);
+     const data = res.filter(operators => operators.typeOfWorker === localState.selectedTypeOfHoursName);
         return setEmployeesRows(data)}), [localState.selectedTypeOfHoursName]);
     
     const [workHourReg, setWorkHourReg] = useState([]);
@@ -91,7 +91,7 @@ export const TableRows = ({jobActivities, index, tableRowsHandler, localState}) 
         }
       })
     }
-    
+    // console.log(employeesRows)
     return(
         <tbody key={index}>
             {employeesRows.map((employee, rowId) => 
