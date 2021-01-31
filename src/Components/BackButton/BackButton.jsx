@@ -4,7 +4,7 @@ import "./BackButton.css"
 
 const BackButton = ({onClick}) => {
   return (
-    <div className="back-button1">
+    <div className="back-button">
       <button 
       onClick={() => onClick()}>
         Back

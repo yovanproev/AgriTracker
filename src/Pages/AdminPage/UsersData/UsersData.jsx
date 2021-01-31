@@ -47,7 +47,7 @@ const UsersData = (props) => {
   return (
     <div>
      {/* <BackDrop />  */}
-     <div className='home-page'>
+     <div className='users-data'>
         <RenderForAdmin 
        stateProps={props.stateProps}>
          <BackButton onClick={props.onClick}/>

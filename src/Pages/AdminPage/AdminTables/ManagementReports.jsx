@@ -88,7 +88,6 @@ const ManagementReports = (props) => {
             setLoading(false)
           })
       }).catch(err => {
-        console.log(err)
             setError(true)
             setLoading(false)
       })
@@ -98,7 +97,7 @@ const ManagementReports = (props) => {
   const loadingModal = <Modal show={loading} 
     hide={hideModal}><Spinner2 /></Modal> 
   const errorModal = <Modal show={error} 
-  hide={hideModal}>No records in the selected time period.</Modal> 
+  hide={hideModal}>No records in the selected time period. Please select different period.</Modal> 
 
   return (
     <div className="table-report">

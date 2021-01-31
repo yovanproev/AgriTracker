@@ -84,7 +84,7 @@ const SelectionFieldsUpdate = (props) => {
     <div>
      {loadingModal}
      {entryRecordedModal}
-     <div className='home-page'>
+     <div className='select-fields'>
        <BackButton onClick={props.onClick}/>
        <SelectField onChange={setSelectFielId} value={selectFieldId}/>
       <Table
@@ -118,7 +118,7 @@ const SelectionFieldsUpdate = (props) => {
        </div> : null}
 
        {selectFieldId === 1 || selectFieldId === 2 ? 
-       <div style={{margin: "20px auto", background: "white", padding: "15px", width: "50%", color: "black"}}>
+       <div className="image-section">
        <label htmlFor="p_file">
        <input  type="file" className="form-control-file" defaultValue={newImage} placeholder="subcategory" 
        onChange={(e) => onChangeHandlerForImage(e.target.files[0], e.target.files[0].name)}/>

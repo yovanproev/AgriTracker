@@ -10,3 +10,19 @@
 .home-table {
   margin: auto;
 }
+
+.buttons {
+  display: flex;
+  flex-direction: column;
+}
+
+.page-columns {
+  display: flex;
+  flex-direction: row;
+  margin: auto;
+  margin-bottom: 10px;
+}
+
+.outputTable {
+  margin: auto;
+}

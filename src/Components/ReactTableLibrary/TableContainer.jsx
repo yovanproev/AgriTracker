@@ -171,8 +171,9 @@ const TableContainer = ({
         </tbody>
       </Table>
 
-      <Row style={{ maxWidth: 1000, margin: '0 auto', textAlign: 'center' }}>
-        <Col md={3}>
+      <Row style={{ maxWidth: 1000, margin: '10px auto', textAlign: 'center' }}>
+       <span className={!stateProps.outputTable ? "page-columns" : "outputTable"}>
+        <Col md={2}>
           {/* <Button
             color='primary'
             onClick={() => gotoPage(0)}
@@ -181,28 +182,31 @@ const TableContainer = ({
             {'<<'}
           </Button> */}
           {stateProps.outputTable === false ? 
-          <Button color='primary' onClick={nextPage}
-          disabled={!canNextPage}>
+          <Button color='primary' onClick={nextPage} 
+           disabled={!canNextPage}>
            {'<'}
          </Button> : 
           <Button color='primary' onClick={()=> nextPageClick()}
-           disabled={blockNextButton}>
+          disabled={blockNextButton}>
             {'Previous Entries'}
           </Button>}
         </Col>
-        <Col md={2} style={{ marginTop: 7 }}>
+        <span className={!stateProps.outputTable ? "buttons" : ""}>
+        <Col md={2}  
+        style={{ marginTop: "7px" }}>
           Page{' '}
           <strong>
             {pageIndex + 1} of {pageOptions.length}
           </strong>
         </Col>
-        <Col md={2} style={{ margin: "7px auto" }}>
+        <Col md={2} 
+        style={{ margin: "7px auto" }} >
           Records{' '}
           <strong>
             {data.length}
           </strong>
         </Col>
-        <Col md={2}>
+        <Col md={2} >
           <Input
             list="defaultNumbers"
             type='number'
@@ -212,11 +216,13 @@ const TableContainer = ({
             max={pageOptions.length}
             value={pageNumber}
             onChange={onChangeInInput}
+            
           />
           {/* <datalist id="defaultNumbers">
             {[pageIndex].map(x=> <option value={x +1}></option>)}
           </datalist> */}
         </Col>
+        </span>
         {/* <Col md={2}> 
           <CustomInput
             id={Math.random() * 10000}
@@ -232,15 +238,15 @@ const TableContainer = ({
             ))}
            </CustomInput>
         </Col> */}
-        <Col md={2}>
+        <Col md={2} >
         {stateProps.outputTable === false ? 
-          <Button style={{margin: "10px auto" }}
+          <Button style={{margin: "auto" }}
           color='primary' onClick={previousPage}
-           disabled={!canPreviousPage}>
+          disabled={!canPreviousPage}>
            {'>'}
          </Button> :
          <Button
-            style={{margin: "7px auto" }} 
+            style={{margin: "7px auto"}} 
             color='primary'
             onClick={() => previousPageClick()}
             disabled={counter === 10 ? true : false}
@@ -256,6 +262,7 @@ const TableContainer = ({
             {'>>'}
           </Button> */}
         </Col>
+        </span>
       </Row>
     </Fragment>
   );
