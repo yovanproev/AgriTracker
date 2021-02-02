@@ -2,25 +2,6 @@ import rolesDB from "./Roles.json"
 import inputFieldsDB from "./InputFields.json"
 import selectFieldsDB from "./SelectFields.json"
 
-// export const fetchMachineByImage = machineId => {
-//   const data = machineDB.filter(machine => machine.id === parseInt(machineId));
-//   if (data.length > 0) {
-//     return data[0].image;
-//   } else {
-//     return data;
-//   }
-// };
-
-// export const fetchAttachedMachineryByImage = aMachineId => {
-//   const data = attachedMachineryDB.filter(aMachine => aMachine.id === parseInt(aMachineId));
-//   if (data.length > 0) {
-//     return data[0].image;
-//   } else {
-//     return data;
-//   }
-// };
-
-
 export const fetchAllRoles = () => {
   return rolesDB.data;
 }

@@ -12,7 +12,7 @@ import SubmitButton from "../../../Components/SubmitButton/SubmitButton"
 import Modal from "../../../Components/Modal/Modal"
 import GrapeSpinner1 from "../../../Components/Spinners/GrapeSpinner"
 import Calendar from "../../../Components/Calendar/Calendar";
-import CustomTable from "../../../Components/CustomTable/InputTable";
+import CustomTable from "../CustomTable/CustomTable";
 
 const WorkingHoursInput = (props) => {
  const [ , setDisableButtton ] = useState(false)

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 
 // import Modal from "../../Components/Modal/Modal";
 import ManagementReports from "./AdminTables/ManagementReports";
@@ -7,16 +7,11 @@ import SelectionFieldsUpdate from "./SelectFieldsData/SelectFieldsData"
 
 const AdminReports = (props) => {
     
-  const [modeChange, setModeChange] = useState('');
- useEffect(() => {
-   setModeChange(props.stateProps.outputMode)
- }, [props.stateProps.outputMode])
+  // const [modeChange, setModeChange] = useState('');
+//  useEffect(() => {
+//    setModeChange(props.stateProps.outputMode)
+//  }, [props.stateProps.outputMode])
 
-//  const moduleInProgress = <Modal show={props.modal} hide={props.modal}>
-//    Module Still Not Built</Modal> 
-  //  const errorModal = table.length === 0 || table === undefined ? <Modal show={props.stateProps.hideModal} 
-  //   hide={props.modal}>User has no authorization to read data{error}</Modal> : null
-    
     return (
    <div className="table-reports">
 
@@ -29,7 +24,7 @@ const AdminReports = (props) => {
       props.stateProps.selectedActivity === 4 ? 
       <ManagementReports 
           stateProps={props}
-          modeChange={modeChange}
+          // modeChange={modeChange}
           onClick={props.onClick}/> : null }
       
       {props.stateProps.selectedActivity === 5 ? <SelectionFieldsUpdate 

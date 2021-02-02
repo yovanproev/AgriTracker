@@ -14,6 +14,21 @@ export const getTankResidual = (location) => {
  })
 }
 
+export const getLitersMissing = (location) => {
+  return new Promise((resolve, reject)=>{
+ 
+    firebase_db_fuelConsump.orderByChild("location")
+     .endAt(location).limitToLast(1).once('value').then((snapshot)=>{
+       let lastTankNumber = snapshot.val()  === null || snapshot.val()  === undefined ? 
+       parseInt(0) : Object.values(snapshot.val()).slice(-1)[0].tankNumber
+       resolve(lastTankNumber)
+     }).catch(err => {
+      reject(err)
+     })
+ })
+}
+
+
 export const workedHoursPerMachine = (machine) => {
   return new Promise((resolve, reject)=>{
  

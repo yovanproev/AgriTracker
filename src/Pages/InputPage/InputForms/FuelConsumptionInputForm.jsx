@@ -77,11 +77,22 @@ const FuelConsumptionInput = (props) => {
               selectedId={props.localState.selectFields[4].value}
               statename={props.localState.selectFields[4].statename}
           /> : null }
-           
+                                   
+            {props.localState.selectedOperatorId ?
+                <SelectField
+                stopComponentDidUpdate={props.stopComponentDidUpdate}
+                id={props.localState.selectFields[2].id}
+                onChange={props.selectFieldsHandler}
+                value={props.localState.selectedLocationId}
+                selectedId={props.localState.selectFields[2].value}
+                statename={props.localState.selectFields[2].statename}
+              /> : null
+              }
+
             {/* Fuel Consumption */}
             {props.localState.selectedSpendingOrPurchaseId === 1 ?
               <div>
-              {props.localState.selectedOperatorId ?
+              {props.localState.selectedLocationId ?
               <SelectField
               id={props.localState.selectFields[0].id}
               onChange={props.selectFieldsHandler}
@@ -126,17 +137,7 @@ const FuelConsumptionInput = (props) => {
                     statename={[props.localState.inputFields][0][2].statename}/>
                 </div>: null
               } 
-                                      
-              {props.localState.selectedAttachedMachineryId ?
-                <SelectField
-                stopComponentDidUpdate={props.stopComponentDidUpdate}
-                id={props.localState.selectFields[2].id}
-                onChange={props.selectFieldsHandler}
-                value={props.localState.selectedLocationId}
-                selectedId={props.localState.selectFields[2].value}
-                statename={props.localState.selectFields[2].statename}
-              /> : null
-              }
+              
              </div>
           : 
           // Fuel Purchase

@@ -1,8 +1,8 @@
 import React, { useEffect, useState, useMemo } from 'react'
-import { getSelectionByField } from "../../Firebase/FetchCollectionsFromFirestore"
-import "./InputTable.css"
+import { getSelectionByField } from "../../../Firebase/FetchCollectionsFromFirestore"
+import "./CustomTable.css"
 
-export const TableRows = ({jobActivities, index, tableRowsHandler, localState}) => {
+export const CustomTableRows = ({jobActivities, index, tableRowsHandler, localState}) => {
   const [employeesRows, setEmployeesRows] = useState([]);
     
   useMemo(() => 
@@ -22,7 +22,7 @@ export const TableRows = ({jobActivities, index, tableRowsHandler, localState}) 
         ...checkedFields, 
         [id] : name})
         if(checked === false){ 
-          workHourReg[rowId].workHours = [{ type: jobActivities[index]?.name, time: 0.0}];
+          workHourReg[rowId].workHours = [{ type: jobActivities[index]?.name, time: ""}];
           setWorkHourReg(workHourReg);
         } 
         tableRowsHandler(workHourReg)
@@ -45,7 +45,7 @@ export const TableRows = ({jobActivities, index, tableRowsHandler, localState}) 
       const { value } = e.target;
       const workHours = (workHourReg[rowId] || {}).workHours || [];
       if(!workHours[columnId]){
-         workHours.push({type: jobActivities[columnId]?.name, time: value });
+         workHours.push({type: jobActivities[columnId]?.name, time: parseFloat(value) });
       } else {
         workHours[columnId].time = value;
       }
@@ -72,8 +72,7 @@ export const TableRows = ({jobActivities, index, tableRowsHandler, localState}) 
         <label style={{display:"grid"}}>
           <input type="number" className="jobs-input"
           step="0.1" id={rows+columnindex} 
-          min="0" 
-          value={(((workHourReg[rows] || {}).workHours || {})[columnindex-1] || {}).time || 0 }
+          value={(((workHourReg[rows] || {}).workHours || {})[columnindex-1] || {}).time || "" }
           disabled={!check[rows]}   
           onChange={(e) => {handleInputChange(e, rows, columnindex - 1)}}
               />

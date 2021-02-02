@@ -11,9 +11,13 @@
   margin: auto;
 }
 
-.buttons {
+.buttons-in-table {
   display: flex;
   flex-direction: column;
+}
+
+.buttons1 {
+  display: contents;
 }
 
 .page-columns {
@@ -25,4 +29,17 @@
 
 .outputTable {
   margin: auto;
+}
+
+@media screen and (min-width: 500px) {
+  .outputTable {
+    display: flex;
+    flex: auto;
+  }
+}
+
+@media screen and (max-width: 500px) {
+  .second-button {
+    margin: 10px 0;
+  }
 }

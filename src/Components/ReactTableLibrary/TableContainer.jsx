@@ -28,7 +28,7 @@ const TableContainer = ({
   nextPageLoad,
   previousPageLoad,
   counter,
-  blockNextButton 
+  blockNextButton
    }) => {
   const {
     getTableProps,
@@ -130,7 +130,7 @@ const TableContainer = ({
                   {row.cells.map((cell) => {
                     return (
                       <td {...cell.getCellProps()}>{isNaN(cell.render('Cell').props.value) === false ? 
-                      +parseFloat(cell.render('Cell').props.value).toFixed(1) : cell.render('Cell')}</td>
+                      +parseFloat(cell.render('Cell').props.value).toFixed(1) || "" : cell.render('Cell')}</td>
                     );
                   })}
                 <RenderForAdmin stateProps={stateProps}>  
@@ -146,9 +146,9 @@ const TableContainer = ({
                 </td> }
                 
                 {stateProps.outputTable ?
-                <td>  
-                 <DeleteButton onClick={() => onDelete(data[row.id].id, 
-                  data[row.id].numberOfEmployee, data[row.id].numberOfJob)}/>
+                <td>
+                  <DeleteButton onClick={() => {onDelete(data[row.id].id, 
+                  data[row.id].numberOfEmployee, data[row.id].numberOfJob); }}/>
                 </td> : null}
                 
                 {stateProps.adminSection && stateProps.selectedActivity === 5 ?
@@ -173,7 +173,7 @@ const TableContainer = ({
 
       <Row style={{ maxWidth: 1000, margin: '10px auto', textAlign: 'center' }}>
        <span className={!stateProps.outputTable ? "page-columns" : "outputTable"}>
-        <Col md={2}>
+        <Col md={3}>
           {/* <Button
             color='primary'
             onClick={() => gotoPage(0)}
@@ -183,24 +183,23 @@ const TableContainer = ({
           </Button> */}
           {stateProps.outputTable === false ? 
           <Button color='primary' onClick={nextPage} 
-           disabled={!canNextPage}>
+           disabled={!canNextPage} style={{marginBottom: "10px"}} >
            {'<'}
          </Button> : 
           <Button color='primary' onClick={()=> nextPageClick()}
-          disabled={blockNextButton}>
+          disabled={blockNextButton} style={{marginBottom: "10px"}} >
             {'Previous Entries'}
           </Button>}
         </Col>
-        <span className={!stateProps.outputTable ? "buttons" : ""}>
-        <Col md={2}  
-        style={{ marginTop: "7px" }}>
+        
+        <span className={!stateProps.outputTable ? "buttons-in-table" : "buttons1"}>
+        <Col md={2}>
           Page{' '}
           <strong>
             {pageIndex + 1} of {pageOptions.length}
           </strong>
         </Col>
-        <Col md={2} 
-        style={{ margin: "7px auto" }} >
+        <Col md={2}>
           Records{' '}
           <strong>
             {data.length}
@@ -238,15 +237,14 @@ const TableContainer = ({
             ))}
            </CustomInput>
         </Col> */}
-        <Col md={2} >
+        <Col md={3} >
         {stateProps.outputTable === false ? 
-          <Button style={{margin: "auto" }}
+          <Button style={{marginBottom: "10px"}} 
           color='primary' onClick={previousPage}
           disabled={!canPreviousPage}>
            {'>'}
          </Button> :
-         <Button
-            style={{margin: "7px auto"}} 
+         <Button className="second-button"
             color='primary'
             onClick={() => previousPageClick()}
             disabled={counter === 10 ? true : false}

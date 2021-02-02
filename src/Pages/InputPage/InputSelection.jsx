@@ -10,7 +10,7 @@ import WorkingHoursInputForm from "./InputForms/WorkingHoursInputForm";
 
 import { getSelectionByField } from "../../Firebase/FetchCollectionsFromFirestore";
 import { getLastId } from "../../Firebase/FetchLastIdRealtimeDB";
-import { getTankResidual, workedHoursPerMachine } from "../../Firebase/FetchLastFuelEntryRealtimeDB"
+import { getLitersMissing, getTankResidual, workedHoursPerMachine } from "../../Firebase/FetchLastFuelEntryRealtimeDB"
 import { getImage, getNamesOfImages } from "../../Firebase/FetchAndUpdateImagesFromStorage";
 
 import { addZero } from "./DBObjectElements/GetDateTime";
@@ -40,9 +40,10 @@ class InputSelection extends Component {
   componentDidMount() {
     const fullData = getLastId(this.props)
       fullData.then((res, rej) => { this.setState({lastId: res, error: rej })})
-        // .catch(err => {throw new Error(err)})
-    getTankResidual(this.state.selectedLocationName).then(liters => {
-      this.setState({ tankResidual: parseFloat(liters) })})
+   getTankResidual(this.state.selectedLocationName).then(liters => {
+       this.setState({ tankResidual: parseFloat(liters) })})
+    getLitersMissing(this.state.selectedLocationName).then(tankNum => {
+      this.setState({ lastTankNumber: parseFloat(tankNum) })})
     workedHoursPerMachine(this.state.selectedMachineName).then(hours => {
       this.setState({ hoursSpentOnLastActivity: parseFloat(hours) })})
     getNamesOfImages(this.state.idOfSelectField).then(fullList => {
@@ -57,11 +58,12 @@ class InputSelection extends Component {
   componentDidUpdate(prevState) {
     if (prevState.stopComponentDidUpdate !== this.state.stopComponentDidUpdate) {
       getTankResidual(this.state.selectedLocationName).then(liters => {
-      this.setState({ tankResidual: parseFloat(liters), 
-        stopComponentDidUpdate: prevState.stopComponentDidUpdate})}) 
+        this.setState({ tankResidual: parseFloat(liters)})}) 
+      getLitersMissing(this.state.selectedLocationName).then(tankNum => {
+        this.setState({ lastTankNumber: parseFloat(tankNum), 
+          stopComponentDidUpdate: prevState.stopComponentDidUpdate })})
       workedHoursPerMachine(this.state.selectedMachineName).then(hours => {
-        this.setState({ hoursSpentOnLastActivity: parseFloat(hours),
-          stopComponentDidUpdate: prevState.stopComponentDidUpdate})})
+          this.setState({ hoursSpentOnLastActivity: parseFloat(hours)})})
       getNamesOfImages(this.state.idOfSelectField).then(fullList => {
          this.setState({ namesOfImages: fullList, 
           stopComponentDidUpdate: prevState.stopComponentDidUpdate})
@@ -178,8 +180,8 @@ class InputSelection extends Component {
     hide={this.props.modal}>Module Still In Progress</Modal> 
     const errorModal = <Modal show={this.state.error} 
     hide={this.props.modal}>Network error while posting data to Database, your entry is not recorded.</Modal> 
-    // console.log(this.state.namesOfImages)
     // console.log(this.state.idOfSelectField)
+    
     return (
      <div>
       {errorModal}

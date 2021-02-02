@@ -70,6 +70,10 @@ const fuelConsumptionColumns = [
     accessor: 'tankNumber',
   },
   {
+    Header: 'Liters missing',
+    accessor: "litersMissing",
+  },
+  {
     Header: 'Operator',
     accessor: "operator",
     disableSortBy: true,
@@ -77,7 +81,7 @@ const fuelConsumptionColumns = [
     filter: 'equals',
   },
   {
-    Header: 'Tank residual',
+    Header: 'Tank residual-liters',
     accessor: "tankResidual",
   },
   {
@@ -123,6 +127,13 @@ const machineRegitrationColumns = [
   {
     Header: 'Product',
     accessor: "product",
+    disableSortBy: true,
+    Filter: SelectColumnFilter,
+    filter: 'equals',
+  },
+  {
+    Header: 'Job Description',
+    accessor: "machinesJob",
     disableSortBy: true,
     Filter: SelectColumnFilter,
     filter: 'equals',
@@ -371,8 +382,19 @@ const machineRegistrationManagementColumns = [
     filter: 'equals',
   },
   {
+    Header: 'Job Description',
+    accessor: "machinesJob",
+    disableSortBy: true,
+    Filter: SelectColumnFilter,
+    filter: 'equals',
+  },
+  {
     Header: 'Total Hours/KM Spent',
     accessor: 'hoursSpentOnLastActivity',
+  },
+  {
+    Header: '% of total spent hours',
+    accessor: 'percentages',
   },
 ]
 
@@ -476,7 +498,8 @@ export const selectionFieldsCollection = (selectFieldToModify) => {
       selectFieldToModify === 5 ? 'Employees' :
       selectFieldToModify === 7 ? "Job Descriptions" :
       selectFieldToModify === 9 ? 'Technicians' :
-      selectFieldToModify === 11 ? 'Projects' : "Please select a field to update",
+      selectFieldToModify === 11 ? 'Projects' :
+      selectFieldToModify === 14 ? 'Machine Jobs' : "Please select a field to update",
       accessor: "name",
     },
     {
@@ -487,9 +510,11 @@ export const selectionFieldsCollection = (selectFieldToModify) => {
       selectFieldToModify === 5 ? 'Type of Worker' :
       selectFieldToModify === 7 ? "Cost Center" :
       selectFieldToModify === 9 ? "N/A" :
-      selectFieldToModify === 11 ? "N/A" : "N/A",
+      selectFieldToModify === 11 ? "N/A" : 
+      selectFieldToModify === 14 ? "Cost Center" : "N/A",
       accessor: selectFieldToModify === 5 ? 'typeOfWorker' : 
-      selectFieldToModify === 7 ? "costCenter" : null
+      selectFieldToModify === 7 ? "costCenter" : 
+      selectFieldToModify === 14 ? "costCenter" : null
     }, 
   ]
 }

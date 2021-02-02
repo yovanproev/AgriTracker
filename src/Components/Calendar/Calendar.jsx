@@ -4,7 +4,7 @@ import DatePicker from 'react-date-picker';
 const Calendar = ({ stateProps, onChange, }) => {
   var previousDay = new Date();
  
-  previousDay.setDate(previousDay.getDate() - 1);
+  previousDay.setDate(previousDay.getDate() - 5);
 
   const [value, updateValue] = useState(stateProps.adminSection ? previousDay : new Date());
   const [endValue, updateEndValue] = useState(stateProps.adminSection ? new Date() : "");

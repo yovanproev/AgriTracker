@@ -1,5 +1,5 @@
 import { machines, attachedMachines, location, product,
-  employees, jobDescriptions, technicians, projects } from './Firebase.utils';
+  employees, jobDescriptions, technicians, projects, jobsWithAMachine } from './Firebase.utils';
 
 export function deleteByRowId (rowId, selectField) {
   // console.log(selectField, "select")
@@ -13,7 +13,8 @@ export function deleteByRowId (rowId, selectField) {
   selectField === 5 ? employees :
   selectField === 7 ? jobDescriptions :
   selectField === 9 ? technicians :
-  selectField === 11 ? projects : machines
+  selectField === 11 ? projects :
+  selectField === 14 ? jobsWithAMachine : machines
 
  selectionFields.orderBy("id").startAt(rowId).limit(1).get()
   .then(function(querySnapshot) {

@@ -2,9 +2,9 @@ import React from "react"
 
 import TableFilter from 'react-table-filter';
 import "react-table-filter/lib/styles.css";
-import "./InputTable.css"
+import "./CustomTable.css"
 
-const TableHeader = ({jobActivities}) => {
+const CustomTableHeader = ({jobActivities}) => {
     
    return (
     <thead className='bgvi'>
@@ -23,4 +23,4 @@ const TableHeader = ({jobActivities}) => {
    )
 }
 
-export default TableHeader;
+export default CustomTableHeader;

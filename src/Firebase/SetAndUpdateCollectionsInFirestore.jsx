@@ -1,5 +1,5 @@
 import { users, machines, attachedMachines, location, product,
-  employees, jobDescriptions, technicians, projects } from './Firebase.utils';
+  employees, jobDescriptions, technicians, projects, jobsWithAMachine } from './Firebase.utils';
 
 export function updateUsersInFirestore(rowId, role) {
   users.orderBy("id").startAt(rowId).limit(1).get()
@@ -14,8 +14,20 @@ export function updateUsersInFirestore(rowId, role) {
   })
 }
 
+export async function getLastIdForUsersInFirestore() {
+  const snapshot = await users.get();
+  let arr = []
+  snapshot.forEach((data) => {
+     const tableData = data.data().id
+     arr.push(tableData)
+  })
+  const lastId = Math.max(...arr)
+  return lastId
+}
+
+
 export async function updateSelectFieldsInFirestore(selectField, newEntry, newSubCategory, hideModal) {
-  const selectionFields = selectField === 0 ? null : 
+    const selectionFields = selectField === 0 ? null : 
     selectField === 1 ? machines :
     selectField === 2 ? attachedMachines :
     selectField === 3 ? location :
@@ -23,7 +35,8 @@ export async function updateSelectFieldsInFirestore(selectField, newEntry, newSu
     selectField === 5 ? employees :
     selectField === 7 ? jobDescriptions :
     selectField === 9 ? technicians :
-    selectField === 11 ? projects : machines
+    selectField === 11 ? projects : 
+    selectField === 14 ? jobsWithAMachine : machines
     
   const snapshot = await selectionFields.get();
     let arr = []
@@ -38,11 +51,11 @@ export async function updateSelectFieldsInFirestore(selectField, newEntry, newSu
   {id: lastId + parseInt(1),
   name: newEntry,
   typeOfWorker: newSubCategory} : 
-  selectField === 7 ? 
+  selectField === 7 || selectField === 14 ? 
    {id: lastId + parseInt(1),
     name: newEntry,
     costCenter: newSubCategory} : 
-    selectField !== 7 && selectField !== 5 ? 
+    selectField !== 7 && selectField !== 5 && selectField !== 14 ? 
    {id: lastId + parseInt(1),
     name: newEntry} : null
 

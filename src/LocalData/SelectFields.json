@@ -29,6 +29,7 @@
       {"id": 11, "name": "Project", "statename": "selectedProjectName", "value": "selectedProjectId",
         "selectionFieldToBeModified": "Projects"},
       {"id": 12, "name": "Multiple Selection Job Decription", "statename": "jobDescription", "value": "selectedMSJobDescriptionId"},
-      {"id": 13, "name": "Spending or Purchase", "statename": "spendingOrPurchase", "value": "selectedSpendingOrPurchaseId"}
+      {"id": 13, "name": "Spending or Purchase", "statename": "spendingOrPurchase", "value": "selectedSpendingOrPurchaseId"},
+      {"id": 14, "name": "Machines job", "statename": "machinesJobs", "value": "selectedMachinesJobsId", "selectionFieldToBeModified": "Machine Jobs"}
   ]
 }

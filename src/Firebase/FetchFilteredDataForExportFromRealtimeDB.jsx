@@ -45,6 +45,7 @@ export const getFilteredDataForExport = (startingDate, endDate, props) => {
                 lengthOfArr.push(arrayLength)
               })
             )
+            // console.log(getFilteredArray(endDate, secondArray[lengthOfArr.slice(-1)[0]]))
             resolve(getFilteredArray(endDate, secondArray[lengthOfArr.slice(-1)[0]]))
         }).catch(err => {
           reject(err)
@@ -85,52 +86,55 @@ export const getFilteredDataForExport = (startingDate, endDate, props) => {
 // by filtering with the set end date
 const getFilteredArray = (endDate, initialArray) => {
   
-  let endDay = endDate.slice(0, 2)    
-  let endMonth = endDate.slice(3, 5) - 1    
-  let endYear = endDate.slice(6, 10)    
-  
-  function getByDate(date){
-    return initialArray.filter(function (el) {
-      return el.date === date;
-    });
-  }
-  
-function reformatDate(date) {
-    return getByDate(date.split('-').reverse());
-  }
-  
-  var sortByDate = function (a, b) {
-    return new Date(reformatDate(a.date)) - new Date(reformatDate(b.date));
+  const endDay = endDate.slice(0, 2)
+  const endMonth = endDate.slice(3, 5) - 1    
+  const endYear = endDate.slice(6, 10)   
+    
+  const sortByDate = (a, b) => {
+   return new Date(reformatDate(b.date)) - new Date(reformatDate(a.date)); // show in descending order
   };
-  
+
+  function reformatDate(date) {
+      return date.split('-').reverse() // format ["2021", "01", "25"], in order to be able to create Data object
+  }
+    
+//  function getByDate(date){
+  //  return initialArray.filter(function (el) {
+     //  console.log(el.date) // format 20-01-2021
+      // console.log(date) // array od data od site objekti ["2021", "01", "25"]
+      // console.log(new Date(date)) // sozdave data objekt
+  //     return el.date === date;
+  //   });
+  // }
+ 
   let sortedDataByDate = initialArray.sort(sortByDate)
-  
-  var filteredDataByEndDate = [];
+
+  const filteredDataByEndDate = [];
            
-    for(var index in sortedDataByDate) {
-        var obj = sortedDataByDate[index];
-        var date = parseDate(obj.date);
+    for(const index in sortedDataByDate) {
+        const obj = sortedDataByDate[index];
+        const date = parseDate(obj.date);
   
         if(date <= new Date(endYear, endMonth, endDay))
          filteredDataByEndDate.push(obj);
     }
 
     function parseDate(dateStr) {
-        var date = dateStr.split('-');
-        var day = date[0];
-        var month = date[1] - 1; //January = 0
-        var year = date[2];
+        const date = dateStr.split('-');
+        const day = date[0];
+        const month = date[1] - 1; //January = 0
+        const year = date[2];
         return new Date(year, month, day); 
     }
-  
- return filteredDataByEndDate;
+    
+   return filteredDataByEndDate;
 }
 
 const getFilteredArrayStartDate = (startDate, initialArray) => {
   
-  let startingDay = startDate.slice(0, 2)    
-  let startingMonth = startDate.slice(3, 5) - 1    
-  let startingYear = startDate.slice(6, 10)    
+  const startingDay = startDate.slice(0, 2)    
+  const startingMonth = startDate.slice(3, 5) - 1    
+  const startingYear = startDate.slice(6, 10)    
   
   function getByDate(date){
     return initialArray.filter(function (el) {
@@ -142,27 +146,27 @@ function reformatDate(date) {
     return getByDate(date.split('-').reverse());
   }
   
-  var sortByDate = function (a, b) {
+  const sortByDate = function (a, b) {
     return new Date(reformatDate(a.date)) - new Date(reformatDate(b.date));
   };
   
-  let sortedDataByDate = initialArray.sort(sortByDate)
+  const sortedDataByDate = initialArray.sort(sortByDate)
   
-  var filteredDataByStartingDate = [];
+  const filteredDataByStartingDate = [];
            
-    for(var index in sortedDataByDate) {
-        var obj = sortedDataByDate[index];
-        var date = parseDate(obj.date);
+    for(const index in sortedDataByDate) {
+        const obj = sortedDataByDate[index];
+        const date = parseDate(obj.date);
   
         if(date >= new Date(startingYear, startingMonth, startingDay))
          filteredDataByStartingDate.push(obj);
     }
 
     function parseDate(dateStr) {
-        var date = dateStr.split('-');
-        var day = date[0];
-        var month = date[1] - 1; //January = 0
-        var year = date[2];
+        const date = dateStr.split('-');
+        const day = date[0];
+        const month = date[1] - 1; //January = 0
+        const year = date[2];
         return new Date(year, month, day); 
     }
   

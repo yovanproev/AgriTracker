@@ -97,7 +97,8 @@ const SelectionFieldsUpdate = (props) => {
        <input type="text" className="form-control" placeholder="name" value={newEntry} 
        onChange={(e) => onChangeHandler(e.target.value)}/>
        </label>
-       {(selectFieldId !== 5 && selectFieldId !== 7 && selectFieldId !== 1 && selectFieldId !== 2) ? 
+       {(selectFieldId !== 5 && selectFieldId !== 7 && selectFieldId !== 1 && selectFieldId !== 2 
+       && selectFieldId !== 14) ? 
        <button type="submit" className="btn btn-success" 
        onClick={() => {updateSelectFieldsInFirestore(selectFieldId, newEntry, newSubEntry, hideModal); 
         clearInputFileds()} }
@@ -105,7 +106,7 @@ const SelectionFieldsUpdate = (props) => {
        
 
        
-       {selectFieldId === 5 || selectFieldId === 7 ? 
+       {selectFieldId === 5 || selectFieldId === 7 || selectFieldId === 14 ? 
        <div style={{margin: "20px 0"}}>
        <label className="form-check-label">
        <input type="text" className="form-control" value={newSubEntry} placeholder="subcategory" 
@@ -127,7 +128,8 @@ const SelectionFieldsUpdate = (props) => {
        onClick={() => {updateSelectFieldsInFirestore(selectFieldId, newEntry, newSubEntry, hideModal); 
         onClickAttachImage(); clearInputFileds()} }
        >Submit new field</button> 
-       <p style={{marginTop: "20px"}}>*The name of the new entry has to be identical with the name of the file attached</p>
+       <p style={{marginTop: "20px"}}>*The name of the new entry has to be identical with the 
+       name of the file attached and the file has to be a .jpg file.</p>
        </div> : null}    
        
       </div> 

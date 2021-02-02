@@ -5,8 +5,7 @@ import "react-table-filter/lib/styles.css";
 import "./AdminWorkHoursTable.css"
 
 const AdminWorkHoursTableHeader = ({datesOfWork}) => {
-   //  console.log(datesOfWork)
-
+   
    return (
     <thead className='bgvi'>
       <TableFilter>

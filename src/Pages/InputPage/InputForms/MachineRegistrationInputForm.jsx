@@ -23,6 +23,7 @@ const MachineRegistrationInput = (props) => {
       props.localState.selectedFarmId &&
       props.localState.kilometersOnMachine && 
       props.localState.selectedOperatorId &&
+      props.localState.selectedMachinesJobsId &&
       props.localState.date !== "null-null-null")
   setDisableButtton(props.localState.submitButtonDisabled = true) 
   else {
@@ -92,7 +93,16 @@ const MachineRegistrationInput = (props) => {
              /> : null
             }
 
-            {props.localState.selectedProductId ?
+           {props.localState.selectedProductId ?
+            <SelectField
+             id={props.localState.selectFields[13].id}
+             onChange={props.selectFieldsHandler}
+             value={props.localState.selectedMachinesJobsId}
+             selectedId={props.localState.selectFields[13].value}
+             statename={props.localState.selectFields[13].statename}
+             /> : null }
+
+            {props.localState.selectedMachinesJobsId ?
               <div className="input">
                 <InputField 
                   id={props.localState.inputFields[0].id}
@@ -101,7 +111,7 @@ const MachineRegistrationInput = (props) => {
                   statename={[props.localState.inputFields][0][0].statename}/>
               </div>: null} 
            
-            {props.localState.selectedProductId ?
+            {props.localState.selectedMachinesJobsId ?
               <SelectField
               id={props.localState.selectFields[4].id}
               onChange={props.selectFieldsHandler}

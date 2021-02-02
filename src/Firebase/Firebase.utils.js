@@ -3,7 +3,7 @@ import 'firebase/firestore';
 import 'firebase/auth';
 import "firebase/database";
 import 'firebase/storage';
-
+import { getLastIdForUsersInFirestore } from "./SetAndUpdateCollectionsInFirestore"
 
 const devConfig = {
     apiKey: "AIzaSyAK38e0I2ui4E_FDQAAi6CbtQQQ0jmaPzI",
@@ -34,6 +34,14 @@ if (!firebase.apps.length) {
   firebase.initializeApp(config)
 }
 
+export const firestore = firebase.firestore();
+
+export const users = firestore.collection("users")
+
+
+let lastId = []
+getLastIdForUsersInFirestore().then(x => lastId.push(x))
+
 export const createUserProfileDocument = async (userAuth, additionalData) => {
   if (!userAuth) return;
 
@@ -44,7 +52,7 @@ export const createUserProfileDocument = async (userAuth, additionalData) => {
   if (!snapShot.exists) {
     const { displayName, email } = userAuth;
     const createdAt = new Date();
-    const id = Math.random() * 10000
+    const id = lastId[0] 
     const role = "";
     try {
       await userRef.set({
@@ -71,9 +79,7 @@ export const firebase_db_workHours = firebase.database().ref(`workingHoursInput`
 
 export const auth = firebase.auth();
 
-export const firestore = firebase.firestore();
 
-export const users = firestore.collection("users")
 export const machines = firestore.collection("machines")
 export const attachedMachines = firestore.collection("attachedMachinery")
 export const location = firestore.collection("location")
@@ -86,6 +92,7 @@ export const typeOfStaff = firestore.collection("typeOfStaff")
 export const typeOfWorkOnTractors = firestore.collection("typeOfWorkOnTractors")
 export const spendingOrPurchaseOfFuel = firestore.collection("spendingOrPurchaseOfFuel")
 export const jobDescriptionsTractors = firestore.collection("jobDescriptionsTractors")
+export const jobsWithAMachine = firestore.collection("jobsWithAMachine")
 
 export const storage = firebase.storage();
 export const storageRef = firebase.storage().ref();

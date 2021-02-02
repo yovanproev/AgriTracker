@@ -23,5 +23,7 @@ export const initialState = {
           disableMultiSelectOption: false ,
           selectedSpendingOrPurchaseId: false,
           selectedLocationName: undefined,
-          selectedMachineName: undefined
+          selectedMachineName: undefined,
+          selectedMachinesJobsId: undefined,
+          machinesJobs: undefined
 }

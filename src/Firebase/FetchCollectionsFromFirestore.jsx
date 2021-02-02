@@ -1,7 +1,7 @@
 import { users, machines, attachedMachines, location, product,
          employees, jobDescriptions, technicians, projects,
          typeOfWorkOnTractors, typeOfStaff, spendingOrPurchaseOfFuel, 
-         jobDescriptionsTractors} from './Firebase.utils';
+         jobDescriptionsTractors, jobsWithAMachine} from './Firebase.utils';
 
 export async function getAllUsers(props) {
   const snapshot = await users.get();
@@ -24,7 +24,8 @@ export async function getAllSelectionFields(selectField) {
   selectField === 5 ? employees :
   selectField === 7 ? jobDescriptions :
   selectField === 9 ? technicians :
-  selectField === 11 ? projects : machines
+  selectField === 11 ? projects : 
+  selectField === 14 ? jobsWithAMachine: machines
   
   const snapshot = await selectionFields.get();
   let arr = []
@@ -38,25 +39,15 @@ export async function getAllSelectionFields(selectField) {
 }
 
 export async function getSelectionByField(selectField) {
-  // console.log(selectField, "par")
   const field = [selectField]?.slice(-1)[0];
-  // console.log(field)
-  const selectionFields = field === 0 ? null :
-  field === 1 ? machines :
-  field === 2 ? attachedMachines :
-  field === 3 ? location :
-  field === 4 ? product :
-  field === 5 ? employees :
-  field === 6 ? location :
-  field === 7 ? jobDescriptionsTractors  :
-  field === 8 ? typeOfWorkOnTractors :
-  field === 9 ? technicians :
-  field === 10 ? typeOfStaff :
-  field === 11 ? projects : 
-  field === 12 ? jobDescriptions: 
-  field === 13 ? spendingOrPurchaseOfFuel : null
   
-  const snapshot = await selectionFields.get();
+  const selectionFields = [null, machines, attachedMachines, location, product, employees,
+  location, jobDescriptionsTractors, typeOfWorkOnTractors, technicians, typeOfStaff, projects,
+  jobDescriptions, spendingOrPurchaseOfFuel, jobsWithAMachine]
+
+  const selectionField = selectionFields[field]
+  
+  const snapshot = await selectionField.get();
   let arr = []
   snapshot.forEach((data) => {
      const tableData = data.data()

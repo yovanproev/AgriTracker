@@ -14,6 +14,7 @@ const Table = (props) => {
     if (props.stateProps.selectedActivity === 0 && props.stateProps.adminSection) setTableData(usersCollection);
     if (props.stateProps.selectedActivity === 5 && props.stateProps.adminSection)  setTableData(selectionFieldsCollection(props.selectFieldToModify)) 
     }, [props])
+    
  
   return (
     <Container style={{ margin: "30px auto", whiteSpace: "nowrap"}} >
@@ -30,7 +31,7 @@ const Table = (props) => {
         getRoleValue={props.getRoleValue}
         onClick={props.onClick}
         currentRole={props.currentRole}
-        />
+         />
     </Container>
   );
 };

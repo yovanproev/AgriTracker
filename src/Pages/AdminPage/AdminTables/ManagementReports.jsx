@@ -13,7 +13,8 @@ import BackButton from '../../../Components/BackButton/BackButton';
 import Calendar from '../../../Components/Calendar/Calendar';
 import { getFilteredDataForExport } from '../../../Firebase/FetchFilteredDataForExportFromRealtimeDB';
 import { addZero } from '../../InputPage/DBObjectElements/GetDateTime';
-import AdminWorkHoursTable from '../AdminTables/AdminWorkHoursTable/AdminWorkHoursTable';
+import AdminWorkHoursTable from './AdminWorkHoursTable/AdminWorkHoursTable';
+import AdminMachinesTable from './AdminMachinesTable/AdminMachinesTable';
 
 const ManagementReports = (props) => {
   const [ loading, setLoading ] = useState(true)
@@ -67,7 +68,7 @@ const ManagementReports = (props) => {
                 let key = props.stateProps.stateProps.selectedActivity === 1 ? 
                 nextValue.machine + '-' + nextValue.attachedMachinery + '-' + nextValue.location : 
                 props.stateProps.stateProps.selectedActivity === 2 ? 
-                nextValue.machine + '-' + nextValue.attachedMachinery + '-' + nextValue.location + '-' + nextValue.product :
+                nextValue.machine + '-' + nextValue.attachedMachinery + '-' + nextValue.location + '-' + nextValue.product + '-' + nextValue.machinesJob:
                 props.stateProps.stateProps.selectedActivity === 3 ? 
                 nextValue.machine + '-' + nextValue.attachedMachinery + '-' + nextValue.jobDescription + '-' + nextValue.maintenanceOrRerairs : 
                 props.stateProps.stateProps.selectedActivity === 4 ? nextValue.date + '-' + nextValue.nameOfEmployee : null
@@ -77,11 +78,12 @@ const ManagementReports = (props) => {
                   prevValue.push(object[key]);
                 } else {
                   if (props.stateProps.stateProps.selectedActivity === 1) object[key].liters += nextValue.liters 
-                  else if (props.stateProps.stateProps.selectedActivity === 2) object[key].hoursSpentOnLastActivity -= nextValue.hoursSpentOnLastActivity 
+                  else if (props.stateProps.stateProps.selectedActivity === 2) object[key].hoursSpentOnLastActivity -= nextValue.hoursSpentOnLastActivity; 
                   else if (props.stateProps.stateProps.selectedActivity === 3) {object[key].costOfTechnician += nextValue.costOfTechnician
                   object[key].workedHours += nextValue.workedHours}
                   else if (props.stateProps.stateProps.selectedActivity === 4) object[key].manHours += nextValue.manHours || {}
-                  }                 
+                  }
+                                  
                 return prevValue;
               }, []);
             updateDataPaginatedByDate(result)
@@ -94,6 +96,53 @@ const ManagementReports = (props) => {
     }
   }, [endDate, props.stateProps, startingDate])
   
+
+//   const [ proba, setProba ] = useState([]) 
+  
+//   useEffect(() => {
+//     const object1 = {};
+//     let result2 = dataPaginatedByDate?.reduce(function(prevValue, nextValue) {
+
+//       let key = 
+//       // props.stateProps.stateProps.selectedActivity === 1 ? 
+//       // nextValue.machine + '-' + nextValue.attachedMachinery + '-' + nextValue.location : 
+//       props.stateProps.stateProps.selectedActivity === 2 ? 
+//       nextValue.machine : null
+//       // props.stateProps.stateProps.selectedActivity === 3 ? 
+//       // nextValue.machine + '-' + nextValue.attachedMachinery + '-' + nextValue.jobDescription + '-' + nextValue.maintenanceOrRerairs : 
+//       // props.stateProps.stateProps.selectedActivity === 4 ? nextValue.date + '-' + nextValue.nameOfEmployee : null
+
+//       if(!object1[key]) {
+//         object1[key] = Object.assign({}, nextValue); // create a copy of next value
+//         prevValue.push(object1[key]);
+//       } else {
+//         // if (props.stateProps.stateProps.selectedActivity === 1) object1[key].liters += nextValue.liters 
+//         if (props.stateProps.stateProps.selectedActivity === 2) object1[key].hoursSpentOnLastActivity += parseFloat(nextValue?.hoursSpentOnLastActivity); 
+//         // else if (props.stateProps.stateProps.selectedActivity === 3) {object1[key].costOfTechnician += nextValue.costOfTechnician
+//         // object1[key].workedHours += nextValue.workedHours}
+//         // else if (props.stateProps.stateProps.selectedActivity === 4) object1[key].manHours += nextValue.manHours || {}
+//         }
+                        
+//       return prevValue;
+//     }, []);
+    
+//     // console.log(result2)
+//     const a = result2[0]?.hoursSpentOnLastActivity
+//     // console.log(a)
+//     dataPaginatedByDate.forEach(element => {
+//       if (element.machine === "TM-165") {
+//         const obj = Object.assign({}, element);
+//         obj.percentages = (element?.hoursSpentOnLastActivity / a) * 100  
+//         // console.log(element?.hoursSpentOnLastActivity / parseFloat(6196.6)); 
+//         updateDataPaginatedByDate(obj)
+//       }
+//       else return null
+//     })
+    
+//   }, [dataPaginatedByDate, props.stateProps.stateProps.selectedActivity])
+
+// console.log(dataPaginatedByDate)
+
   const loadingModal = <Modal show={loading} 
     hide={hideModal}><Spinner2 /></Modal> 
   const errorModal = <Modal show={error} 
@@ -118,9 +167,18 @@ const ManagementReports = (props) => {
         <AdminWorkHoursTable 
             stateProps={props.stateProps.stateProps}
             data={dataPaginatedByDate}
-            modeChange={props.modeChange}
+            // modeChange={props.modeChange}
             /> : null}
-          {props.stateProps.stateProps.selectedActivity !== 4 ? <Table
+         {props.stateProps.stateProps.selectedActivity === 2 ?  
+         <AdminMachinesTable  
+            stateProps={props.stateProps.stateProps}
+            data={dataPaginatedByDate}
+            // modeChange={props.modeChange}
+            /> : null}
+
+          {props.stateProps.stateProps.selectedActivity !== 4 && 
+          props.stateProps.stateProps.selectedActivity !== 2 ? 
+          <Table
             stateProps={props.stateProps.stateProps}
             data={dataPaginatedByDate}
             modeChange={props.modeChange}

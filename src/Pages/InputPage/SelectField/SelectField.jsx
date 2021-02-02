@@ -11,33 +11,23 @@ const SelectField = ({id, onChange, value, machineImage, statename, selectedId,
   useEffect(() => {
     getSelectionByField(id).then(resolve => {
       updateFetchedData(resolve)})
-    // return () => {
-    //   if (!props.stateProps.currentUser) {
-    //   updateFetchedData(null)
-    //}
-  // }
-}, [id])
+  }, [id])
   
- const defaultValue = id === 1 ? "Select a machine" : 
-  id === 2 ? "Select attached machinery" : 
-  id === 3 ? "Select location" :
-  id === 4 ? "Select a product" :
-  id === 5 ? "Select an operator" : 
-  id === 6 ? "Select a farm" : 
-  id === 7 ? "Select a job description" :
-  id === 8 ? "Select activity" :
-  id === 9 ? "Select a Technician" : 
-  id === 10 ? "Select Type of Hours" :
-  id === 11 ? "Select a Project" : 
-  id === 13 ? "Select type of entry" : "Error"
- 
+  const arrayOfZeroValueOnSelectField = ["Select a machine", "Select attached machinery", "Select location",
+  "Select a product", "Select an operator", "Select a farm", "Select a job description", "Select activity",
+  "Select a Technician", "Select Type of Hours", "Select a Project", "", "Select type of entry", "Select a job"]
+
+  const defaultValue = arrayOfZeroValueOnSelectField[id - 1]
+
    return (
       <div >
         {id === 1 || id === 2 ? <img alt="" src={value ? machineImage : ""} className="select-picture"/> : null}
         <select className="select-div"
           onChange={(e) => {onChange(parseInt(e.target.value), parseInt(e.target.id), 
-            e.target.name, selectedId, selectedMachineImage); if(id === 3 || id === 1) 
-            {stopComponentDidUpdate()}}}
+            e.target.name, selectedId, selectedMachineImage); 
+            if(id === 1 || id === 2 || id === 3) {stopComponentDidUpdate()}
+           }
+          }
           value={value ? value : ""}
           id={id}
           name={statename}
