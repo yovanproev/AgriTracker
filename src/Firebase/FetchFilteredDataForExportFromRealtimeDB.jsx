@@ -45,29 +45,29 @@ export const getFilteredDataForExport = (startingDate, endDate, props) => {
                 lengthOfArr.push(arrayLength)
               })
             )
-            // console.log(getFilteredArray(endDate, secondArray[lengthOfArr.slice(-1)[0]]))
             resolve(getFilteredArray(endDate, secondArray[lengthOfArr.slice(-1)[0]]))
         }).catch(err => {
           reject(err)
         })
       } 
-      // else if (props.stateProps.selectedActivity === 2 && props.stateProps.adminSection) {
-      //     // let mergeFuelAndMachineReg = []
-      //     firebase_db_fuelConsump.orderByChild("date")
-      //     .startAt(startingDate).once('value').then((snapshot)=>{
-      //       const initialArray = Object.values(snapshot.val())
-      //       resolve(getFilteredArray(endDate, initialArray))
-      //       })
-
-      //       firebase_db_machineReg.orderByChild("date")
-      //       .startAt(startingDate).once('value').then((snapshot)=>{
-      //         const initialArray = Object.values(snapshot.val())
-      //         resolve(getFilteredArray(endDate, initialArray))
+      else if (props.stateProps.selectedActivity === 2 && props.stateProps.adminSection) {
+          let mergeFuelAndMachineReg = []
+          firebase_db_fuelConsump.orderByChild("date")
+          .startAt(startingDate).once('value').then((snapshot)=>{
+            const initialArray = snapshot.val() === null ? [] : Object.values(snapshot.val())
+             mergeFuelAndMachineReg.push(getFilteredArray(endDate, initialArray))
+            })
             
-      //   }).catch(err => {
-      //     reject(err)
-      //   })
-      // }
+            firebase_db_machineReg.orderByChild("date")
+            .startAt(startingDate).once('value').then((snapshot)=>{
+              const initialArray = Object.values(snapshot.val())
+              mergeFuelAndMachineReg.push(getFilteredArray(endDate, initialArray))
+              resolve(mergeFuelAndMachineReg)
+            
+        }).catch(err => {
+          reject(err)
+        })
+      }
        else {
         database.orderByChild("date")
         .startAt(startingDate).once('value').then((snapshot)=>{

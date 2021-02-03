@@ -34,7 +34,8 @@ const WorkingHoursInput = (props) => {
   const onButtonClick = () => {props.updateId()} 
 
   const arrayOfNames = props.localState.selectedMSJobDescriptionId ? props.localState.selectedMSJobDescriptionId.map(x => x.name) : null
-  const arrayOfIds = props.localState.selectedMSJobDescriptionId ? props.localState.selectedMSJobDescriptionId.map(x => x.id) : null
+  const arrayOfIds = props.localState.selectedMSJobDescriptionId ? 
+  props.localState.selectedMSJobDescriptionId.map(x => x.id) : null
    
   return (
       <div className="full-div">

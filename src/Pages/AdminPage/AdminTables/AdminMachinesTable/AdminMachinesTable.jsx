@@ -5,16 +5,14 @@ import AdminMachinesTableHeader from "./AdminMachinesTableHeader"
 import "./AdminMachinesTable.css"
 import { AdminMachinesTableRows } from './AdminMachinesTableRows';
 
-const AdminMachinesTable = ({data, stateProps}) => {
-    console.log(data)
-    // const reducedToUniqueDates = [...new Set(data.map(date => date.date))];  
-    
+const AdminMachinesTable = ({data, stateProps, fuelForComparison}) => {
+        
      return (
         <div className="table-div-input">
         <Table striped bordered hover responsive>
             <AdminMachinesTableHeader columns={data}/>
             {data.length !== 0 ?  
-            <AdminMachinesTableRows 
+            <AdminMachinesTableRows fuelForComparison={fuelForComparison}
              data={data} stateProps={stateProps}/> 
              : null}
         </Table>

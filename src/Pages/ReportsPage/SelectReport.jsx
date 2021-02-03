@@ -36,7 +36,7 @@ const SelectReport = (props) => {
       Object.keys(fullData).forEach((key)=>{
         fullDataArray.push(fullData[key]);
       })
-      console.log(counter)
+      // console.log(counter)
     updateBlockNextButton(fullDataArray.length > counter ? true : false)
     setTable(fullDataArray)
     })
