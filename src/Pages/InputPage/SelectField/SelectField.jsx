@@ -15,7 +15,8 @@ const SelectField = ({id, onChange, value, machineImage, statename, selectedId,
   
   const arrayOfZeroValueOnSelectField = ["Select a machine", "Select attached machinery", "Select location",
   "Select a product", "Select an operator", "Select a farm", "Select a job description", "Select activity",
-  "Select a Technician", "Select Type of Hours", "Select a Project", "", "Select type of entry", "Select a job"]
+  "Select a Technician", "Select Type of Hours", "Select a Project", "", "Select type of entry", "Select a job",
+"Select a supplier", "Select Category of Materials", "Select Subcategory of Materials"]
 
   const defaultValue = arrayOfZeroValueOnSelectField[id - 1]
 

@@ -30,6 +30,9 @@
         "selectionFieldToBeModified": "Projects"},
       {"id": 12, "name": "Multiple Selection Job Decription", "statename": "jobDescription", "value": "selectedMSJobDescriptionId"},
       {"id": 13, "name": "Spending or Purchase", "statename": "spendingOrPurchase", "value": "selectedSpendingOrPurchaseId"},
-      {"id": 14, "name": "Machines job", "statename": "machinesJobs", "value": "selectedMachinesJobsId", "selectionFieldToBeModified": "Machine Jobs"}
+      {"id": 14, "name": "Machines job", "statename": "machinesJobs", "value": "selectedMachinesJobsId", "selectionFieldToBeModified": "Machine Jobs"},
+      {"id": 15, "name": "Supplier", "statename": "supplier", "value": "selectedSupplierId", "selectionFieldToBeModified": "Supplier"},
+      {"id": 16, "name": "Category of Materials", "statename": "categoryOfMaterials", "value": "selectedCategoryOfMaterialsId", "selectionFieldToBeModified": "Category of materials"},
+      {"id": 17, "name": "Subcategory of Materials", "statename": "subCategoryOfMaterials", "value": "selectedSubcategoryOfMaterialsId", "selectionFieldToBeModified": "Subcategory of materials"}
   ]
 }

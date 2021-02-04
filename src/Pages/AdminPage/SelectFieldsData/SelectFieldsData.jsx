@@ -27,15 +27,19 @@ const SelectionFieldsUpdate = (props) => {
      setImageName(imageName)
   }
 
+  const [ newEntry, setNewEntry ] = useState('')
+  const onChangeHandler = (value) => {
+   setNewEntry(value)
+   
+  }
+
+
   useEffect(() => {
     getAllSelectionFields(selectFieldId).then(resolve => {
       setCategoryOfSelection(resolve)})
  }, [selectFieldId])
 
-  const [ newEntry, setNewEntry ] = useState('')
-  const onChangeHandler = (value) => {
-   setNewEntry(value)
-  }
+  
 
   const [ newSubEntry, setNewSubEntry ] = useState('')
   const onChangeHandlerForSubEntry = (value) => {
@@ -99,7 +103,7 @@ const SelectionFieldsUpdate = (props) => {
        </label>
        {(selectFieldId !== 5 && selectFieldId !== 7 && selectFieldId !== 1 && selectFieldId !== 2 
        && selectFieldId !== 14) ? 
-       <button type="submit" className="btn btn-success" 
+       <button type="submit" className="btn btn-success select-field-button" 
        onClick={() => {updateSelectFieldsInFirestore(selectFieldId, newEntry, newSubEntry, hideModal); 
         clearInputFileds()} }
        >Submit new field</button> : null } 
@@ -112,7 +116,7 @@ const SelectionFieldsUpdate = (props) => {
        <input type="text" className="form-control" value={newSubEntry} placeholder="subcategory" 
        onChange={(e) => onChangeHandlerForSubEntry(e.target.value)}/>
        </label>
-       <button type="submit" className="btn btn-success" 
+       <button type="submit" className="btn btn-success  select-field-button" 
        onClick={() => {updateSelectFieldsInFirestore(selectFieldId, newEntry, newSubEntry, hideModal); 
         clearInputFileds()} }
        >Submit new field</button> 
@@ -124,7 +128,7 @@ const SelectionFieldsUpdate = (props) => {
        <input  type="file" className="form-control-file" defaultValue={newImage} placeholder="subcategory" 
        onChange={(e) => onChangeHandlerForImage(e.target.files[0], e.target.files[0].name)}/>
        </label>
-       <button type="submit" className="btn btn-success" 
+       <button type="submit" className="btn btn-success  select-field-button" 
        onClick={() => {updateSelectFieldsInFirestore(selectFieldId, newEntry, newSubEntry, hideModal); 
         onClickAttachImage(); clearInputFileds()} }
        >Submit new field</button> 

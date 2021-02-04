@@ -70,7 +70,7 @@ const ManagementReports = (props) => {
             let fuelForMachinesComparison = 
             fullDataArray[0].filter(machine => machine.machine).reduce(function(prevValue, nextValue) {
 
-              let key = nextValue.machine + '-' + nextValue.location               
+              let key = nextValue.machine + '-' + nextValue.location + '-' + nextValue.attachedMachinery              
 
               if(!object[key]) {
                 object[key] = Object.assign({}, nextValue); // create a copy of next value
@@ -121,7 +121,7 @@ const ManagementReports = (props) => {
     hide={hideModal}><Spinner2 /></Modal> 
   const errorModal = <Modal show={error} 
   hide={hideModal}>No records in the selected time period. Please select different period.</Modal> 
-console.log(fuelForComparison)
+// console.log(fuelForComparison)
   return (
     <div className="table-report">
       {loadingModal}

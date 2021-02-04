@@ -25,5 +25,11 @@ export const initialState = {
           selectedLocationName: undefined,
           selectedMachineName: undefined,
           selectedMachinesJobsId: undefined,
-          machinesJobs: undefined
+          machinesJobs: undefined,
+          quantity: undefined,
+          price: undefined,
+          purposeOfPurchase: undefined,
+          selectedSupplierId: undefined,
+          selectedCategoryOfMaterialsId: undefined,
+          selectedSubcategoryOfMaterialsId: undefined
 }

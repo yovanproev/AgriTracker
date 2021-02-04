@@ -26,3 +26,9 @@ $size: 45px;
   width: 90%;
   color: black;
 }
+
+@media screen and (max-width: 500px) {
+  .select-field-button {
+    margin-top: 15px;
+  }
+}

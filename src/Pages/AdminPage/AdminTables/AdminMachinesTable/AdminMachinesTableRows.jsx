@@ -5,8 +5,8 @@ export const AdminMachinesTableRows = ({data, stateProps, fuelForComparison}) =>
     
   const object1 = {};
   let result = data?.reduce(function(prevValue, nextValue) {
-
-    let key = nextValue.machine + "-" + nextValue.farmLocation 
+// console.log(data)
+    let key = nextValue.machine + "-" + nextValue.farmLocation + "-" + nextValue.attachedMachinery
     if(!object1[key]) {
       object1[key] = Object.assign({}, nextValue)
       prevValue.push(object1[key]);
@@ -16,23 +16,38 @@ export const AdminMachinesTableRows = ({data, stateProps, fuelForComparison}) =>
       return prevValue;
   }, []);
   
-  const reducedToUniqueMachine = [...new Set(data.map(date => date.machine))]; 
-  // const reducedToUniqueLocation = [...new Set(data.map(date => date.farmLocation))]; 
-  console.log(data, "data") // pocetnite 6 objekti, machine registration modulut, po masina, attachedmachinery, location, product, jobdescription
-  console.log(result, "result") // 5 objekti, podeleni po masina i lokacija
-  console.log(fuelForComparison, "fuelForComparison") // objekti deka so e spending fuel prikazano po masina i lokacija
+  const reducedToUniqueMachine = [...new Set(data.map(machine => machine.machine))]; 
+  const reducedToUniqueLocation = [...new Set(data.map(location => location.farmLocation))]; 
+  const reducedToUniqueAttachedMachinery = [...new Set(data.map(attachedMachinery => attachedMachinery.attachedMachinery))]; 
   
+ // console.log(data, "data") // pocetnite 6 objekti, machine registration modulut, po masina, 
+    //attachedmachinery, location, product, jobDescription
+  // console.log(result, "result") // 5 objekti, podeleni po masina i lokacija. Ova e od machine reg modulut.
+  //console.log(fuelForComparison, "fuelForComparison") // objekti deka so spending fuel 
+  //prikazano zbirno po masina i lokacija. Ova e od fuel cons.modulut 
+  
+
+  // console.log(result)
   let hoursPerMachine =[]
-    for (let i = 0; i < reducedToUniqueMachine.length; i++) {
-      data.map(element => {
-       if (element.machine === reducedToUniqueMachine[i]) {
+    
+      for (let j = 0; j < reducedToUniqueMachine.length; j++) {
+        for (let k = 0; k < reducedToUniqueAttachedMachinery.length; k++) {
+        for (let i = 0; i < reducedToUniqueLocation.length; i++) {
+      data.map((element, id) => {
+        
+        if (element.machine === reducedToUniqueMachine[j]) {
+          if (element.attachedMachinery === reducedToUniqueAttachedMachinery[k]) {
+        if (element.farmLocation === reducedToUniqueLocation[i]) {
         const obj = Object.assign({}, element);
-        obj.percentages = (element?.hoursSpentOnLastActivity / result[i]?.hoursSpentOnLastActivity) * 100  
+        obj.percentages = (element?.hoursSpentOnLastActivity / result[id]?.hoursSpentOnLastActivity) * 100 
+        
         return hoursPerMachine.push(obj)
-      }
-      else return null
+      }}
+    }
+      return null  
     })
   }
+}}
 
 // console.log(hoursPerMachine)
  return(
@@ -45,21 +60,28 @@ export const AdminMachinesTableRows = ({data, stateProps, fuelForComparison}) =>
                 <td >{object.product} </td>
                 <td >{object.machinesJob} </td>
                 <td >{object.hoursSpentOnLastActivity} </td>
-                <td >{ parseFloat(hoursPerMachine[rowId].percentages).toFixed(2) + "%"}</td>
+                {/* <td >{ parseFloat(hoursPerMachine[rowId].percentages).toFixed(2) + "%"}</td> */}
                 
+               {/* total fuel spent */}
                 <td>{fuelForComparison.map(machine => {
-                    if (machine.machine === object.machine && machine.location === object.farmLocation) return Math.abs(machine.liters) 
+                    if (machine.machine === object.machine && machine.location === object.farmLocation 
+                      && machine.attachedMachinery === object.attachedMachinery) 
+                    return Math.abs(machine.liters)  + " Lit." 
                    else return null}) 
                 }</td>
-
-                <td>{fuelForComparison.map(machine => {
-                  if (machine.machine === object.machine && machine.location === object.farmLocation) return (parseFloat(Math.abs(machine.liters)) 
+                
+                {/* liters spent times % */}
+                {/* <td>{fuelForComparison.map((machine) => {
+                  if (machine.machine === object.machine && machine.location === object.farmLocation
+                    && machine.attachedMachinery === object.attachedMachinery) 
+                  return (parseFloat(Math.abs(machine.liters)) 
                   * (hoursPerMachine[rowId].percentages / 100)).toFixed(2) + " Lit."
                  else return null}) }
-                 </td>
+                 </td> */}
 
                 <td>{fuelForComparison.map(machine => {
-                    if (machine.machine === object.machine && machine.location === object.farmLocation) return (object.hoursSpentOnLastActivity / Math.abs(machine.liters)).toFixed(2)
+                    if (machine.machine === object.machine && machine.location === object.farmLocation 
+                      && machine.attachedMachinery === object.attachedMachinery) return (object.hoursSpentOnLastActivity / Math.abs(machine.liters)).toFixed(2)
                    else return null})}</td>
             </tr>
             )}  

@@ -57,13 +57,16 @@
   }
   .cherry {
     height: 1.5em;
-    margin-left: -20px;
+    margin-left: -10px;
     margin-top: 40px;
   }
   .cherry1,
   .cherry-join {
-    margin-left: -20px;
+    margin-left: -10px;
     margin-top: 40px;
+  }
+  .link {
+    height: 20px; /* za dvizenje na klikot */
   }
 }
 

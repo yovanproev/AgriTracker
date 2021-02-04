@@ -76,6 +76,7 @@ export const firebase_db_fuelConsump = firebase.database().ref(`fuelConsumptionI
 export const firebase_db_machineReg = firebase.database().ref(`machineRegistrationInput`);
 export const firebase_db_maintenance = firebase.database().ref(`maintenanceAndRepairsInput`);
 export const firebase_db_workHours = firebase.database().ref(`workingHoursInput`);
+export const firebase_db_purchaseRequests = firebase.database().ref(`purchaseRequests`);
 
 export const auth = firebase.auth();
 
@@ -93,6 +94,9 @@ export const typeOfWorkOnTractors = firestore.collection("typeOfWorkOnTractors")
 export const spendingOrPurchaseOfFuel = firestore.collection("spendingOrPurchaseOfFuel")
 export const jobDescriptionsTractors = firestore.collection("jobDescriptionsTractors")
 export const jobsWithAMachine = firestore.collection("jobsWithAMachine")
+export const suppliers = firestore.collection("suppliers")
+export const categoryOfMaterials = firestore.collection("categoryOfMaterials")
+export const subCategoryOfMaterials = firestore.collection("subCategoryOfMaterials")
 
 export const storage = firebase.storage();
 export const storageRef = firebase.storage().ref();

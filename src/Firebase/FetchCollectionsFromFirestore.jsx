@@ -1,7 +1,8 @@
 import { users, machines, attachedMachines, location, product,
          employees, jobDescriptions, technicians, projects,
          typeOfWorkOnTractors, typeOfStaff, spendingOrPurchaseOfFuel, 
-         jobDescriptionsTractors, jobsWithAMachine} from './Firebase.utils';
+         jobDescriptionsTractors, jobsWithAMachine, suppliers, 
+        categoryOfMaterials, subCategoryOfMaterials} from './Firebase.utils';
 
 export async function getAllUsers(props) {
   const snapshot = await users.get();
@@ -25,7 +26,10 @@ export async function getAllSelectionFields(selectField) {
   selectField === 7 ? jobDescriptions :
   selectField === 9 ? technicians :
   selectField === 11 ? projects : 
-  selectField === 14 ? jobsWithAMachine: machines
+  selectField === 14 ? jobsWithAMachine : 
+  selectField === 15 ? suppliers : 
+  selectField === 16 ? categoryOfMaterials :
+  selectField === 17 ? subCategoryOfMaterials : machines
   
   const snapshot = await selectionFields.get();
   let arr = []
@@ -43,7 +47,8 @@ export async function getSelectionByField(selectField) {
   
   const selectionFields = [null, machines, attachedMachines, location, product, employees,
   location, jobDescriptionsTractors, typeOfWorkOnTractors, technicians, typeOfStaff, projects,
-  jobDescriptions, spendingOrPurchaseOfFuel, jobsWithAMachine]
+  jobDescriptions, spendingOrPurchaseOfFuel, jobsWithAMachine, suppliers, categoryOfMaterials, 
+subCategoryOfMaterials]
 
   const selectionField = selectionFields[field]
   

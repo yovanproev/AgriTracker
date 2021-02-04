@@ -15,9 +15,9 @@ const AdminMachinesTableHeader = ({columns}) => {
           <th key = {Math.random() * 1000}>Product</th> 
           <th key = {Math.random() * 1000}>Job Description</th> 
           <th key = {Math.random() * 1000}>Hours spent on activity</th> 
-          <th key = {Math.random() * 1000}>% of total hours spent</th>
-          <th key = {Math.random() * 1000}>Liters spent</th> 
-          <th key = {Math.random() * 1000}>Liters spent times %</th> 
+          {/* <th key = {Math.random() * 1000}>% of total hours spent</th> */}
+          <th key = {Math.random() * 1000}>Total fuel spent</th> 
+          {/* <th key = {Math.random() * 1000}>Liters spent times %</th>  */}
           <th key = {Math.random() * 1000}>Average fuel spent</th>
          </TableFilter>
     </thead>

@@ -7,6 +7,7 @@ import FuelConsumptionInput from "./InputForms/FuelConsumptionInputForm";
 import MachineRegistrationInput from "./InputForms/MachineRegistrationInputForm";
 import MaintenanceAndRepairInputForm from "./InputForms/MaintenanceAndRepairInputForm";
 import WorkingHoursInputForm from "./InputForms/WorkingHoursInputForm";
+import PurchaseRequestsInput from "./InputForms/PurchaseRequestsInputForm";
 
 import { getSelectionByField } from "../../Firebase/FetchCollectionsFromFirestore";
 import { getLastId } from "../../Firebase/FetchLastIdRealtimeDB";
@@ -15,7 +16,8 @@ import { getImage, getNamesOfImages } from "../../Firebase/FetchAndUpdateImagesF
 
 import { addZero } from "./DBObjectElements/GetDateTime";
 import { fuelConsumptionInputObject, machineRegistrationInputObject, 
-         maintenanceAndRepairsInputObject, workingHoursInputObject } from "./DBObjectElements/ObjectsToPostToFirebase";
+         maintenanceAndRepairsInputObject, workingHoursInputObject,
+         purcahseRequestsInputObject } from "./DBObjectElements/ObjectsToPostToFirebase";
 import Modal from "../../Components/Modal/Modal"
 
 import { initialState } from "./InitialState"
@@ -157,14 +159,16 @@ class InputSelection extends Component {
       const checkForActivity = this.props.stateProps.selectedActivity === 0 ? fuelConsumptionInputObject(this.state) 
       : this.props.stateProps.selectedActivity === 1 ? machineRegistrationInputObject(this.state) 
       : this.props.stateProps.selectedActivity === 2 ? maintenanceAndRepairsInputObject(this.state) 
-      : this.props.stateProps.selectedActivity === 3 ? workingHoursInputObject(this.state): null 
+      : this.props.stateProps.selectedActivity === 3 ? workingHoursInputObject(this.state) 
+      : this.props.stateProps.selectedActivity === 4 ? purcahseRequestsInputObject(this.state) : null 
       
       const queryParams = '?auth=' + this.props.stateProps.tokenId + '&auth.token.email=' + this.props.stateProps.email;
     
       const URLPostSource = this.props.stateProps.selectedActivity === 0 ? ('/fuelConsumptionInput.json' + queryParams) 
       : this.props.stateProps.selectedActivity === 1 ? ('/machineRegistrationInput.json' + queryParams)
       : this.props.stateProps.selectedActivity === 2 ? ('/maintenanceAndRepairsInput.json' + queryParams) 
-      : this.props.stateProps.selectedActivity === 3 ? ('/workingHoursInput.json' + queryParams) : null 
+      : this.props.stateProps.selectedActivity === 3 ? ('/workingHoursInput.json' + queryParams) 
+      : this.props.stateProps.selectedActivity === 4 ? ('/purchaseRequests.json' + queryParams) : null 
       
       if (!isNaN(this.state.lastId)) {
       axiosLocal.post(URLPostSource, checkForActivity)
@@ -176,8 +180,8 @@ class InputSelection extends Component {
   }
 
   render () {
-    const moduleInProgress = <Modal show={this.props.modal} 
-    hide={this.props.modal}>Module Still In Progress</Modal> 
+    // const moduleInProgress = <Modal show={this.props.modal} 
+    // hide={this.props.modal}>Module Still In Progress</Modal> 
     const errorModal = <Modal show={this.state.error} 
     hide={this.props.modal}>Network error while posting data to Database, your entry is not recorded.</Modal> 
     // console.log(this.state.idOfSelectField)
@@ -240,8 +244,21 @@ class InputSelection extends Component {
       restartFormHandler={this.restartFormHandler}
       multiSelectHandler={this.multiSelectHandler}/> : null}
 
-      {this.props.stateProps.selectedActivity === 4 ?
-       moduleInProgress : null }
+       {this.props.stateProps.selectedActivity === 4 ?
+      <PurchaseRequestsInput 
+      stopComponentDidUpdate={this.stopComponentDidUpdate}
+      dateHandler={this.dateHandler}
+      updateId={this.updateId}
+      onClick={this.props.onClick}
+      stateProps={this.props.stateProps}
+      localState={this.state}
+      selectFieldsHandler={this.selectFieldsHandler}
+      inputFieldsHandler={this.inputFieldsHandler} 
+      formHandler={this.formSubmitHandler}
+      onFocusHandler={this.onFocusHandler} /> : null}
+
+      {/* {this.props.stateProps.selectedActivity === 4 ?
+       moduleInProgress : null } */}
 
     </div>
   )

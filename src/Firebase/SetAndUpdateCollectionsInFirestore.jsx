@@ -1,5 +1,6 @@
 import { users, machines, attachedMachines, location, product,
-  employees, jobDescriptions, technicians, projects, jobsWithAMachine } from './Firebase.utils';
+  employees, jobDescriptions, technicians, projects, jobsWithAMachine, 
+  suppliers, categoryOfMaterials, subCategoryOfMaterials } from './Firebase.utils';
 
 export function updateUsersInFirestore(rowId, role) {
   users.orderBy("id").startAt(rowId).limit(1).get()
@@ -36,7 +37,10 @@ export async function updateSelectFieldsInFirestore(selectField, newEntry, newSu
     selectField === 7 ? jobDescriptions :
     selectField === 9 ? technicians :
     selectField === 11 ? projects : 
-    selectField === 14 ? jobsWithAMachine : machines
+    selectField === 14 ? jobsWithAMachine :
+    selectField === 15 ? suppliers : 
+    selectField === 16 ? categoryOfMaterials :
+    selectField === 17 ? subCategoryOfMaterials: machines
     
   const snapshot = await selectionFields.get();
     let arr = []

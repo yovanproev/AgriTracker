@@ -1,5 +1,5 @@
 import { firebase_db_fuelConsump, firebase_db_machineReg, 
-         firebase_db_maintenance, firebase_db_workHours } from "./Firebase.utils";
+         firebase_db_maintenance, firebase_db_workHours, firebase_db_purchaseRequests } from "./Firebase.utils";
 
 export const getPaginatedTableData = (count, limit, props, errorOnDB) => {
   return new Promise((resolve)=>{
@@ -10,7 +10,7 @@ export const getPaginatedTableData = (count, limit, props, errorOnDB) => {
    const database = props.stateProps.selectedActivity === 0 && !props.stateProps.adminSection ? firebase_db_fuelConsump : 
    props.stateProps.selectedActivity === 1 && !props.stateProps.adminSection ? firebase_db_machineReg : 
    props.stateProps.selectedActivity === 2 && !props.stateProps.adminSection ? firebase_db_maintenance : 
-   props.stateProps.selectedActivity === 4 && !props.stateProps.adminSection ? firebase_db_maintenance : null
+   props.stateProps.selectedActivity === 4 && !props.stateProps.adminSection ? firebase_db_purchaseRequests : null
    
     if (props.stateProps.selectedActivity === 3 && !props.stateProps.adminSection) {
       firebase_db_workHours.limitToLast(limit).once("value", function(snapshot) {
