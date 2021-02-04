@@ -1,5 +1,5 @@
 import { firebase_db_fuelConsump, firebase_db_machineReg, 
-         firebase_db_maintenance, firebase_db_workHours} from "./Firebase.utils";
+         firebase_db_maintenance, firebase_db_workHours, firebase_db_purchaseRequests} from "./Firebase.utils";
 
 export const getFilteredDataForExport = (startingDate, endDate, props) => {
   return new Promise((resolve, reject)=>{
@@ -7,7 +7,7 @@ export const getFilteredDataForExport = (startingDate, endDate, props) => {
     const database = props.stateProps.selectedActivity === 0 && props.stateProps.outputTable ? firebase_db_fuelConsump : 
     props.stateProps.selectedActivity === 1 && props.stateProps.outputTable ? firebase_db_machineReg : 
     props.stateProps.selectedActivity === 2 && props.stateProps.outputTable ? firebase_db_maintenance : 
-    props.stateProps.selectedActivity === 4 && props.stateProps.outputTable ? firebase_db_maintenance :
+    props.stateProps.selectedActivity === 4 && props.stateProps.outputTable ? firebase_db_purchaseRequests :
     props.stateProps.selectedActivity === 1 && props.stateProps.adminSection ? firebase_db_fuelConsump : 
     props.stateProps.selectedActivity === 2 && props.stateProps.adminSection ? firebase_db_machineReg : 
     props.stateProps.selectedActivity === 3 && props.stateProps.adminSection ? firebase_db_maintenance : null

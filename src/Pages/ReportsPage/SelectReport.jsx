@@ -59,8 +59,8 @@ const SelectReport = (props) => {
     setTable(rows) 
   }
 
- const moduleInProgress = <Modal show={props.modal} hide={props.modal}>
-   Module Still Not Built</Modal> 
+//  const moduleInProgress = <Modal show={props.modal} hide={props.modal}>
+//    Module Still Not Built</Modal> 
    const loader = table.length === 0 || table === undefined ? 
    <Modal show={props.stateProps.hideModal} hide={props.modal}><Spinner2 /></Modal> : null
     
@@ -71,7 +71,7 @@ const SelectReport = (props) => {
     <div className="table-reports">
       {errorModal}
      {props.stateProps.selectedActivity && error === false ? loader : null}
-      {props.stateProps.selectedActivity === 4 ? moduleInProgress : null}
+      {/* {props.stateProps.selectedActivity === 4 ? moduleInProgress : null} */}
       < TableReport
         blockNextButton={blockNextButton}
         counter={counter}

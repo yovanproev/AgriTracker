@@ -119,7 +119,7 @@ export const purcahseRequestsInputObject = (props) => {
   operator: props.selectedOperatorName,
   supplier: props.supplier,
   categoryOfMaterials: props.categoryOfMaterials,
-  subcategoryOfMaterials: props.subcategoryOfMaterials,
+  subCategoryOfMaterials: props.subCategoryOfMaterials,
   quantity: props.quantity,
   price: props.price,
   purposeOfPurchase: props.purposeOfPurchase,

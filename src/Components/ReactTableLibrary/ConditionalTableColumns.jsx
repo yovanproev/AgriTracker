@@ -6,7 +6,7 @@ export const conditionalTableColumns = (props) => {
   props.stateProps.selectedActivity === 1 && props.stateProps.outputTable ? machineRegitrationColumns : 
   props.stateProps.selectedActivity === 2 && props.stateProps.outputTable ? maintenanceAndRepairsColumns : 
   props.stateProps.selectedActivity === 3 && props.stateProps.outputTable ? workingHoursInputColumns : 
-  props.stateProps.selectedActivity === 4 && props.stateProps.outputTable ? workingHoursInputColumns : 
+  props.stateProps.selectedActivity === 4 && props.stateProps.outputTable ? purchaseRequestsInputColumns : 
   props.stateProps.selectedActivity === 1 && props.stateProps.adminSection ? fuelManagementColumns : 
   props.stateProps.selectedActivity === 2 && props.stateProps.adminSection ? machineRegistrationManagementColumns :
   props.stateProps.selectedActivity === 3 && props.stateProps.adminSection ? maintenanceAndRepairsManagementColumns :
@@ -292,6 +292,63 @@ export const workingHoursInputColumns = [
   {
     Header: 'Man hours',
     accessor: 'manHours',
+  },
+  {
+    Header: 'Date',
+    accessor: "date",
+    disableSortBy: true,
+    Filter: SelectColumnFilter,
+    filter: 'equals',
+  },
+  {
+    Header: 'Time of entry',
+    accessor: 'timeOfEntry',
+  },
+]
+
+export const purchaseRequestsInputColumns = [
+  {
+    Header: '#',
+    accessor: "id",
+  },
+  {
+    Header: 'Supplier',
+    accessor: "supplier",
+    disableSortBy: true,
+    Filter: SelectColumnFilter,
+    filter: 'equals',
+  }, 
+  {
+    Header: 'Category Of Materials',
+    accessor: "categoryOfMaterials",
+    disableSortBy: true,
+    Filter: SelectColumnFilter,
+    filter: 'equals',
+  },
+  {
+    Header: 'Subcategory Of Materials',
+    accessor: "subCategoryOfMaterials",
+    disableSortBy: true,
+    Filter: SelectColumnFilter,
+    filter: 'equals',
+  },
+  {
+    Header: 'Qunatity',
+    accessor: "quantity",
+    disableSortBy: true,
+    Filter: SelectColumnFilter,
+    filter: 'equals',
+  },
+  {
+    Header: 'Price',
+    accessor: "price",
+    disableSortBy: true,
+    Filter: SelectColumnFilter,
+    filter: 'equals',
+  },
+  {
+    Header: 'Purpose Of Purchase',
+    accessor: 'purposeOfPurchase',
   },
   {
     Header: 'Date',

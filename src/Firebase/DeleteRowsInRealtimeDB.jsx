@@ -1,5 +1,5 @@
 import { firebase_db, firebase_db_fuelConsump, firebase_db_machineReg, 
-         firebase_db_maintenance, firebase_db_workHours } from "./Firebase.utils";
+         firebase_db_maintenance, firebase_db_workHours, firebase_db_purchaseRequests } from "./Firebase.utils";
 
 export const deleteByRowId =  (rowId, props, numberOfEmployee, numberOfJob) => {
   return new Promise((resolve, reject)=>{
@@ -8,12 +8,12 @@ export const deleteByRowId =  (rowId, props, numberOfEmployee, numberOfJob) => {
     const database = props.stateProps.selectedActivity === 0 ? firebase_db_fuelConsump : 
     props.stateProps.selectedActivity === 1 ? firebase_db_machineReg : 
     props.stateProps.selectedActivity === 2 ? firebase_db_maintenance : 
-    props.stateProps.selectedActivity === 4 ? firebase_db_maintenance : null
+    props.stateProps.selectedActivity === 4 ? firebase_db_purchaseRequests : null
 
     const firstChild = props.stateProps.selectedActivity === 0 ? "fuelConsumptionInput/" : 
     props.stateProps.selectedActivity === 1 ? "machineRegistrationInput/" : 
     props.stateProps.selectedActivity === 2 ? "maintenanceAndRepairsInput/" :
-    props.stateProps.selectedActivity === 4 ? "maintenanceAndRepairsInput/" : null
+    props.stateProps.selectedActivity === 4 ? "purchaseRequests/" : null
 
     if (props.stateProps.selectedActivity === 3) {
       firebase_db_workHours.orderByChild("id")
