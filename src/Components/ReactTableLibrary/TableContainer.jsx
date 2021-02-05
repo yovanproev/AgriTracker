@@ -15,6 +15,7 @@ import { pageCounter, countNextPage, countPreviousPage } from "../../Firebase/Fe
 import { RenderForAdmin } from "../../RoleBasedAccessControl/RoleBaseControl"
 import DeleteButton from '../DeleteButton/DeleteButton';
 import AdminTableElements from '../../RoleBasedAccessControl/AdminSection/AdminTableElements';
+import SelectFieldTable from './SelectFieldTable/SelectFieldTable';
 
 const TableContainer = ({ 
   columns, 
@@ -28,7 +29,10 @@ const TableContainer = ({
   nextPageLoad,
   previousPageLoad,
   counter,
-  blockNextButton
+  blockNextButton,
+  updateDataByRowHandler,
+  statusHandler,
+  onClickRowId
    }) => {
   const {
     getTableProps,
@@ -69,7 +73,10 @@ const TableContainer = ({
       nextPageLoad,
       previousPageLoad,
       counter,
-      blockNextButton      
+      blockNextButton ,
+      updateDataByRowHandler,
+      statusHandler,
+      onClickRowId     
     },
     useFilters,
     useSortBy,
@@ -145,6 +152,13 @@ const TableContainer = ({
                 currentRole={currentRole}/>
                 </td> }
                 
+                {!stateProps.adminSection && stateProps.selectedActivity === 4 ?
+                <td>
+                <SelectFieldTable onChange={updateDataByRowHandler} value={statusHandler} 
+                onFocus={() => onClickRowId(data[row.id])} id={data[row.id].id}
+                /> 
+                  </td> : null}
+
                 {stateProps.outputTable ?
                 <td>
                   <DeleteButton onClick={() => {onDelete(data[row.id].id, 

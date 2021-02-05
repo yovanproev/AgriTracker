@@ -1,6 +1,7 @@
 import rolesDB from "./Roles.json"
 import inputFieldsDB from "./InputFields.json"
 import selectFieldsDB from "./SelectFields.json"
+import statusOfPurchase from "./StatusOfPurchase.json";
 
 export const fetchAllRoles = () => {
   return rolesDB.data;
@@ -8,6 +9,19 @@ export const fetchAllRoles = () => {
 
 export const fetchRolesByName = rolesId => {
   const data = rolesDB.data.filter(roles => roles.id === parseInt(rolesId));
+  if (data.length > 0) {
+    return data[0].name;
+  } else {
+    return data;
+  }
+};
+
+export const fetchStatusOfPurchase = () => {
+  return statusOfPurchase.data;
+}
+
+export const fetchStatusOfPurchaseByName = statusId => {
+  const data = statusOfPurchase.data.filter(status => status.id === parseInt(statusId));
   if (data.length > 0) {
     return data[0].name;
   } else {

@@ -13,6 +13,7 @@ export const getFilteredDataForExport = (startingDate, endDate, props) => {
     props.stateProps.selectedActivity === 3 && props.stateProps.adminSection ? firebase_db_maintenance : null
 
     if (startingDate !== "null-null-null" && endDate !== "null-null-null") { 
+      
       if (props.stateProps.selectedActivity === 3 && props.stateProps.outputTable) {
         firebase_db_workHours.once('value').then((snapshot)=>{
           let arr = []
@@ -29,7 +30,7 @@ export const getFilteredDataForExport = (startingDate, endDate, props) => {
             )
             resolve(getFilteredArray(endDate, secondArray[lengthOfArr.slice(-1)[0]]))
         }).catch(err => {
-          reject(err)
+            reject(err)
         })
       } else if (props.stateProps.selectedActivity === 4 && props.stateProps.adminSection) {
         firebase_db_workHours.once('value').then((snapshot)=>{
@@ -63,8 +64,7 @@ export const getFilteredDataForExport = (startingDate, endDate, props) => {
               const initialArray = Object.values(snapshot.val())
               mergeFuelAndMachineReg.push(getFilteredArray(endDate, initialArray))
               resolve(mergeFuelAndMachineReg)
-            
-        }).catch(err => {
+            }).catch(err => {
           reject(err)
         })
       }
@@ -74,8 +74,8 @@ export const getFilteredDataForExport = (startingDate, endDate, props) => {
           const initialArray = Object.values(snapshot.val())
           resolve(getFilteredArray(endDate, initialArray))
           }).catch(err => {
-          reject(err)
-        })
+            reject(err)
+          })
       }
     }
   })

@@ -35,26 +35,28 @@ const TableReport = (props) => {
   }
 
   useEffect(() => {
-    setName(props.stateProps.stateProps.activityBubbleState[props.stateProps.stateProps.selectedActivity].name)
+    setName(props.stateProps.stateProps.activityBubbleState[props.stateProps.stateProps.selectedActivity]?.name)
     
     const getStartingDate = () => {
-      const startingDay = startingDate.length !== 0 ? addZero(startingDate.getDate()) : null
-      const startingMonth = startingDate.length !== 0 ? addZero(startingDate.getMonth()+1) : null
-      const startingYear = startingDate.length !== 0 ? addZero(startingDate.getFullYear()) : null
+      const startingDay = startingDate?.length !== 0 ? addZero(startingDate.getDate()) : null
+      const startingMonth = startingDate?.length !== 0 ? addZero(startingDate.getMonth()+1) : null
+      const startingYear = startingDate?.length !== 0 ? addZero(startingDate.getFullYear()) : null
         return startingDay + "-" + startingMonth + "-" + startingYear
     }
 
     const getEndDate = () => {
-      const endDay = endDate.length !== 0 ? addZero(endDate.getDate()) : null
-      const endMonth = endDate.length !== 0 ? addZero(endDate.getMonth()+1) : null
-      const endYear = endDate.length !== 0 ? addZero(endDate.getFullYear()) : null
+      const endDay = endDate?.length !== 0 ? addZero(endDate.getDate()) : null
+      const endMonth = endDate?.length !== 0 ? addZero(endDate.getMonth()+1) : null
+      const endYear = endDate?.length !== 0 ? addZero(endDate.getFullYear()) : null
         return endDay + "-" + endMonth + "-" + endYear
     }
-    if (endDate !== null) getFilteredDataForExport(getStartingDate(), getEndDate(), props.stateProps)
+    
+    if (endDate !== null) {getFilteredDataForExport(getStartingDate(), getEndDate(), 
+      props.stateProps)
     .then(res => updateExcelData(res))
     .catch(err => {
       console.log(err)
-    })
+    })}
     
   }, [startingDate, props, endDate])
   
@@ -69,18 +71,19 @@ const TableReport = (props) => {
              <Calendar onChange={fetchFilteredDateForExport} stateProps={props.stateProps.stateProps}/>
            </div>
             <ExportCSV  csvData={excelData} 
-            fileName={name} />
+            fileName={name} stateProps={props.stateProps.stateProps}/>
           </div>
       <Table
+        updateDataByRowHandler={props.updateDataByRowHandler}
+        statusHandler={props.statusHandler}
+        onClickRowId={props.onClickRowId}
         blockNextButton={props.blockNextButton}
         counter={props.counter}
         nextPageLoad={props.nextPageLoad}  
         previousPageLoad={props.previousPageLoad}
         stateProps={props.stateProps.stateProps}
         data={props.tableData}
-        // modeChange={props.modeChange}
         onDelete={handleChange}/>
-      
     </div>
   )
 }

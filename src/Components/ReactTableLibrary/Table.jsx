@@ -19,6 +19,9 @@ const Table = (props) => {
   return (
     <Container style={{ margin: "30px auto", whiteSpace: "nowrap"}} >
       <TableContainer
+        updateDataByRowHandler={props.updateDataByRowHandler}
+        statusHandler={props.statusHandler}
+        onClickRowId={props.onClickRowId}
         blockNextButton={props.blockNextButton}
         counter={props.counter}
         nextPageLoad={props.nextPageLoad}

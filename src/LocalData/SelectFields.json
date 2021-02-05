@@ -34,5 +34,6 @@
       {"id": 15, "name": "Supplier", "statename": "supplier", "value": "selectedSupplierId", "selectionFieldToBeModified": "Supplier"},
       {"id": 16, "name": "Category of Materials", "statename": "categoryOfMaterials", "value": "selectedCategoryOfMaterialsId", "selectionFieldToBeModified": "Category of materials"},
       {"id": 17, "name": "Subcategory of Materials", "statename": "subCategoryOfMaterials", "value": "selectedSubcategoryOfMaterialsId", "selectionFieldToBeModified": "Subcategory of materials"}
+     
   ]
 }

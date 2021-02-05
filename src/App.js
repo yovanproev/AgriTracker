@@ -48,7 +48,7 @@ class App extends React.Component {
     this.unsubscribeFromAuth = auth.onAuthStateChanged(async userAuth => {
       if (userAuth && !this.state.logOutError) {
         const userRef = await createUserProfileDocument(userAuth);
-
+        // console.log(userAuth.metadata.lastSignInTime) 
         userRef.onSnapshot(snapShot => {
           this.setState({
             currentUser: {

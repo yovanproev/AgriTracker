@@ -21,6 +21,7 @@ export const getPaginatedTableData = (count, limit, props, errorOnDB) => {
               secondChild.map(x => arr.push(x))
             })
           )
+          if (snapshot.val() === null) {errorOnDB()}
         resolve(arr)
       }).catch(err => {
         errorOnDB()
@@ -29,6 +30,7 @@ export const getPaginatedTableData = (count, limit, props, errorOnDB) => {
     else {
       database.orderByChild("id")
       .startAt(count).limitToLast(limit).once('value').then((snapshot)=>{
+        if (snapshot.val() === null) {errorOnDB()}
         resolve(snapshot.val())
       }).catch(err => {
          errorOnDB()

@@ -1,21 +1,24 @@
 import React, { useState, useEffect } from "react";
 import Modal from "../../Components/Modal/Modal";
 import Spinner2 from "../../Components/Spinners/Spinner2"
+
 import { getPaginatedTableData, nextPage, previousPage, counter } from "../../Firebase/FetchDataFromRealtimeDB";
 import { deleteByRowId } from "../../Firebase/DeleteRowsInRealtimeDB"
+import { updateByRowId } from "../../Firebase/UpdateRowsInRealtimeDB";
 
 import TableReport from "./TableReport/TableReport"
+import { fetchStatusOfPurchaseByName } from "../../LocalData/InputFormsData"
 
 const SelectReport = (props) => {
   const [ table, setTable ] = useState([])
   const [ blockNextButton, updateBlockNextButton ] = useState(undefined)
   const [ error, setError ] = useState(false)
-
+ 
   const errorOnDB = () => {
     setError(true)
   }
 
-  function nextPageLoad(){
+   function nextPageLoad(){
     const nextPageCount = nextPage(props);
     getPaginatedTableData(0, nextPageCount, props, errorOnDB).then((fullData)=>{
       let fullDataArray=[]
@@ -45,11 +48,12 @@ const SelectReport = (props) => {
   useEffect(() => {
     // const workHoursQuery = props.stateProps.selectActivity === 3 ? 1 : 10
           getPaginatedTableData(0, 10, props, errorOnDB).then((fullData)=>{
-            let fullDataArray=[]
+            if (fullData === null) {errorOnDB()}
+            else {let fullDataArray=[]
             Object.keys(fullData).forEach((key)=>{
               fullDataArray.push(fullData[key]);
             })
-            setTable(fullDataArray)
+            setTable(fullDataArray)}
         })
   }, [props]);
 
@@ -59,10 +63,28 @@ const SelectReport = (props) => {
     setTable(rows) 
   }
 
-//  const moduleInProgress = <Modal show={props.modal} hide={props.modal}>
+  // get the table row number 
+  const [ rowIdValue, setRowId ] = useState(undefined);
+  const onClickRowId = (rowId) => {
+    if (rowId.id !== undefined) setRowId(rowId.id)
+    else return 0
+  }
+
+  const [ statusHandler, updateStatusHandler ] = useState("")
+  const updateDataByRowHandler = (value) => {
+    // const rows = table.filter((row) => row.id !== rowId);
+    updateStatusHandler(value)
+    const update = {statusOfRequest: fetchStatusOfPurchaseByName(value)}
+    updateByRowId(rowIdValue, props, null, null, update)
+    // setTable(rows) 
+  }
+    
+  //  const moduleInProgress = <Modal show={props.modal} hide={props.modal}>
 //    Module Still Not Built</Modal> 
    const loader = table.length === 0 || table === undefined ? 
    <Modal show={props.stateProps.hideModal} hide={props.modal}><Spinner2 /></Modal> : null
+
+   
     
  const errorModal = <Modal show={error} 
     hide={props.modal}>User has no authorization to read data or no data in the DB.</Modal>
@@ -70,7 +92,7 @@ const SelectReport = (props) => {
     return (
     <div className="table-reports">
       {errorModal}
-     {props.stateProps.selectedActivity && error === false ? loader : null}
+      {props.stateProps.selectedActivity && error === false ? loader : null}
       {/* {props.stateProps.selectedActivity === 4 ? moduleInProgress : null} */}
       < TableReport
         blockNextButton={blockNextButton}
@@ -80,7 +102,10 @@ const SelectReport = (props) => {
         stateProps={props}
         deleteRowHandler={deleteRowHandler} 
         tableData={table}
-        onClick={props.onClick}/>         
+        onClick={props.onClick}
+        updateDataByRowHandler={updateDataByRowHandler}
+        statusHandler={statusHandler}
+        onClickRowId={onClickRowId}/>         
     </div>
   ) 
 }

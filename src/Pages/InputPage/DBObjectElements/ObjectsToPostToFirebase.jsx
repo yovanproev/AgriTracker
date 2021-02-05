@@ -101,8 +101,8 @@ export const workingHoursInputObject = (props) => {
     manHours: parseFloat((props.manHours[index].workHours[i] || []).time) || parseInt(0),
     nameOfEmployee: nameOfEmployee,
     
-    numberOfEmployee: index,
-    numberOfJob: i,
+    // numberOfEmployee: index,
+    // numberOfJob: i,
 
     timeOfEntry: getDateAndTime()
     }
@@ -123,6 +123,7 @@ export const purcahseRequestsInputObject = (props) => {
   quantity: props.quantity,
   price: props.price,
   purposeOfPurchase: props.purposeOfPurchase,
+  statusOfRequest: "Pending",
   timeOfEntry: getDateAndTime()
   }
   return object

@@ -333,7 +333,7 @@ export const purchaseRequestsInputColumns = [
     filter: 'equals',
   },
   {
-    Header: 'Qunatity',
+    Header: 'Quantity',
     accessor: "quantity",
     disableSortBy: true,
     Filter: SelectColumnFilter,
@@ -349,6 +349,13 @@ export const purchaseRequestsInputColumns = [
   {
     Header: 'Purpose Of Purchase',
     accessor: 'purposeOfPurchase',
+  },
+   {
+    Header: 'Status',
+    accessor: "statusOfRequest",
+    disableSortBy: true,
+    Filter: SelectColumnFilter,
+    filter: 'equals',
   },
   {
     Header: 'Date',
