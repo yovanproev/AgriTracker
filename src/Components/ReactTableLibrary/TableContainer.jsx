@@ -127,7 +127,8 @@ const TableContainer = ({
                 currentRole={currentRole}/>
                 </td> }
                 
-                {!stateProps.adminSection && stateProps.selectedActivity === 4 ?
+                {!stateProps.adminSection && stateProps.inputMode === false && 
+                stateProps.outputMode === true && stateProps.selectedActivity === 4 ?
                 <td>
                 <SelectFieldTable onChange={updateDataByRowHandler} value={statusHandler} 
                 onFocus={() => onClickRowId(data[row.id])} id={data[row.id].id}

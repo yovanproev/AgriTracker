@@ -167,7 +167,7 @@ class App extends React.Component {
   }
 
   signOutHandler = () => {
-    this.setState({ currentUser: null, email: null, signInTime: null, role: null})
+    this.setState({ currentUser: null})
     auth.signOut()}
 
    render() {
