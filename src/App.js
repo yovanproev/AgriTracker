@@ -21,11 +21,11 @@ import {usersAuthentication} from "./Pages/InputPage/DBObjectElements/ObjectsToP
 class App extends React.Component {
   state = {
       currentUser: null,
-      inputMode: JSON.parse(sessionStorage.getItem( 'inputMode' )),
-      outputMode: JSON.parse(sessionStorage.getItem( 'outputMode' )),
+      inputMode: JSON.parse(sessionStorage.getItem( 'inputMode' )) || false,
+      outputMode: JSON.parse(sessionStorage.getItem( 'outputMode' )) || false,
       inputForms: false,
       outputTable: false,
-      adminMode: JSON.parse(sessionStorage.getItem( 'adminMode' )),
+      adminMode: JSON.parse(sessionStorage.getItem( 'adminMode' )) || false,
       hideModal: false,
       activityBubbleState: [
         { name: "Fuel Registration"},
