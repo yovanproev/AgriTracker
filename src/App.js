@@ -21,11 +21,11 @@ import {usersAuthentication} from "./Pages/InputPage/DBObjectElements/ObjectsToP
 class App extends React.Component {
   state = {
       currentUser: null,
-      inputMode: JSON.parse(localStorage.getItem( 'SelectedMode' )),
-      outputMode: undefined,
+      inputMode: JSON.parse(sessionStorage.getItem( 'inputMode' )),
+      outputMode: JSON.parse(sessionStorage.getItem( 'outputMode' )),
       inputForms: false,
       outputTable: false,
-      adminMode: false,
+      adminMode: JSON.parse(sessionStorage.getItem( 'adminMode' )),
       hideModal: false,
       activityBubbleState: [
         { name: "Fuel Registration"},
@@ -72,9 +72,12 @@ class App extends React.Component {
 
   componentWillUnmount() {this.unsubscribeFromAuth()}
 
- inputModeHandler = (mode) => {
-  localStorage.setItem( 'SelectedMode', mode.bubbles );
-  resetCounter();
+ inputModeHandler = () => {
+  //  console.log(mode)
+   sessionStorage.setItem( 'inputMode', true )
+   sessionStorage.setItem( 'outputMode', false )
+   sessionStorage.setItem( 'adminMode', false )
+   resetCounter();
   this.setState({
     inputMode: true, outputMode: false,
     outputTable: false, adminMode: false,
@@ -82,15 +85,19 @@ class App extends React.Component {
 }
 
   outputModeHandler = () => {
-    localStorage.setItem( 'SelectedMode', false );
-    this.setState({
+    sessionStorage.setItem( 'inputMode', false )
+    sessionStorage.setItem( 'outputMode', true )
+    sessionStorage.setItem( 'adminMode', false )
+       this.setState({
       inputMode: false, outputMode: true,
       inputForms: false, adminMode: false,
       adminSection: false, hideModal: true })
   }
 
   adminModeHandler = () => {
-    // localStorage.setItem( 'SelectedMode', mode.bubbles );
+    sessionStorage.setItem( 'inputMode', false )
+    sessionStorage.setItem( 'outputMode', false )
+    sessionStorage.setItem( 'adminMode', true )
     resetCounter();
     this.setState({
       inputMode: false, outputMode: false,
@@ -99,8 +106,10 @@ class App extends React.Component {
    }
 
    homeModeHandler = () => {
-    // localStorage.setItem( 'SelectedMode', mode.bubbles );
-    resetCounter();
+    sessionStorage.setItem( 'inputMode', false )
+    sessionStorage.setItem( 'outputMode', false )
+    sessionStorage.setItem( 'adminMode', false )
+     resetCounter();
     this.setState({
       inputMode: false, outputMode: false,
       outputTable: false, inputForms: false,

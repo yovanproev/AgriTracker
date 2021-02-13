@@ -38,10 +38,10 @@ export const getPaginatedTableData = (count, limit, props, errorOnDB) => {
       })
     }
     else {
-      database.orderByChild("id")
+      database?.orderByChild("id")
       .startAt(count).limitToLast(limit).once('value').then((snapshot)=>{
         if (snapshot.val() === null) {errorOnDB()}
-        resolve(snapshot.val())
+        resolve(snapshot?.val())
       }).catch(err => {
          errorOnDB()
       })
