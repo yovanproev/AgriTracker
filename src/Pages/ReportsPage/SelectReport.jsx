@@ -83,10 +83,8 @@ const SelectReport = (props) => {
 //    Module Still Not Built</Modal> 
    const loader = table.length === 0 || table === undefined ? 
    <Modal show={props.stateProps.hideModal} hide={props.modal}><Spinner2 /></Modal> : null
-
-   
-    
- const errorModal = <Modal show={error} 
+  
+   const errorModal = <Modal show={error} 
     hide={props.modal}>User has no authorization to read data or no data in the DB.</Modal>
 
     return (
@@ -94,7 +92,7 @@ const SelectReport = (props) => {
       {errorModal}
       {props.stateProps.selectedActivity && error === false ? loader : null}
       {/* {props.stateProps.selectedActivity === 4 ? moduleInProgress : null} */}
-      < TableReport
+      < TableReport 
         blockNextButton={blockNextButton}
         counter={counter}
         nextPageLoad={nextPageLoad}

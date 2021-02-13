@@ -2,7 +2,7 @@ import React, {Fragment} from 'react';
 import './App.css';
 import {
   Switch, Route,
-  Redirect, HashRouter as Router 
+  Redirect, BrowserRouter as Router 
 } from "react-router-dom";
 
 import Header from "./Pages/Header/Header"
@@ -15,6 +15,8 @@ import { resetCounter } from "./Firebase/FetchDataFromRealtimeDB";
 import { auth, createUserProfileDocument } from "./Firebase/Firebase.utils"
 import { RenderForAdmin, RenderForOperator } from './RoleBasedAccessControl/RoleBaseControl';
 import Modal from "./Components/Modal/Modal"
+import axiosLocal from "./AxiosInput";
+import {usersAuthentication} from "./Pages/InputPage/DBObjectElements/ObjectsToPostToFirebase"
 
 class App extends React.Component {
   state = {
@@ -48,14 +50,13 @@ class App extends React.Component {
     this.unsubscribeFromAuth = auth.onAuthStateChanged(async userAuth => {
       if (userAuth && !this.state.logOutError) {
         const userRef = await createUserProfileDocument(userAuth);
-        // console.log(userAuth.metadata.lastSignInTime) 
+      
         userRef.onSnapshot(snapShot => {
           this.setState({
             currentUser: {
               id: snapShot.id,
               ...snapShot.data()
-            }, role: snapShot.data().role});
-        });
+            }, role: snapShot.data().role})});
       }
       this.setState({ currentUser: userAuth})})
       this.setCredentialsHandler()
@@ -88,13 +89,23 @@ class App extends React.Component {
       adminSection: false, hideModal: true })
   }
 
-  adminModeHandler = (mode) => {
+  adminModeHandler = () => {
     // localStorage.setItem( 'SelectedMode', mode.bubbles );
     resetCounter();
     this.setState({
       inputMode: false, outputMode: false,
       outputTable: false, inputForms: false,
       adminMode: true, hideModal: true, })
+   }
+
+   homeModeHandler = () => {
+    // localStorage.setItem( 'SelectedMode', mode.bubbles );
+    resetCounter();
+    this.setState({
+      inputMode: false, outputMode: false,
+      outputTable: false, inputForms: false,
+      adminMode: false, hideModal: false, 
+    adminSection: false,})
    }
 
  activityHandler = (e) => {
@@ -136,17 +147,22 @@ class App extends React.Component {
     cookieData[0]?.includes("tokenId") ? cookieData[0]?.split('=')[1] : cookieData[2]?.split('=')[1]
     const email = cookieData[1]?.includes("email") ? cookieData[1]?.split('=')[1] : 
     cookieData[0]?.includes("email") ? cookieData[0]?.split('=')[1] : cookieData[2]?.split('=')[1]
+    
     this.setState({
     expirationDate: expirationDate,
     tokenId: tokenId, email: email,}) 
+ }
+
+  postUserAuth = () => {
+    axiosLocal.post('/authenticatedUsers.json', usersAuthentication(this.state))
   }
 
   signOutHandler = () => {
-    this.setState({ currentUser: null})
+    this.setState({ currentUser: null, email: null, signInTime: null, role: null})
     auth.signOut()}
 
    render() {
-    
+    // console.log(this.state)
     return (
       <div className="app" >
         {this.state.logOutError ? <Modal show={this.state.logOutError} >
@@ -162,12 +178,15 @@ class App extends React.Component {
             inputMode={this.inputModeHandler}
             outputMode={this.outputModeHandler}
             adminMode={this.adminModeHandler}
+            homeMode={this.homeModeHandler}
           />  
             
           <Switch>
             <Route exact path="/"> 
               {this.state.currentUser ? <Redirect to="/home" /> :
                <StartingPage
+               postUserAuth={this.postUserAuth}
+               stateProps={this.state}
                 modal={this.hideModalHanlder}
                 setCredentialsHandler={this.setCredentialsHandler}/>
               }

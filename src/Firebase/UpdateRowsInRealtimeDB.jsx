@@ -1,7 +1,8 @@
 import { firebase_db, firebase_db_fuelConsump, firebase_db_machineReg, 
-         firebase_db_maintenance, firebase_db_workHours, firebase_db_purchaseRequests } from "./Firebase.utils";
+         firebase_db_maintenance, firebase_db_workHours, firebase_db_purchaseRequests,
+        firebase_db_authenticatedUsers } from "./Firebase.utils";
 
-export const updateByRowId =  (rowId, props, numberOfEmployee, numberOfJob, updates) => {
+export const updateByRowId = (rowId, props, numberOfEmployee, numberOfJob, updates) => {
   return new Promise((resolve, reject)=>{
     let db = firebase_db.ref();
     
@@ -37,4 +38,21 @@ export const updateByRowId =  (rowId, props, numberOfEmployee, numberOfJob, upda
         })
      }
   })
+}
+
+export const updateAuthUsers = (updates, email) => {
+  return new Promise((resolve, reject)=>{
+    let db = firebase_db.ref();
+    
+    firebase_db_authenticatedUsers.orderByChild("email")
+        .endAt(email).limitToLast(1).once('value').then((snapshot)=>{
+          // console.log(rowId)
+          const randomKey = Object.keys(snapshot.val())
+          const posted = "posted"
+          db.child('authenticatedUsers/' + randomKey + "/" + posted).update(updates)
+          resolve(snapshot.val())
+        }).catch(err => {
+          reject(err)
+        })
+     })
 }

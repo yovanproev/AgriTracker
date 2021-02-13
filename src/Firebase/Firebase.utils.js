@@ -77,6 +77,7 @@ export const firebase_db_machineReg = firebase.database().ref(`machineRegistrati
 export const firebase_db_maintenance = firebase.database().ref(`maintenanceAndRepairsInput`);
 export const firebase_db_workHours = firebase.database().ref(`workingHoursInput`);
 export const firebase_db_purchaseRequests = firebase.database().ref(`purchaseRequests`);
+export const firebase_db_authenticatedUsers = firebase.database().ref(`authenticatedUsers`);
 
 export const auth = firebase.auth();
 

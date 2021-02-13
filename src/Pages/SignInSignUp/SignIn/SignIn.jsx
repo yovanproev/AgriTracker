@@ -18,7 +18,7 @@ class SignIn extends Component {
       password: '',
       modal: false,
   };
-
+   
   successfulSignIn = () => {
     const authData = {
       email: this.state.email,
@@ -40,13 +40,16 @@ class SignIn extends Component {
       document.cookie = `tokenId=${tokenId}`
       document.cookie = `email=${email}`
       document.cookie = `expirationDate=${expirationDate}`
+      
       this.props.setCredentialsHandler()
-   })
+      this.props.postUserAuth()
+    })
   }
 
     handleSubmit = async event => {
     event.preventDefault();
     this.successfulSignIn()
+    
     const { email, password} = this.state;
 
     try {
@@ -93,7 +96,7 @@ class SignIn extends Component {
         show={this.state.modal} 
         hide={this.hideModalHanlder}
       >{this.state.message ? this.state.message : <LineSpinner />}</Modal>
-            
+      // console.log(this.state)
     return (
       <div className='sign-in'>
         {errorModal}

@@ -6,17 +6,19 @@ import Logo from "../../Assets/Logo.jpg";
 
 import { RenderForAdmin, RenderForOperator } from '../../RoleBasedAccessControl/RoleBaseControl';
 
-const Header = ({ stateProps, inputMode, outputMode, adminMode, modalHandler, signOutHandler, expiredToken }) => {
+const Header = ({ stateProps, inputMode, outputMode, adminMode, homeMode, 
+                  modalHandler, signOutHandler, expiredToken }) => {
+  
   const signOutAndModalOff = () => {
     modalHandler()
-     signOutHandler()
-   }
+    signOutHandler()
+  }
 
   return (
     <nav className="nav-bar">
         
       {stateProps.currentUser ?  
-        <NavLink to="/home" onClick={(e) => {inputMode(e); expiredToken()}}> 
+        <NavLink to="/home" onClick={(e) => {homeMode(e); expiredToken()}}> 
         <img className="picture" src={Logo} 
         alt="Logo_image" width="100px" >
         </img></NavLink> : 

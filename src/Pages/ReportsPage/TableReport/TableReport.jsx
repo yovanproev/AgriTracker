@@ -62,17 +62,21 @@ const TableReport = (props) => {
   
   return (
     <div className="table-report">
-      <BackButton onClick={props.onClick}
-       onFocus={resetCounter}/>
-      <TableHeader>{name}</TableHeader>
-          <div style={{border: "solid 3px", padding: "10px", margin: "15px"}}>
-            <h5>Choose a date range for export</h5>
-           <div style={{display: "inline-flex"}}> 
-             <Calendar onChange={fetchFilteredDateForExport} stateProps={props.stateProps.stateProps}/>
-           </div>
-            <ExportCSV  csvData={excelData} 
-            fileName={name} stateProps={props.stateProps.stateProps}/>
-          </div>
+      {props.stateProps.stateProps.outputTable === false && props.stateProps.stateProps.inputForms === false 
+      && props.stateProps.stateProps.adminMode === false ? null :
+      <div>
+        <BackButton onClick={props.onClick}
+        onFocus={resetCounter}/>
+        <TableHeader>{name}</TableHeader>
+            <div style={{border: "solid 3px", padding: "10px", margin: "15px"}}>
+              <h5>Choose a date range for export</h5>
+            <div style={{display: "inline-flex"}}> 
+              <Calendar onChange={fetchFilteredDateForExport} stateProps={props.stateProps.stateProps}/>
+            </div>
+              <ExportCSV  csvData={excelData} 
+              fileName={name} stateProps={props.stateProps.stateProps}/>
+            </div>
+      </div>}
       <Table
         updateDataByRowHandler={props.updateDataByRowHandler}
         statusHandler={props.statusHandler}

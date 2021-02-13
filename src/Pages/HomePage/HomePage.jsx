@@ -2,10 +2,11 @@ import React from 'react';
 
 import "./HomePage.scss"
 import BackDrop from "../../Components/Backdrop/Backdrop"
+import SelectReport from '../ReportsPage/SelectReport';
 
-const HomePage = () => {
-   
-  return (
+const HomePage = (props) => {
+
+     return (
     <div>
      <BackDrop /> 
      <div className='home-page'>
@@ -13,8 +14,12 @@ const HomePage = () => {
        <div>
          <h4>Welcome to your App, to choose a module pick yourself a cherry.</h4>
        </div>
-       - follow changes in modules in real time <br/>
-       - set daily orders for employees
+       <SelectReport
+        modal={props.modal}
+        stateProps={props.stateProps}
+        onClick={props.backButton}/>
+
+       {/* - set daily orders for employees */}
        
       </div> 
     </div>

@@ -1,10 +1,7 @@
 import React, { Fragment, useState } from 'react';
 import {
-  useTable,
-  useSortBy,
-  useFilters,
-  useExpanded,
-  usePagination,
+  useTable, useSortBy, useFilters, 
+  useExpanded, usePagination,
 } from 'react-table';
 import { Table, Row, Col, Button, Input, 
   // CustomInput 
@@ -12,50 +9,34 @@ import { Table, Row, Col, Button, Input,
 import { Filter, DefaultColumnFilter } from './TableFilters';
 
 import { pageCounter, countNextPage, countPreviousPage } from "../../Firebase/FetchDataFromRealtimeDB"
-import { RenderForAdmin } from "../../RoleBasedAccessControl/RoleBaseControl"
 import DeleteButton from '../DeleteButton/DeleteButton';
 import AdminTableElements from '../../RoleBasedAccessControl/AdminSection/AdminTableElements';
 import SelectFieldTable from './SelectFieldTable/SelectFieldTable';
 
 const TableContainer = ({ 
-  columns, 
-  data, 
-  onDelete, 
-  currentUser, 
-  stateProps,
-  getRoleValue,
-  onClick,
-  currentRole,
-  nextPageLoad,
-  previousPageLoad,
-  counter,
-  blockNextButton,
-  updateDataByRowHandler,
-  statusHandler,
-  onClickRowId
+  columns, data, onDelete, 
+  currentUser, stateProps,
+  getRoleValue, onClick,
+  currentRole, nextPageLoad,
+  previousPageLoad, counter,
+  blockNextButton, updateDataByRowHandler,
+  statusHandler, onClickRowId,
+  renderRowSubComponent
    }) => {
   const {
-    getTableProps,
-    getTableBodyProps,
-    headerGroups,
-    page,
-    prepareRow,
-    visibleColumns,
-    canNextPage,
-    canPreviousPage,
-    pageOptions,
+    getTableProps, getTableBodyProps,
+    headerGroups, page, prepareRow,
+    visibleColumns, canNextPage,
+    canPreviousPage, pageOptions,
     // pageCount,
-    gotoPage,
-    nextPage,
-    previousPage,
+    gotoPage, nextPage, previousPage,
     // setPageSize,
     state: { pageIndex, 
-      // pageSize 
+      // pageSize,
     },
   } = useTable(
     {
-      columns,
-      data,
+      columns, data,
       defaultColumn: { Filter: DefaultColumnFilter },
       initialState: { pageIndex: pageCounter, pageSize: 10, sortBy: [
         {
@@ -64,24 +45,17 @@ const TableContainer = ({
         }
       ] 
     },
-      onDelete,
-      currentUser,
-      stateProps,
-      getRoleValue,
-      onClick,
-      currentRole,
-      nextPageLoad,
-      previousPageLoad,
-      counter,
-      blockNextButton ,
+      onDelete, currentUser,
+      stateProps, getRoleValue,
+      onClick, currentRole,
+      nextPageLoad, previousPageLoad,
+      counter, blockNextButton,
       updateDataByRowHandler,
-      statusHandler,
-      onClickRowId     
+      statusHandler, onClickRowId,
+      renderRowSubComponent     
     },
-    useFilters,
-    useSortBy,
-    useExpanded,
-    usePagination
+    useFilters, useSortBy,
+    useExpanded, usePagination
   );
 
   const generateSortingIndicator = (column) => {
@@ -109,7 +83,7 @@ const TableContainer = ({
 
    return (
     <Fragment>
-      <Table bordered hover striped responsive {...getTableProps()}>
+      <Table bordered hover striped responsive {...getTableProps()} style={{marginTop: "20px"}}>
         <thead>
           {headerGroups.map((headerGroup) => (
             <tr {...headerGroup.getHeaderGroupProps()}>
@@ -140,8 +114,9 @@ const TableContainer = ({
                       +parseFloat(cell.render('Cell').props.value).toFixed(1) || "" : cell.render('Cell')}</td>
                     );
                   })}
-                <RenderForAdmin stateProps={stateProps}>  
-                {stateProps.outputTable === true || stateProps.selectedActivity !== 0 ? null :                 
+                {/* <RenderForAdmin stateProps={stateProps}>   */}
+                {stateProps.outputTable === true || stateProps.adminSection === false || 
+                stateProps.selectedActivity !== 0 ? null :                 
                 <td>
                 <AdminTableElements 
                 // stateProps={stateProps}
@@ -169,16 +144,16 @@ const TableContainer = ({
                 <td>  
                  <DeleteButton onClick={() => onDelete(data[row.id].id)}/>
                 </td> : null}
-                </RenderForAdmin>
+                {/* </RenderForAdmin> */}
                 </tr>
                 
-                {row.isExpanded && (
+                {row.isExpanded ? (
                   <tr>
                     <td colSpan={visibleColumns.length}>
-                      {/* {renderRowSubComponent(row)} */}
+                      {renderRowSubComponent(row)}
                     </td>
                   </tr>
-                )}
+                ) : null}
               </Fragment>
             );
           })}

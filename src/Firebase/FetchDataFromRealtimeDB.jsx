@@ -1,8 +1,9 @@
 import { firebase_db_fuelConsump, firebase_db_machineReg, 
-         firebase_db_maintenance, firebase_db_workHours, firebase_db_purchaseRequests } from "./Firebase.utils";
+         firebase_db_maintenance, firebase_db_workHours, firebase_db_purchaseRequests,
+        firebase_db_authenticatedUsers } from "./Firebase.utils";
 
 export const getPaginatedTableData = (count, limit, props, errorOnDB) => {
-  return new Promise((resolve)=>{
+  return new Promise((resolve) => {
    
    count = count || 0; 
    limit = limit  || 10;
@@ -27,6 +28,15 @@ export const getPaginatedTableData = (count, limit, props, errorOnDB) => {
         errorOnDB()
       })
     }
+    else if (props.stateProps.outputTable === false && props.stateProps.inputMode === false) {
+      firebase_db_authenticatedUsers.orderByChild("email")
+      .startAt(count).limitToLast(limit).once('value').then((snapshot)=>{
+        if (snapshot.val() === null) {errorOnDB()}
+        resolve(snapshot.val())
+      }).catch(err => {
+         errorOnDB()
+      })
+    }
     else {
       database.orderByChild("id")
       .startAt(count).limitToLast(limit).once('value').then((snapshot)=>{
@@ -38,8 +48,6 @@ export const getPaginatedTableData = (count, limit, props, errorOnDB) => {
     }
   })
 }
-
-// let secondCounter = 1;
 
 export let counter = 10;
 export const nextPage = () => {

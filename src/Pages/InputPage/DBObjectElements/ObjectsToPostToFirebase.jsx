@@ -1,4 +1,4 @@
-import { getDateAndTime } from "./GetDateTime";
+import { getDate, getDateAndTime, getTime } from "./GetDateTime";
 
  
 export const fuelConsumptionInputObject = (props) => {
@@ -125,6 +125,16 @@ export const purcahseRequestsInputObject = (props) => {
   purposeOfPurchase: props.purposeOfPurchase,
   statusOfRequest: "Pending",
   timeOfEntry: getDateAndTime()
+  }
+  return object
+};
+
+export const usersAuthentication = (props) => {
+  let object = {
+  // name: props.currentUser?.displayName,
+  email: props?.email,
+  signInDate: getDate(),
+  signInTime: getTime(),
   }
   return object
 };

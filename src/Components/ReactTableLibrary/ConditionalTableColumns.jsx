@@ -10,7 +10,8 @@ export const conditionalTableColumns = (props) => {
   props.stateProps.selectedActivity === 1 && props.stateProps.adminSection ? fuelManagementColumns : 
   props.stateProps.selectedActivity === 2 && props.stateProps.adminSection ? machineRegistrationManagementColumns :
   props.stateProps.selectedActivity === 3 && props.stateProps.adminSection ? maintenanceAndRepairsManagementColumns :
-  props.stateProps.selectedActivity === 4 && props.stateProps.adminSection ? workingHoursManagementColumns : null;
+  props.stateProps.selectedActivity === 4 && props.stateProps.adminSection ? workingHoursManagementColumns :
+  props.stateProps.outputTable === false && props.stateProps.inputForms === false ? usersAuthentication : null;
 }
 
 const fuelConsumptionColumns = [
@@ -582,3 +583,38 @@ export const selectionFieldsCollection = (selectFieldToModify) => {
     }, 
   ]
 }
+
+export const usersAuthentication = [
+  {
+    // Make an expander cell
+    Header: "Click to see entries by sign In",  // () => null - No header
+    id: 'expander', // It needs an ID
+    Cell: ({ row }) => (
+      // Use Cell to render an expander for each row.
+      <span {...row.getToggleRowExpandedProps()}>
+        {row.isExpanded ? '👇' : '👉'}
+      </span>
+    ),
+  },
+  {
+    Header: 'Email',
+    accessor: "email",
+    disableSortBy: true,
+    Filter: SelectColumnFilter,
+    filter: 'equals',
+  },
+  {
+    Header: 'Date of sign in',
+    accessor: "signInDate",
+    disableSortBy: true,
+    Filter: SelectColumnFilter,
+    filter: 'equals',
+  },
+  {
+    Header: 'Time of sign in',
+    accessor: "signInTime",
+    // disableSortBy: true,
+    // Filter: SelectColumnFilter,
+    // filter: 'equals',
+  }
+]

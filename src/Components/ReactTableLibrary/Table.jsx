@@ -15,10 +15,23 @@ const Table = (props) => {
     if (props.stateProps.selectedActivity === 5 && props.stateProps.adminSection)  setTableData(selectionFieldsCollection(props.selectFieldToModify)) 
     }, [props])
     
- 
-  return (
+   const renderRowSubComponent = React.useCallback(
+    (postedData) => (
+      <pre
+        style={{
+          fontSize: '10px',
+        }}
+      >
+        <code><h6>{JSON.stringify({ postedEntries: postedData?.original.posted }, null, 2)
+        .replace(/[{}]/g, '').replace(/[""]/g, '')}</h6></code>
+      </pre>
+    ),
+    []
+  )
+
+ return (
     <Container style={{ margin: "30px auto", whiteSpace: "nowrap"}} >
-      <TableContainer
+    {tableData ?  <TableContainer 
         updateDataByRowHandler={props.updateDataByRowHandler}
         statusHandler={props.statusHandler}
         onClickRowId={props.onClickRowId}
@@ -34,7 +47,9 @@ const Table = (props) => {
         getRoleValue={props.getRoleValue}
         onClick={props.onClick}
         currentRole={props.currentRole}
+        renderRowSubComponent={renderRowSubComponent}
          />
+         : null} 
     </Container>
   );
 };

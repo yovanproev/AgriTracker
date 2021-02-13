@@ -14,13 +14,14 @@ import { getLastId } from "../../Firebase/FetchLastIdRealtimeDB";
 import { getLitersMissing, getTankResidual, workedHoursPerMachine } from "../../Firebase/FetchLastFuelEntryRealtimeDB"
 import { getImage, getNamesOfImages } from "../../Firebase/FetchAndUpdateImagesFromStorage";
 
-import { addZero } from "./DBObjectElements/GetDateTime";
+import { addZero, getDateAndTime } from "./DBObjectElements/GetDateTime";
 import { fuelConsumptionInputObject, machineRegistrationInputObject, 
          maintenanceAndRepairsInputObject, workingHoursInputObject,
          purcahseRequestsInputObject } from "./DBObjectElements/ObjectsToPostToFirebase";
 import Modal from "../../Components/Modal/Modal"
 
 import { initialState } from "./InitialState"
+import { updateAuthUsers } from "../../Firebase/UpdateRowsInRealtimeDB";
 
 class InputSelection extends Component { 
   constructor (props) {
@@ -147,7 +148,7 @@ class InputSelection extends Component {
       disableMultiSelectOption: false }))
   }
 
-   formSubmitHandler = (event) => {
+  formSubmitHandler = (event) => {
       event.preventDefault()
  
       this.setState((prevState)=> ({ 
@@ -177,6 +178,9 @@ class InputSelection extends Component {
       } else {
         throw new Error("last enrty ID couldn't be retrieved from the server, please refresh the page")
       }
+      const URLSource = URLPostSource.split('.')[0]
+      updateAuthUsers({[URLSource + " " + this.state.lastId]: "id: " + this.state.lastId + ", " + getDateAndTime()}, 
+      this.props.stateProps.email) 
   }
 
   render () {
