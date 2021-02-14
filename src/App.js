@@ -23,6 +23,7 @@ class App extends React.Component {
       currentUser: null,
       inputMode: JSON.parse(sessionStorage.getItem( 'inputMode' )) || false,
       outputMode: JSON.parse(sessionStorage.getItem( 'outputMode' )) || false,
+      homeMode: JSON.parse(sessionStorage.getItem( 'homeMode' )) || false,
       inputForms: false,
       outputTable: false,
       adminMode: JSON.parse(sessionStorage.getItem( 'adminMode' )) || false,
@@ -77,44 +78,48 @@ class App extends React.Component {
    sessionStorage.setItem( 'inputMode', true )
    sessionStorage.setItem( 'outputMode', false )
    sessionStorage.setItem( 'adminMode', false )
+   sessionStorage.setItem( 'homeMode', false )
    resetCounter();
   this.setState({
     inputMode: true, outputMode: false,
     outputTable: false, adminMode: false,
-    adminSection: false, hideModal: true, })
+    adminSection: false, hideModal: true, homeMode: false })
 }
 
   outputModeHandler = () => {
     sessionStorage.setItem( 'inputMode', false )
     sessionStorage.setItem( 'outputMode', true )
     sessionStorage.setItem( 'adminMode', false )
+    sessionStorage.setItem( 'homeMode', false )
        this.setState({
       inputMode: false, outputMode: true,
       inputForms: false, adminMode: false,
-      adminSection: false, hideModal: true })
+      adminSection: false, hideModal: true, homeMode: false })
   }
 
   adminModeHandler = () => {
     sessionStorage.setItem( 'inputMode', false )
     sessionStorage.setItem( 'outputMode', false )
     sessionStorage.setItem( 'adminMode', true )
+    sessionStorage.setItem( 'homeMode', false )
     resetCounter();
     this.setState({
       inputMode: false, outputMode: false,
       outputTable: false, inputForms: false,
-      adminMode: true, hideModal: true, })
+      adminMode: true, hideModal: true, homeMode: false})
    }
 
    homeModeHandler = () => {
     sessionStorage.setItem( 'inputMode', false )
     sessionStorage.setItem( 'outputMode', false )
     sessionStorage.setItem( 'adminMode', false )
+    sessionStorage.setItem( 'homeMode', true )
      resetCounter();
     this.setState({
       inputMode: false, outputMode: false,
       outputTable: false, inputForms: false,
       adminMode: false, hideModal: false, 
-    adminSection: false,})
+    adminSection: false, homeMode: true})
    }
 
  activityHandler = (e) => {

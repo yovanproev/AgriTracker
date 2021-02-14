@@ -162,27 +162,23 @@ const TableContainer = ({
       </Table>
 
       <Row style={{ maxWidth: 1000, margin: '10px auto', textAlign: 'center' }}>
-       <span className={!stateProps.outputTable ? "page-columns" : "outputTable"}>
+       <span className={stateProps.outputTable || stateProps.homeMode ? "outputTable" : "page-columns"}>
+       
         <Col md={3}>
-          {/* <Button
-            color='primary'
-            onClick={() => gotoPage(0)}
-            disabled={!canPreviousPage}
-          >
-            {'<<'}
-          </Button> */}
-          {stateProps.outputTable === false ? 
-          <Button color='primary' onClick={nextPage} 
-           disabled={!canNextPage} style={{marginBottom: "10px"}} >
-           {'<'}
-         </Button> : 
+          {stateProps.outputTable || stateProps.homeMode ? 
           <Button color='primary' onClick={()=> nextPageClick()}
           disabled={blockNextButton} style={{marginBottom: "10px"}} >
             {'Previous Entries'}
-          </Button>}
+          </Button> :
+          <Button color='primary' onClick={nextPage} 
+           disabled={!canNextPage} style={{marginBottom: "10px"}} >
+           {'<'}
+         </Button>  
+          }
         </Col>
         
-        <span className={!stateProps.outputTable ? "buttons-in-table" : "buttons1"}>
+        <span className={stateProps.outputTable || stateProps.homeMode
+          ? "buttons1" : "buttons-in-table"}>
         <Col md={2}>
           Page{' '}
           <strong>
@@ -228,27 +224,18 @@ const TableContainer = ({
            </CustomInput>
         </Col> */}
         <Col md={3} >
-        {stateProps.outputTable === false ? 
-          <Button style={{marginBottom: "10px"}} 
+        {stateProps.outputTable || stateProps.homeMode ? 
+         <Button className="second-button"
+         color='primary'
+         onClick={() => previousPageClick()}
+         disabled={counter === 10 ? true : false}>
+         {'Next Entries'}
+         </Button> :
+         <Button style={{marginBottom: "10px"}} 
           color='primary' onClick={previousPage}
           disabled={!canPreviousPage}>
            {'>'}
-         </Button> :
-         <Button className="second-button"
-            color='primary'
-            onClick={() => previousPageClick()}
-            disabled={counter === 10 ? true : false}
-          >
-            {'Next Entries'}
-          </Button>}
-          
-          {/* <Button
-            color='primary'
-            onClick={() => gotoPage(pageCount - 1)}
-            disabled={!canNextPage}
-          >
-            {'>>'}
-          </Button> */}
+         </Button>}
         </Col>
         </span>
       </Row>

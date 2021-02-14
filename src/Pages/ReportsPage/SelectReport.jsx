@@ -46,8 +46,7 @@ const SelectReport = (props) => {
   }
 
   useEffect(() => {
-    // const workHoursQuery = props.stateProps.selectActivity === 3 ? 1 : 10
-          getPaginatedTableData(0, 10, props, errorOnDB).then((fullData)=>{
+        getPaginatedTableData(0, 10, props, errorOnDB).then((fullData)=>{
             if (fullData === null) {errorOnDB()}
             else {let fullDataArray=[]
             Object.keys(fullData).forEach((key)=>{
