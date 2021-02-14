@@ -71,11 +71,9 @@ const SelectReport = (props) => {
 
   const [ statusHandler, updateStatusHandler ] = useState("")
   const updateDataByRowHandler = (value) => {
-    // const rows = table.filter((row) => row.id !== rowId);
     updateStatusHandler(value)
     const update = {statusOfRequest: fetchStatusOfPurchaseByName(value)}
     updateByRowId(rowIdValue, props, null, null, update)
-    // setTable(rows) 
   }
     
   //  const moduleInProgress = <Modal show={props.modal} hide={props.modal}>

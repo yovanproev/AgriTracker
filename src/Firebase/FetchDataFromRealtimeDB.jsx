@@ -28,7 +28,7 @@ export const getPaginatedTableData = (count, limit, props, errorOnDB) => {
         errorOnDB()
       })
     }
-    else if (props.stateProps.outputTable === false && props.stateProps.inputMode === false) {
+    else if (props.stateProps.homeMode === true) {
       firebase_db_authenticatedUsers.orderByChild("email")
       .startAt(count).limitToLast(limit).once('value').then((snapshot)=>{
         if (snapshot.val() === null) {errorOnDB()}

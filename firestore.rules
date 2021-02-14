@@ -1,0 +1,23 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /users/{user} {
+      allow update, delete : if 
+          get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == "Administrator";
+      allow write, read : if true;      
+    }
+
+    match /{document=**} {
+      allow read : if request.auth != null;
+      allow update, write, delete : if 
+          get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == "Administrator";
+    }
+  }
+}
+
+  
+
+
+  
+
+

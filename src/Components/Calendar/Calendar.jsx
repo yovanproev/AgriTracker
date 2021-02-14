@@ -2,11 +2,11 @@ import React, { useState, useEffect } from 'react';
 import DatePicker from 'react-date-picker';
 
 const Calendar = ({ stateProps, onChange, }) => {
-  var previousDay = new Date();
+  var currentDay = new Date();
  
-  previousDay.setDate(previousDay.getDate() - 30);
+  currentDay.setDate(currentDay.getDate() - 30);
 
-  const [value, updateValue] = useState(stateProps.adminSection ? previousDay : new Date());
+  const [value, updateValue] = useState(stateProps.adminSection ? currentDay : new Date());
   const [endValue, updateEndValue] = useState(stateProps.adminSection ? new Date() : "");
   
   useEffect(() => {

@@ -23,7 +23,7 @@ class App extends React.Component {
       currentUser: null,
       inputMode: JSON.parse(sessionStorage.getItem( 'inputMode' )) || false,
       outputMode: JSON.parse(sessionStorage.getItem( 'outputMode' )) || false,
-      homeMode: JSON.parse(sessionStorage.getItem( 'homeMode' )) || false,
+      homeMode: JSON.parse(sessionStorage.getItem( 'homeMode' )) || true,
       inputForms: false,
       outputTable: false,
       adminMode: JSON.parse(sessionStorage.getItem( 'adminMode' )) || false,
@@ -176,8 +176,7 @@ class App extends React.Component {
     auth.signOut()}
 
    render() {
-    // console.log(this.state)
-    return (
+     return (
       <div className="app" >
         {this.state.logOutError ? <Modal show={this.state.logOutError} >
          Your token has expired, please sign in again!</Modal> : null}

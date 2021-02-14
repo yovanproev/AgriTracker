@@ -8,6 +8,8 @@ import Modal from "../../../Components/Modal/Modal"
 
 import './SignUp.css';
 import axios from 'axios';
+import axiosLocal from "../../../AxiosInput";
+import {usersAuthentication} from "../../InputPage/DBObjectElements/ObjectsToPostToFirebase"
 
 class SignUp extends Component {
   state = {
@@ -25,8 +27,8 @@ class SignUp extends Component {
       returnSecureToken: true
     }
     
-    const urlDev = "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyAK38e0I2ui4E_FDQAAi6CbtQQQ0jmaPzI"
-    const urlProd = "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyCCt9BDd8SSmYYGEQARwJRi9TNYZkAy9Y8"
+    const urlDev = "https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyAK38e0I2ui4E_FDQAAi6CbtQQQ0jmaPzI"
+    const urlProd = "https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyCCt9BDd8SSmYYGEQARwJRi9TNYZkAy9Y8"
     const config = process.env.NODE_ENV === 'production'
     ? urlProd : urlDev
 
@@ -41,13 +43,13 @@ class SignUp extends Component {
       document.cookie = `expirationDate=${expirationDate}`
 
       this.props.setCredentialsHandler()
-      this.props.postUserAuth()
     })
   }
 
   handleSubmit = async event => {
     event.preventDefault();
     this.successfulSignUp()
+    
     const { displayName, email, password, confirmPassword } = this.state;
 
     if (password !== confirmPassword) {
@@ -60,8 +62,9 @@ class SignUp extends Component {
         email,
         password
       );
-
+      if (this.state.email) {axiosLocal.post('/authenticatedUsers.json', usersAuthentication(this.state))}
       await createUserProfileDocument(user, { displayName });
+       
       this.setState({
         displayName: '',
         email: '',
@@ -79,6 +82,7 @@ class SignUp extends Component {
         confirmPassword: ''
       })      
     }
+    
   };
 
   handleChange = event => {

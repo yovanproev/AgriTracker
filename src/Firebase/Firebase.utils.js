@@ -39,10 +39,11 @@ export const firestore = firebase.firestore();
 export const users = firestore.collection("users")
 
 
-let lastId = []
-getLastIdForUsersInFirestore().then(x => lastId.push(x))
+
 
 export const createUserProfileDocument = async (userAuth, additionalData) => {
+  let lastId = []
+  getLastIdForUsersInFirestore().then(x => lastId.push(x)) 
   if (!userAuth) return;
 
   const userRef = firestore.doc(`users/${userAuth.uid}`);
@@ -52,7 +53,7 @@ export const createUserProfileDocument = async (userAuth, additionalData) => {
   if (!snapShot.exists) {
     const { displayName, email } = userAuth;
     const createdAt = new Date();
-    const id = lastId[0] 
+    const id = lastId[0] + parseInt(1) 
     const role = "";
     try {
       await userRef.set({
