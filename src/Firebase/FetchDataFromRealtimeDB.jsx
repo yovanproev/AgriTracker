@@ -52,25 +52,14 @@ export const getPaginatedTableData = (count, limit, props, errorOnDB) => {
 export let counter = 10;
 export const nextPage = () => {
  for (let i = 0; i < 1; i++) {
-  // if (props.stateProps.index4) {
-  //   counter = 10
-  //   secondCounter++
-  //   return counter += (counter - 20) + secondCounter}  
-  // else {
-    return counter += 10;
-  //  }
-  }
+     return counter += 10;
+ }
  return counter;
 }
 
 export const previousPage = () => {
   for (let i = 0; i < 1; i++) {
-  //   if (props.stateProps.index4) {
-  //     counter = 0
-  //   secondCounter--
-  //   return counter -= (counter) - secondCounter
-  // }
-    if (counter > 10) {
+     if (counter > 10) {
     counter -= 10
   } 
   else return null

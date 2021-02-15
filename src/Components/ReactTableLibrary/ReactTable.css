@@ -4,7 +4,6 @@
 
 .all-others {
   white-space: nowrap;
-  /* margin-left: 15px; */
 }
 
 .home-table {
@@ -31,7 +30,7 @@
   margin: auto;
 }
 
-@media screen and (min-width: 500px) {
+@media screen and (min-width: 768px) {
   .outputTable {
     display: flex;
     flex: auto;

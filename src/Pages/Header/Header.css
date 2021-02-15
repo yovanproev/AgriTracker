@@ -40,40 +40,18 @@
 
 .sign-out-link {
   color: rgb(59, 26, 4);
-  margin-top: 30px;
-}
-
-@media screen and (max-width: 600px) {
-  .sign-out-link {
-    margin-top: 15px;
-    margin-left: -70px;
-  }
-  .link-admin {
-    display: flex;
-    margin-left: -70px;
-  }
-  .ul-bar {
-    margin-left: -15px;
-  }
-  .cherry {
-    height: 1.5em;
-    margin-left: -10px;
-    margin-top: 40px;
-  }
-  .cherry1,
-  .cherry-join {
-    margin-left: -10px;
-    margin-top: 40px;
-  }
-  .link {
-    height: 20px; /* za dvizenje na klikot */
-  }
+  margin-top: 10px;
 }
 
 .list-item {
   list-style: none;
   display: flex;
   padding-left: 20px;
+  margin: auto;
+}
+
+.link {
+  padding-top: 30px;
 }
 
 .link:hover {
@@ -100,16 +78,6 @@
   font-weight: 900;
 }
 
-.item {
-  font-size: 1.2rem;
-  width: 8rem;
-  /* height: 8rem; */
-  top: -45px;
-  left: -40px;
-  margin: auto;
-  position: relative;
-}
-
 .cherry {
   width: 3em;
   height: 2.5em;
@@ -119,7 +87,6 @@
   border-color: black;
   border-style: solid;
   border-width: 1px;
-  position: absolute;
   color: black;
   text-align: center;
 }
@@ -151,7 +118,6 @@
 }
 
 .cherry:hover {
-  /* top: 5em; */
   transform: rotate(-40deg);
 }
 .cherry1:hover:before,
@@ -174,14 +140,15 @@
 }
 
 .cherry-join {
-  width: 0.7em;
-  height: 0.4em;
-  top: 0.5em;
-  left: 3em;
-  position: absolute;
+  width: 1em;
+  height: 0.5em;
+  position: relative;
+  top: -7px;
+  left: 245px;
   background-color: #724126;
   border-radius: 20%;
   transform: rotate(-12deg);
+  z-index: 50;
 }
 
 .your-company {
@@ -191,5 +158,178 @@
 @media all and (max-width: 600px) {
   .your-company {
     display: none;
+  }
+}
+
+.toggler {
+  display: none;
+}
+
+.head-menu > div {
+  display: flex;
+  flex-direction: row;
+  margin: auto;
+  padding: 10px;
+}
+
+@media (max-width: 501px) {
+  .head-menu {
+    display: none;
+  }
+
+  .toggler {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    z-index: 2;
+    cursor: pointer;
+    width: 50px;
+    height: 50px;
+    opacity: 0;
+    display: flex;
+    flex-direction: row;
+    flex: auto;
+  }
+
+  /* all hamburger lines and only top line*/
+  .hamburger > div {
+    position: absolute;
+    right: 20px;
+    top: 22px;
+    width: 12.5%;
+    height: 5px;
+    background: #e60707;
+    display: flex;
+    z-index: 100;
+    flex: auto;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.4s ease;
+  }
+
+  /* middle and bottom line */
+  .hamburger > div::before,
+  .hamburger > div::after {
+    content: "";
+    position: absolute;
+    z-index: 1;
+    top: -6px;
+    width: 100%;
+    height: 5px;
+    background: #e60707;
+  }
+
+  /* middle line */
+  .hamburger > div::before {
+    top: 20px;
+    background-color: #e60707;
+  }
+
+  /* bottom line */
+  .hamburger > div::after {
+    top: 39px;
+  }
+
+  .toggler:checked ~ div {
+    display: flex;
+    flex-direction: column;
+    top: 0px;
+    left: -1px;
+    background: rgba(0, 0, 0, 0.5);
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    position: fixed;
+    justify-content: center;
+    z-index: 1;
+  }
+
+  .toggler:checked {
+    position: fixed;
+  }
+
+  .toggler:checked + .hamburger > div {
+    top: 40px;
+    transform: rotate(135deg);
+  }
+  .toggler:checked + .hamburger > div:before,
+  .toggler:checked + .hamburger > div:after {
+    top: 0px;
+    transform: rotate(90deg);
+  }
+
+  .toggler:checked:hover + .hamburger > div {
+    transform: rotate(225deg);
+  }
+
+  .toggler:checked ~ div li {
+    display: flex;
+    justify-content: center;
+  }
+
+  .head-menu > div {
+    display: flex;
+    flex-direction: column;
+    margin: auto;
+  }
+
+  .head-menu > div ul,
+  .head-menu > div ul .sign-out-link {
+    padding: 30px 0;
+    display: flex;
+    margin: auto;
+    flex-direction: column;
+  }
+
+  .head-menu > div ul .link-admin,
+  .head-menu > div ul .link,
+  .head-menu > div ul .sign-out-link {
+    font-size: xx-large;
+    text-decoration: none;
+  }
+
+  .cherry,
+  .cherry1,
+  .cherry2 {
+    height: 0;
+    width: 0;
+    margin: auto;
+    color: white;
+    display: contents;
+  }
+
+  .list-item {
+    padding: 20px;
+  }
+
+  .cherry1:before,
+  .cherry2:before,
+  .cherry-join {
+    display: none;
+  }
+
+  .link-admin {
+    margin: auto;
+    border: none;
+  }
+
+  .active-style-admin,
+  .active-style {
+    font-weight: bold;
+    line-height: 0;
+    background-color: rgb(142, 226, 6);
+    padding: 40px;
+    border: #d80606 solid 3px;
+  }
+
+  .active-style-admin a {
+    text-decoration: none;
+  }
+
+  .head-menu > div a {
+    color: white;
+    font-size: 0.9rem;
+    font-weight: 200;
+    padding: 35px;
   }
 }

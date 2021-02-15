@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { NavLink } from "react-router-dom";
 
 import "./Header.css"
@@ -12,6 +12,12 @@ const Header = ({ stateProps, inputMode, outputMode, adminMode, homeMode,
   const signOutAndModalOff = () => {
     modalHandler()
     signOutHandler()
+  }
+
+ const [ toggle, setToggle ] = useState(false)
+
+ const toggleHandler = () => {
+  setToggle(!toggle)
   }
 
   return (
@@ -28,59 +34,64 @@ const Header = ({ stateProps, inputMode, outputMode, adminMode, homeMode,
 
       <h2 className="your-company">DFP Forms</h2>
       <div className="menu-wrap">
-      
-      {stateProps.currentUser ?  
-      <RenderForAdmin stateProps={stateProps}>
-      <ul className="ul-bar">
-            <li className="list-item">
-                <NavLink className="link-admin"  
-                  activeClassName="active-style-admin"
-                  onClick={(e) => {adminMode(e); expiredToken()}}
-                  to="/admin"
-                >ADMIN
-                </NavLink> 
-            </li> 
+        {stateProps.currentUser ?  
+          <input type="checkbox" className="toggler" checked={toggle} onChange={toggleHandler}/> : null }
+        {stateProps.currentUser ?  <div className="hamburger"><div></div></div> : null }
+        <div className="head-menu">
+          <div><div className="cherry-join"></div>
+            <ul className="ul-bar">
+
+              {stateProps.currentUser ?  
+                <RenderForAdmin stateProps={stateProps}>
+                  <li className="list-item">
+                      <NavLink className="link-admin"  
+                        activeClassName="active-style-admin"
+                        onClick={(e) => {adminMode(e); expiredToken(); setToggle(false)}}
+                        to="/admin">
+                          Admin
+                      </NavLink> 
+                    </li> 
+                </RenderForAdmin> : null
+              }
+
+              {stateProps.currentUser ?
+                <>
+                  <RenderForOperator stateProps={stateProps}>
+                    <li className="list-item">
+                      <NavLink className="link" 
+                          activeClassName="active-style"
+                          onClick={(e) => {inputMode(e); expiredToken(); setToggle(false)}}
+                          to="/inputs"> 
+                            <div className="cherry cherry1"> Input Forms </div>
+                            
+                      </NavLink>
+                    </li>
+                  </RenderForOperator>
+                    
+                  <RenderForAdmin stateProps={stateProps}>
+                    <li className="list-item">
+                      <NavLink className="link"  
+                        activeClassName="active-style"
+                        onClick={(e) => {outputMode(e); expiredToken(); setToggle(false)}}
+                        to="/reports">
+                          <div className="cherry cherry2">Reports</div>
+                        </NavLink> 
+                    </li> 
+                  </RenderForAdmin>
+                </> : null
+              }
+
+              {stateProps.currentUser || stateProps.logOutError ? 
+                <li className="list-item">     
+                  <NavLink className="sign-out-link"  
+                    to="/" onClick={() => {signOutAndModalOff(); setToggle(false)}}>
+                     <i className="fas fa-sign-out-alt"></i>SIGN OUT
+                  </NavLink> 
+                </li> : null 
+              }
             </ul>
-     </RenderForAdmin> : null}
-
-
-        {stateProps.currentUser ?
-          
-        <ul className="ul-bar">
-          <div className="item">
-          <RenderForOperator stateProps={stateProps}>
-            <li className="list-item">
-              <NavLink className="link" 
-                  activeClassName="active-style"
-                  onClick={(e) => {inputMode(e); expiredToken()}}
-                  to="/inputs"
-                  > 
-                  <div className="cherry cherry1"> Input Forms </div>
-                  <div className="cherry-join"></div>
-              </NavLink>
-            </li>
-            </RenderForOperator>
-            <RenderForAdmin stateProps={stateProps}>
-            <li className="list-item">
-                <NavLink className="link"  
-                  activeClassName="active-style"
-                  onClick={(e) => {outputMode(e); expiredToken()}}
-                  to="/reports"
-                >
-                  <div className="cherry cherry2">Reports</div>
-                </NavLink> 
-            </li> 
-            </RenderForAdmin>
           </div>
-        </ul>
-         : null}
-
-         {stateProps.currentUser || stateProps.logOutError ?        
-        <NavLink className="sign-out-link"  
-          to="/"
-          onClick={() => signOutAndModalOff()}>
-          <i className="fas fa-sign-out-alt"></i>SIGN OUT
-          </NavLink> : null }
+        </div>
       </div>
     </nav>
   )

@@ -7,7 +7,7 @@ import { RenderForAdmin } from '../../RoleBasedAccessControl/RoleBaseControl';
 
 const HomePage = (props) => {
 
-     return (
+  return (
     <div>
      <BackDrop /> 
      <div className='home-page'>
