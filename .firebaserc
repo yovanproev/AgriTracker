@@ -1,5 +1,6 @@
 {
   "projects": {
-    "default": "input-output-data"
+    "default": "input-output-data",
+    "dfp-app": "dfp-app-registrations"
   }
 }

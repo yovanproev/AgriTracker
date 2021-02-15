@@ -172,7 +172,11 @@ class App extends React.Component {
   }
 
   signOutHandler = () => {
-    this.setState({ currentUser: null})
+    this.setState({ currentUser: null, adminMode: false, 
+    outputMode: false, inputMode: false})
+    sessionStorage.removeItem("inputMode")
+    sessionStorage.removeItem("outputMode")
+    sessionStorage.removeItem("adminMode")
     auth.signOut()}
 
    render() {

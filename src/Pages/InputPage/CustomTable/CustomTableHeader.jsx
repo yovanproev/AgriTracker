@@ -12,12 +12,12 @@ const CustomTableHeader = ({jobActivities}) => {
          // onFilterUpdate={_filterUpdated}
          >
          <th className="first-col-header" key = {Math.random() * 1000}>Employees</th>
-         <th key = {Math.random() * 1000}>Select Employee</th>
+         <th key = {Math.random() * 1000} className="cell">Select Employee</th>
          {jobActivities.map(x => 
          <th key = {Math.random() * 1000} filterkey="kilometars" className="cell" 
             casesensitive={'true'} showsearch={'true'}>{x.name}
          </th>)}
-         <th key = {Math.random() * 1000}>Total</th>
+         <th key = {Math.random() * 1000} className="cell">Total</th>
      </TableFilter>
     </thead>
    )

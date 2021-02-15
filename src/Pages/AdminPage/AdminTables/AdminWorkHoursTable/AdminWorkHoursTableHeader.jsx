@@ -14,6 +14,7 @@ const AdminWorkHoursTableHeader = ({datesOfWork}) => {
          <th key = {Math.random() * 1000} filterkey="date" className="cell" 
             casesensitive={'true'} showsearch={'true'}>{x}
          </th>)}
+         <th key = {Math.random() * 1000}>Total for selected period</th>
       </TableFilter>
     </thead>
    )

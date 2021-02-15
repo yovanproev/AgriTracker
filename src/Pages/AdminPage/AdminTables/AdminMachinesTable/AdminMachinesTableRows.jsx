@@ -5,7 +5,7 @@ export const AdminMachinesTableRows = ({data, stateProps, fuelForComparison}) =>
     
   const object1 = {};
   let result = data?.reduce(function(prevValue, nextValue) {
-// console.log(data)
+
     let key = nextValue.machine + "-" + nextValue.farmLocation + "-" + nextValue.attachedMachinery
     if(!object1[key]) {
       object1[key] = Object.assign({}, nextValue)
@@ -26,8 +26,6 @@ export const AdminMachinesTableRows = ({data, stateProps, fuelForComparison}) =>
   //console.log(fuelForComparison, "fuelForComparison") // objekti deka so spending fuel 
   //prikazano zbirno po masina i lokacija. Ova e od fuel cons.modulut 
   
-
-  // console.log(result)
   let hoursPerMachine =[]
     
       for (let j = 0; j < reducedToUniqueMachine.length; j++) {
@@ -49,7 +47,6 @@ export const AdminMachinesTableRows = ({data, stateProps, fuelForComparison}) =>
   }
 }}
 
-// console.log(hoursPerMachine)
  return(
         <tbody key={Math.random() *1000}>
             {hoursPerMachine.map((object, rowId) => 
@@ -60,9 +57,7 @@ export const AdminMachinesTableRows = ({data, stateProps, fuelForComparison}) =>
                 <td >{object.product} </td>
                 <td >{object.machinesJob} </td>
                 <td >{object.hoursSpentOnLastActivity} </td>
-                {/* <td >{ parseFloat(hoursPerMachine[rowId].percentages).toFixed(2) + "%"}</td> */}
                 
-               {/* total fuel spent */}
                 <td>{fuelForComparison.map(machine => {
                     if (machine.machine === object.machine && machine.location === object.farmLocation 
                       && machine.attachedMachinery === object.attachedMachinery) 
@@ -70,15 +65,6 @@ export const AdminMachinesTableRows = ({data, stateProps, fuelForComparison}) =>
                    else return null}) 
                 }</td>
                 
-                {/* liters spent times % */}
-                {/* <td>{fuelForComparison.map((machine) => {
-                  if (machine.machine === object.machine && machine.location === object.farmLocation
-                    && machine.attachedMachinery === object.attachedMachinery) 
-                  return (parseFloat(Math.abs(machine.liters)) 
-                  * (hoursPerMachine[rowId].percentages / 100)).toFixed(2) + " Lit."
-                 else return null}) }
-                 </td> */}
-
                 <td>{fuelForComparison.map(machine => {
                     if (machine.machine === object.machine && machine.location === object.farmLocation 
                       && machine.attachedMachinery === object.attachedMachinery) return (object.hoursSpentOnLastActivity / Math.abs(machine.liters)).toFixed(2)

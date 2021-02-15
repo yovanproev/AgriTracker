@@ -80,17 +80,15 @@ export const CustomTableRows = ({jobActivities, index, tableRowsHandler, localSt
       </td>
  
   const columns = (rows) => {
-    
-     return index.map(selectedJobs => {
-    
-        if (selectedJobs === 1) {
+    return index.map((selectedJobs, id) => {
+       if (id === 0) {
           return null
         } else { 
-          return column(rows, selectedJobs)
+          return column(rows, id + 1)
         }
       })
     }
-    // console.log(employeesRows)
+    
     return(
         <tbody key={index}>
             {employeesRows.map((employee, rowId) => 
