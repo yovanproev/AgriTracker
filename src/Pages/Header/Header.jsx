@@ -38,7 +38,7 @@ const Header = ({ stateProps, inputMode, outputMode, adminMode, homeMode,
           <input type="checkbox" className="toggler" checked={toggle} onChange={toggleHandler}/> : null }
         {stateProps.currentUser ?  <div className="hamburger"><div></div></div> : null }
         <div className="head-menu">
-          <div><div className="cherry-join"></div>
+          <div>{stateProps.currentUser ?  <div className="cherry-join"></div> : null}
             <ul className="ul-bar">
 
               {stateProps.currentUser ?  

@@ -47,7 +47,6 @@
 
 .sign-out-link {
   color: rgb(59, 26, 4);
-  margin-top: 10px;
   padding: 10px;
 }
 
@@ -152,18 +151,32 @@
   height: 0.5em;
   position: relative;
   top: -7px;
-  left: 245px;
+  left: 240px;
   background-color: #724126;
   border-radius: 20%;
   transform: rotate(-12deg);
   z-index: 50;
 }
 
+@media screen and (max-width: 700px) and (min-width: 600px) {
+  .cherry-join {
+    top: 0px;
+    left: 235px;
+  }
+}
+
+@media screen and (max-width: 550px) and (min-width: 501px) {
+  .cherry-join {
+    top: 2px;
+    left: 237px;
+  }
+}
+
 .your-company {
   padding-top: 20px;
 }
 
-@media all and (max-width: 600px) {
+@media screen and (max-width: 754px) {
   .your-company {
     display: none;
   }
