@@ -1,26 +1,31 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import "./HomePage.scss"
-import BackDrop from "../../Components/Backdrop/Backdrop"
 import SelectReport from '../ReportsPage/SelectReport';
 import { RenderForAdmin } from '../../RoleBasedAccessControl/RoleBaseControl';
 
 const HomePage = (props) => {
+const [ usersTable, updateUsersTable ] = useState(false)
+
 
   return (
     <div>
-     <BackDrop /> 
      <div className='home-page'>
-       <h2>Hello!</h2>
+     <RenderForAdmin stateProps={props.stateProps}>
+       <h2 style={{color: "black", marginTop: "-20px"}}>Hello!</h2>
        <div>
-         <h4>Welcome to your App, to choose a module pick yourself a cherry.</h4>
+         <h4 style={{color: "black"}}>To see authenticated users and their activities please press the button below.</h4>
        </div>
-       <RenderForAdmin stateProps={props.stateProps}>
+       <button type="button" className="btn btn-dark"
+       onClick={() => updateUsersTable(true)}>Check Authenticated Users</button>
+       
+       {usersTable ?
         <SelectReport
           modal={props.modal}
           stateProps={props.stateProps}
           onClick={props.backButton}/>
-        </RenderForAdmin>
+         : null}
+         </RenderForAdmin>
        {/* - set daily orders for employees */}
        
       </div> 

@@ -62,7 +62,7 @@ const Header = ({ stateProps, inputMode, outputMode, adminMode, homeMode,
                           activeClassName="active-style"
                           onClick={(e) => {inputMode(e); expiredToken(); setToggle(false)}}
                           to="/inputs"> 
-                            <div className="cherry cherry1"> Input Forms </div>
+                            <div className="cherry cherry1">Input Forms </div>
                             
                       </NavLink>
                     </li>
