@@ -12,6 +12,8 @@ import { attachImagetoStorage } from "../../../Firebase/FetchAndUpdateImagesFrom
 
 import Modal from '../../../Components/Modal/Modal';
 import Spinner2 from '../../../Components/Spinners/Spinner2';
+import { updateAuthUsers } from '../../../Firebase/UpdateRowsInRealtimeDB';
+import { getDateAndTime } from '../../InputPage/DBObjectElements/GetDateTime';
 
 const SelectionFieldsUpdate = (props) => {
   // console.log(props)
@@ -37,8 +39,6 @@ const SelectionFieldsUpdate = (props) => {
     getAllSelectionFields(selectFieldId).then(resolve => {
       setCategoryOfSelection(resolve)})
  }, [selectFieldId])
-
-  
 
   const [ newSubEntry, setNewSubEntry ] = useState('')
   const onChangeHandlerForSubEntry = (value) => {
@@ -76,6 +76,11 @@ const SelectionFieldsUpdate = (props) => {
     updateUploadDone(false)
   }
 
+  const recordTrace = () => {
+    updateAuthUsers({ addedRow: newEntry + ", " + newSubEntry + ", " + getDateAndTime()}, 
+      props.stateProps)
+  }
+
    const loadingModal = <Modal show={progressBar} 
     hide={hideModal}
     ><Spinner2 /></Modal> 
@@ -104,7 +109,7 @@ const SelectionFieldsUpdate = (props) => {
        && selectFieldId !== 14) ? 
        <button type="submit" className="btn btn-success select-field-button" 
        onClick={() => {updateSelectFieldsInFirestore(selectFieldId, newEntry, newSubEntry, hideModal); 
-        clearInputFileds()} }
+        clearInputFileds(); recordTrace()} }
        >Submit new field</button> : null } 
        
        {selectFieldId === 5 || selectFieldId === 7 || selectFieldId === 14 ? 
@@ -115,7 +120,7 @@ const SelectionFieldsUpdate = (props) => {
        </label>
        <button type="submit" className="btn btn-success  select-field-button" 
        onClick={() => {updateSelectFieldsInFirestore(selectFieldId, newEntry, newSubEntry, hideModal); 
-        clearInputFileds()} }
+        clearInputFileds(); recordTrace()} }
        >Submit new field</button> 
        </div> : null}
 
@@ -127,7 +132,7 @@ const SelectionFieldsUpdate = (props) => {
        </label>
        <button type="submit" className="btn btn-success  select-field-button" 
        onClick={() => {updateSelectFieldsInFirestore(selectFieldId, newEntry, newSubEntry, hideModal); 
-        onClickAttachImage(); clearInputFileds()} }
+        onClickAttachImage(); clearInputFileds(); recordTrace()} }
        >Submit new field</button> 
        <p style={{marginTop: "20px"}}>*The name of the new entry has to be identical with the 
        name of the file attached and the file has to be a .jpg file.</p>
