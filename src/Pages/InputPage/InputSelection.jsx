@@ -180,7 +180,7 @@ class InputSelection extends Component {
       }
       const URLSource = URLPostSource.split('.')[0]
       updateAuthUsers({[URLSource + " " + this.state.lastId]: "id: " + this.state.lastId + ", " + getDateAndTime()}, 
-      this.props.stateProps.email) 
+      this.props.stateProps) 
   }
 
   render () {

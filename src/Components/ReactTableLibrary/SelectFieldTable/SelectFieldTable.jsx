@@ -1,17 +1,25 @@
 import React from "react"
+import { updateAuthUsers } from "../../../Firebase/UpdateRowsInRealtimeDB"
 import {fetchStatusOfPurchase} from "../../../LocalData/InputFormsData"
+import { getDateAndTime } from "../../../Pages/InputPage/DBObjectElements/GetDateTime"
 
 import "./SelectFieldTable.css"
 
-const SelectFieldTable = ({onChange, value, onFocus, id}) => {
+const SelectFieldTable = ({onChange, value, onFocus, id, stateProps, nameOfStatus}) => {
   const status = fetchStatusOfPurchase()
 
+  const recordTrace = () => {
+    updateAuthUsers({ PurchaseRequestStatus: id + ", " + nameOfStatus + ", " + getDateAndTime()}, 
+      stateProps)
+    }
+    
   return (
       <div >
         <select className="select-div-table"
           onChange={(e) => onChange(parseInt(e.target.value))}
           // value={value ? value : ""}
           onFocus={onFocus}
+          onBlur={() => recordTrace()}
           id={id}
           
           >

@@ -41,16 +41,22 @@ export const updateByRowId = (rowId, props, numberOfEmployee, numberOfJob, updat
   })
 }
 
-export const updateAuthUsers = (updates, email) => {
+export const updateAuthUsers = (updates, stateProps) => {
   return new Promise((resolve, reject)=>{
     let db = firebase_db.ref();
     
     firebase_db_authenticatedUsers.orderByChild("email")
-        .endAt(email).limitToLast(1).once('value').then((snapshot)=>{
-          // console.log(rowId)
+        .endAt(stateProps.email).limitToLast(1).once('value').then((snapshot)=>{
           const randomKey = Object.keys(snapshot.val())
+          
+          let newObject = {};
+          let newPostKey = firebase_db_authenticatedUsers.push().key;
+          newObject[newPostKey] = updates;
+
           const posted = "posted"
-          db.child('authenticatedUsers/' + randomKey + "/" + posted).update(updates)
+          const updatingCondition = stateProps.outputTable || stateProps.adminSection ? newObject : updates
+
+          db.child('authenticatedUsers/' + randomKey + "/" + posted).update(updatingCondition)
           resolve(snapshot.val())
         }).catch(err => {
           reject(err)

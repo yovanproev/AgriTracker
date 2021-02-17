@@ -7,7 +7,8 @@ const SelectField = ({onChange, value}) => {
   const [ fetchedData, updateFetchedData ] = useState([]);
   
   useEffect(() => {
-    const filteredArray = fetchSelectFieldsToBeModified().filter(noModifing => noModifing.selectionFieldToBeModified !== undefined)
+    const filteredArray = fetchSelectFieldsToBeModified()
+    .filter(noModifing => noModifing.selectionFieldToBeModified !== undefined)
     updateFetchedData(filteredArray)
  }, [])
 

@@ -7,6 +7,7 @@ import { Table, Row, Col, Button, Input,
   // CustomInput 
 } from 'reactstrap';
 import { Filter, DefaultColumnFilter } from './TableFilters';
+import { fetchStatusOfPurchaseByName } from "../../LocalData/InputFormsData"
 
 import { pageCounter, countNextPage, countPreviousPage } from "../../Firebase/FetchDataFromRealtimeDB"
 import DeleteButton from '../DeleteButton/DeleteButton';
@@ -119,7 +120,7 @@ const TableContainer = ({
                 stateProps.selectedActivity !== 0 ? null :                 
                 <td>
                 <AdminTableElements 
-                // stateProps={stateProps}
+                stateProps={stateProps}
                 id={data[row.id].id} 
                 currentUser={currentUser}
                 getRoleValue={getRoleValue} 
@@ -131,19 +132,22 @@ const TableContainer = ({
                 stateProps.outputMode === true && stateProps.selectedActivity === 4 ?
                 <td>
                 <SelectFieldTable onChange={updateDataByRowHandler} value={statusHandler} 
-                onFocus={() => onClickRowId(data[row.id])} id={data[row.id].id}
+                nameOfStatus={fetchStatusOfPurchaseByName(statusHandler)}
+                onFocus={() => onClickRowId(data[row.id])} id={data[row.id].id} stateProps={stateProps}
                 /> 
                   </td> : null}
 
                 {stateProps.outputTable ?
                 <td>
-                  <DeleteButton onClick={() => {onDelete(data[row.id].id, 
-                  data[row.id].numberOfEmployee, data[row.id].numberOfJob); }}/>
+                 <DeleteButton onClick={() => {onDelete(data[row.id].id, 
+                  data[row.id].numberOfEmployee, data[row.id].numberOfJob)}}
+                  id={data[row.id].id} stateProps={stateProps}/>
                 </td> : null}
                 
                 {stateProps.adminSection && stateProps.selectedActivity === 5 ?
                 <td>  
-                 <DeleteButton onClick={() => onDelete(data[row.id].id)}/>
+                 <DeleteButton onClick={() => onDelete(data[row.id].id)}
+                 id={data[row.id].id} stateProps={stateProps}/>
                 </td> : null}
                 {/* </RenderForAdmin> */}
                 </tr>

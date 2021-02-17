@@ -3,6 +3,8 @@ import Tooltip  from "../../../Components/ToolTip/ToolTip"
 
 import "./RolesSelectField.css"
 import { fetchAllRoles } from "../../../../src/LocalData/InputFormsData"
+import { getDateAndTime } from "../../../Pages/InputPage/DBObjectElements/GetDateTime"
+import { updateAuthUsers } from "../../../Firebase/UpdateRowsInRealtimeDB"
 
 const RolesSelectField = (props) => {
   
@@ -13,11 +15,18 @@ const RolesSelectField = (props) => {
     
   const [ openTooltip, updateOpenTooltip ] = useState(false)
 
+  const users = "user:"
+
+  const recordTrace = () => {
+    updateAuthUsers({ changedRole: users + props.stateProps.email + ", " + getDateAndTime()}, 
+      props.stateProps)
+  }
+
   return (
      <span>
        
        <select className="roles-select-div"
-          onBlur={(e) => {props.getRoleValue(e.target.value)}}
+          onBlur={(e) => {props.getRoleValue(e.target.value); recordTrace()}}
           onChange={() => {props.getRowId(); updateOpenTooltip(()=> true)}}
           disabled={props.id === parseInt(1) || props.id === parseInt(2) ? true : null}
          >

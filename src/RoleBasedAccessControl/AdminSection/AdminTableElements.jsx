@@ -8,6 +8,7 @@ const AdminTableElements = (props) => {
   return (
     <span>
       <RolesSelectField 
+        stateProps={props.stateProps}
         id={props.id}
         getRoleValue={props.getRoleValue} 
         getRowId={() => props.onClick()}/>  
