@@ -17,6 +17,7 @@ import { RenderForAdmin, RenderForOperator } from './RoleBasedAccessControl/Role
 import Modal from "./Components/Modal/Modal"
 import axiosLocal from "./AxiosInput";
 import {usersAuthentication} from "./Pages/InputPage/DBObjectElements/ObjectsToPostToFirebase"
+import RequestApprovals from "./Pages/RequestApprovals/RequestApprovals"
 
 class App extends React.Component {
   state = {
@@ -252,6 +253,16 @@ class App extends React.Component {
                     backButton={this.backButtonHandler}/> : <StartingPage />} 
                   </Route>
                 </RenderForAdmin> 
+
+                <RenderForAdmin stateProps={this.state}>
+                  <Route path="/requestapprovals">
+                    {this.state.currentUser ? 
+                    <RequestApprovals
+                    modal={this.hideModalHanlder}
+                    stateProps={this.state} /> : null} 
+                  </Route>
+                </RenderForAdmin> 
+
               </Fragment>: null 
             } 
           </Switch>

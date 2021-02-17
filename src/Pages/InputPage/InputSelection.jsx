@@ -161,7 +161,7 @@ class InputSelection extends Component {
       : this.props.stateProps.selectedActivity === 1 ? machineRegistrationInputObject(this.state) 
       : this.props.stateProps.selectedActivity === 2 ? maintenanceAndRepairsInputObject(this.state) 
       : this.props.stateProps.selectedActivity === 3 ? workingHoursInputObject(this.state) 
-      : this.props.stateProps.selectedActivity === 4 ? purcahseRequestsInputObject(this.state) : null 
+      : this.props.stateProps.selectedActivity === 4 ? purcahseRequestsInputObject(this.state, this.props.stateProps.currentUser.email) : null 
       
       const queryParams = '?auth=' + this.props.stateProps.tokenId + '&auth.token.email=' + this.props.stateProps.email;
     
@@ -188,8 +188,7 @@ class InputSelection extends Component {
     // hide={this.props.modal}>Module Still In Progress</Modal> 
     const errorModal = <Modal show={this.state.error} 
     hide={this.props.modal}>Network error while posting data to Database, your entry is not recorded.</Modal> 
-    // console.log(this.state.idOfSelectField)
-    
+        
     return (
      <div>
       {errorModal}

@@ -61,7 +61,7 @@ export const AdminMachinesTableRows = ({data, stateProps, fuelForComparison}) =>
                 <td>{fuelForComparison.map(machine => {
                     if (machine.machine === object.machine && machine.location === object.farmLocation 
                       && machine.attachedMachinery === object.attachedMachinery) 
-                    return Math.abs(machine.liters)  + " Lit." 
+                    return parseFloat(Math.abs(machine.liters)).toFixed(1)  + " Lit." 
                    else return null}) 
                 }</td>
                 

@@ -13,8 +13,9 @@ const SelectFieldTable = ({onChange, value, onFocus, id}) => {
           // value={value ? value : ""}
           onFocus={onFocus}
           id={id}
+          
           >
-          <option key={0} value={0}> Select a status </option>
+          <option key={0} value={0}> Select status </option>
           {status.map((fields) => (
             <option key={fields.id} value={fields.id}>
             {fields.name} 

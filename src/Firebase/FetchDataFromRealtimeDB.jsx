@@ -2,7 +2,7 @@ import { firebase_db_fuelConsump, firebase_db_machineReg,
          firebase_db_maintenance, firebase_db_workHours, firebase_db_purchaseRequests,
         firebase_db_authenticatedUsers } from "./Firebase.utils";
 
-export const getPaginatedTableData = (count, limit, props, errorOnDB) => {
+export const getPaginatedTableData = (count, limit, props, errorOnDB, activity) => {
   return new Promise((resolve) => {
    
    count = count || 0; 
@@ -11,7 +11,8 @@ export const getPaginatedTableData = (count, limit, props, errorOnDB) => {
    const database = props.stateProps.selectedActivity === 0 && !props.stateProps.adminSection ? firebase_db_fuelConsump : 
    props.stateProps.selectedActivity === 1 && !props.stateProps.adminSection ? firebase_db_machineReg : 
    props.stateProps.selectedActivity === 2 && !props.stateProps.adminSection ? firebase_db_maintenance : 
-   props.stateProps.selectedActivity === 4 && !props.stateProps.adminSection ? firebase_db_purchaseRequests : null
+   props.stateProps.selectedActivity === 4 && !props.stateProps.adminSection ? firebase_db_purchaseRequests : 
+   activity === 4 ? firebase_db_purchaseRequests : null
    
     if (props.stateProps.selectedActivity === 3 && !props.stateProps.adminSection) {
       firebase_db_workHours.limitToLast(limit).once("value", function(snapshot) {
@@ -28,9 +29,18 @@ export const getPaginatedTableData = (count, limit, props, errorOnDB) => {
         errorOnDB()
       })
     }
-    else if (props.stateProps.homeMode === true) {
+    else if (props.stateProps.homeMode === true && activity !== 4) {
       firebase_db_authenticatedUsers.orderByChild("email")
       .startAt(count).limitToLast(limit).once('value').then((snapshot)=>{
+        if (snapshot.val() === null) {errorOnDB()}
+        resolve(snapshot.val())
+      }).catch(err => {
+         errorOnDB()
+      })
+    }
+    else if (activity === 4) {
+      firebase_db_purchaseRequests.orderByChild("id")
+      .equalTo(count).limitToLast(limit).once('value').then((snapshot)=>{
         if (snapshot.val() === null) {errorOnDB()}
         resolve(snapshot.val())
       }).catch(err => {

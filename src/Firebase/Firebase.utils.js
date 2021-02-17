@@ -36,11 +36,6 @@ if (!firebase.apps.length) {
 
 export const firestore = firebase.firestore();
 
-export const users = firestore.collection("users")
-
-
-
-
 export const createUserProfileDocument = async (userAuth, additionalData) => {
   let lastId = []
   getLastIdForUsersInFirestore().then(x => lastId.push(x)) 
@@ -82,7 +77,7 @@ export const firebase_db_authenticatedUsers = firebase.database().ref(`authentic
 
 export const auth = firebase.auth();
 
-
+export const users = firestore.collection("users")
 export const machines = firestore.collection("machines")
 export const attachedMachines = firestore.collection("attachedMachinery")
 export const location = firestore.collection("location")

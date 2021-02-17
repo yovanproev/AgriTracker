@@ -112,11 +112,12 @@ export const workingHoursInputObject = (props) => {
   return object
 };
 
-export const purcahseRequestsInputObject = (props) => {
+export const purcahseRequestsInputObject = (props, email) => {
   let object = {
   id: props.lastId,
   date: props.date,
   operator: props.selectedOperatorName,
+  email: email,
   supplier: props.supplier,
   categoryOfMaterials: props.categoryOfMaterials,
   subCategoryOfMaterials: props.subCategoryOfMaterials,

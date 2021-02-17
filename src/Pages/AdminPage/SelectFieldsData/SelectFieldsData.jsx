@@ -33,7 +33,6 @@ const SelectionFieldsUpdate = (props) => {
    
   }
 
-
   useEffect(() => {
     getAllSelectionFields(selectFieldId).then(resolve => {
       setCategoryOfSelection(resolve)})
@@ -107,8 +106,6 @@ const SelectionFieldsUpdate = (props) => {
        onClick={() => {updateSelectFieldsInFirestore(selectFieldId, newEntry, newSubEntry, hideModal); 
         clearInputFileds()} }
        >Submit new field</button> : null } 
-       
-
        
        {selectFieldId === 5 || selectFieldId === 7 || selectFieldId === 14 ? 
        <div style={{margin: "20px 0"}}>

@@ -13,7 +13,8 @@ const SelectActivity = (props) => {
     <div className="table-reports">
       {props.stateProps.inputMode ?
       <h2 className="headline">Input Form</h2> :
-      props.stateProps.outputMode ? <h2 className="headline">Reports</h2> : <h2 className="headline">Admin section</h2>}
+      props.stateProps.outputMode ? <h2 className="headline">Reports</h2> : <h2 className="headline">
+        Admin section</h2>}
      
       {!props.stateProps.outputTable && !props.stateProps.inputForms
       && !props.stateProps.adminMode ? 
