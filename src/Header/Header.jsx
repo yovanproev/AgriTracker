@@ -2,9 +2,9 @@ import React, { useState } from 'react'
 import { NavLink } from "react-router-dom";
 
 import "./Header.css"
-import Logo from "../../Assets/Logo.jpg";
+import Logo from "../Assets/Logo.jpg";
 
-import { RenderForAdmin, RenderForOperator } from '../../RoleBasedAccessControl/RoleBaseControl';
+import { RenderForAdmin, RenderForOperator } from '../RoleBasedAccessControl/RoleBaseControl';
 
 const Header = ({ stateProps, inputMode, outputMode, adminMode, homeMode, 
                   modalHandler, signOutHandler, expiredToken }) => {
@@ -32,12 +32,12 @@ const Header = ({ stateProps, inputMode, outputMode, adminMode, homeMode,
         alt="Logo_image" width="100px" >
         </img>}
 
-      <h2 className="your-company">DFP Forms</h2>
+      <h2 className={stateProps.logOutError ? "time-out-your-company"  : "your-company"}>DFP Forms</h2>
       <div className="menu-wrap">
         {stateProps.currentUser ?  
           <input type="checkbox" className="toggler" checked={toggle} onChange={toggleHandler}/> : null }
         {stateProps.currentUser ?  <div className="hamburger"><div></div></div> : null }
-        <div className="head-menu">
+        <div className={stateProps.logOutError ? "time-out-head-menu"  : "head-menu"}>
           <div>{stateProps.currentUser ?  <div className="cherry-join"></div> : null}
             <ul className="ul-bar">
 
@@ -83,7 +83,7 @@ const Header = ({ stateProps, inputMode, outputMode, adminMode, homeMode,
 
               {stateProps.currentUser || stateProps.logOutError ? 
                 <li className="list-item">     
-                  <NavLink className="sign-out-link"  
+                  <NavLink className="sign-out-link"
                     to="/" onClick={() => {signOutAndModalOff(); setToggle(false)}}>
                      <i className="fas fa-sign-out-alt"></i>SIGN OUT
                   </NavLink> 

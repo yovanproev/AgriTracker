@@ -73,10 +73,24 @@ const SelectReport = (props) => {
   const updateDataByRowHandler = (value) => {
     updateStatusHandler(value)
     const update = {statusOfRequest: fetchStatusOfPurchaseByName(value)}
-    updateByRowId(rowIdValue, props, null, null, update)
+    updateByRowId(rowIdValue, props.stateProps, null, null, update)
   }
-    
-  //  const moduleInProgress = <Modal show={props.modal} hide={props.modal}>
+   
+  const [ purchaseNumber, updatePurchaseNumber ] = useState("")
+  const updatePRNumByRow = (value) => {
+    updatePurchaseNumber(value)
+    const update = {PRNumber: value}
+    updateByRowId(rowIdValue, props.stateProps, null, null, update)
+  }
+
+  const [ invoiceNumber, updateInvoiceNumber ] = useState("")
+  const updateInvoiceNumByRow = (value) => {
+     updateInvoiceNumber(value)
+    const update = {invoiceNum: value}
+    updateByRowId(rowIdValue, props.stateProps, null, null, update)
+  }
+ 
+   //  const moduleInProgress = <Modal show={props.modal} hide={props.modal}>
 //    Module Still Not Built</Modal> 
    const loader = table.length === 0 || table === undefined ? 
    <Modal show={props.stateProps.hideModal} hide={props.modal}><Spinner2 /></Modal> : null
@@ -100,7 +114,13 @@ const SelectReport = (props) => {
         onClick={props.onClick}
         updateDataByRowHandler={updateDataByRowHandler}
         statusHandler={statusHandler}
-        onClickRowId={onClickRowId}/>         
+        onClickRowId={onClickRowId}
+        updatePRNumByRow={updatePRNumByRow}
+        purchaseNumber={purchaseNumber}
+        updateInvoiceNumByRow={updateInvoiceNumByRow}
+        invoiceNumber={invoiceNumber}
+        errorOnDB={errorOnDB}
+        />         
     </div>
   ) 
 }

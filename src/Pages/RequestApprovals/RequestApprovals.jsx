@@ -28,7 +28,7 @@ const RequestApprovals = (props) => {
     })
 
     const update = {statusOfRequest: "Declined"}
-    updateByRowId(props.id, props, null, null, update, activity, errorOnDB)
+    updateByRowId(props.id, props.stateProps, null, null, update, activity, errorOnDB)
   }, [activity, props, purchaseNumber])
 
   // const errorOnDB = () => {

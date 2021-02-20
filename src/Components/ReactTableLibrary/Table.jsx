@@ -48,7 +48,12 @@ const Table = (props) => {
         onClick={props.onClick}
         currentRole={props.currentRole}
         renderRowSubComponent={renderRowSubComponent}
-         />
+        updatePRNumByRow={props.updatePRNumByRow}
+        purchaseNumber={props.purchaseNumber}
+        updateInvoiceNumByRow={props.updateInvoiceNumByRow}
+        invoiceNumber={props.invoiceNumber}
+        errorOnDB={props.errorOnDB}
+        />
          : null} 
     </Container>
   );

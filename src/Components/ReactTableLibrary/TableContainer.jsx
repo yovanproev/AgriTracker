@@ -13,6 +13,8 @@ import { pageCounter, countNextPage, countPreviousPage } from "../../Firebase/Fe
 import DeleteButton from '../DeleteButton/DeleteButton';
 import AdminTableElements from '../../RoleBasedAccessControl/AdminSection/AdminTableElements';
 import SelectFieldTable from './SelectFieldTable/SelectFieldTable';
+import InputFieldTable from './InputFieldTable/InputFieldTable';
+import { updateByRowId } from '../../Firebase/UpdateRowsInRealtimeDB';
 
 const TableContainer = ({ 
   columns, data, onDelete, 
@@ -22,7 +24,9 @@ const TableContainer = ({
   previousPageLoad, counter,
   blockNextButton, updateDataByRowHandler,
   statusHandler, onClickRowId,
-  renderRowSubComponent
+  renderRowSubComponent, updatePRNumByRow,
+  purchaseNumber, updateInvoiceNumByRow,
+  invoiceNumber, errorOnDB
    }) => {
   const {
     getTableProps, getTableBodyProps,
@@ -53,7 +57,9 @@ const TableContainer = ({
       counter, blockNextButton,
       updateDataByRowHandler,
       statusHandler, onClickRowId,
-      renderRowSubComponent     
+      renderRowSubComponent, updatePRNumByRow,
+      purchaseNumber, updateInvoiceNumByRow,
+      invoiceNumber, errorOnDB
     },
     useFilters, useSortBy,
     useExpanded, usePagination
@@ -82,6 +88,15 @@ const TableContainer = ({
     return gotoPage(pageIndex)
    };
 
+   const [ rowId, updateRowId ] = useState("")
+   
+   const managerApprovedHandler = (value) => {
+    // console.log(value) // 4
+    updateRowId(value)
+    const update = {managerApproved: true}
+     updateByRowId(rowId, stateProps, null, null, update, 4, errorOnDB)
+   }
+  
    return (
     <Fragment>
       <Table bordered hover striped responsive {...getTableProps()} style={{marginTop: "20px"}}>
@@ -98,13 +113,21 @@ const TableContainer = ({
                   
                 </th>
               ))}
+              {stateProps.outputTable && stateProps.selectedActivity === 4 ? <th
+              style={{verticalAlign: "baseline"}}>Select status</th> : null}
+              {stateProps.outputTable && stateProps.selectedActivity === 4 ? <th
+              style={{verticalAlign: "baseline"}}>PR #</th> : null}
+              {stateProps.outputTable && stateProps.selectedActivity === 4 ? <th
+              style={{verticalAlign: "baseline"}}>Invoice #</th> : null}
+              {stateProps.outputTable && stateProps.selectedActivity === 4 ? <th
+              style={{verticalAlign: "baseline"}}>Checked by Manager</th> : null}
             </tr>
           ))}
         </thead>
 
         <tbody {...getTableBodyProps()}>
           {page.map((row) => {
-            // console.log(row.cell.getCellProps())
+            // console.log(row)
             prepareRow(row);
             return (
               <Fragment key={row.getRowProps().key}>
@@ -116,36 +139,64 @@ const TableContainer = ({
                     );
                   })}
                 {/* <RenderForAdmin stateProps={stateProps}>   */}
+                
+                {/* Selection of user's role */}
                 {stateProps.outputTable === true || stateProps.adminSection === false || 
                 stateProps.selectedActivity !== 0 ? null :                 
                 <td>
                 <AdminTableElements 
-                stateProps={stateProps}
-                id={data[row.id].id} 
-                currentUser={currentUser}
-                getRoleValue={getRoleValue} 
+                stateProps={stateProps} id={data[row.id].id} 
+                currentUser={currentUser} getRoleValue={getRoleValue} 
                 onClick={() => onClick(data[row.id])}
-                currentRole={currentRole}/>
-                </td> }
+                currentRole={currentRole}
+                /> </td> }
                 
+                {/* Selection of status for Purchase Request*/}
                 {!stateProps.adminSection && stateProps.inputMode === false && 
                 stateProps.outputMode === true && stateProps.selectedActivity === 4 ?
                 <td>
                 <SelectFieldTable onChange={updateDataByRowHandler} value={statusHandler} 
                 nameOfStatus={fetchStatusOfPurchaseByName(statusHandler)}
                 onFocus={() => onClickRowId(data[row.id])} id={data[row.id].id} stateProps={stateProps}
-                /> 
-                  </td> : null}
+                /> </td>
+                 : null}
 
-                {stateProps.outputTable ?
+                 {/* input of PR # and invoice # for Purchase Requests */}
+                {!stateProps.adminSection && stateProps.inputMode === false && 
+                stateProps.outputMode === true && stateProps.selectedActivity === 4 ?
                 <td>
+                <InputFieldTable onChange={updatePRNumByRow} value={purchaseNumber} 
+                onFocus={() => onClickRowId(data[row.id])} id={data[row.id].id} stateProps={stateProps}
+                /> </td>
+                 : null}
+                {!stateProps.adminSection && stateProps.inputMode === false && 
+                stateProps.outputMode === true && stateProps.selectedActivity === 4 ?
+                <td>
+                <InputFieldTable onChange={updateInvoiceNumByRow} value={invoiceNumber} 
+                onFocus={() => onClickRowId(data[row.id])} id={data[row.id].id} stateProps={stateProps}
+                /> </td>
+                 : null}
+
+                {/* Check button for manager*/}
+                {stateProps.outputTable && stateProps.selectedActivity === 4 ?
+                <td style={{verticalAlign: "inherit"}}> 
+                 {data[row.id].managerApproved ? <span>&#10004;</span> :
+                 <button onClick={() => managerApprovedHandler(data[row.id].id)} 
+                  id={data[row.id].id}>Checked</button>}
+                </td> : null} 
+
+
+                {/* Delete button for reports page*/}
+                {stateProps.outputTable ?
+               <td style={{verticalAlign: "inherit"}}> 
                  <DeleteButton onClick={() => {onDelete(data[row.id].id, 
                   data[row.id].numberOfEmployee, data[row.id].numberOfJob)}}
                   id={data[row.id].id} stateProps={stateProps}/>
                 </td> : null}
                 
+                {/* Delete button for admin section, add select fields */}
                 {stateProps.adminSection && stateProps.selectedActivity === 5 ?
-                <td>  
+               <td style={{verticalAlign: "inherit"}}> 
                  <DeleteButton onClick={() => onDelete(data[row.id].id)}
                  id={data[row.id].id} stateProps={stateProps}/>
                 </td> : null}

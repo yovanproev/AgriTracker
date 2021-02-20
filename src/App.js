@@ -5,7 +5,7 @@ import {
   Redirect, BrowserRouter as Router 
 } from "react-router-dom";
 
-import Header from "./Pages/Header/Header"
+import Header from "./Header/Header"
 import StartingPage from "./Pages/SignInSignUp/StartingPage"
 import HomePage from './Pages/HomePage/HomePage';
 
@@ -77,7 +77,6 @@ class App extends React.Component {
   componentWillUnmount() {this.unsubscribeFromAuth()}
 
  inputModeHandler = () => {
-  //  console.log(mode)
    sessionStorage.setItem( 'inputMode', true )
    sessionStorage.setItem( 'outputMode', false )
    sessionStorage.setItem( 'adminMode', false )
@@ -183,7 +182,7 @@ class App extends React.Component {
     auth.signOut()}
 
    render() {
-console.log(this.state.purReq ? this.state.purReq  : null)
+// console.log(this.state.purReq ? this.state.purReq  : null)
 
      return (
       <div className="app" >

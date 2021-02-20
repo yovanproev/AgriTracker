@@ -85,7 +85,12 @@ const TableReport = (props) => {
         previousPageLoad={props.previousPageLoad}
         stateProps={props.stateProps.stateProps}
         data={props.tableData}
-        onDelete={handleChange}/>
+        onDelete={handleChange}
+        updatePRNumByRow={props.updatePRNumByRow}
+        purchaseNumber={props.purchaseNumber}
+        updateInvoiceNumByRow={props.updateInvoiceNumByRow}
+        invoiceNumber={props.invoiceNumber}
+        errorOnDB={props.errorOnDB}/>
     </div>
   )
 }

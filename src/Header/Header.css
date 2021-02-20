@@ -193,9 +193,29 @@
   padding: 10px;
 }
 
+.time-out-head-menu {
+  display: flex;
+  flex-direction: row;
+  margin: auto;
+}
+
+.time-out-your-company {
+  align-self: center;
+}
+
 @media (max-width: 501px) {
   .head-menu {
     display: none;
+  }
+
+  .time-out-head-menu {
+    display: flex;
+    flex-direction: row;
+    margin: auto;
+  }
+
+  .time-out-your-company {
+    align-self: center;
   }
 
   .your-company {

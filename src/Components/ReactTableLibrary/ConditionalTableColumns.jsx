@@ -369,6 +369,20 @@ export const purchaseRequestsInputColumns = [
     Header: 'Time of entry',
     accessor: 'timeOfEntry',
   },
+  {
+    Header: 'PR #',
+    accessor: "PRNumber",
+    disableSortBy: true,
+    Filter: SelectColumnFilter,
+    filter: 'equals',
+  },
+  {
+    Header: 'Invoice #',
+    accessor: "invoiceNum",
+    disableSortBy: true,
+    Filter: SelectColumnFilter,
+    filter: 'equals',
+  },
 ]
 
 export const usersCollection = [
