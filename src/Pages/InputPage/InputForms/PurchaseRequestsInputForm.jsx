@@ -84,7 +84,15 @@ const PurchaseRequestsInput = (props) => {
              value={props.localState.selectedSubcategoryOfMaterialsId}
              selectedId={props.localState.selectFields[16].value}
              statename={props.localState.selectFields[16].statename}
+             localState={props.localState}
              /> : null }
+
+            {props.localState.subCategoryOfMaterials === "Other" &&
+            props.localState.categoryOfMaterials === "Other" ? <TextField 
+               id={props.localState.inputFields[12].id}
+               onChange={props.inputFieldsHandler}
+               name={[props.localState.inputFields][0][12].name}
+               statename={[props.localState.inputFields][0][12].statename}/> : null}
 
             {props.localState.selectedSubcategoryOfMaterialsId ?
               <div className="input">

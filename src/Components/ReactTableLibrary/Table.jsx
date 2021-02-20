@@ -30,7 +30,7 @@ const Table = (props) => {
   )
 
  return (
-    <Container style={{ margin: "30px auto", whiteSpace: "nowrap"}} >
+    <Container style={{ margin: "auto", whiteSpace: "nowrap"}} >
     {tableData ?  <TableContainer 
         updateDataByRowHandler={props.updateDataByRowHandler}
         statusHandler={props.statusHandler}

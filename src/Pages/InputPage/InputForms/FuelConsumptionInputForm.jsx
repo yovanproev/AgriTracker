@@ -144,19 +144,23 @@ const FuelConsumptionInput = (props) => {
             <div>
             {props.localState.selectedOperatorId ?
               <div className="input">
-                <TextField 
-                  id={props.localState.inputFields[7].id}
-                  onChange={props.inputFieldsHandler}
-                  name={[props.localState.inputFields][0][7].name}
-                  statename={[props.localState.inputFields][0][7].statename}
-                  />
+                
+            {props.localState.selectedOperatorId ?
+            <SelectField
+              id={props.localState.selectFields[17].id}
+              onChange={props.selectFieldsHandler}
+              value={props.localState.selectedSupplierOfFuelId}
+              selectedId={props.localState.selectFields[17].value}
+              statename={props.localState.selectFields[17].statename}
+            /> : null }
+
                 <InputField 
                   id={props.localState.inputFields[1].id}
                   onChange={props.inputFieldsHandler}
                   name={[props.localState.inputFields][0][1].name}
                   statename={[props.localState.inputFields][0][1].statename}/> 
                 <InputField 
-                  id={props.localState.inputFields[2].id}
+                  id={props.localState.inputFields[2].id + 100}
                   onChange={props.inputFieldsHandler}
                   name={[props.localState.inputFields][0][2].name}
                   statename={[props.localState.inputFields][0][2].statename}/>
@@ -171,18 +175,7 @@ const FuelConsumptionInput = (props) => {
                   statename={[props.localState.inputFields][0][8].statename}/>
                : null}
                                     
-            {props.localState.selectedOperatorId ?
-              <SelectField
-              id={props.localState.selectFields[2].id}
-              onChange={props.selectFieldsHandler}
-              value={props.localState.selectedLocationId}
-              selectedId={props.localState.selectFields[2].value}
-              statename={props.localState.selectFields[2].statename}
-              stopComponentDidUpdate={props.stopComponentDidUpdate}
-            /> : null
-            }
-             
-          </div>}
+            </div>}
 
             {props.localState.submit ?
               <SubmitButton 

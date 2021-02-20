@@ -1,12 +1,12 @@
 import React, { useEffect, useState, useMemo } from 'react'
-import { getSelectionByField } from "../../../Firebase/FetchCollectionsFromFirestore"
+import { getSelectFields } from "../../../Firebase/FetchCollectionsFromFirestore"
 import "./CustomTable.css"
 
 export const CustomTableRows = ({jobActivities, index, tableRowsHandler, localState}) => {
   const [employeesRows, setEmployeesRows] = useState([]);
     
   useMemo(() => 
-    getSelectionByField(5).then(res => {
+    getSelectFields(5).then(res => {
      const data = res.filter(operators => operators.typeOfWorker === localState.selectedTypeOfHoursName);
         return setEmployeesRows(data)}), [localState.selectedTypeOfHoursName]);
     
@@ -100,7 +100,7 @@ export const CustomTableRows = ({jobActivities, index, tableRowsHandler, localSt
                     <label>
                         <input type="checkbox" name="checkboxName" value="on" 
                         onChange={(e) => {disableHandler(e); checkboxHandler(e, employee.name, rowId)}} 
-                        id={rowId} 
+                        id={rowId}  
                         style={{width:"20px", height:"20px", margin: "auto 20px"}}/>
                     </label>
                 </td>

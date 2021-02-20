@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react'
-import { getSelectionByField } from '../../../../Firebase/FetchCollectionsFromFirestore';
+import { getSelectFields } from '../../../../Firebase/FetchCollectionsFromFirestore';
 import "./AdminWorkHoursTable.css"
 
 export const AdminWorkHoursTableRows = ({data}) => {
     const [employeesRows, setEmployeesRows] = useState([]);
     
     useEffect(()=>{
-      getSelectionByField(5).then(res => setEmployeesRows(res))
+      getSelectFields(5).then(res => setEmployeesRows(res))
       
     }, [])
     

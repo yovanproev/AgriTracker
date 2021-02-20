@@ -5,7 +5,7 @@ import SelectField from "./SelectField/SelectField"
 import BackButton from "../../../Components/BackButton/BackButton"
 import Table from "../../../Components/ReactTableLibrary/Table"
 
-import { getAllSelectionFields } from "../../../Firebase/FetchCollectionsFromFirestore"
+import { getSelectFields } from "../../../Firebase/FetchCollectionsFromFirestore"
 import { updateSelectFieldsInFirestore } from '../../../Firebase/SetAndUpdateCollectionsInFirestore';
 import { deleteByRowId } from '../../../Firebase/DeleteRowsInFirestore';
 import { attachImagetoStorage } from "../../../Firebase/FetchAndUpdateImagesFromStorage"
@@ -36,7 +36,7 @@ const SelectionFieldsUpdate = (props) => {
   }
 
   useEffect(() => {
-    getAllSelectionFields(selectFieldId).then(resolve => {
+    getSelectFields(selectFieldId).then(resolve => {
       setCategoryOfSelection(resolve)})
  }, [selectFieldId])
 
@@ -105,14 +105,14 @@ const SelectionFieldsUpdate = (props) => {
        <input type="text" className="form-control" placeholder="name" value={newEntry} 
        onChange={(e) => onChangeHandler(e.target.value)}/>
        </label>
-       {(selectFieldId !== 5 && selectFieldId !== 7 && selectFieldId !== 1 && selectFieldId !== 2 
+       {(selectFieldId !== 5 && selectFieldId !== 12 && selectFieldId !== 1 && selectFieldId !== 2 
        && selectFieldId !== 14) ? 
        <button type="submit" className="btn btn-success select-field-button" 
        onClick={() => {updateSelectFieldsInFirestore(selectFieldId, newEntry, newSubEntry, hideModal); 
         clearInputFileds(); recordTrace()} }
        >Submit new field</button> : null } 
        
-       {selectFieldId === 5 || selectFieldId === 7 || selectFieldId === 14 ? 
+       {selectFieldId === 5 || selectFieldId === 12 || selectFieldId === 14 ? 
        <div style={{margin: "20px 0"}}>
        <label className="form-check-label">
        <input type="text" className="form-control" value={newSubEntry} placeholder="subcategory" 

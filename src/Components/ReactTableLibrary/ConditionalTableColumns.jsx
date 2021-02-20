@@ -561,10 +561,15 @@ export const selectionFieldsCollection = (selectFieldToModify) => {
       selectFieldToModify === 3 ? 'Location' :
       selectFieldToModify === 4 ? 'Product' :
       selectFieldToModify === 5 ? 'Employees' :
-      selectFieldToModify === 7 ? "Job Descriptions" :
+      selectFieldToModify === 7 ? "Machine Maintenance Job Description" :
       selectFieldToModify === 9 ? 'Technicians' :
       selectFieldToModify === 11 ? 'Projects' :
-      selectFieldToModify === 14 ? 'Machine Jobs' : "Please select a field to update",
+      selectFieldToModify === 12 ? 'Man Jobs' :
+      selectFieldToModify === 14 ? 'Machine Jobs' :
+      selectFieldToModify === 15 ? 'Supplier' :
+      selectFieldToModify === 16 ? 'Category of materials' :
+      selectFieldToModify === 17 ? 'Subcategory of materials' :
+      selectFieldToModify === 18 ? 'Supplier Of Fuel' : "Please select a field to update",
       accessor: "name",
     },
     {
@@ -573,12 +578,17 @@ export const selectionFieldsCollection = (selectFieldToModify) => {
       selectFieldToModify === 3 ? "N/A" :
       selectFieldToModify === 4 ? "N/A" :
       selectFieldToModify === 5 ? 'Type of Worker' :
-      selectFieldToModify === 7 ? "Cost Center" :
+      selectFieldToModify === 6 ? "N/A" :
+      selectFieldToModify === 7 ? "N/A" :
+      selectFieldToModify === 8 ? "N/A" :
       selectFieldToModify === 9 ? "N/A" :
+      selectFieldToModify === 10 ? "N/A" :
       selectFieldToModify === 11 ? "N/A" : 
+      selectFieldToModify === 12 ? "Cost Center" :
+      selectFieldToModify === 13 ? "N/A" :
       selectFieldToModify === 14 ? "Cost Center" : "N/A",
       accessor: selectFieldToModify === 5 ? 'typeOfWorker' : 
-      selectFieldToModify === 7 ? "costCenter" : 
+      selectFieldToModify === 12 ? "costCenter" : 
       selectFieldToModify === 14 ? "costCenter" : null
     }, 
   ]

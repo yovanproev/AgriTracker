@@ -11,6 +11,7 @@
     {"id": 9, "name": "Delivery Note", "statename": "deliveryNote"},
     {"id": 10, "name": "Quantity", "statename": "quantity"},
     {"id": 11, "name": "Price", "statename": "price"},
-    {"id": 12, "name": "Purpose of purchase", "statename": "purposeOfPurchase"}
+    {"id": 12, "name": "Purpose of purchase", "statename": "purposeOfPurchase"},
+    {"id": 13, "name": "Custom Name Materials", "statename": "otherMaterials"}
   ]
 }

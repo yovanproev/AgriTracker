@@ -11,7 +11,7 @@ import HomePage from './Pages/HomePage/HomePage';
 
 import SelectActivity from './Pages/SelectActivity';
 
-import { resetCounter } from "./Firebase/FetchDataFromRealtimeDB";
+import { getPurchaseRequests, resetCounter } from "./Firebase/FetchDataFromRealtimeDB";
 import { auth, createUserProfileDocument } from "./Firebase/Firebase.utils"
 import { RenderForAdmin, RenderForOperator } from './RoleBasedAccessControl/RoleBaseControl';
 import Modal from "./Components/Modal/Modal"
@@ -24,7 +24,8 @@ class App extends React.Component {
       currentUser: null,
       inputMode: JSON.parse(sessionStorage.getItem( 'inputMode' )) || false,
       outputMode: JSON.parse(sessionStorage.getItem( 'outputMode' )) || false,
-      homeMode: JSON.parse(sessionStorage.getItem( 'homeMode' )) || true,
+      homeMode: JSON.parse(sessionStorage.getItem( 'homeMode' )) !== null ? 
+      JSON.parse(sessionStorage.getItem( 'homeMode' )) : true,
       inputForms: false,
       outputTable: false,
       adminMode: JSON.parse(sessionStorage.getItem( 'adminMode' )) || false,
@@ -63,6 +64,7 @@ class App extends React.Component {
       this.setState({ currentUser: userAuth})})
       this.setCredentialsHandler()
       this.expiredToken()
+       getPurchaseRequests(10, 10, this.state).then(purReq => {this.setState({purReq: Object.values(purReq)})})
   }
 
   expiredToken = () => {
@@ -181,6 +183,8 @@ class App extends React.Component {
     auth.signOut()}
 
    render() {
+console.log(this.state.purReq ? this.state.purReq  : null)
+
      return (
       <div className="app" >
         {this.state.logOutError ? <Modal show={this.state.logOutError} >
@@ -254,14 +258,33 @@ class App extends React.Component {
                   </Route>
                 </RenderForAdmin> 
 
-                <RenderForAdmin stateProps={this.state}>
-                  <Route path="/requestapprovals">
+                {/* <RenderForAdmin stateProps={this.state}> */}
+                {this.state.currentUser ? this.state.purReq?.map((request, id) => {
+                  const approvedChoice = "Approved"
+                  return <Route key={id} path={`/purRequest/${approvedChoice}/${request.id}`}>
                     {this.state.currentUser ? 
                     <RequestApprovals
+                    approvedChoice={approvedChoice}
+                    id={request.id}
                     modal={this.hideModalHanlder}
                     stateProps={this.state} /> : null} 
-                  </Route>
-                </RenderForAdmin> 
+                  </Route> 
+                  }) : null }
+                {/* </RenderForAdmin>  */}
+
+                {/* <RenderForAdmin stateProps={this.state}> */}
+                {this.state.currentUser ? this.state.purReq?.map((request, id) => {
+                  const declinedChoice = "Declined"
+                  return <Route key={id} path={`/purRequest/${declinedChoice}/${request.id}`}>
+                    {this.state.currentUser ? 
+                    <RequestApprovals
+                    declinedChoice={declinedChoice}
+                    id={request.id}
+                    modal={this.hideModalHanlder}
+                    stateProps={this.state} /> : null} 
+                  </Route> 
+                  }) : null }
+                {/* </RenderForAdmin>  */}
 
               </Fragment>: null 
             } 

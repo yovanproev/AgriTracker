@@ -94,6 +94,7 @@ export const jobsWithAMachine = firestore.collection("jobsWithAMachine")
 export const suppliers = firestore.collection("suppliers")
 export const categoryOfMaterials = firestore.collection("categoryOfMaterials")
 export const subCategoryOfMaterials = firestore.collection("subCategoryOfMaterials")
+export const supplierOfFuel = firestore.collection("supplierOfFuel")
 
 export const storage = firebase.storage();
 export const storageRef = firebase.storage().ref();

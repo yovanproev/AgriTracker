@@ -9,7 +9,7 @@ import MaintenanceAndRepairInputForm from "./InputForms/MaintenanceAndRepairInpu
 import WorkingHoursInputForm from "./InputForms/WorkingHoursInputForm";
 import PurchaseRequestsInput from "./InputForms/PurchaseRequestsInputForm";
 
-import { getSelectionByField } from "../../Firebase/FetchCollectionsFromFirestore";
+import { getSelectFields } from "../../Firebase/FetchCollectionsFromFirestore";
 import { getLastId } from "../../Firebase/FetchLastIdRealtimeDB";
 import { getLitersMissing, getTankResidual, workedHoursPerMachine } from "../../Firebase/FetchLastFuelEntryRealtimeDB"
 import { getImage, getNamesOfImages } from "../../Firebase/FetchAndUpdateImagesFromStorage";
@@ -89,7 +89,7 @@ class InputSelection extends Component {
     this.setState({ [selectedid]: idOfOptionElement, idOfSelectField: idOfSelectField })
     
     if (idOfOptionElement !== 0) {
-      getSelectionByField(idOfSelectField).then(selectField => {
+      getSelectFields(idOfSelectField).then(selectField => {
         selectField.filter(id => {
           if (id.id === idOfOptionElement) { 
             this.setState({ [statename]: id.name })

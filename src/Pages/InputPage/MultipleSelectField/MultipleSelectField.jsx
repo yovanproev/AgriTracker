@@ -1,6 +1,6 @@
 import React, { useState, useMemo} from "react"
 import { Multiselect } from 'multiselect-react-dropdown';
-import { getSelectionByField } from "../../../Firebase/FetchCollectionsFromFirestore";
+import { getSelectFields } from "../../../Firebase/FetchCollectionsFromFirestore";
 
 const MultiSelectField = ({ onSelect, id, value, disableMultiSelectOption }) => {
  const [ selectedValue, updateSelectedValue ] = useState([])
@@ -8,7 +8,7 @@ const MultiSelectField = ({ onSelect, id, value, disableMultiSelectOption }) => 
  const [employeesRows, setEmployeesRows] = useState([]);
     
   useMemo(() => 
-    getSelectionByField(12).then(res => setEmployeesRows(res)), []);
+    getSelectFields(12).then(res => setEmployeesRows(res)), []);
 
   const onSelectHandler = (selectedList) => {
    onSelect(selectedList) 

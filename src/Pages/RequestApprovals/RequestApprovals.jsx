@@ -14,7 +14,7 @@ const RequestApprovals = (props) => {
   const [ purchaseRequest, updatePurchaseRequest ] = useState([])
 
   const activity = parseInt(4);
-
+  // console.log(props.id)
   useEffect(() => {
     if (purchaseNumber >= 1) setDisableButton(false) 
     else setDisableButton(true)
@@ -26,23 +26,22 @@ const RequestApprovals = (props) => {
     getPaginatedTableData(purchaseNumber, 1, props, errorOnDB, activity).then(purRequest => {
       if (purRequest) updatePurchaseRequest(Object.values(purRequest)[0]) 
     })
+
+    const update = {statusOfRequest: "Declined"}
+    updateByRowId(props.id, props, null, null, update, activity, errorOnDB)
   }, [activity, props, purchaseNumber])
 
-  const errorOnDB = () => {
-    setError(true)
-  }
+  // const errorOnDB = () => {
+  //   setError(true)
+  // }
 
     const closeError = () => {
       setError(false)
     }
 
-  const purchaseNumberHandler = (value) => {
-    updatePurchaseNumber(value)
-  }
-
-  const updateDataByRowHandler = (value) => {
-    updateResponseStatus(value)
-  }
+    // const update = {statusOfRequest: "Approved"}
+    // console.log(props.id)
+    // if (props.id) {updateByRowId(props.id, props, null, null, update, activity, errorOnDB)}
 
   const submitHandler = (e) => {
     e.preventDefault();
@@ -62,8 +61,7 @@ const RequestApprovals = (props) => {
     const userId = process.env.NODE_ENV === 'production'
     ? userIdProd : userIdDev
 
-    const update = {statusOfRequest: responseStatus}
-    updateByRowId(purchaseNumber, props, null, null, update, activity, errorOnDB)
+    
     
     emailjs.sendForm(serviceId, templateId, e.target, userId)
   .then((result) => {
@@ -80,14 +78,14 @@ const RequestApprovals = (props) => {
     
     <div style={{marginTop: "20px", textAlign: "center"}}>
       {errorModal}
-      {/* <ContactUs /> */}
+      
       <h3>Request approval</h3>
         <p>Purchase request #</p>
         <form className="contact-form" onSubmit={submitHandler}>
         
           <label>
           <input type="number" value={purchaseNumber || ""} onChange={(e) => 
-            purchaseNumberHandler(parseInt(e.target.value))} name="purchaseNumber"/>
+            updatePurchaseNumber(parseInt(e.target.value) || props.reqId)} name="purchaseNumber"/>
           </label>
           
           <input type="hidden" value={responseStatus} onChange={() => null} 
@@ -115,11 +113,11 @@ const RequestApprovals = (props) => {
           <br></br>
 
           <button type="submit" className="btn btn-success" disabled={disableButton} id={"Approved"}
-          onClick={(e) => updateDataByRowHandler(e.target.id)} style={{padding: "5px 20px", marginRight: "5px"}}>
+          onClick={(e) => updateResponseStatus(e.target.id)} style={{padding: "5px 20px", marginRight: "5px"}}>
             Approve</button>
           
           <button type="submit" className="btn btn-warning" disabled={disableButton} id={"Declined"}
-          onClick={(e) => updateDataByRowHandler(e.target.id)} style={{padding: "5px 20px", marginLeft: "5px"}}>
+          onClick={(e) => updateResponseStatus(e.target.id)} style={{padding: "5px 20px", marginLeft: "5px"}}>
             Decline</button>
 
         </form>

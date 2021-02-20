@@ -24,8 +24,7 @@ const MaintenanceAndRepairsInput = (props) => {
       props.localState.selectedLocationId && 
       props.localState.selectedTechnicianId &&
       props.localState.selectedMaintenanceId &&
-      props.localState.selectedJobDescriptionId &&
-      // props.localState.manHours && 
+      props.localState.selectedMachineMaintenanceId &&
       props.localState.explainTheActivity &&  
       props.localState.costOfTechnician &&  
       props.localState.date !== "null-null-null")
@@ -111,13 +110,13 @@ const MaintenanceAndRepairsInput = (props) => {
               <SelectField
               id={props.localState.selectFields[6].id}
               onChange={props.selectFieldsHandler}
-              value={props.localState.selectedJobDescriptionId}
+              value={props.localState.selectedMachineMaintenanceId}
               selectedId={props.localState.selectFields[6].value}
               statename={props.localState.selectFields[6].statename}
              /> : null
             }    
 
-           {props.localState.selectedJobDescriptionId ?
+           {props.localState.selectedMachineMaintenanceId ?
               <div className="input">
                <TextField 
                   id={props.localState.inputFields[4].id}
@@ -127,7 +126,7 @@ const MaintenanceAndRepairsInput = (props) => {
               </div>: null
             } 
 
-            {props.localState.selectedJobDescriptionId ?
+            {props.localState.selectedMachineMaintenanceId ?
               <div className="input">
                <InputField 
                 id={props.localState.inputFields[3].id}
@@ -136,7 +135,7 @@ const MaintenanceAndRepairsInput = (props) => {
                 statename={[props.localState.inputFields][0][3].statename}/>
               </div> : null }
 
-              {props.localState.selectedJobDescriptionId ?
+              {props.localState.selectedMachineMaintenanceId ?
               <div className="input">
                 <InputField 
                     id={props.localState.inputFields[6].id}

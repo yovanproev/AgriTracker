@@ -16,7 +16,7 @@ const [ usersTable, updateUsersTable ] = useState(false)
        <div>
          <h4 style={{color: "black"}}>To see authenticated users and their activities please press the button below.</h4>
        </div>
-       <button type="button" className="btn btn-dark"
+       <button type="button" className="btn btn-dark" style={{marginBottom: "15px"}}
        onClick={() => updateUsersTable(true)}>Check Authenticated Users</button>
        
        {usersTable ?

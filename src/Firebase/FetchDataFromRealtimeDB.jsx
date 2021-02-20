@@ -12,7 +12,7 @@ export const getPaginatedTableData = (count, limit, props, errorOnDB, activity) 
    props.stateProps.selectedActivity === 1 && !props.stateProps.adminSection ? firebase_db_machineReg : 
    props.stateProps.selectedActivity === 2 && !props.stateProps.adminSection ? firebase_db_maintenance : 
    props.stateProps.selectedActivity === 4 && !props.stateProps.adminSection ? firebase_db_purchaseRequests : 
-   activity === 4 ? firebase_db_purchaseRequests : null
+   activity === 4 ? firebase_db_purchaseRequests : []
    
     if (props.stateProps.selectedActivity === 3 && !props.stateProps.adminSection) {
       firebase_db_workHours.limitToLast(limit).once("value", function(snapshot) {
@@ -91,7 +91,18 @@ export const resetCounter = () => {
 }
 
 
-
+export const getPurchaseRequests = (count, limit, props) => {
+  return new Promise((resolve) => {
+    firebase_db_purchaseRequests.orderByChild("id")
+      .startAt(0).limitToLast(10).once('value').then((snapshot)=>{
+        // if (snapshot.val() === null) {errorOnDB()}
+        // console.log(snapshot.val())
+        resolve(snapshot.val())
+      }).catch(err => {
+         
+      })
+  })  
+}
 
 
 

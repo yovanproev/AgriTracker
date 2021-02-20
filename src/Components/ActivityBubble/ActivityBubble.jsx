@@ -37,11 +37,11 @@ const ActivityBubble = (props) => {
      onScroll={stateProps.outputTable !== true || stateProps.inputForms !== true ? onScroll() : null} 
        className="activity-bubble">
         <span className="span-img">
-          {(distance < 0 && distance > -40 && props.id === 0) ? <img alt='' src={FuelConsumptionImage} className="image-scroll"/> : 
-          (distance < -40 && distance > -80 && props.id === 1) ? <img alt='' src={MachineRegistrationImage} className="image-scroll"/> :
-          (distance < -80 && distance > -120 && props.id === 2) ? <img alt='' src={MaintenanceImage} className="image-scroll"/> :
-          (distance < -120 && distance > -160 && props.id === 3) ? <img alt='' src={WorkingHoursImage} className="image-scroll"/> : 
-          (distance < -160 && distance > -200 && props.id === 4) ? <img alt='' src={PurchaseRequest} className="image-scroll"/> : props.children}
+          {(distance < 0 && distance > -20 && props.id === 0) ? <img alt='' src={FuelConsumptionImage} className="image-scroll"/> : 
+          (distance < -20 && distance > -40 && props.id === 1) ? <img alt='' src={MachineRegistrationImage} className="image-scroll"/> :
+          (distance < -40 && distance > -60 && props.id === 2) ? <img alt='' src={MaintenanceImage} className="image-scroll"/> :
+          (distance < -60 && distance > -80 && props.id === 3) ? <img alt='' src={WorkingHoursImage} className="image-scroll"/> : 
+          (distance < -80 && distance > -100 && props.id === 4) ? <img alt='' src={PurchaseRequest} className="image-scroll"/> : props.children}
         </span>
     </button>
   )

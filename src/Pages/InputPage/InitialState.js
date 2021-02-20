@@ -14,7 +14,7 @@ export const initialState = {
           explainTheActivity: undefined,
           workedHours: undefined,
           manHours: undefined,
-          selectedJobDescriptionId: undefined,
+          selectedMachineMaintenanceId: undefined,
           selectedMaintenanceId: undefined,
           selectedTechnicianId: undefined,
           selectedTypeOfHoursId: undefined,
