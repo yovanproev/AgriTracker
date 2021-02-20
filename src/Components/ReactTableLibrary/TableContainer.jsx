@@ -89,12 +89,13 @@ const TableContainer = ({
    };
 
    const [ rowId, updateRowId ] = useState("")
-   
-   const managerApprovedHandler = (value) => {
-    // console.log(value) // 4
+   const getRowId = (value) => {
     updateRowId(value)
+   }
+
+   const managerApprovalHandler = () => {
     const update = {managerApproved: true}
-     updateByRowId(rowId, stateProps, null, null, update, 4, errorOnDB)
+    updateByRowId(rowId, stateProps, null, null, update, 4, errorOnDB)
    }
   
    return (
@@ -181,7 +182,8 @@ const TableContainer = ({
                 {stateProps.outputTable && stateProps.selectedActivity === 4 ?
                 <td style={{verticalAlign: "inherit"}}> 
                  {data[row.id].managerApproved ? <span>&#10004;</span> :
-                 <button onClick={() => managerApprovedHandler(data[row.id].id)} 
+                 <button onClick={() => managerApprovalHandler()} 
+                 onFocus={() => getRowId(data[row.id].id)}
                   id={data[row.id].id}>Checked</button>}
                 </td> : null} 
 
