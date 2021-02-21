@@ -53,6 +53,7 @@ const Table = (props) => {
         updateInvoiceNumByRow={props.updateInvoiceNumByRow}
         invoiceNumber={props.invoiceNumber}
         errorOnDB={props.errorOnDB}
+        outputMode={props.outputMode}
         />
          : null} 
     </Container>

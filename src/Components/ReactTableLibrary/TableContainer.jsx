@@ -15,6 +15,7 @@ import AdminTableElements from '../../RoleBasedAccessControl/AdminSection/AdminT
 import SelectFieldTable from './SelectFieldTable/SelectFieldTable';
 import InputFieldTable from './InputFieldTable/InputFieldTable';
 import { updateByRowId } from '../../Firebase/UpdateRowsInRealtimeDB';
+import { RenderForManager } from '../../RoleBasedAccessControl/RoleBaseControl';
 
 const TableContainer = ({ 
   columns, data, onDelete, 
@@ -26,7 +27,7 @@ const TableContainer = ({
   statusHandler, onClickRowId,
   renderRowSubComponent, updatePRNumByRow,
   purchaseNumber, updateInvoiceNumByRow,
-  invoiceNumber, errorOnDB
+  invoiceNumber, errorOnDB, outputMode
    }) => {
   const {
     getTableProps, getTableBodyProps,
@@ -59,7 +60,7 @@ const TableContainer = ({
       statusHandler, onClickRowId,
       renderRowSubComponent, updatePRNumByRow,
       purchaseNumber, updateInvoiceNumByRow,
-      invoiceNumber, errorOnDB
+      invoiceNumber, errorOnDB, outputMode
     },
     useFilters, useSortBy,
     useExpanded, usePagination
@@ -93,8 +94,8 @@ const TableContainer = ({
     updateRowId(value)
    }
 
-   const managerApprovalHandler = () => {
-    const update = {managerApproved: true}
+  const managerApprovalHandler = () => {
+     const update = {managerApproved: true}
     updateByRowId(rowId, stateProps, null, null, update, 4, errorOnDB)
    }
   
@@ -120,8 +121,10 @@ const TableContainer = ({
               style={{verticalAlign: "baseline"}}>PR #</th> : null}
               {stateProps.outputTable && stateProps.selectedActivity === 4 ? <th
               style={{verticalAlign: "baseline"}}>Invoice #</th> : null}
+              <RenderForManager stateProps={stateProps}>
               {stateProps.outputTable && stateProps.selectedActivity === 4 ? <th
               style={{verticalAlign: "baseline"}}>Checked by Manager</th> : null}
+              </RenderForManager>
             </tr>
           ))}
         </thead>
@@ -170,6 +173,7 @@ const TableContainer = ({
                 onFocus={() => onClickRowId(data[row.id])} id={data[row.id].id} stateProps={stateProps}
                 /> </td>
                  : null}
+
                 {!stateProps.adminSection && stateProps.inputMode === false && 
                 stateProps.outputMode === true && stateProps.selectedActivity === 4 ?
                 <td>
@@ -179,14 +183,15 @@ const TableContainer = ({
                  : null}
 
                 {/* Check button for manager*/}
+                <RenderForManager stateProps={stateProps}>
                 {stateProps.outputTable && stateProps.selectedActivity === 4 ?
                 <td style={{verticalAlign: "inherit"}}> 
                  {data[row.id].managerApproved ? <span>&#10004;</span> :
-                 <button onClick={() => managerApprovalHandler()} 
-                 onFocus={() => getRowId(data[row.id].id)}
+                 <button onClick={() => {managerApprovalHandler(); outputMode()}} 
+                  onFocus={() => getRowId(data[row.id].id)}
                   id={data[row.id].id}>Checked</button>}
                 </td> : null} 
-
+                </RenderForManager>
 
                 {/* Delete button for reports page*/}
                 {stateProps.outputTable ?

@@ -1,15 +1,26 @@
 import Modal from "../Components/Modal/Modal"
 
-export const RenderForAdmin = ({stateProps, ...other}) => {
-  if (stateProps.role === "Administrator") {
+export const RenderForManager = ({stateProps, ...other}) => {
+  if (stateProps.role === "Manager") {
  return other.children
  } else return null
+}
+
+export const RenderForAdmin = ({stateProps, ...other}) => {
+  if (stateProps.role === "Manager") {
+ return other.children
+ } else if (stateProps.role === "Administrator") {
+  return other.children
+  } else return null
 }
 
 export const RenderForOperator = ({stateProps, ...other}) => {
   if (stateProps.role === "Operator") {
     return other.children
-    } 
+  } 
+  else if (stateProps.role === "Manager") {
+    return other.children
+  }
   else if (stateProps.role === "Administrator") {
     return other.children
   }

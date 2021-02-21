@@ -29,10 +29,8 @@ export const updateByRowId = (rowId, props, numberOfEmployee, numberOfJob, updat
      else {
       database.orderByChild("id")
         .equalTo(rowId).limitToLast(1).once('value').then((snapshot)=>{
-          console.log(rowId)
           if (snapshot.val() === null || snapshot.val() === undefined) {errorOnDB()}  
           else {const randomKey = Object.keys(snapshot.val())
-            console.log(snapshot.val())
           db.child(firstChild + randomKey).update(updates)
          resolve(snapshot.val()) }
         }).catch(err => {

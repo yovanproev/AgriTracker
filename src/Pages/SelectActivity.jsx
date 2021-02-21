@@ -49,12 +49,14 @@ const SelectActivity = (props) => {
       {props.stateProps.outputTable ? 
         <SelectReport
         modal={props.modal}
+        outputMode={props.outputMode}
         stateProps={props.stateProps}
         onClick={props.backButton}/> : null
       }
 
       {props.stateProps.adminSection ? 
         <AdminReports
+        adminMode={props.adminMode}
         modal={props.modal}
         stateProps={props.stateProps}
         onClick={props.backButton}/> : null

@@ -224,6 +224,7 @@ class App extends React.Component {
                   <Route path="/admin">
                     {this.state.currentUser ? 
                     <SelectActivity
+                    adminMode={this.adminModeHandler}
                     modal={this.hideModalHanlder}
                     key={this.activityHandler}
                     stateProps={this.state}
@@ -253,6 +254,7 @@ class App extends React.Component {
                     key={this.activityHandler}
                     stateProps={this.state}
                     onClick={this.activityHandler}
+                    outputMode={this.outputModeHandler}
                     backButton={this.backButtonHandler}/> : <StartingPage />} 
                   </Route>
                 </RenderForAdmin> 

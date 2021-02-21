@@ -28,7 +28,8 @@ export async function getLastIdForUsersInFirestore() {
 }
 
 export async function updateSelectFieldsInFirestore(selectField, newEntry, newSubCategory, hideModal) {
-    const selectionFields = [null, machines, attachedMachines, location, product, employees,
+   
+  const selectionFields = [null, machines, attachedMachines, location, product, employees,
       location, jobDescriptionsTractors, typeOfWorkOnTractors, technicians, typeOfStaff, projects,
       jobDescriptions, spendingOrPurchaseOfFuel, jobsWithAMachine, suppliers, categoryOfMaterials, 
       subCategoryOfMaterials, supplierOfFuel]

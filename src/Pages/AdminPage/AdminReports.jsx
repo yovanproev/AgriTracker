@@ -16,12 +16,15 @@ const AdminReports = (props) => {
       props.stateProps.selectedActivity === 2  || 
       props.stateProps.selectedActivity === 3  ||
       props.stateProps.selectedActivity === 4 ? 
-      <ManagementReports 
+      <ManagementReports
           stateProps={props}
           onClick={props.onClick}/> : null }
       
-      {props.stateProps.selectedActivity === 5 ? <SelectionFieldsUpdate 
-      stateProps={props.stateProps} onClick={props.onClick}/> : null}
+      {props.stateProps.selectedActivity === 5 ? 
+      <SelectionFieldsUpdate 
+      adminMode={props.adminMode}
+      stateProps={props.stateProps} 
+      onClick={props.onClick}/> : null}
       
     </div>
   ) 

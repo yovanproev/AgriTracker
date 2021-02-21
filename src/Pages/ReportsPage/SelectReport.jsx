@@ -104,6 +104,7 @@ const SelectReport = (props) => {
       {props.stateProps.selectedActivity && error === false ? loader : null}
       {/* {props.stateProps.selectedActivity === 4 ? moduleInProgress : null} */}
       < TableReport 
+        outputMode={props.outputMode}
         blockNextButton={blockNextButton}
         counter={counter}
         nextPageLoad={nextPageLoad}

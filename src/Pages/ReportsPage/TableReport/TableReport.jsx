@@ -76,6 +76,7 @@ const TableReport = (props) => {
             </div>
       </div>}
       <Table
+      outputMode={props.outputMode}
         updateDataByRowHandler={props.updateDataByRowHandler}
         statusHandler={props.statusHandler}
         onClickRowId={props.onClickRowId}
