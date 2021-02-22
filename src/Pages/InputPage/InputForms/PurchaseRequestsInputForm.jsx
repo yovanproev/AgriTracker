@@ -5,14 +5,15 @@ import "./InputForms.css"
 import BackButton from "../../../Components/BackButton/BackButton"
 
 import SelectField from "../SelectField/SelectField";
-import InputField from "../InputField/InputField";
-import TextField from "../InputField/InputTextField";
+// import InputField from "../InputField/InputField";
+// import TextField from "../InputField/InputTextField";
 
 import SubmitButton from "../../../Components/SubmitButton/SubmitButton"
 
 import Modal from "../../../Components/Modal/Modal"
 import GrapeSpinner1 from "../../../Components/Spinners/GrapeSpinner"
 import Calendar from "../../../Components/Calendar/Calendar";
+import PurchaseRequestInputTable from "../PurchaseRequestInputTable/PurchaseRequestInputTable";
 
 
 const PurchaseRequestsInput = (props) => {
@@ -22,11 +23,12 @@ const PurchaseRequestsInput = (props) => {
  useEffect(() => {
   if (props.localState.selectedOperatorId && 
       props.localState.supplier &&
-      props.localState.selectedCategoryOfMaterialsId && 
-      props.localState.selectedSubcategoryOfMaterialsId &&
-      props.localState.quantity &&
-      props.localState.price &&
-      props.localState.purposeOfPurchase &&
+      // props.localState.selectedCategoryOfMaterialsId && 
+      // props.localState.selectedSubcategoryOfMaterialsId &&
+      // props.localState.quantity &&
+      // props.localState.price &&
+      // props.localState.purposeOfPurchase &&
+      props.localState.purchase &&
       props.localState.date !== "null-null-null")
   setDisableButtton(props.localState.submitButtonDisabled = true) 
   else {
@@ -34,9 +36,13 @@ const PurchaseRequestsInput = (props) => {
   }, [props])
 
   const onButtonClick = () => {props.updateId()} 
-  
  
-  return (
+  const [ addItem, updateAddItem ] = useState([1])
+  const addItemHandler = () => {
+    updateAddItem([...addItem, parseInt(addItem) + 1])
+  }
+
+   return (
       <div className="full-div">
         <BackButton onClick={props.onClick}/>
         <h2>Purchase Requests</h2>
@@ -68,7 +74,18 @@ const PurchaseRequestsInput = (props) => {
              statename={props.localState.selectFields[14].statename}
              /> : null }
 
-             {props.localState.selectedSupplierId ?
+           {props.localState.selectedSupplierId ?
+            <PurchaseRequestInputTable 
+            purchaseRequestTableHandler={props.purchaseRequestTableHandler}
+            localState={props.localState} addItem={addItem}
+            /> 
+            : null} 
+
+           {props.localState.selectedSupplierId ? 
+             <button type="button" className="btn btn-success"
+             onClick={() => addItemHandler()}>Add Item</button> : null}
+            
+             {/* {props.localState.selectedSupplierId ?
             <SelectField
              id={props.localState.selectFields[15].id}
              onChange={props.selectFieldsHandler}
@@ -112,7 +129,7 @@ const PurchaseRequestsInput = (props) => {
                   name={[props.localState.inputFields][0][11].name}
                   statename={[props.localState.inputFields][0][11].statename}/>
               </div>: null} 
-           
+            */}
             {props.localState.submit ?
               <SubmitButton 
               disabled={!props.localState.submitButtonDisabled}

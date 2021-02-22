@@ -2,11 +2,20 @@
   display: flex;
   justify-content: space-between;
   padding-right: 10px;
-  background-color: #58c55d;
+  background-color: #246d27;
 }
 
 .picture {
   padding: 10px;
+  padding-top: 10px;
+  border-radius: 20px;
+}
+
+@media screen and (min-width: 768px) {
+  .picture {
+    width: 150px;
+    height: 90px;
+  }
 }
 
 .menu-wrap {
@@ -241,10 +250,10 @@
   .hamburger > div {
     position: absolute;
     right: 20px;
-    top: 26px;
+    top: 22px;
     width: 12.5%;
     height: 5px;
-    background-color: rgba(1, 83, 15, 1);
+    background-color: rgb(187, 255, 0);
     display: flex;
     z-index: 100;
     flex: auto;
@@ -262,13 +271,13 @@
     top: -6px;
     width: 100%;
     height: 5px;
-    background-color: rgba(1, 83, 15, 1);
+    background-color: rgb(187, 255, 0);
   }
 
   /* middle line */
   .hamburger > div::before {
     top: 16px;
-    background-color: rgba(1, 83, 15, 1);
+    background-color: rgb(187, 255, 0);
   }
 
   /* bottom line */

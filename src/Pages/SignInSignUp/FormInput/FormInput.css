@@ -22,18 +22,6 @@
   height: 7%;
 }
 
-/* @media screen and (max-height: 520px) {
-  .form-input {
-    height: 7vh;
-  }
-}
-
-@media screen and (max-height: 300px) {
-  .form-input {
-    height: 12vh;
-  }
-} */
-
 .form-input:focus {
   outline: none;
 }
@@ -49,7 +37,7 @@ input[type="password"] {
 }
 
 .form-input-label {
-  color: black;
+  color: rgb(240, 236, 236);
   font-size: 16px;
   font-weight: normal;
   position: absolute;

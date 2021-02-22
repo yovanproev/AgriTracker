@@ -3,9 +3,10 @@ import React from 'react';
 import './Backdrop.css';
 
 
-const backdrop = () => (
+const backdrop = (props) => (
+   
    <div className="Backdrop">
-       
+   {props.children    }
    </div> 
 );
 

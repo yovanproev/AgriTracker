@@ -121,7 +121,7 @@ class InputSelection extends Component {
     this.setState({ date: final })
   }
 
-  tableRowsHandler = (workingHours) => {
+  workHoursTableHandler = (workingHours) => {
     let employeesNames = []
     // put names of employees into an array
     Object.keys(workingHours).forEach(function(key) {
@@ -130,6 +130,14 @@ class InputSelection extends Component {
       manHours: workingHours,
       nameOfEmployee: employeesNames,
     })
+  };
+
+  purchaseRequestTableHandler = (purchaseRequestObject, rowId) => {
+    console.log(purchaseRequestObject)
+    this.setState({
+      purchase: purchaseRequestObject  
+    })
+  
   };
 
   disableMultiSelectOptionHandler = () => {
@@ -188,7 +196,7 @@ class InputSelection extends Component {
     // hide={this.props.modal}>Module Still In Progress</Modal> 
     const errorModal = <Modal show={this.state.error} 
     hide={this.props.modal}>Network error while posting data to Database, your entry is not recorded.</Modal> 
-        
+        console.log(this.state.purchase)
     return (
      <div>
       {errorModal}
@@ -234,7 +242,7 @@ class InputSelection extends Component {
       {this.props.stateProps.selectedActivity === 3 ?
       <WorkingHoursInputForm 
       stopComponentDidUpdate={this.stopComponentDidUpdate}
-      tableRowsHandler={this.tableRowsHandler}
+      tableRowsHandler={this.workHoursTableHandler}
       dateHandler={this.dateHandler}
       updateId={this.updateId}
       onClick={this.props.onClick}
@@ -249,6 +257,7 @@ class InputSelection extends Component {
 
        {this.props.stateProps.selectedActivity === 4 ?
       <PurchaseRequestsInput 
+      purchaseRequestTableHandler={this.purchaseRequestTableHandler}
       stopComponentDidUpdate={this.stopComponentDidUpdate}
       dateHandler={this.dateHandler}
       updateId={this.updateId}

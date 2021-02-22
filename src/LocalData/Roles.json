@@ -11,6 +11,10 @@
     {
       "id": 3,
       "name": "Disabled"
+    },
+    {
+      "id": 4,
+      "name": "Manager"
     }
   ]
 }

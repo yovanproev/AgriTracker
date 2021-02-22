@@ -1,7 +1,7 @@
 .activity-bubble {
   width: 25%;
   height: 80px;
-  background-color: rgb(21, 224, 55, 0.8);
+  background-color: rgba(8, 66, 17, 0.8);
   padding: 20px;
   margin: auto;
   border: 2px green solid;
@@ -20,8 +20,9 @@
 }
 
 .activity-bubble:hover {
-  background-color: rgba(1, 83, 15, 0.8);
+  background-color: rgba(201, 235, 11, 0.8);
   cursor: pointer;
+  color: rgb(18, 66, 30);
   transition-duration: 0.4s;
 }
 

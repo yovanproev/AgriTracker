@@ -26,7 +26,7 @@ const Header = ({ stateProps, inputMode, outputMode, adminMode, homeMode,
       {stateProps.currentUser ?  
         <NavLink to="/home" onClick={(e) => {homeMode(e); expiredToken()}}> 
         <img className="picture" src={Logo} 
-        alt="Logo_image" width="100px" >
+        alt="Logo_image" width="100px" height="80px" >
         </img></NavLink> : 
         <img className="picture" src={Logo} 
         alt="Logo_image" width="100px" >

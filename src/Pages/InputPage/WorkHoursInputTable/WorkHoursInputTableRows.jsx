@@ -1,8 +1,8 @@
 import React, { useEffect, useState, useMemo } from 'react'
 import { getSelectFields } from "../../../Firebase/FetchCollectionsFromFirestore"
-import "./CustomTable.css"
+import "./WorkHoursInputTable.css"
 
-export const CustomTableRows = ({jobActivities, index, tableRowsHandler, localState}) => {
+export const WorkHoursInputTableRows = ({jobActivities, index, tableRowsHandler, localState}) => {
   const [employeesRows, setEmployeesRows] = useState([]);
     
   useMemo(() => 
@@ -34,7 +34,8 @@ export const CustomTableRows = ({jobActivities, index, tableRowsHandler, localSt
       let employees =[];
       
       do {
-        employees.push({name: employeesRows[i]?.name, workHours:[{ type: jobActivities[i]?.name, time: ""}]});
+        employees.push({name: employeesRows[i]?.name, 
+          workHours:[{ type: jobActivities[i]?.name, time: ""}]});
         i++;
       } while (i < employeesRows.length);
       setWorkHourReg(employees)
@@ -100,7 +101,7 @@ export const CustomTableRows = ({jobActivities, index, tableRowsHandler, localSt
                     <label>
                         <input type="checkbox" name="checkboxName" value="on" 
                         onChange={(e) => {disableHandler(e); checkboxHandler(e, employee.name, rowId)}} 
-                        id={rowId}  
+                        id={rowId+"checkbox"}  
                         style={{width:"20px", height:"20px", margin: "auto 20px"}}/>
                     </label>
                 </td>
@@ -109,7 +110,7 @@ export const CustomTableRows = ({jobActivities, index, tableRowsHandler, localSt
                     <label style={{display:"grid"}}>
                         <input 
                         disabled={!check[rowId]}   
-                        type="number" id={rowId}
+                        type="number" id={rowId+"column2"}
                         value={(((workHourReg[rowId] || {}).workHours || {})[0] || {}).time || "" }
                         className="jobs-input"
                         step="0.1" 

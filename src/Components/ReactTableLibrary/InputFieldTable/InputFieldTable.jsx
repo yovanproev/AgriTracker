@@ -13,7 +13,7 @@ const InputFieldTable = ({onChange, value, onFocus, id, stateProps, nameOfStatus
     
   return (
       <div >
-        <textarea className="input-div-table" type="text"
+        <textarea className="text-input-reports" type="text"
           onChange={(e) => onChange(e.target.value)}
           // value={value ? value : ""}
           onFocus={onFocus}

@@ -61,8 +61,6 @@ const RequestApprovals = (props) => {
     const userId = process.env.NODE_ENV === 'production'
     ? userIdProd : userIdDev
 
-    
-    
     emailjs.sendForm(serviceId, templateId, e.target, userId)
   .then((result) => {
     setDisableButton(true)

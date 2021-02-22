@@ -1,7 +1,7 @@
 .Modal {
   position: fixed;
   z-index: 1;
-  background-color: rgb(75, 110, 6, 0.8);
+  background-color: rgba(46, 68, 2, 0.8);
   width: 250px;
   height: 350px;
   border: 1px solid #ccc;

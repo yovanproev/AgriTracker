@@ -12,7 +12,7 @@ import SubmitButton from "../../../Components/SubmitButton/SubmitButton"
 import Modal from "../../../Components/Modal/Modal"
 import GrapeSpinner1 from "../../../Components/Spinners/GrapeSpinner"
 import Calendar from "../../../Components/Calendar/Calendar";
-import CustomTable from "../CustomTable/CustomTable";
+import WorkHoursInputTable from "../WorkHoursInputTable/WorkHoursInputTable";
 
 const WorkingHoursInput = (props) => {
  const [ , setDisableButtton ] = useState(false)
@@ -97,7 +97,7 @@ const WorkingHoursInput = (props) => {
             style={{marginTop: "15px"}} onClick={props.restartFormHandler}>Restart Entries</button> : null}
 
             {props.localState.selectedMSJobDescriptionId && props.localState.disableMultiSelectOption ?
-            <CustomTable 
+            <WorkHoursInputTable 
             jobActivities={props.localState.selectedMSJobDescriptionId}
             tableRowsHandler={props.tableRowsHandler}
             names={arrayOfNames}
