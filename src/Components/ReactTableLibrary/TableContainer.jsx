@@ -27,8 +27,10 @@ const TableContainer = ({
   statusHandler, onClickRowId,
   renderRowSubComponent, updatePRNumByRow,
   purchaseNumber, updateInvoiceNumByRow,
-  invoiceNumber, errorOnDB, outputMode
+  invoiceNumber, errorOnDB, outputMode, 
+  parentNode
    }) => {
+     
   const {
     getTableProps, getTableBodyProps,
     headerGroups, page, prepareRow,
@@ -60,7 +62,8 @@ const TableContainer = ({
       statusHandler, onClickRowId,
       renderRowSubComponent, updatePRNumByRow,
       purchaseNumber, updateInvoiceNumByRow,
-      invoiceNumber, errorOnDB, outputMode
+      invoiceNumber, errorOnDB, outputMode,
+      parentNode
     },
     useFilters, useSortBy,
     useExpanded, usePagination
@@ -94,11 +97,11 @@ const TableContainer = ({
     updateRowId(value)
    }
 
-  const managerApprovalHandler = () => {
+    const managerApprovalHandler = (numberOfItem) => {
      const update = {managerApproved: true}
-    updateByRowId(rowId, stateProps, null, null, update, 4, errorOnDB)
+    updateByRowId(rowId, stateProps, null, null, update, 4, errorOnDB, numberOfItem)
    }
-  
+    
    return (
     <Fragment>
       <Table bordered hover striped responsive {...getTableProps()} style={{marginTop: "20px"}}>
@@ -131,15 +134,18 @@ const TableContainer = ({
 
         <tbody {...getTableBodyProps()}>
           {page.map((row) => {
-            // console.log(row)
+            // console.log(row.cells)
             prepareRow(row);
             return (
               <Fragment key={row.getRowProps().key}>
                 <tr>
                   {row.cells.map((cell) => {
                     return (
-                      <td {...cell.getCellProps()}>{isNaN(cell.render('Cell').props.value) === false ? 
-                      +parseFloat(cell.render('Cell').props.value).toFixed(1) || "" : cell.render('Cell')}</td>
+                      <td {...cell.getCellProps()}>
+                        {isNaN(cell.render('Cell').props.value) === false ? 
+                      +parseFloat(cell.render('Cell').props.value).toFixed(1) || "" 
+                      : cell.render('Cell')}
+                      </td>
                     );
                   })}
                 {/* <RenderForAdmin stateProps={stateProps}>   */}
@@ -186,8 +192,8 @@ const TableContainer = ({
                 <RenderForManager stateProps={stateProps}>
                 {stateProps.outputTable && stateProps.selectedActivity === 4 ?
                 <td style={{verticalAlign: "inherit"}}> 
-                 {data[row.id].managerApproved ? <span>&#10004;</span> :
-                 <button onClick={() => {managerApprovalHandler(); outputMode()}} 
+                 {data[row.id]?.managerApproved ? <span>&#10004;</span> :
+                 <button onClick={() => {managerApprovalHandler(data[row.id].numberOfItem); outputMode()}} 
                   onFocus={() => getRowId(data[row.id].id)}
                   id={data[row.id].id}>Checked</button>}
                 </td> : null} 
@@ -197,7 +203,8 @@ const TableContainer = ({
                 {stateProps.outputTable ?
                <td style={{verticalAlign: "inherit"}}> 
                  <DeleteButton onClick={() => {onDelete(data[row.id].id, 
-                  data[row.id].numberOfEmployee, data[row.id].numberOfJob)}}
+                  data[row.id].numberOfEmployee, data[row.id].numberOfJob, 
+                  data[row.id].numberOfItem)}}
                   id={data[row.id].id} stateProps={stateProps}/>
                 </td> : null}
                 

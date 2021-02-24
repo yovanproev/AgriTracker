@@ -56,9 +56,9 @@ const SelectReport = (props) => {
         })
   }, [props]);
 
- const deleteRowHandler = (rowId, numberOfEmployee, numberOfJob) => {
+ const deleteRowHandler = (rowId, numberOfEmployee, numberOfJob, numberOfItem) => {
     const rows = table.filter((row) => row.id !== rowId);
-    deleteByRowId(rowId, props, numberOfEmployee, numberOfJob)
+    deleteByRowId(rowId, props, numberOfEmployee, numberOfJob, numberOfItem)
     setTable(rows) 
   }
 

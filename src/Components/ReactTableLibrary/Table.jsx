@@ -7,15 +7,23 @@ import "./ReactTable.css"
 import  { conditionalTableColumns, usersCollection, selectionFieldsCollection }  from "./ConditionalTableColumns"
 
 const Table = (props) => {
-  const [ tableData, setTableData ] = useState([])
+  const [ tableColumns, setTableColumns ] = useState([])
   
-    useEffect(() => {
-    setTableData(conditionalTableColumns(props))
-    if (props.stateProps.selectedActivity === 0 && props.stateProps.adminSection) setTableData(usersCollection);
-    if (props.stateProps.selectedActivity === 5 && props.stateProps.adminSection)  setTableData(selectionFieldsCollection(props.selectFieldToModify)) 
-    }, [props])
+  const [ tableBody, setTableBody ] = useState([])
+  const [ parentNode, setParentNode ] = useState([])
+  
+  useEffect(() => {
+    setTableColumns(conditionalTableColumns(props))
+    if (props.stateProps.selectedActivity === 0 && props.stateProps.adminSection) setTableColumns(usersCollection);
+    if (props.stateProps.selectedActivity === 5 && props.stateProps.adminSection)  setTableColumns(selectionFieldsCollection(props.selectFieldToModify)) 
     
-   const renderRowSubComponent = React.useCallback(
+    if (props.stateProps.selectedActivity === 4 && props.stateProps.adminSection === false) {
+      setTableBody([].concat(...props.data))
+      setParentNode(props.data)      
+    }
+  }, [props])
+  
+  const renderRowSubComponent = React.useCallback(
     (postedData) => (
       <pre
         style={{
@@ -29,9 +37,9 @@ const Table = (props) => {
     []
   )
 
- return (
+  return (
     <Container style={{ margin: "auto", whiteSpace: "nowrap"}} >
-    {tableData ?  <TableContainer 
+    {tableColumns ?  <TableContainer 
         updateDataByRowHandler={props.updateDataByRowHandler}
         statusHandler={props.statusHandler}
         onClickRowId={props.onClickRowId}
@@ -42,8 +50,10 @@ const Table = (props) => {
         stateProps={props.stateProps}
         currentUser={props.stateProps.currentUser}
         onDelete={props.onDelete}
-        columns={tableData}
-        data={props.data}
+        columns={tableColumns}
+        data={props.stateProps.selectedActivity === 4 && props.stateProps.adminSection === false ? 
+          tableBody : props.data}
+        parentNode={parentNode}
         getRoleValue={props.getRoleValue}
         onClick={props.onClick}
         currentRole={props.currentRole}

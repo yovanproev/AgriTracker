@@ -13,8 +13,8 @@ export const getPaginatedTableData = (count, limit, props, errorOnDB, activity) 
    props.stateProps.selectedActivity === 2 && !props.stateProps.adminSection ? firebase_db_maintenance : 
    props.stateProps.selectedActivity === 4 && !props.stateProps.adminSection ? firebase_db_purchaseRequests : 
    activity === 4 ? firebase_db_purchaseRequests : []
-   
-    if (props.stateProps.selectedActivity === 3 && !props.stateProps.adminSection) {
+  //  console.log(props)
+    if (props.stateProps.selectedActivity === 3 && props.stateProps.adminMode === false) {
       firebase_db_workHours.limitToLast(limit).once("value", function(snapshot) {
         let arr = []
         let origin = snapshot.val()
@@ -38,7 +38,24 @@ export const getPaginatedTableData = (count, limit, props, errorOnDB, activity) 
          errorOnDB()
       })
     }
-    else if (activity === 4) {
+    // purchase requests
+    else if (props.stateProps.selectedActivity === 4 && !props.stateProps.adminSection) {
+      firebase_db_purchaseRequests.limitToLast(limit).once("value", function(snapshot) {
+        let arr = []
+        let origin = Object.values(snapshot.val())
+        origin.forEach(child => {
+            const childObject = Object.values(child.items)
+            arr.push(childObject)
+        })
+        if (snapshot.val() === null) {errorOnDB()}
+        resolve(arr)
+      }).catch(err => {
+        errorOnDB()
+      })
+    }
+
+    
+    else if (activity === 4 && !props.stateProps.selectedActivity === 3) {
       firebase_db_purchaseRequests.orderByChild("id")
       .equalTo(count).limitToLast(limit).once('value').then((snapshot)=>{
         if (snapshot.val() === null) {errorOnDB()}

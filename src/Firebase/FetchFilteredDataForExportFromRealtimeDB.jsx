@@ -32,7 +32,23 @@ export const getFilteredDataForExport = (startingDate, endDate, props) => {
         }).catch(err => {
             reject(err)
         })
-      } else if (props.stateProps.selectedActivity === 4 && props.stateProps.adminSection) {
+      } else if (props.stateProps.selectedActivity === 4 && props.stateProps.outputTable) {
+        firebase_db_purchaseRequests.once('value').then((snapshot)=>{
+          let arr = []
+          // let lengthOfArr = []
+          let origin = snapshot.val()
+            Object.values(origin).forEach(child => {
+                child.items.map(x => arr.push(x))
+                // const arrayLength = arr.length - 1
+                // lengthOfArr.push(arrayLength)
+              console.log(getFilteredArray(endDate, arr))
+              })
+            resolve(getFilteredArray(endDate, arr))
+        }).catch(err => {
+            reject(err)
+        })
+      }
+      else if (props.stateProps.selectedActivity === 4 && props.stateProps.adminSection) {
         firebase_db_workHours.once('value').then((snapshot)=>{
           let arr = []
           let secondArray = []

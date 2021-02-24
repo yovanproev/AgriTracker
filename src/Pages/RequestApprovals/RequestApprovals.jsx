@@ -29,6 +29,7 @@ const RequestApprovals = (props) => {
 
     const update = {statusOfRequest: "Declined"}
     updateByRowId(props.id, props.stateProps, null, null, update, activity, errorOnDB)
+
   }, [activity, props, purchaseNumber])
 
   // const errorOnDB = () => {
@@ -38,11 +39,11 @@ const RequestApprovals = (props) => {
     const closeError = () => {
       setError(false)
     }
-
+  
     // const update = {statusOfRequest: "Approved"}
     // console.log(props.id)
     // if (props.id) {updateByRowId(props.id, props, null, null, update, activity, errorOnDB)}
-
+ 
   const submitHandler = (e) => {
     e.preventDefault();
     

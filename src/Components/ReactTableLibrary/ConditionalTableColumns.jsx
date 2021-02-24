@@ -318,38 +318,24 @@ export const purchaseRequestsInputColumns = [
     disableSortBy: true,
     Filter: SelectColumnFilter,
     filter: 'equals',
-  }, 
-  {
-    Header: 'Category Of Materials',
-    accessor: "categoryOfMaterials",
-    disableSortBy: true,
-    Filter: SelectColumnFilter,
-    filter: 'equals',
-  },
-  {
-    Header: 'Subcategory Of Materials',
-    accessor: "subCategoryOfMaterials",
-    disableSortBy: true,
-    Filter: SelectColumnFilter,
-    filter: 'equals',
   },
   {
     Header: 'Quantity',
-    accessor: "quantity",
+    accessor: "itemQuantity",
     disableSortBy: true,
     Filter: SelectColumnFilter,
     filter: 'equals',
   },
   {
     Header: 'Price',
-    accessor: "price",
+    accessor: "itemPrice",
     disableSortBy: true,
     Filter: SelectColumnFilter,
     filter: 'equals',
   },
   {
     Header: 'Purpose Of Purchase',
-    accessor: 'purposeOfPurchase',
+    accessor: 'itemPurpose',
   },
    {
     Header: 'Status',
@@ -383,6 +369,20 @@ export const purchaseRequestsInputColumns = [
     Filter: SelectColumnFilter,
     filter: 'equals',
   },
+  {
+    Header: 'Category Of Materials',
+    accessor: "categoryOfMaterials",
+    disableSortBy: true,
+    Filter: SelectColumnFilter,
+    filter: 'equals',
+  },
+  {
+    Header: 'Subcategory Of Materials',
+    accessor: "subCategoryOfMaterials",
+    disableSortBy: true,
+    Filter: SelectColumnFilter,
+    filter: 'equals',
+  }
 ]
 
 export const usersCollection = [

@@ -1,5 +1,4 @@
 import { getDate, getDateAndTime, getTime } from "./GetDateTime";
-
  
 export const fuelConsumptionInputObject = (props) => {
   let object
@@ -101,8 +100,8 @@ export const workingHoursInputObject = (props) => {
     manHours: parseFloat((props.manHours[index].workHours[i] || []).time) || parseInt(0),
     nameOfEmployee: nameOfEmployee,
     
-    // numberOfEmployee: index,
-    // numberOfJob: i,
+    numberOfEmployee: index,
+    numberOfJob: i,
 
     timeOfEntry: getDateAndTime()
     }
@@ -112,47 +111,43 @@ export const workingHoursInputObject = (props) => {
   return object
 };
 
-// export const purcahseRequestsInputObject = (props, email) => {
-//   let object = {
-//   id: props.lastId,
-//   date: props.date,
-//   operator: props.selectedOperatorName,
-//   email: email,
-//   supplier: props.supplier,
-//   categoryOfMaterials: props.categoryOfMaterials,
-//   subCategoryOfMaterials: props.subCategoryOfMaterials,
-//   quantity: props.quantity,
-//   price: props.price,
-//   purposeOfPurchase: props.purposeOfPurchase,
-//   statusOfRequest: "Pending",
-//   timeOfEntry: getDateAndTime()
-//   }
-//   return object
-// };
+export const purcahseRequestsInputObject = (props, email) => {
+    
+  let childrenNodes = {}
+  for (let i = 0; i < props.purchase.length; i++) {
+  
+    const subChildrenNodes = props.purchase.map((items, index) => { 
+      // console.log(items)
+      let arr = []
+      for (let i = 0; i <= index; i++) {
+       arr.push(i)
+      }
+      let increaseIdForNextItem = arr.slice(-1)[0]
+            
+    return {
+        supplier: props.supplier,
+        statusOfRequest: "Pending",
+        date: props.date,
+        id: props.lastId + increaseIdForNextItem,
+        itemDescription: items?.description,
+        itemQuantity: items?.quantity,
+        itemPrice: items?.price,
+        itemPurpose: items?.purpose,
+        timeOfEntry: getDateAndTime(),
+        numberOfItem: props.lastParentId + 1
+     }
+   })
+console.log(subChildrenNodes)
+  const key = props.lastId + i
+  childrenNodes[key] = subChildrenNodes[i]
+  }
 
-export const purcahseRequestsInputObject = (props) => {
-  
-  let object = props.purchase.map((items, index) => { 
-    console.log(items)
-    let arr = []
-    for (let i = 0; i <= index; i++) {
-     arr.push(i)
-    }
-    let increaseIdForNextItem = arr.slice(-1)[0]
-        
-    let object1 = {
-    id: props.lastId + increaseIdForNextItem,
-    date: props.date,
-    itemDescription: items?.description,
-    itemQuantity: items?.quantity,
-    itemPrice: items?.price,
-    itemPurpose: items?.purpose,
-    timeOfEntry: getDateAndTime()
-    }
-    return object1
-  
-})
-  return object
+  let obj = {
+     email: email,
+     id: props.lastParentId + 1,
+     items: childrenNodes
+ } 
+ return obj
 };
 
 export const usersAuthentication = (props) => {

@@ -10,7 +10,7 @@ import WorkingHoursInputForm from "./InputForms/WorkingHoursInputForm";
 import PurchaseRequestsInput from "./InputForms/PurchaseRequestsInputForm";
 
 import { getSelectFields } from "../../Firebase/FetchCollectionsFromFirestore";
-import { getLastId } from "../../Firebase/FetchLastIdRealtimeDB";
+import { getLastId, getParentLastId } from "../../Firebase/FetchLastIdRealtimeDB";
 import { getLitersMissing, getTankResidual, workedHoursPerMachine } from "../../Firebase/FetchLastFuelEntryRealtimeDB"
 import { getImage, getNamesOfImages } from "../../Firebase/FetchAndUpdateImagesFromStorage";
 
@@ -27,10 +27,12 @@ class InputSelection extends Component {
   constructor (props) {
     super(props)
     const fullData = getLastId(this.props)
+    const lastParentId = getParentLastId(this.props)
       this.state = {
       submit: true,
       loading: false,
       submitButtonDisabled: "",
+      lastParentId: lastParentId.then(x => x),
       lastId: fullData.then(res => res),
       disableMultiSelectOption: false,
       stopComponentDidUpdate: false,    
@@ -43,6 +45,8 @@ class InputSelection extends Component {
   componentDidMount() {
     const fullData = getLastId(this.props)
       fullData.then((res, rej) => { this.setState({lastId: res, error: rej })})
+      const lastParentId = getParentLastId(this.props)
+      lastParentId.then((res, rej) => { this.setState({lastParentId: res, error: rej })})
    getTankResidual(this.state.selectedLocationName).then(liters => {
        this.setState({ tankResidual: parseFloat(liters) })})
     getLitersMissing(this.state.selectedLocationName).then(tankNum => {
@@ -196,7 +200,8 @@ class InputSelection extends Component {
     // hide={this.props.modal}>Module Still In Progress</Modal> 
     const errorModal = <Modal show={this.state.error} 
     hide={this.props.modal}>Network error while posting data to Database, your entry is not recorded.</Modal> 
-        console.log(this.state.purchase)
+        // console.log(this.state.lastParentId)
+        // console.log(this.state.lastId)
     return (
      <div>
       {errorModal}

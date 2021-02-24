@@ -11,7 +11,9 @@ import HomePage from './Pages/HomePage/HomePage';
 
 import SelectActivity from './Pages/SelectActivity';
 
-import { getPurchaseRequests, resetCounter } from "./Firebase/FetchDataFromRealtimeDB";
+import { 
+  // getPurchaseRequests, 
+  resetCounter } from "./Firebase/FetchDataFromRealtimeDB";
 import { auth, createUserProfileDocument } from "./Firebase/Firebase.utils"
 import { RenderForAdmin, RenderForOperator } from './RoleBasedAccessControl/RoleBaseControl';
 import Modal from "./Components/Modal/Modal"
@@ -64,7 +66,7 @@ class App extends React.Component {
       this.setState({ currentUser: userAuth})})
       this.setCredentialsHandler()
       this.expiredToken()
-       getPurchaseRequests(10, 10, this.state).then(purReq => {this.setState({purReq: Object.values(purReq)})})
+      //  getPurchaseRequests(10, 10, this.state).then(purReq => {this.setState({purReq: Object.values(purReq)})})
   }
 
   expiredToken = () => {

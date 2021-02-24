@@ -2,7 +2,9 @@ import { firebase_db, firebase_db_fuelConsump, firebase_db_machineReg,
          firebase_db_maintenance, firebase_db_workHours, firebase_db_purchaseRequests,
         firebase_db_authenticatedUsers } from "./Firebase.utils";
 
-export const updateByRowId = (rowId, props, numberOfEmployee, numberOfJob, updates, activity, errorOnDB) => {
+export const updateByRowId = (rowId, props, numberOfEmployee, numberOfJob, updates, activity, 
+  errorOnDB, numberOfItem) => {
+
   return new Promise((resolve, reject)=>{
     let db = firebase_db.ref();
     
@@ -25,14 +27,36 @@ export const updateByRowId = (rowId, props, numberOfEmployee, numberOfJob, updat
       }).catch(err => {
         reject(err)
       })
-     }
-     else {
-      database.orderByChild("id")
-        .equalTo(rowId).limitToLast(1).once('value').then((snapshot)=>{
+     } 
+     else if (props.selectedActivity === 4) {
+       database.orderByChild('id')
+        .endAt(numberOfItem).limitToLast(1).once('value').then((snapshot)=>{
+          console.log(Object.values(snapshot.val()))
           if (snapshot.val() === null || snapshot.val() === undefined) {errorOnDB()}  
           else {const randomKey = Object.keys(snapshot.val())
+            // const values = Object.values(snapshot.val())
+            const items = 'items'
+            // db.child(firstChild + randomKey).update(updates)
+            db.child(firstChild + randomKey + "/" + items + "/" + rowId).update(updates)
+         resolve(snapshot.val()) 
+        }
+        }).catch(err => {
+          errorOnDB()
+          reject(err)
+        })
+     }
+       else {
+        database.orderByChild('id')
+        .endAt(numberOfItem).limitToLast(1).once('value').then((snapshot)=>{
+          console.log(Object.values(snapshot.val()))
+          if (snapshot.val() === null || snapshot.val() === undefined) {errorOnDB()}  
+          else {const randomKey = Object.keys(snapshot.val())
+            // const values = Object.values(snapshot.val())
+            // const items = 'items'
+            
           db.child(firstChild + randomKey).update(updates)
-         resolve(snapshot.val()) }
+          resolve(snapshot.val()) 
+        }
         }).catch(err => {
           errorOnDB()
           reject(err)

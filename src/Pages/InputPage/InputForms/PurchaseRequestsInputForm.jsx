@@ -3,16 +3,12 @@ import React, { useState, useEffect } from "react";
 import "./InputForms.css"
 
 import BackButton from "../../../Components/BackButton/BackButton"
-
-import SelectField from "../SelectField/SelectField";
-// import InputField from "../InputField/InputField";
-// import TextField from "../InputField/InputTextField";
-
 import SubmitButton from "../../../Components/SubmitButton/SubmitButton"
-
 import Modal from "../../../Components/Modal/Modal"
 import GrapeSpinner1 from "../../../Components/Spinners/GrapeSpinner"
 import Calendar from "../../../Components/Calendar/Calendar";
+
+import SelectField from "../SelectField/SelectField";
 import PurchaseRequestInputTable from "../PurchaseRequestInputTable/PurchaseRequestInputTable";
 
 
@@ -23,11 +19,6 @@ const PurchaseRequestsInput = (props) => {
  useEffect(() => {
   if (props.localState.selectedOperatorId && 
       props.localState.supplier &&
-      // props.localState.selectedCategoryOfMaterialsId && 
-      // props.localState.selectedSubcategoryOfMaterialsId &&
-      // props.localState.quantity &&
-      // props.localState.price &&
-      // props.localState.purposeOfPurchase &&
       props.localState.purchase &&
       props.localState.date !== "null-null-null")
   setDisableButtton(props.localState.submitButtonDisabled = true) 
@@ -57,7 +48,7 @@ const PurchaseRequestsInput = (props) => {
             />             
           </div>
             
-           <SelectField
+          <SelectField
               id={props.localState.selectFields[4].id}
               onChange={props.selectFieldsHandler}
               value={props.localState.selectedOperatorId}
@@ -85,52 +76,7 @@ const PurchaseRequestsInput = (props) => {
              <button type="button" className="btn btn-success"
              onClick={() => addItemHandler()}>Add Item</button> : null}
             
-             {/* {props.localState.selectedSupplierId ?
-            <SelectField
-             id={props.localState.selectFields[15].id}
-             onChange={props.selectFieldsHandler}
-             value={props.localState.selectedCategoryOfMaterialsId}
-             selectedId={props.localState.selectFields[15].value}
-             statename={props.localState.selectFields[15].statename}
-             /> : null }
-
-             {props.localState.selectedCategoryOfMaterialsId ?
-            <SelectField
-             id={props.localState.selectFields[16].id}
-             onChange={props.selectFieldsHandler}
-             value={props.localState.selectedSubcategoryOfMaterialsId}
-             selectedId={props.localState.selectFields[16].value}
-             statename={props.localState.selectFields[16].statename}
-             localState={props.localState}
-             /> : null }
-
-            {props.localState.subCategoryOfMaterials === "Other" &&
-            props.localState.categoryOfMaterials === "Other" ? <TextField 
-               id={props.localState.inputFields[12].id}
-               onChange={props.inputFieldsHandler}
-               name={[props.localState.inputFields][0][12].name}
-               statename={[props.localState.inputFields][0][12].statename}/> : null}
-
-            {props.localState.selectedSubcategoryOfMaterialsId ?
-              <div className="input">
-                <InputField 
-                  id={props.localState.inputFields[9].id}
-                  onChange={props.inputFieldsHandler}
-                  name={[props.localState.inputFields][0][9].name}
-                  statename={[props.localState.inputFields][0][9].statename}/>
-                <InputField 
-                  id={props.localState.inputFields[10].id}
-                  onChange={props.inputFieldsHandler}
-                  name={[props.localState.inputFields][0][10].name}
-                  statename={[props.localState.inputFields][0][10].statename}/>
-                <TextField 
-                  id={props.localState.inputFields[11].id}
-                  onChange={props.inputFieldsHandler}
-                  name={[props.localState.inputFields][0][11].name}
-                  statename={[props.localState.inputFields][0][11].statename}/>
-              </div>: null} 
-            */}
-            {props.localState.submit ?
+           {props.localState.submit ?
               <SubmitButton 
               disabled={!props.localState.submitButtonDisabled}
               onClick={onButtonClick}
