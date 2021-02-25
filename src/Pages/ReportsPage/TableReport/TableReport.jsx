@@ -76,6 +76,12 @@ const TableReport = (props) => {
             </div>
       </div>}
       <Table
+      subcategorySelectField={props.subcategorySelectField}
+      categorySelectField={props.categorySelectField}
+      updateSubcategoryOfMaterialsByRow={props.updateSubcategoryOfMaterialsByRow}
+      subcategoryOfMaterials={props.subcategoryOfMaterials}
+      updateCategoryOfMaterialsByRow={props.updateCategoryOfMaterialsByRow}
+      categoryOfMaterials={props.categoryOfMaterials} 
       outputMode={props.outputMode}
         updateDataByRowHandler={props.updateDataByRowHandler}
         statusHandler={props.statusHandler}

@@ -28,7 +28,10 @@ const TableContainer = ({
   renderRowSubComponent, updatePRNumByRow,
   purchaseNumber, updateInvoiceNumByRow,
   invoiceNumber, errorOnDB, outputMode, 
-  parentNode
+  updateSubcategoryOfMaterialsByRow,
+  subcategoryOfMaterials, updateCategoryOfMaterialsByRow,
+  categoryOfMaterials, categorySelectField,
+  subcategorySelectField
    }) => {
      
   const {
@@ -63,7 +66,10 @@ const TableContainer = ({
       renderRowSubComponent, updatePRNumByRow,
       purchaseNumber, updateInvoiceNumByRow,
       invoiceNumber, errorOnDB, outputMode,
-      parentNode
+      updateSubcategoryOfMaterialsByRow,
+      subcategoryOfMaterials, updateCategoryOfMaterialsByRow,
+      categoryOfMaterials, categorySelectField,
+      subcategorySelectField
     },
     useFilters, useSortBy,
     useExpanded, usePagination
@@ -101,13 +107,20 @@ const TableContainer = ({
      const update = {managerApproved: true}
     updateByRowId(rowId, stateProps, null, null, update, 4, errorOnDB, numberOfItem)
    }
-    
+ 
    return (
     <Fragment>
       <Table bordered hover striped responsive {...getTableProps()} style={{marginTop: "20px"}}>
         <thead>
           {headerGroups.map((headerGroup) => (
             <tr {...headerGroup.getHeaderGroupProps()}>
+              
+              {stateProps.outputTable && stateProps.selectedActivity === 4 ? <th
+              style={{verticalAlign: "baseline"}}>PR #</th> : null}
+              {stateProps.outputTable && stateProps.selectedActivity === 4 ? <th
+              style={{verticalAlign: "baseline"}}>Invoice #</th> : null}
+              {stateProps.outputTable && stateProps.selectedActivity === 4 ? <th
+              style={{verticalAlign: "baseline"}}>Select status</th> : null}
               {headerGroup.headers.map((column) => (
                 <th {...column.getHeaderProps()} style={{verticalAlign: "baseline"}}>
                   <div {...column.getSortByToggleProps()}>
@@ -119,11 +132,9 @@ const TableContainer = ({
                 </th>
               ))}
               {stateProps.outputTable && stateProps.selectedActivity === 4 ? <th
-              style={{verticalAlign: "baseline"}}>Select status</th> : null}
+              style={{verticalAlign: "baseline"}}>Select category</th> : null}
               {stateProps.outputTable && stateProps.selectedActivity === 4 ? <th
-              style={{verticalAlign: "baseline"}}>PR #</th> : null}
-              {stateProps.outputTable && stateProps.selectedActivity === 4 ? <th
-              style={{verticalAlign: "baseline"}}>Invoice #</th> : null}
+              style={{verticalAlign: "baseline"}}>Select subcategory</th> : null}
               <RenderForManager stateProps={stateProps}>
               {stateProps.outputTable && stateProps.selectedActivity === 4 ? <th
               style={{verticalAlign: "baseline"}}>Checked by Manager</th> : null}
@@ -139,7 +150,36 @@ const TableContainer = ({
             return (
               <Fragment key={row.getRowProps().key}>
                 <tr>
-                  {row.cells.map((cell) => {
+                 {/* input of PR # and invoice # for Purchase Requests */}
+                {!stateProps.adminSection && stateProps.inputMode === false && 
+                stateProps.outputMode === true && stateProps.selectedActivity === 4 ?
+                <td>
+                <InputFieldTable onChange={updatePRNumByRow} value={purchaseNumber} 
+                onFocus={() => onClickRowId(data[row.id], data[row.id].numberOfItem)} 
+                id={data[row.id].id} stateProps={stateProps}
+                /> </td>
+                 : null}
+
+                {!stateProps.adminSection && stateProps.inputMode === false && 
+                stateProps.outputMode === true && stateProps.selectedActivity === 4 ?
+                <td>
+                <InputFieldTable onChange={updateInvoiceNumByRow} value={invoiceNumber} 
+                onFocus={() => onClickRowId(data[row.id], data[row.id].numberOfItem)} 
+                id={data[row.id].id} stateProps={stateProps}
+                /> </td>
+                 : null}
+                 {/* Selection of status for Purchase Request*/}
+                {!stateProps.adminSection && stateProps.inputMode === false && 
+                stateProps.outputMode === true && stateProps.selectedActivity === 4 ?
+                <td>
+                <SelectFieldTable onChange={updateDataByRowHandler} value={statusHandler} 
+                nameOfStatus={fetchStatusOfPurchaseByName(statusHandler)} 
+                onFocus={() => onClickRowId(data[row.id], data[row.id].numberOfItem)} 
+                id={data[row.id].id} stateProps={stateProps}
+                /> </td>
+                 : null}
+
+                {row.cells.map((cell) => {
                     return (
                       <td {...cell.getCellProps()}>
                         {isNaN(cell.render('Cell').props.value) === false ? 
@@ -161,32 +201,33 @@ const TableContainer = ({
                 currentRole={currentRole}
                 /> </td> }
                 
-                {/* Selection of status for Purchase Request*/}
+                {/* Selection of category*/}
                 {!stateProps.adminSection && stateProps.inputMode === false && 
                 stateProps.outputMode === true && stateProps.selectedActivity === 4 ?
                 <td>
-                <SelectFieldTable onChange={updateDataByRowHandler} value={statusHandler} 
-                nameOfStatus={fetchStatusOfPurchaseByName(statusHandler)}
-                onFocus={() => onClickRowId(data[row.id])} id={data[row.id].id} stateProps={stateProps}
+                <SelectFieldTable onChange={(e) => {updateCategoryOfMaterialsByRow(e); 
+                outputMode()}} // on refreshing output mode it calls all items again
+                value={categoryOfMaterials} 
+                nameOfStatus={categorySelectField[categoryOfMaterials]?.name} 
+                selectOptions={categorySelectField} selectIdentity={16}
+                onFocus={() => {onClickRowId(data[row.id], data[row.id].numberOfItem)}} 
+                id={data[row.id].id} stateProps={stateProps}
                 /> </td>
                  : null}
 
-                 {/* input of PR # and invoice # for Purchase Requests */}
+                {/* Selection of subcategory*/}
                 {!stateProps.adminSection && stateProps.inputMode === false && 
                 stateProps.outputMode === true && stateProps.selectedActivity === 4 ?
                 <td>
-                <InputFieldTable onChange={updatePRNumByRow} value={purchaseNumber} 
-                onFocus={() => onClickRowId(data[row.id])} id={data[row.id].id} stateProps={stateProps}
+                <SelectFieldTable onChange={updateSubcategoryOfMaterialsByRow} 
+                value={subcategoryOfMaterials} selectIdentity={17}
+                categoryOfMaterials={data[row.id]?.category}
+                nameOfStatus={subcategorySelectField[subcategoryOfMaterials]?.name} 
+                onFocus={() => onClickRowId(data[row.id], data[row.id].numberOfItem)} 
+                id={data[row.id].id} stateProps={stateProps}
                 /> </td>
                  : null}
 
-                {!stateProps.adminSection && stateProps.inputMode === false && 
-                stateProps.outputMode === true && stateProps.selectedActivity === 4 ?
-                <td>
-                <InputFieldTable onChange={updateInvoiceNumByRow} value={invoiceNumber} 
-                onFocus={() => onClickRowId(data[row.id])} id={data[row.id].id} stateProps={stateProps}
-                /> </td>
-                 : null}
 
                 {/* Check button for manager*/}
                 <RenderForManager stateProps={stateProps}>

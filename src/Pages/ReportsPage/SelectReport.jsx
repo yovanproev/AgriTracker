@@ -8,6 +8,7 @@ import { updateByRowId } from "../../Firebase/UpdateRowsInRealtimeDB";
 
 import TableReport from "./TableReport/TableReport"
 import { fetchStatusOfPurchaseByName } from "../../LocalData/InputFormsData"
+import { getSelectFields } from "../../Firebase/FetchCollectionsFromFirestore";
 
 const SelectReport = (props) => {
   const [ table, setTable ] = useState([])
@@ -25,8 +26,6 @@ const SelectReport = (props) => {
       Object.keys(fullData).forEach((key)=>{
         fullDataArray.push(fullData[key]);
       })
-      // console.log(counter)
-      // console.log(fullDataArray.length)
       updateBlockNextButton(fullDataArray.length < counter ? true : false )
     setTable(fullDataArray)
     })
@@ -39,12 +38,13 @@ const SelectReport = (props) => {
       Object.keys(fullData).forEach((key)=>{
         fullDataArray.push(fullData[key]);
       })
-      // console.log(counter)
-    updateBlockNextButton(fullDataArray.length > counter ? true : false)
+      updateBlockNextButton(fullDataArray.length > counter ? true : false)
     setTable(fullDataArray)
     })
   }
 
+  const [ categorySelectField, updateCategorySelectField ] = useState([]);
+  const [ subcategorySelectField, updateSubcategorySelectField ] = useState([]);
   useEffect(() => {
         getPaginatedTableData(0, 10, props, errorOnDB).then((fullData)=>{
             if (fullData === null) {errorOnDB()}
@@ -54,8 +54,11 @@ const SelectReport = (props) => {
             })
             setTable(fullDataArray)}
         })
-  }, [props]);
 
+        getSelectFields(16).then(category => updateCategorySelectField(category))
+        getSelectFields(17).then(category => updateSubcategorySelectField(category))
+  }, [props]);
+  
  const deleteRowHandler = (rowId, numberOfEmployee, numberOfJob, numberOfItem) => {
     const rows = table.filter((row) => row.id !== rowId);
     deleteByRowId(rowId, props, numberOfEmployee, numberOfJob, numberOfItem)
@@ -64,8 +67,13 @@ const SelectReport = (props) => {
 
   // get the table row number 
   const [ rowIdValue, setRowId ] = useState(undefined);
-  const onClickRowId = (rowId) => {
-    if (rowId.id !== undefined) setRowId(rowId.id)
+  const [ numberOfItem, setNumberOfItem ] = useState(undefined);
+ 
+  const onClickRowId = (rowId, numberOfItem) => {
+    if (rowId.id !== undefined) {
+    setRowId(rowId.id)
+    setNumberOfItem(numberOfItem)
+    }
     else return 0
   }
 
@@ -73,21 +81,39 @@ const SelectReport = (props) => {
   const updateDataByRowHandler = (value) => {
     updateStatusHandler(value)
     const update = {statusOfRequest: fetchStatusOfPurchaseByName(value)}
-    updateByRowId(rowIdValue, props.stateProps, null, null, update)
+    updateByRowId(rowIdValue, props.stateProps, null, null, update, null, errorOnDB, numberOfItem)
   }
    
   const [ purchaseNumber, updatePurchaseNumber ] = useState("")
   const updatePRNumByRow = (value) => {
     updatePurchaseNumber(value)
     const update = {PRNumber: value}
-    updateByRowId(rowIdValue, props.stateProps, null, null, update)
+    updateByRowId(rowIdValue, props.stateProps, null, null, update,null, errorOnDB, numberOfItem)
   }
 
   const [ invoiceNumber, updateInvoiceNumber ] = useState("")
   const updateInvoiceNumByRow = (value) => {
      updateInvoiceNumber(value)
     const update = {invoiceNum: value}
-    updateByRowId(rowIdValue, props.stateProps, null, null, update)
+    updateByRowId(rowIdValue, props.stateProps, null, null, update, null, errorOnDB, numberOfItem)
+  }
+
+  const [ categoryOfMaterials, updateCategoryOfMaterials ] = useState("")
+  const updateCategoryOfMaterialsByRow = (value) => {
+    updateCategoryOfMaterials(value)
+    console.log(value)
+    const filtered = categorySelectField.filter(x => x.id === (value))
+    const update = {category: filtered[0]?.name}
+    if (value !== 0)
+    updateByRowId(rowIdValue, props.stateProps, null, null, update, null, errorOnDB, numberOfItem)
+  }
+
+  const [ subcategoryOfMaterials, updateSubcategoryOfMaterials ] = useState("")
+  const updateSubcategoryOfMaterialsByRow = (value) => {
+    updateSubcategoryOfMaterials(value)
+    const filtered = subcategorySelectField.filter(x => x.id === (value))
+    const update = {subcategory: filtered[0].name}
+    updateByRowId(rowIdValue, props.stateProps, null, null, update, null, errorOnDB, numberOfItem)
   }
  
    //  const moduleInProgress = <Modal show={props.modal} hide={props.modal}>
@@ -97,13 +123,19 @@ const SelectReport = (props) => {
   
    const errorModal = <Modal show={error} 
     hide={props.modal}>User has no authorization to read data or no data in the DB.</Modal>
-
+// console.log(selectField)
     return (
     <div className="table-reports">
       {errorModal}
       {props.stateProps.selectedActivity && error === false ? loader : null}
       {/* {props.stateProps.selectedActivity === 4 ? moduleInProgress : null} */}
-      < TableReport 
+      < TableReport
+      subcategorySelectField={subcategorySelectField}
+      categorySelectField={categorySelectField}
+      updateSubcategoryOfMaterialsByRow={updateSubcategoryOfMaterialsByRow}
+      subcategoryOfMaterials={subcategoryOfMaterials}
+      updateCategoryOfMaterialsByRow={updateCategoryOfMaterialsByRow}
+      categoryOfMaterials={categoryOfMaterials} 
         outputMode={props.outputMode}
         blockNextButton={blockNextButton}
         counter={counter}

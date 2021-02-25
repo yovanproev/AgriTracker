@@ -53,8 +53,6 @@ export const getPaginatedTableData = (count, limit, props, errorOnDB, activity) 
         errorOnDB()
       })
     }
-
-    
     else if (activity === 4 && !props.stateProps.selectedActivity === 3) {
       firebase_db_purchaseRequests.orderByChild("id")
       .equalTo(count).limitToLast(limit).once('value').then((snapshot)=>{

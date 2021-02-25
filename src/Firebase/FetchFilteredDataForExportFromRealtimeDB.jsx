@@ -33,17 +33,19 @@ export const getFilteredDataForExport = (startingDate, endDate, props) => {
             reject(err)
         })
       } else if (props.stateProps.selectedActivity === 4 && props.stateProps.outputTable) {
-        firebase_db_purchaseRequests.once('value').then((snapshot)=>{
+        firebase_db_purchaseRequests.orderByChild("date")
+        .startAt(startingDate).once('value').then((snapshot)=>{
+          
           let arr = []
-          // let lengthOfArr = []
-          let origin = snapshot.val()
-            Object.values(origin).forEach(child => {
-                child.items.map(x => arr.push(x))
-                // const arrayLength = arr.length - 1
-                // lengthOfArr.push(arrayLength)
-              console.log(getFilteredArray(endDate, arr))
-              })
-            resolve(getFilteredArray(endDate, arr))
+          let secondArray = []
+          let origin = Object.values(snapshot.val())
+           origin.forEach(child => {
+              const childObject = Object.values(child.items)
+              arr.push(childObject)
+            })
+            secondArray.push([].concat(...arr))
+            // console.log(secondArray[0]) // [ {}, {}, {}... ]
+            resolve(getFilteredArray(endDate, secondArray[0]))
         }).catch(err => {
             reject(err)
         })

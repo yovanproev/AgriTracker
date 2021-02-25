@@ -320,6 +320,13 @@ export const purchaseRequestsInputColumns = [
     filter: 'equals',
   },
   {
+    Header: 'Description',
+    accessor: "itemDescription",
+    disableSortBy: true,
+    Filter: SelectColumnFilter,
+    filter: 'equals',
+  },
+  {
     Header: 'Quantity',
     accessor: "itemQuantity",
     disableSortBy: true,
@@ -371,14 +378,14 @@ export const purchaseRequestsInputColumns = [
   },
   {
     Header: 'Category Of Materials',
-    accessor: "categoryOfMaterials",
+    accessor: "category",
     disableSortBy: true,
     Filter: SelectColumnFilter,
     filter: 'equals',
   },
   {
     Header: 'Subcategory Of Materials',
-    accessor: "subCategoryOfMaterials",
+    accessor: "subcategory",
     disableSortBy: true,
     Filter: SelectColumnFilter,
     filter: 'equals',
@@ -616,7 +623,8 @@ export const usersAuthentication = [
     Cell: ({ row }) => (
       // Use Cell to render an expander for each row.
       <span {...row.getToggleRowExpandedProps()}>
-        {row.isExpanded ? '👇' : '👉'}
+        {row.isExpanded ? <i className="fas fa-arrow-circle-down fa-3x"></i> : 
+        <i className="fas fa-arrow-alt-circle-right fa-2x"></i>}
       </span>
     ),
   },

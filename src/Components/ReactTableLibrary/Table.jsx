@@ -40,6 +40,12 @@ const Table = (props) => {
   return (
     <Container style={{ margin: "auto", whiteSpace: "nowrap"}} >
     {tableColumns ?  <TableContainer 
+    subcategorySelectField={props.subcategorySelectField}
+    categorySelectField={props.categorySelectField}
+    updateSubcategoryOfMaterialsByRow={props.updateSubcategoryOfMaterialsByRow}
+    subcategoryOfMaterials={props.subcategoryOfMaterials}
+    updateCategoryOfMaterialsByRow={props.updateCategoryOfMaterialsByRow}
+    categoryOfMaterials={props.categoryOfMaterials} 
         updateDataByRowHandler={props.updateDataByRowHandler}
         statusHandler={props.statusHandler}
         onClickRowId={props.onClickRowId}

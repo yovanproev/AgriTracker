@@ -137,7 +137,6 @@ class InputSelection extends Component {
   };
 
   purchaseRequestTableHandler = (purchaseRequestObject, rowId) => {
-    console.log(purchaseRequestObject)
     this.setState({
       purchase: purchaseRequestObject  
     })

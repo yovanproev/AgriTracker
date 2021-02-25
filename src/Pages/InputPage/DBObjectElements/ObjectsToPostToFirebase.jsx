@@ -137,13 +137,14 @@ export const purcahseRequestsInputObject = (props, email) => {
         numberOfItem: props.lastParentId + 1
      }
    })
-console.log(subChildrenNodes)
+
   const key = props.lastId + i
   childrenNodes[key] = subChildrenNodes[i]
   }
 
   let obj = {
      email: email,
+     date: props.date,
      id: props.lastParentId + 1,
      items: childrenNodes
  } 
