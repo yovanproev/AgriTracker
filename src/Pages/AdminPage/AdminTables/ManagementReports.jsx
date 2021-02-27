@@ -83,7 +83,7 @@ const ManagementReports = (props) => {
             updateFuelForComparison(fuelForMachinesComparison)
              setLoading(false)
             }
-            
+          //  console.log(fullDataArray)
             let result = onlyFuelConsumption.reduce(function(prevValue, nextValue) {
 
                 let key = props.stateProps.stateProps.selectedActivity === 1 ? 
@@ -102,7 +102,7 @@ const ManagementReports = (props) => {
                   else if (props.stateProps.stateProps.selectedActivity === 2) object[key].hoursSpentOnLastActivity -= nextValue.hoursSpentOnLastActivity; 
                   else if (props.stateProps.stateProps.selectedActivity === 3) {object[key].costOfTechnician += nextValue.costOfTechnician
                   object[key].workedHours += nextValue.workedHours}
-                  else if (props.stateProps.stateProps.selectedActivity === 4) object[key].manHours += nextValue.manHours || {}
+                  else if (props.stateProps.stateProps.selectedActivity === 4) object[key].manHours += nextValue.manHours || 0
                   }
                                   
                 return prevValue;
@@ -121,7 +121,7 @@ const ManagementReports = (props) => {
     hide={hideModal}><Spinner2 /></Modal> 
   const errorModal = <Modal show={error} 
   hide={hideModal}>No records in the selected time period. Please select different period.</Modal> 
-// console.log(fuelForComparison)
+//console.log(dataPaginatedByDate)
   return (
     <div className="table-report">
       {loadingModal}

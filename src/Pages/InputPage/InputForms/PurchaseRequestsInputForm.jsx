@@ -26,8 +26,6 @@ const PurchaseRequestsInput = (props) => {
     setDisableButtton(props.localState.submitButtonDisabled = false) }
   }, [props])
 
-  const onButtonClick = () => {props.updateId()} 
- 
   const [ addItem, updateAddItem ] = useState([1])
   const addItemHandler = () => {
     updateAddItem([...addItem, parseInt(addItem) + 1])
@@ -79,7 +77,7 @@ const PurchaseRequestsInput = (props) => {
            {props.localState.submit ?
               <SubmitButton 
               disabled={!props.localState.submitButtonDisabled}
-              onClick={onButtonClick}
+              onClick={() => props.updateId()}
               type="submit"/> 
               : <Modal
               show={props.localState.loading}>

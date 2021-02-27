@@ -47,7 +47,8 @@ const SelectReport = (props) => {
   const [ subcategorySelectField, updateSubcategorySelectField ] = useState([]);
   useEffect(() => {
         getPaginatedTableData(0, 10, props, errorOnDB).then((fullData)=>{
-            if (fullData === null) {errorOnDB()}
+          //console.log(fullData)  
+          if (fullData === null || fullData === undefined) {errorOnDB()}
             else {let fullDataArray=[]
             Object.keys(fullData).forEach((key)=>{
               fullDataArray.push(fullData[key]);
@@ -59,9 +60,9 @@ const SelectReport = (props) => {
         getSelectFields(17).then(category => updateSubcategorySelectField(category))
   }, [props]);
   
- const deleteRowHandler = (rowId, numberOfEmployee, numberOfJob, numberOfItem) => {
+ const deleteRowHandler = (rowId, numberOfEmployee, numberOfJob, numberOfItem, parentId) => {
     const rows = table.filter((row) => row.id !== rowId);
-    deleteByRowId(rowId, props, numberOfEmployee, numberOfJob, numberOfItem)
+    deleteByRowId(rowId, props, numberOfEmployee, numberOfJob, numberOfItem, parentId)
     setTable(rows) 
   }
 

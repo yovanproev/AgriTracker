@@ -23,8 +23,8 @@ export const ExportCSV = ({csvData, fileName, stateProps}) => {
         const headerWorkHours = ["id", "nameOfEmployee", "typeOfHours", "location", "project",
         "jobDescription", "costCenter", "manHours", "date", "timeOfEntry"];
 
-        const headerPurhaseRequests = ["id", "supplier", "categoryOfMaterials", "subCategoryOfMaterials", 
-        "quantity", "price", "purposeOfPurchase", "statusOfRequest", "date", "timeOfEntry"];
+        const headerPurhaseRequests = ["id", "supplier", "itemDescription", "itemQuantity", "itemPrice", "itemPurpose", "statusOfRequest", 
+        "category", "subcategory", "PRNumber", "invoiceNum", "date", "timeOfEntry"];
         
         
         const header = stateProps.outputTable && stateProps.selectedActivity === 0 ? headerFuelReg :

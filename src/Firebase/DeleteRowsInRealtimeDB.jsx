@@ -1,7 +1,7 @@
 import { firebase_db, firebase_db_fuelConsump, firebase_db_machineReg, 
          firebase_db_maintenance, firebase_db_workHours, firebase_db_purchaseRequests } from "./Firebase.utils";
 
-export const deleteByRowId =  (rowId, props, numberOfEmployee, numberOfJob, numberOfItem) => {
+export const deleteByRowId = (rowId, props, numberOfEmployee, numberOfJob, numberOfItem, parentId) => {
   return new Promise((resolve, reject)=>{
     let db = firebase_db.ref();
     
@@ -17,9 +17,10 @@ export const deleteByRowId =  (rowId, props, numberOfEmployee, numberOfJob, numb
 
     if (props.stateProps.selectedActivity === 3) {
       firebase_db_workHours.orderByChild("id")
-      .endAt(rowId).limitToLast(1).once('value').then((snapshot)=>{
+      .endAt(parentId).limitToLast(1).once('value').then((snapshot)=>{
        const randomKey = Object.keys(snapshot.val())
-       db.child("workingHoursInput/"+ randomKey + "/" + numberOfEmployee + "/" + numberOfJob).remove()
+       const hoursPerEmployee = "hoursPerEmployee"
+       db.child("workingHoursInput/"+ randomKey + "/" + hoursPerEmployee + "/" + numberOfEmployee + "/" + numberOfJob).remove()
        resolve(snapshot.val())
       }).catch(err => {
         reject(err)

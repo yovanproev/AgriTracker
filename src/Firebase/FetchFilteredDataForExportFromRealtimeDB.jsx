@@ -18,24 +18,20 @@ export const getFilteredDataForExport = (startingDate, endDate, props) => {
         firebase_db_workHours.once('value').then((snapshot)=>{
           let arr = []
           let secondArray = []
-          let lengthOfArr = []
+          let finalArr = []
           let origin = snapshot.val()
-            Object.values(origin).forEach(child => 
-              child.forEach((secondChild)=> {
-                secondChild.map(x => arr.push(x))
-                secondArray.push(getFilteredArrayStartDate(startingDate, arr))
-                const arrayLength = secondArray.length - 1
-                lengthOfArr.push(arrayLength)
-              })
-            )
-            resolve(getFilteredArray(endDate, secondArray[lengthOfArr.slice(-1)[0]]))
+          Object.values(origin).forEach(child => {
+              arr.push(Object.values(child.hoursPerEmployee))
+          })
+          secondArray.push([].concat(...arr))
+          finalArr.push([].concat(...secondArray[0]))
+          resolve(getFilteredArray(endDate, finalArr[0]))
         }).catch(err => {
             reject(err)
         })
       } else if (props.stateProps.selectedActivity === 4 && props.stateProps.outputTable) {
         firebase_db_purchaseRequests.orderByChild("date")
         .startAt(startingDate).once('value').then((snapshot)=>{
-          
           let arr = []
           let secondArray = []
           let origin = Object.values(snapshot.val())
@@ -51,20 +47,19 @@ export const getFilteredDataForExport = (startingDate, endDate, props) => {
         })
       }
       else if (props.stateProps.selectedActivity === 4 && props.stateProps.adminSection) {
-        firebase_db_workHours.once('value').then((snapshot)=>{
+        firebase_db_workHours.orderByChild("date")
+        .startAt(startingDate).once('value').then((snapshot)=>{
           let arr = []
           let secondArray = []
-          let lengthOfArr = []
+          let finalArr = []
           let origin = snapshot.val()
-            Object.values(origin).forEach(child => 
-              child.forEach((secondChild)=> {
-                secondChild.map(x => arr.push(x))
-                secondArray.push(getFilteredArrayStartDate(startingDate, arr))
-                const arrayLength = secondArray.length - 1
-                lengthOfArr.push(arrayLength)
-              })
-            )
-            resolve(getFilteredArray(endDate, secondArray[lengthOfArr.slice(-1)[0]]))
+          Object.values(origin).forEach(child => {
+              arr.push(Object.values(child.hoursPerEmployee))
+          })
+          secondArray.push([].concat(...arr))
+          finalArr.push([].concat(...secondArray[0]))
+          //console.log(finalArr)
+          resolve(getFilteredArray(endDate, finalArr[0]))
         }).catch(err => {
           reject(err)
         })
@@ -115,16 +110,7 @@ const getFilteredArray = (endDate, initialArray) => {
   function reformatDate(date) {
       return date.split('-').reverse() // format ["2021", "01", "25"], in order to be able to create Data object
   }
-    
-//  function getByDate(date){
-  //  return initialArray.filter(function (el) {
-     //  console.log(el.date) // format 20-01-2021
-      // console.log(date) // array od data od site objekti ["2021", "01", "25"]
-      // console.log(new Date(date)) // sozdave data objekt
-  //     return el.date === date;
-  //   });
-  // }
- 
+     
   let sortedDataByDate = initialArray.sort(sortByDate)
 
   const filteredDataByEndDate = [];
@@ -148,45 +134,45 @@ const getFilteredArray = (endDate, initialArray) => {
    return filteredDataByEndDate;
 }
 
-const getFilteredArrayStartDate = (startDate, initialArray) => {
+// const getFilteredArrayStartDate = (startDate, initialArray) => {
   
-  const startingDay = startDate.slice(0, 2)    
-  const startingMonth = startDate.slice(3, 5) - 1    
-  const startingYear = startDate.slice(6, 10)    
+//   const startingDay = startDate.slice(0, 2)    
+//   const startingMonth = startDate.slice(3, 5) - 1    
+//   const startingYear = startDate.slice(6, 10)    
   
-  function getByDate(date){
-    return initialArray.filter(function (el) {
-      return el.date === date;
-    });
-  }
+//   function getByDate(date){
+//     return initialArray.filter(function (el) {
+//       return el.date === date;
+//     });
+//   }
   
-function reformatDate(date) {
-    return getByDate(date.split('-').reverse());
-  }
+// function reformatDate(date) {
+//     return getByDate(date.split('-').reverse());
+//   }
   
-  const sortByDate = function (a, b) {
-    return new Date(reformatDate(a.date)) - new Date(reformatDate(b.date));
-  };
+//   const sortByDate = function (a, b) {
+//     return new Date(reformatDate(a.date)) - new Date(reformatDate(b.date));
+//   };
   
-  const sortedDataByDate = initialArray.sort(sortByDate)
+//   const sortedDataByDate = initialArray.sort(sortByDate)
   
-  const filteredDataByStartingDate = [];
+//   const filteredDataByStartingDate = [];
            
-    for(const index in sortedDataByDate) {
-        const obj = sortedDataByDate[index];
-        const date = parseDate(obj.date);
+//     for(const index in sortedDataByDate) {
+//         const obj = sortedDataByDate[index];
+//         const date = parseDate(obj.date);
   
-        if(date >= new Date(startingYear, startingMonth, startingDay))
-         filteredDataByStartingDate.push(obj);
-    }
+//         if(date >= new Date(startingYear, startingMonth, startingDay))
+//          filteredDataByStartingDate.push(obj);
+//     }
 
-    function parseDate(dateStr) {
-        const date = dateStr.split('-');
-        const day = date[0];
-        const month = date[1] - 1; //January = 0
-        const year = date[2];
-        return new Date(year, month, day); 
-    }
+//     function parseDate(dateStr) {
+//         const date = dateStr.split('-');
+//         const day = date[0];
+//         const month = date[1] - 1; //January = 0
+//         const year = date[2];
+//         return new Date(year, month, day); 
+//     }
   
- return filteredDataByStartingDate;
-}
+//  return filteredDataByStartingDate;
+// }

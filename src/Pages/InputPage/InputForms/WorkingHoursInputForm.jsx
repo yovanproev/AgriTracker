@@ -31,8 +31,6 @@ const WorkingHoursInput = (props) => {
       setDisableButtton(props.localState.submitButtonDisabled = false) }
   }, [props])
 
-  const onButtonClick = () => {props.updateId()} 
-
   const arrayOfNames = props.localState.selectedMSJobDescriptionId ? props.localState.selectedMSJobDescriptionId.map(x => x.name) : null
   const arrayOfIds = props.localState.selectedMSJobDescriptionId ? 
   props.localState.selectedMSJobDescriptionId.map(x => x.id) : null
@@ -109,7 +107,7 @@ const WorkingHoursInput = (props) => {
              {props.localState.submit ?
               <SubmitButton 
               disabled={!props.localState.submitButtonDisabled}
-              onClick={onButtonClick}
+              onClick={() => props.updateId()}
               type="submit"/> 
               : <Modal
               show={props.localState.loading}>

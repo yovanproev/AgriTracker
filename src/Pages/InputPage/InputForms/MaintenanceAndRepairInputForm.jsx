@@ -33,9 +33,7 @@ const MaintenanceAndRepairsInput = (props) => {
     setDisableButtton(props.localState.submitButtonDisabled = false) }
   }, [props])
 
-  const onButtonClick = () => {props.updateId()} 
- 
-   return (
+  return (
       <div className="full-div">
         <BackButton onClick={props.onClick}/>
         <h2>Maintenance and Repairs</h2>
@@ -147,7 +145,7 @@ const MaintenanceAndRepairsInput = (props) => {
             {props.localState.submit ?
               <SubmitButton 
               disabled={!props.localState.submitButtonDisabled}
-              onClick={onButtonClick}
+              onClick={() => props.updateId()}
               type="submit"/> 
               : <Modal
               show={props.localState.loading}>

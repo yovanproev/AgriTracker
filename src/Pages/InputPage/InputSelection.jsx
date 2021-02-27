@@ -10,7 +10,7 @@ import WorkingHoursInputForm from "./InputForms/WorkingHoursInputForm";
 import PurchaseRequestsInput from "./InputForms/PurchaseRequestsInputForm";
 
 import { getSelectFields } from "../../Firebase/FetchCollectionsFromFirestore";
-import { getLastId, getParentLastId } from "../../Firebase/FetchLastIdRealtimeDB";
+import { getEmployeeRowLastId, getLastId, getParentLastId } from "../../Firebase/FetchLastIdRealtimeDB";
 import { getLitersMissing, getTankResidual, workedHoursPerMachine } from "../../Firebase/FetchLastFuelEntryRealtimeDB"
 import { getImage, getNamesOfImages } from "../../Firebase/FetchAndUpdateImagesFromStorage";
 
@@ -26,14 +26,16 @@ import { updateAuthUsers } from "../../Firebase/UpdateRowsInRealtimeDB";
 class InputSelection extends Component { 
   constructor (props) {
     super(props)
-    const fullData = getLastId(this.props)
+    const lastId = getLastId(this.props)
     const lastParentId = getParentLastId(this.props)
+    const employeeRowLastId = getEmployeeRowLastId(this.props)
       this.state = {
       submit: true,
       loading: false,
       submitButtonDisabled: "",
-      lastParentId: lastParentId.then(x => x),
-      lastId: fullData.then(res => res),
+      lastParentId: lastParentId.then(res => res),
+      employeeRowLastId: employeeRowLastId.then(res => res),
+      lastId: lastId.then(res => res),
       disableMultiSelectOption: false,
       stopComponentDidUpdate: false,    
       date: new Date(),
@@ -43,10 +45,13 @@ class InputSelection extends Component {
 }
   
   componentDidMount() {
-    const fullData = getLastId(this.props)
-      fullData.then((res, rej) => { this.setState({lastId: res, error: rej })})
-      const lastParentId = getParentLastId(this.props)
-      lastParentId.then((res, rej) => { this.setState({lastParentId: res, error: rej })})
+    getLastId(this.props).then((res, rej) => { 
+      this.setState({lastId: res + 1, error: rej })})
+    getParentLastId(this.props).then((res, rej) => { 
+      this.setState({lastParentId: res, error: rej })})
+    getEmployeeRowLastId(this.props).then((res, rej) => { 
+      this.setState({employeeRowLastId: res + 1, error: rej })})
+      
    getTankResidual(this.state.selectedLocationName).then(liters => {
        this.setState({ tankResidual: parseFloat(liters) })})
     getLitersMissing(this.state.selectedLocationName).then(tankNum => {
@@ -78,12 +83,11 @@ class InputSelection extends Component {
     }
   }
 
-  shouldComponentUpdate (nextProps, ) {
-    // console.log("shouldComponent Update")
-   return nextProps.lastId !== this.state.lastId 
-  }
-
-  updateId = () => {this.setState({lastId: parseInt(this.state.lastId) + parseInt(1)})}
+  updateId = () => {
+    if (this.props.stateProps.selectedActivity !== 3) {
+    this.setState({ lastId: parseInt(this.state.lastId) + parseInt(1) })}
+    this.setState({ lastParentId: parseInt(this.state.lastParentId) + parseInt(1),
+    })}
 
   onFocusHandler = (idOfSelectField) => {
      getNamesOfImages(parseInt(idOfSelectField)).then(fullList => {
@@ -104,7 +108,12 @@ class InputSelection extends Component {
         })
      })  
    }
- }
+   if (this.props.stateProps.selectedActivity === 3 && this.state.selectedProjectName) {
+   getEmployeeRowLastId(this.props).then((res, rej) => { 
+    this.setState({employeeRowLastId: res + 1, error: rej })})
+    getLastId(this.props).then((res, rej) => { 
+      this.setState({lastId: res + 1, error: rej })})}
+  }
 
   multiSelectHandler = (value) => {this.setState({ selectedMSJobDescriptionId: value })}
   
@@ -137,11 +146,7 @@ class InputSelection extends Component {
   };
 
   purchaseRequestTableHandler = (purchaseRequestObject, rowId) => {
-    this.setState({
-      purchase: purchaseRequestObject  
-    })
-  
-  };
+    this.setState({ purchase: purchaseRequestObject }) };
 
   disableMultiSelectOptionHandler = () => {
     this.setState({ disableMultiSelectOption: true})
@@ -192,6 +197,7 @@ class InputSelection extends Component {
       const URLSource = URLPostSource.split('.')[0]
       updateAuthUsers({[URLSource + " " + this.state.lastId]: "id: " + this.state.lastId + ", " + getDateAndTime()}, 
       this.props.stateProps) 
+      
   }
 
   render () {
@@ -199,9 +205,8 @@ class InputSelection extends Component {
     // hide={this.props.modal}>Module Still In Progress</Modal> 
     const errorModal = <Modal show={this.state.error} 
     hide={this.props.modal}>Network error while posting data to Database, your entry is not recorded.</Modal> 
-        // console.log(this.state.lastParentId)
-        // console.log(this.state.lastId)
-    return (
+      
+   return (
      <div>
       {errorModal}
       {this.props.stateProps.selectedActivity === 0 ?

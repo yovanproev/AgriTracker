@@ -44,8 +44,6 @@ const FuelConsumptionInput = (props) => {
     setDisableButtton(props.localState.submitButtonDisabled = false) }
   }, [props])
 
-  const onButtonClick = () => {props.updateId()} 
- 
    return (
       <div className="full-div">
         <BackButton onClick={props.onClick}/>
@@ -180,7 +178,7 @@ const FuelConsumptionInput = (props) => {
             {props.localState.submit ?
               <SubmitButton 
               disabled={!props.localState.submitButtonDisabled}
-              onClick={onButtonClick}
+              onClick={() => props.updateId()}
               type="submit"/> 
               : <Modal
               show={props.localState.loading}>

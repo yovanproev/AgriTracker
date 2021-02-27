@@ -17,14 +17,22 @@ export const getPaginatedTableData = (count, limit, props, errorOnDB, activity) 
     if (props.stateProps.selectedActivity === 3 && props.stateProps.adminMode === false) {
       firebase_db_workHours.limitToLast(limit).once("value", function(snapshot) {
         let arr = []
+        let secondArr = []
         let origin = snapshot.val()
-          Object.values(origin).forEach(child => 
-            child.forEach((secondChild)=> {
-              secondChild.map(x => arr.push(x))
-            })
-          )
-          if (snapshot.val() === null) {errorOnDB()}
-        resolve(arr)
+        // console.log(origin)
+        if (origin === null) {errorOnDB()}
+        else {
+          Object.values(origin)?.forEach(child => {
+          //  console.log(child.hoursPerEmployee)
+            Object.values(child.hoursPerEmployee).forEach((secondChild)=> {
+              const secondChildObject = Object.values(secondChild)
+              arr.push(secondChildObject)
+           })
+          })
+          secondArr.push([].concat(...arr))
+        }
+        // console.log(secondArr[0])
+         resolve(secondArr[0])
       }).catch(err => {
         errorOnDB()
       })
@@ -43,11 +51,12 @@ export const getPaginatedTableData = (count, limit, props, errorOnDB, activity) 
       firebase_db_purchaseRequests.limitToLast(limit).once("value", function(snapshot) {
         let arr = []
         let origin = Object.values(snapshot.val())
-        origin.forEach(child => {
+        if (origin === null) {errorOnDB()}
+        else { origin?.forEach(child => {
             const childObject = Object.values(child.items)
             arr.push(childObject)
         })
-        if (snapshot.val() === null) {errorOnDB()}
+      }
         resolve(arr)
       }).catch(err => {
         errorOnDB()

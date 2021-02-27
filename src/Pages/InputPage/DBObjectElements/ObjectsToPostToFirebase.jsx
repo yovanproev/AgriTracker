@@ -79,36 +79,50 @@ export const maintenanceAndRepairsInputObject = (props) => {
 
 export const workingHoursInputObject = (props) => {
   
-  let object = props.nameOfEmployee.map((nameOfEmployee, index) => { 
-    let arr = []
-    for (let i = 0; i <= index; i++) {
-     arr.push(i)
-    }
-    let increaseIdForNextEmployee = arr.slice(-1)[0]
+  let employeeNodes = {}
+  for (let lengthOfEmployeeArray = 0; 
+    lengthOfEmployeeArray < props.nameOfEmployee.length; 
+    lengthOfEmployeeArray++) {
     
-    let selectedJobs = props.selectedMSJobDescriptionId
-    return selectedJobs.map((jobDescription, i) => {
-    let object1 = {
-    id: props.lastId + i + index + increaseIdForNextEmployee,
-    date: props.date,
-    typeOfHours: props.selectedTypeOfHoursName,
-    location: props.selectedLocationName,
-    project: props.selectedProjectName,
-    costCenter: jobDescription.costCenter,
+    const employees = props.nameOfEmployee.map((nameOfEmployee, employeeId) => { 
+       const jobsLength = props.selectedMSJobDescriptionId.length  
+       const jobNodes = props.selectedMSJobDescriptionId.map((jobDescription, jobId) => {
     
-    jobDescription: jobDescription.name,
-    manHours: parseFloat((props.manHours[index].workHours[i] || []).time) || parseInt(0),
-    nameOfEmployee: nameOfEmployee,
-    
-    numberOfEmployee: index,
-    numberOfJob: i,
+       let object1 = {
+              id: props.lastId + jobId + employeeId + (jobsLength === 1 && jobsLength !== 2 ? 
+                0 : employeeId + employeeId) - (jobsLength === 2 ? 
+                  employeeId : 0),
+     
+              date: props.date,
+              typeOfHours: props.selectedTypeOfHoursName,
+              location: props.selectedLocationName,
+              project: props.selectedProjectName,
+              costCenter: jobDescription.costCenter,
+              
+              jobDescription: jobDescription.name,
+              manHours: parseFloat((props.manHours[employeeId].workHours[jobId] || []).time) || parseInt(0),
+              nameOfEmployee: nameOfEmployee,
+              
+              parentId: props.lastParentId, 
+              numberOfEmployee: props.employeeRowLastId + lengthOfEmployeeArray,
+              numberOfJob: jobId,
+          
+              timeOfEntry: getDateAndTime()
+            }
+            return object1
+        })
+      return jobNodes
+   })
+    const keys1 = props.employeeRowLastId + lengthOfEmployeeArray
+    employeeNodes[keys1] = employees[lengthOfEmployeeArray]
+  }
 
-    timeOfEntry: getDateAndTime()
-    }
-    return object1
-  })
-})
-  return object
+  let obj = {
+     date: props.date,
+     id: props.lastParentId,
+     hoursPerEmployee: employeeNodes
+ } 
+ return obj
 };
 
 export const purcahseRequestsInputObject = (props, email) => {

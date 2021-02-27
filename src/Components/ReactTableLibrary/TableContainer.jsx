@@ -145,7 +145,7 @@ const TableContainer = ({
 
         <tbody {...getTableBodyProps()}>
           {page.map((row) => {
-            // console.log(row.cells)
+            // console.log(data[row.id])
             prepareRow(row);
             return (
               <Fragment key={row.getRowProps().key}>
@@ -245,7 +245,7 @@ const TableContainer = ({
                <td style={{verticalAlign: "inherit"}}> 
                  <DeleteButton onClick={() => {onDelete(data[row.id].id, 
                   data[row.id].numberOfEmployee, data[row.id].numberOfJob, 
-                  data[row.id].numberOfItem)}}
+                  data[row.id].numberOfItem, data[row.id].parentId)}}
                   id={data[row.id].id} stateProps={stateProps}/>
                 </td> : null}
                 
