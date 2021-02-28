@@ -9,6 +9,7 @@ const DeleteButton = ({onClick, id, stateProps}) => {
   stateProps.selectedActivity === 1 ? "Machine Registration" :
   stateProps.selectedActivity === 2 ? "Maintenance & Repair" :
   stateProps.selectedActivity === 3 ? "Work Hours Registraiton" :
+  stateProps.selectedActivity === 4 ? "Purchase Request" :
   stateProps.selectedActivity === 5 ? "Select Field" : null
   
   const recordTrace = () => {

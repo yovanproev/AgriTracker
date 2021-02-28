@@ -162,7 +162,7 @@ export const purcahseRequestsInputObject = (props, email) => {
         itemPrice: items?.price,
         itemPurpose: items?.purpose,
         timeOfEntry: getDateAndTime(),
-        numberOfItem: props.lastParentId + 1
+        numberOfItem: props.lastParentId 
      }
    })
 

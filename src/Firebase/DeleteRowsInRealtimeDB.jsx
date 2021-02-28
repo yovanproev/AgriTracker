@@ -20,7 +20,10 @@ export const deleteByRowId = (rowId, props, numberOfEmployee, numberOfJob, numbe
       .endAt(parentId).limitToLast(1).once('value').then((snapshot)=>{
        const randomKey = Object.keys(snapshot.val())
        const hoursPerEmployee = "hoursPerEmployee"
-       db.child("workingHoursInput/"+ randomKey + "/" + hoursPerEmployee + "/" + numberOfEmployee + "/" + numberOfJob).remove()
+
+       if (Object.keys(Object.values(snapshot.val())[0].hoursPerEmployee).length === 1) {
+        db.child("workingHoursInput/"+ randomKey).remove()}
+       else db.child("workingHoursInput/"+ randomKey + "/" + hoursPerEmployee + "/" + numberOfEmployee + "/" + numberOfJob).remove()
        resolve(snapshot.val())
       }).catch(err => {
         reject(err)
@@ -31,7 +34,10 @@ export const deleteByRowId = (rowId, props, numberOfEmployee, numberOfJob, numbe
       .endAt(numberOfItem).limitToLast(1).once('value').then((snapshot)=>{
        const randomKey = Object.keys(snapshot.val())
        const items = "items"
-       db.child("purchaseRequests/"+ randomKey + "/" + items + "/" + rowId).remove()
+       
+       if (Object.keys(Object.values(snapshot.val())[0].items).length === 1) {
+         db.child("purchaseRequests/"+ randomKey).remove()}
+       else db.child("purchaseRequests/"+ randomKey + "/" + items + "/" + rowId).remove()
        resolve(snapshot.val())
       }).catch(err => {
         reject(err)
