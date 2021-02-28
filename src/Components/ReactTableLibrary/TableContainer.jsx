@@ -23,7 +23,7 @@ const TableContainer = ({
   getRoleValue, onClick,
   currentRole, nextPageLoad,
   previousPageLoad, counter,
-  blockNextButton, updateDataByRowHandler,
+  blockNextButton, updateStatusOfPurchaseRequestHandler,
   statusHandler, onClickRowId,
   renderRowSubComponent, updatePRNumByRow,
   purchaseNumber, updateInvoiceNumByRow,
@@ -31,7 +31,8 @@ const TableContainer = ({
   updateSubcategoryOfMaterialsByRow,
   subcategoryOfMaterials, updateCategoryOfMaterialsByRow,
   categoryOfMaterials, categorySelectField,
-  subcategorySelectField
+  subcategorySelectField, updateFuelPriceHandler,
+  fuelPrice
    }) => {
      
   const {
@@ -61,7 +62,7 @@ const TableContainer = ({
       onClick, currentRole,
       nextPageLoad, previousPageLoad,
       counter, blockNextButton,
-      updateDataByRowHandler,
+      updateStatusOfPurchaseRequestHandler,
       statusHandler, onClickRowId,
       renderRowSubComponent, updatePRNumByRow,
       purchaseNumber, updateInvoiceNumByRow,
@@ -69,7 +70,8 @@ const TableContainer = ({
       updateSubcategoryOfMaterialsByRow,
       subcategoryOfMaterials, updateCategoryOfMaterialsByRow,
       categoryOfMaterials, categorySelectField,
-      subcategorySelectField
+      subcategorySelectField, updateFuelPriceHandler,
+      fuelPrice
     },
     useFilters, useSortBy,
     useExpanded, usePagination
@@ -172,7 +174,7 @@ const TableContainer = ({
                 {!stateProps.adminSection && stateProps.inputMode === false && 
                 stateProps.outputMode === true && stateProps.selectedActivity === 4 ?
                 <td>
-                <SelectFieldTable onChange={updateDataByRowHandler} value={statusHandler} 
+                <SelectFieldTable onChange={updateStatusOfPurchaseRequestHandler} value={statusHandler} 
                 nameOfStatus={fetchStatusOfPurchaseByName(statusHandler)} 
                 onFocus={() => onClickRowId(data[row.id], data[row.id].numberOfItem)} 
                 id={data[row.id].id} stateProps={stateProps}
@@ -228,7 +230,6 @@ const TableContainer = ({
                 /> </td>
                  : null}
 
-
                 {/* Check button for manager*/}
                 <RenderForManager stateProps={stateProps}>
                 {stateProps.outputTable && stateProps.selectedActivity === 4 ?
@@ -239,6 +240,18 @@ const TableContainer = ({
                   id={data[row.id].id}>Checked</button>}
                 </td> : null} 
                 </RenderForManager>
+
+                {/* price for fuel per liter */}
+                {!stateProps.adminSection && stateProps.inputMode === false && 
+                stateProps.outputMode === true && stateProps.selectedActivity === 0 &&
+                data[row.id].fuelChoice === "Purchase" ?
+                <td>
+                <InputFieldTable purchaseMode={data[row.id].fuelChoice}
+                onChange={updateFuelPriceHandler} value={fuelPrice} 
+                onFocus={() => onClickRowId(data[row.id])} 
+                id={data[row.id].id} stateProps={stateProps}
+                /> </td>
+                 : null}
 
                 {/* Delete button for reports page*/}
                 {stateProps.outputTable ?

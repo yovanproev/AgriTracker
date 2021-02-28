@@ -78,8 +78,15 @@ const SelectReport = (props) => {
     else return 0
   }
 
+  const [ fuelPrice, updateFuelPrice ] = useState("")
+  const updateFuelPriceHandler = (value) => {
+    updateFuelPrice(value)
+    const update = {pricePerLiter: value}
+    updateByRowId(rowIdValue, props.stateProps, null, null, update, null, errorOnDB, null)
+  }
+
   const [ statusHandler, updateStatusHandler ] = useState("")
-  const updateDataByRowHandler = (value) => {
+  const updateStatusOfPurchaseRequestHandler = (value) => {
     updateStatusHandler(value)
     const update = {statusOfRequest: fetchStatusOfPurchaseByName(value)}
     updateByRowId(rowIdValue, props.stateProps, null, null, update, null, errorOnDB, numberOfItem)
@@ -131,22 +138,24 @@ const SelectReport = (props) => {
       {props.stateProps.selectedActivity && error === false ? loader : null}
       {/* {props.stateProps.selectedActivity === 4 ? moduleInProgress : null} */}
       < TableReport
-      subcategorySelectField={subcategorySelectField}
-      categorySelectField={categorySelectField}
-      updateSubcategoryOfMaterialsByRow={updateSubcategoryOfMaterialsByRow}
-      subcategoryOfMaterials={subcategoryOfMaterials}
-      updateCategoryOfMaterialsByRow={updateCategoryOfMaterialsByRow}
-      categoryOfMaterials={categoryOfMaterials} 
+        updateFuelPriceHandler={updateFuelPriceHandler}
+        fuelPrice={fuelPrice}
+        subcategorySelectField={subcategorySelectField}
+        categorySelectField={categorySelectField}
+        updateSubcategoryOfMaterialsByRow={updateSubcategoryOfMaterialsByRow}
+        subcategoryOfMaterials={subcategoryOfMaterials}
+        updateCategoryOfMaterialsByRow={updateCategoryOfMaterialsByRow}
+        categoryOfMaterials={categoryOfMaterials} 
         outputMode={props.outputMode}
-        blockNextButton={blockNextButton}
-        counter={counter}
+       blockNextButton={blockNextButton}
+       counter={counter}
         nextPageLoad={nextPageLoad}
         previousPageLoad={previousPageLoad}
         stateProps={props}
         deleteRowHandler={deleteRowHandler} 
         tableData={table}
         onClick={props.onClick}
-        updateDataByRowHandler={updateDataByRowHandler}
+        updateStatusOfPurchaseRequestHandler={updateStatusOfPurchaseRequestHandler}
         statusHandler={statusHandler}
         onClickRowId={onClickRowId}
         updatePRNumByRow={updatePRNumByRow}

@@ -52,6 +52,10 @@ const fuelConsumptionColumns = [
     accessor: 'liters',
   },
   {
+    Header: 'Price per liter',
+    accessor: 'pricePerLiter',
+  },
+  {
     Header: 'Kilometers',
     accessor: 'kilometers',
   },

@@ -12,10 +12,15 @@ export const getFilteredDataForExport = (startingDate, endDate, props) => {
     props.stateProps.selectedActivity === 2 && props.stateProps.adminSection ? firebase_db_machineReg : 
     props.stateProps.selectedActivity === 3 && props.stateProps.adminSection ? firebase_db_maintenance : null
 
+    function reformatDate(date) {
+      return date.split('-').reverse() // format ["2021", "01", "25"]
+  }
+
     if (startingDate !== "null-null-null" && endDate !== "null-null-null") { 
-      
       if (props.stateProps.selectedActivity === 3 && props.stateProps.outputTable) {
-        firebase_db_workHours.once('value').then((snapshot)=>{
+        const queryParameter = +reformatDate(startingDate).toString().replace(/[,]/g, '')
+        firebase_db_workHours.orderByChild("queryParameter")
+        .startAt(queryParameter).once('value').then((snapshot)=>{
           let arr = []
           let secondArray = []
           let finalArr = []
@@ -30,8 +35,9 @@ export const getFilteredDataForExport = (startingDate, endDate, props) => {
             reject(err)
         })
       } else if (props.stateProps.selectedActivity === 4 && props.stateProps.outputTable) {
-        firebase_db_purchaseRequests.orderByChild("date")
-        .startAt(startingDate).once('value').then((snapshot)=>{
+        const queryParameter = +reformatDate(startingDate).toString().replace(/[,]/g, '')
+        firebase_db_purchaseRequests.orderByChild("queryParameter")
+        .startAt(queryParameter).once('value').then((snapshot)=>{
           let arr = []
           let secondArray = []
           let origin = Object.values(snapshot.val())
@@ -40,15 +46,15 @@ export const getFilteredDataForExport = (startingDate, endDate, props) => {
               arr.push(childObject)
             })
             secondArray.push([].concat(...arr))
-            // console.log(secondArray[0]) // [ {}, {}, {}... ]
             resolve(getFilteredArray(endDate, secondArray[0]))
         }).catch(err => {
             reject(err)
         })
       }
       else if (props.stateProps.selectedActivity === 4 && props.stateProps.adminSection) {
-        firebase_db_workHours.orderByChild("date")
-        .startAt(startingDate).once('value').then((snapshot)=>{
+        const queryParameter = +reformatDate(startingDate).toString().replace(/[,]/g, '')
+        firebase_db_workHours.orderByChild("queryParameter")
+        .startAt(queryParameter).once('value').then((snapshot)=>{
           let arr = []
           let secondArray = []
           let finalArr = []
@@ -58,22 +64,22 @@ export const getFilteredDataForExport = (startingDate, endDate, props) => {
           })
           secondArray.push([].concat(...arr))
           finalArr.push([].concat(...secondArray[0]))
-          //console.log(finalArr)
           resolve(getFilteredArray(endDate, finalArr[0]))
         }).catch(err => {
           reject(err)
         })
       } 
       else if (props.stateProps.selectedActivity === 2 && props.stateProps.adminSection) {
+        const queryParameter = +reformatDate(startingDate).toString().replace(/[,]/g, '')
           let mergeFuelAndMachineReg = []
-          firebase_db_fuelConsump.orderByChild("date")
-          .startAt(startingDate).once('value').then((snapshot)=>{
+          firebase_db_fuelConsump.orderByChild("queryParameter")
+          .startAt(queryParameter).once('value').then((snapshot)=>{
             const initialArray = snapshot.val() === null ? [] : Object.values(snapshot.val())
              mergeFuelAndMachineReg.push(getFilteredArray(endDate, initialArray))
             })
             
-            firebase_db_machineReg.orderByChild("date")
-            .startAt(startingDate).once('value').then((snapshot)=>{
+            firebase_db_machineReg.orderByChild("queryParameter")
+            .startAt(queryParameter).once('value').then((snapshot)=>{
               const initialArray = Object.values(snapshot.val())
               mergeFuelAndMachineReg.push(getFilteredArray(endDate, initialArray))
               resolve(mergeFuelAndMachineReg)
@@ -82,8 +88,9 @@ export const getFilteredDataForExport = (startingDate, endDate, props) => {
         })
       }
        else {
-        database.orderByChild("date")
-        .startAt(startingDate).once('value').then((snapshot)=>{
+        const queryParameter = +reformatDate(startingDate).toString().replace(/[,]/g, '')
+        database.orderByChild("queryParameter")
+        .startAt(queryParameter).once('value').then((snapshot)=>{
           const initialArray = Object.values(snapshot.val())
           resolve(getFilteredArray(endDate, initialArray))
           }).catch(err => {
@@ -110,7 +117,7 @@ const getFilteredArray = (endDate, initialArray) => {
   function reformatDate(date) {
       return date.split('-').reverse() // format ["2021", "01", "25"], in order to be able to create Data object
   }
-     
+ 
   let sortedDataByDate = initialArray.sort(sortByDate)
 
   const filteredDataByEndDate = [];
@@ -134,45 +141,3 @@ const getFilteredArray = (endDate, initialArray) => {
    return filteredDataByEndDate;
 }
 
-// const getFilteredArrayStartDate = (startDate, initialArray) => {
-  
-//   const startingDay = startDate.slice(0, 2)    
-//   const startingMonth = startDate.slice(3, 5) - 1    
-//   const startingYear = startDate.slice(6, 10)    
-  
-//   function getByDate(date){
-//     return initialArray.filter(function (el) {
-//       return el.date === date;
-//     });
-//   }
-  
-// function reformatDate(date) {
-//     return getByDate(date.split('-').reverse());
-//   }
-  
-//   const sortByDate = function (a, b) {
-//     return new Date(reformatDate(a.date)) - new Date(reformatDate(b.date));
-//   };
-  
-//   const sortedDataByDate = initialArray.sort(sortByDate)
-  
-//   const filteredDataByStartingDate = [];
-           
-//     for(const index in sortedDataByDate) {
-//         const obj = sortedDataByDate[index];
-//         const date = parseDate(obj.date);
-  
-//         if(date >= new Date(startingYear, startingMonth, startingDay))
-//          filteredDataByStartingDate.push(obj);
-//     }
-
-//     function parseDate(dateStr) {
-//         const date = dateStr.split('-');
-//         const day = date[0];
-//         const month = date[1] - 1; //January = 0
-//         const year = date[2];
-//         return new Date(year, month, day); 
-//     }
-  
-//  return filteredDataByStartingDate;
-// }

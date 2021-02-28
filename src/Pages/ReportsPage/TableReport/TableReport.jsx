@@ -76,6 +76,8 @@ const TableReport = (props) => {
             </div>
       </div>}
       <Table
+      updateFuelPriceHandler={props.updateFuelPriceHandler}
+      fuelPrice={props.fuelPrice}
       subcategorySelectField={props.subcategorySelectField}
       categorySelectField={props.categorySelectField}
       updateSubcategoryOfMaterialsByRow={props.updateSubcategoryOfMaterialsByRow}
@@ -83,7 +85,7 @@ const TableReport = (props) => {
       updateCategoryOfMaterialsByRow={props.updateCategoryOfMaterialsByRow}
       categoryOfMaterials={props.categoryOfMaterials} 
       outputMode={props.outputMode}
-        updateDataByRowHandler={props.updateDataByRowHandler}
+        updateStatusOfPurchaseRequestHandler={props.updateStatusOfPurchaseRequestHandler}
         statusHandler={props.statusHandler}
         onClickRowId={props.onClickRowId}
         blockNextButton={props.blockNextButton}

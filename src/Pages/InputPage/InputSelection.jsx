@@ -22,6 +22,7 @@ import Modal from "../../Components/Modal/Modal"
 
 import { initialState } from "./InitialState"
 import { updateAuthUsers } from "../../Firebase/UpdateRowsInRealtimeDB";
+import emailSentForNewChildCreated from "../RequestApprovals/EmailJS";
 
 class InputSelection extends Component { 
   constructor (props) {
@@ -197,7 +198,7 @@ class InputSelection extends Component {
       const URLSource = URLPostSource.split('.')[0]
       updateAuthUsers({[URLSource + " " + this.state.lastId]: "id: " + this.state.lastId + ", " + getDateAndTime()}, 
       this.props.stateProps) 
-      
+       emailSentForNewChildCreated(checkForActivity)   
   }
 
   render () {

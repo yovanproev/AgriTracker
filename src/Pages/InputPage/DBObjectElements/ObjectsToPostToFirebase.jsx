@@ -1,8 +1,12 @@
 import { getDate, getDateAndTime, getTime } from "./GetDateTime";
  
+function reformatDate(date) {
+  return date.split('-').reverse() // format ["2021", "01", "25"]
+}
+
 export const fuelConsumptionInputObject = (props) => {
   let object
-   
+  const queryParameter = +reformatDate(props.date).toString().replace(/[,]/g, '') 
   const toNegativeNumber = (num) => -Math.abs(num);
   
   props.selectedSpendingOrPurchaseId === 1 ?
@@ -20,7 +24,8 @@ export const fuelConsumptionInputObject = (props) => {
     tankResidual: props.tankResidual ? 
     (+parseFloat(props.tankResidual) - +parseFloat(props.liters)).toFixed(1) : parseInt(0),
     litersMissing: (+parseFloat(props.tankNum) - +parseFloat(props.lastTankNumber)).toFixed(1) - +parseFloat(props.liters),
-    timeOfEntry: getDateAndTime()
+    timeOfEntry: getDateAndTime(),
+    queryParameter: queryParameter
   } :
   object = {
     id: props.lastId,
@@ -34,30 +39,35 @@ export const fuelConsumptionInputObject = (props) => {
     tankResidual: props.tankResidual ? 
     (+parseFloat(props.tankResidual) + +parseFloat(props.liters)).toFixed(1) : parseFloat(props.liters),
     deliveryNote: props.deliveryNote,
-    timeOfEntry: getDateAndTime()
+    timeOfEntry: getDateAndTime(),
+    queryParameter: queryParameter
     }
   return object
 };
  
  export const machineRegistrationInputObject = (props) => {
+  const queryParameter = +reformatDate(props.date).toString().replace(/[,]/g, '')
   let object = {
   id: props.lastId,
   machine: props.selectedMachineName,
   attachedMachinery: props.selectedAttachedMachineryName,
   farmLocation: props.selectedFarmName,
   product: props.selectedProductName,
-  kilometers: props.kilometersOnMachine,
+  kilometers: +parseFloat(props.kilometersOnMachine).toFixed(1),
   operator: props.selectedOperatorName,
   machinesJob: props.machinesJobs,
   hoursSpentOnLastActivity: props.hoursSpentOnLastActivity ? 
   (+parseFloat(props.hoursSpentOnLastActivity) - +parseFloat(props.kilometersOnMachine)).toFixed(1) : parseInt(0),
   date: props.date,
-  timeOfEntry: getDateAndTime()
+  timeOfEntry: getDateAndTime(),
+  queryParameter: queryParameter
   }
   return object
 };
 
 export const maintenanceAndRepairsInputObject = (props) => {
+  const queryParameter = +reformatDate(props.date).toString().replace(/[,]/g, '')
+
   let object = {
   id: props.lastId,
   machine: props.selectedMachineName,
@@ -72,7 +82,8 @@ export const maintenanceAndRepairsInputObject = (props) => {
   costOfTechnician: +parseFloat(props.costOfTechnician).toFixed(1),
   jobDescription: props.selectedJobName,
   date: props.date,
-  timeOfEntry: getDateAndTime()
+  timeOfEntry: getDateAndTime(),
+  queryParameter: queryParameter
   }
   return object
 };
@@ -117,10 +128,13 @@ export const workingHoursInputObject = (props) => {
     employeeNodes[keys1] = employees[lengthOfEmployeeArray]
   }
 
+   const queryParameter = +reformatDate(props.date).toString().replace(/[,]/g, '')
+
   let obj = {
      date: props.date,
      id: props.lastParentId,
-     hoursPerEmployee: employeeNodes
+     hoursPerEmployee: employeeNodes,
+     queryParameter: queryParameter
  } 
  return obj
 };
@@ -142,7 +156,7 @@ export const purcahseRequestsInputObject = (props, email) => {
         supplier: props.supplier,
         statusOfRequest: "Pending",
         date: props.date,
-        id: props.lastId + increaseIdForNextItem,
+        id: props.lastId + increaseIdForNextItem - 1,
         itemDescription: items?.description,
         itemQuantity: items?.quantity,
         itemPrice: items?.price,
@@ -152,15 +166,19 @@ export const purcahseRequestsInputObject = (props, email) => {
      }
    })
 
-  const key = props.lastId + i
+  const key = props.lastId + i - 1
   childrenNodes[key] = subChildrenNodes[i]
   }
+ 
+  const queryParameter = +reformatDate(props.date).toString().replace(/[,]/g, '')
 
   let obj = {
+     operator: props.selectedOperatorName,
      email: email,
      date: props.date,
-     id: props.lastParentId + 1,
-     items: childrenNodes
+     id: props.lastParentId,
+     items: childrenNodes,
+     queryParameter: queryParameter
  } 
  return obj
 };

@@ -50,14 +50,19 @@ export const getPaginatedTableData = (count, limit, props, errorOnDB, activity) 
     else if (props.stateProps.selectedActivity === 4 && !props.stateProps.adminSection) {
       firebase_db_purchaseRequests.limitToLast(limit).once("value", function(snapshot) {
         let arr = []
+        let secondArr = []
         let origin = Object.values(snapshot.val())
+        //console.log(origin)
         if (origin === null) {errorOnDB()}
-        else { origin?.forEach(child => {
-            const childObject = Object.values(child.items)
+        else { 
+          Object.values(origin)?.forEach(child => {
+            const childObject = Object.values(child.items || {})
             arr.push(childObject)
         })
       }
-        resolve(arr)
+      secondArr.push([].concat(...arr))
+      //console.log(secondArr)
+        resolve(secondArr)
       }).catch(err => {
         errorOnDB()
       })

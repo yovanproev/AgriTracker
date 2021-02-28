@@ -32,10 +32,10 @@ const ManagementReports = (props) => {
    updateEndDate(endDate)
   }
 
-  const hideModal = () => {
-    setError(false)
-  }
+  const hideModal = () => { setError(false) }
 
+  const [ showHoursOnlyPerMachine, updateShowHoursOnlyPerMachine ] = useState(false)
+  
   useEffect(() => {
     setName(props.stateProps.stateProps.adminActivity[props.stateProps.stateProps.selectedActivity].name)
     
@@ -67,61 +67,90 @@ const ManagementReports = (props) => {
             const object = {}; 
 
             if (props.stateProps.stateProps.selectedActivity === 2) {
-            let fuelForMachinesComparison = 
-            fullDataArray[0].filter(machine => machine.machine).reduce(function(prevValue, nextValue) {
+              let fuelForMachinesComparison = 
+                fullDataArray[0].filter(machine => machine.machine).reduce(function(prevValue, nextValue) {
+                   let key = !showHoursOnlyPerMachine ? 
+                    nextValue.machine + '-' + nextValue.location + '-' + nextValue.attachedMachinery :
+                    nextValue.machine           
 
-              let key = nextValue.machine + '-' + nextValue.location + '-' + nextValue.attachedMachinery              
-
-              if(!object[key]) {
-                object[key] = Object.assign({}, nextValue); // create a copy of next value
-                prevValue.push(object[key]);
-              } else {
-                object[key].liters += nextValue.liters 
-              }
-              return prevValue;
-            }, []);
-            updateFuelForComparison(fuelForMachinesComparison)
-             setLoading(false)
+                    if(!object[key]) {
+                      object[key] = Object.assign({}, nextValue); // create a copy of next value
+                      prevValue.push(object[key]);
+                    } else {
+                      object[key].liters += nextValue.liters 
+                    }
+                    return prevValue;
+                }, []);
+                updateFuelForComparison(fuelForMachinesComparison)
+                setLoading(false)
             }
-          //  console.log(fullDataArray)
-            let result = onlyFuelConsumption.reduce(function(prevValue, nextValue) {
+
+            if (!showHoursOnlyPerMachine) {
+             let result = onlyFuelConsumption.reduce(function(prevValue, nextValue) {
 
                 let key = props.stateProps.stateProps.selectedActivity === 1 ? 
                 nextValue.machine + '-' + nextValue.attachedMachinery + '-' + nextValue.location : 
                 props.stateProps.stateProps.selectedActivity === 2 ? 
-                nextValue.machine + '-' + nextValue.attachedMachinery + '-' + nextValue.location + '-' + nextValue.product + '-' + nextValue.machinesJob:
+                nextValue.machine + '-' + nextValue.attachedMachinery + '-' + 
+                nextValue.location + '-' + nextValue.product + '-' + nextValue.machinesJob :
                 props.stateProps.stateProps.selectedActivity === 3 ? 
-                nextValue.machine + '-' + nextValue.attachedMachinery + '-' + nextValue.jobDescription + '-' + nextValue.maintenanceOrRerairs : 
-                props.stateProps.stateProps.selectedActivity === 4 ? nextValue.date + '-' + nextValue.nameOfEmployee : null
+                nextValue.machine + '-' + nextValue.attachedMachinery + '-' + 
+                nextValue.jobDescription + '-' + nextValue.maintenanceOrRerairs : 
+                props.stateProps.stateProps.selectedActivity === 4 ? nextValue.date 
+                + '-' + nextValue.nameOfEmployee : null
 
                 if(!object[key]) {
                   object[key] = Object.assign({}, nextValue); // create a copy of next value
                   prevValue.push(object[key]);
                 } else {
-                  if (props.stateProps.stateProps.selectedActivity === 1) object[key].liters += nextValue.liters 
-                  else if (props.stateProps.stateProps.selectedActivity === 2) object[key].hoursSpentOnLastActivity -= nextValue.hoursSpentOnLastActivity; 
-                  else if (props.stateProps.stateProps.selectedActivity === 3) {object[key].costOfTechnician += nextValue.costOfTechnician
-                  object[key].workedHours += nextValue.workedHours}
-                  else if (props.stateProps.stateProps.selectedActivity === 4) object[key].manHours += nextValue.manHours || 0
+                  if (props.stateProps.stateProps.selectedActivity === 1) {
+                    object[key].liters += nextValue.liters }
+                  else if (props.stateProps.stateProps.selectedActivity === 2) {
+                    object[key].hoursSpentOnLastActivity -= nextValue.hoursSpentOnLastActivity}
+                  else if (props.stateProps.stateProps.selectedActivity === 3) {
+                    object[key].costOfTechnician += nextValue.costOfTechnician
+                    object[key].workedHours += nextValue.workedHours}
+                  else if (props.stateProps.stateProps.selectedActivity === 4) {
+                    object[key].manHours += nextValue.manHours || 0}
                   }
-                                  
+              console.log(object)            
                 return prevValue;
               }, []);
-            updateDataPaginatedByDate(result)
+              updateDataPaginatedByDate(result)
+              setLoading(false)
+            }
+            else {
+            const object1 = {};
+             let result = onlyFuelConsumption.reduce(function(prevValue, nextValue) {
+                let key = props.stateProps.stateProps.selectedActivity === 2 && showHoursOnlyPerMachine ? 
+                nextValue.machine : null
+
+                if(!object1[key]) {
+                  object1[key] = Object.assign({}, nextValue); // create a copy of next value
+                  prevValue.push(object1[key]);
+                } else {
+                  if (props.stateProps.stateProps.selectedActivity === 2) {
+                    object1[key].hoursSpentOnLastActivity -= nextValue.hoursSpentOnLastActivity}
+                  else return 0
+                  }
+                return prevValue;
+              }, []);
+             updateDataPaginatedByDate(result)
             setLoading(false)
+           }
           })
       }).catch(err => {
             setError(true)
             setLoading(false)
       })
     }
-  }, [endDate, props.stateProps, startingDate])
-  
+  }, [endDate, props.stateProps, startingDate, showHoursOnlyPerMachine])
+ 
  const loadingModal = <Modal show={loading} 
     hide={hideModal}><Spinner2 /></Modal> 
   const errorModal = <Modal show={error} 
   hide={hideModal}>No records in the selected time period. Please select different period.</Modal> 
-//console.log(dataPaginatedByDate)
+
   return (
     <div className="table-report">
       {loadingModal}
@@ -135,20 +164,26 @@ const ManagementReports = (props) => {
            </div>
             {/* <ExportCSV  csvData={excelData} 
             fileName={nameOfModule} /> */}
-          </div>
+           </div>
+           <div><button type="button" className="btn btn-success"
+           onClick={() => updateShowHoursOnlyPerMachine(!showHoursOnlyPerMachine)}
+           >{!showHoursOnlyPerMachine ? "Show hours per Machine" : "Show hours per product"}</button></div>
       
+        {props.stateProps.stateProps.selectedActivity === 2 ? 
+        <AdminMachinesTable 
+          showHoursOnlyPerMachine={showHoursOnlyPerMachine}
+          stateProps={props.stateProps.stateProps}
+          data={dataPaginatedByDate}
+          fuelForComparison={fuelForComparison}
+          /> : null}
+
         {props.stateProps.stateProps.selectedActivity === 4 ?  
         <AdminWorkHoursTable 
             stateProps={props.stateProps.stateProps}
             data={dataPaginatedByDate}
             // modeChange={props.modeChange}
             /> : null}
-         {props.stateProps.stateProps.selectedActivity === 2 ?  
-         <AdminMachinesTable  
-            stateProps={props.stateProps.stateProps}
-            data={dataPaginatedByDate}
-            fuelForComparison={fuelForComparison}
-            /> : null}
+         
 
           {props.stateProps.stateProps.selectedActivity !== 4 && 
           props.stateProps.stateProps.selectedActivity !== 2 ? 

@@ -4,7 +4,7 @@ import { getDateAndTime } from "../../../Pages/InputPage/DBObjectElements/GetDat
 
 import "./InputFieldTable.css"
 
-const InputFieldTable = ({onChange, value, onFocus, id, stateProps, nameOfStatus}) => {
+const InputFieldTable = ({onChange, value, onFocus, id, stateProps, nameOfStatus, purchaseMode}) => {
   
   const recordTrace = () => {
     updateAuthUsers({ PurchaseRequestStatus: id + ", " + nameOfStatus + ", " + getDateAndTime()}, 
@@ -13,13 +13,22 @@ const InputFieldTable = ({onChange, value, onFocus, id, stateProps, nameOfStatus
     
   return (
       <div >
-        <textarea className="text-input-reports" type="text"
+        {stateProps.selectedActivity === 0 && purchaseMode === "Purchase" ? 
+        <input className="text-input-reports" type="number"
+         placeholder="Price per liter"
           onChange={(e) => onChange(e.target.value)}
           // value={value ? value : ""}
           onFocus={onFocus}
           onBlur={() => recordTrace()}
           id={id}>
-          </textarea>
+          </input> 
+        : <textarea className="text-input-reports" type="text"
+         onChange={(e) => onChange(e.target.value)}
+          // value={value ? value : ""}
+          onFocus={onFocus}
+          onBlur={() => recordTrace()}
+          id={id}>
+          </textarea>}
       </div>
     )
   
