@@ -9,9 +9,9 @@ export const ExportCSV = ({csvData, fileName, stateProps}) => {
     const fileExtension = '.xlsx';
 
     const exportToCSV = (csvData, fileName) => {
-        const headerFuelReg = ["id","fuelChoice", "machine", "attachedMachinery", "location", "liters",
-        "kilometers", "supplierOfFuel", "deliveryNote", "tankNumber", "litersMissing", "operator", 
-        "tankResidual", "date", "timeOfEntry"];
+        const headerFuelReg = ["id", "fuelChoice", "machine", "attachedMachinery", "location", "liters",
+        "kilometers", "supplierOfFuel", "deliveryNote", "pricePerLiter", "tankNumber", "litersMissing", 
+        "operator", "tankResidual", "date", "timeOfEntry"];
 
         const headerMachineReg = ["id", "machine","attachedMachinery", "farmLocation", "product",
         "machinesJob", "kilometers", "operator", "hoursSpentOnLastActivity", "date", "timeOfEntry"];

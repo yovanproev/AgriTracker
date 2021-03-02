@@ -10,8 +10,7 @@ const Table = (props) => {
   const [ tableColumns, setTableColumns ] = useState([])
   
   const [ tableBody, setTableBody ] = useState([])
-  const [ parentNode, setParentNode ] = useState([])
-  
+    
   useEffect(() => {
     setTableColumns(conditionalTableColumns(props))
     if (props.stateProps.selectedActivity === 0 && props.stateProps.adminSection) setTableColumns(usersCollection);
@@ -19,7 +18,6 @@ const Table = (props) => {
     
     if (props.stateProps.selectedActivity === 4 && props.stateProps.adminSection === false) {
       setTableBody([].concat(...props.data))
-      setParentNode(props.data)      
     }
   }, [props])
   
@@ -61,7 +59,6 @@ const Table = (props) => {
         columns={tableColumns}
         data={props.stateProps.selectedActivity === 4 && props.stateProps.adminSection === false ? 
           tableBody : props.data}
-        parentNode={parentNode}
         getRoleValue={props.getRoleValue}
         onClick={props.onClick}
         currentRole={props.currentRole}

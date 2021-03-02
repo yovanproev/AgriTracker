@@ -13,17 +13,15 @@ export const getPaginatedTableData = (count, limit, props, errorOnDB, activity) 
    props.stateProps.selectedActivity === 2 && !props.stateProps.adminSection ? firebase_db_maintenance : 
    props.stateProps.selectedActivity === 4 && !props.stateProps.adminSection ? firebase_db_purchaseRequests : 
    activity === 4 ? firebase_db_purchaseRequests : []
-  //  console.log(props)
+  
     if (props.stateProps.selectedActivity === 3 && props.stateProps.adminMode === false) {
       firebase_db_workHours.limitToLast(limit).once("value", function(snapshot) {
         let arr = []
         let secondArr = []
         let origin = snapshot.val()
-        // console.log(origin)
         if (origin === null) {errorOnDB()}
         else {
           Object.values(origin)?.forEach(child => {
-          //  console.log(child.hoursPerEmployee)
             Object.values(child.hoursPerEmployee).forEach((secondChild)=> {
               const secondChildObject = Object.values(secondChild)
               arr.push(secondChildObject)
@@ -31,7 +29,6 @@ export const getPaginatedTableData = (count, limit, props, errorOnDB, activity) 
           })
           secondArr.push([].concat(...arr))
         }
-        // console.log(secondArr[0])
          resolve(secondArr[0])
       }).catch(err => {
         errorOnDB()
@@ -52,7 +49,6 @@ export const getPaginatedTableData = (count, limit, props, errorOnDB, activity) 
         let arr = []
         let secondArr = []
         let origin = Object.values(snapshot.val())
-        //console.log(origin)
         if (origin === null) {errorOnDB()}
         else { 
           Object.values(origin)?.forEach(child => {
@@ -61,21 +57,20 @@ export const getPaginatedTableData = (count, limit, props, errorOnDB, activity) 
         })
       }
       secondArr.push([].concat(...arr))
-      //console.log(secondArr)
-        resolve(secondArr)
+      resolve(secondArr)
       }).catch(err => {
         errorOnDB()
       })
     }
-    else if (activity === 4 && !props.stateProps.selectedActivity === 3) {
-      firebase_db_purchaseRequests.orderByChild("id")
-      .equalTo(count).limitToLast(limit).once('value').then((snapshot)=>{
-        if (snapshot.val() === null) {errorOnDB()}
-        resolve(snapshot.val())
-      }).catch(err => {
-         errorOnDB()
-      })
-    }
+    // else if (activity === 4 && !props.stateProps.selectedActivity === 3) {
+    //   firebase_db_purchaseRequests.orderByChild("id")
+    //   .equalTo(count).limitToLast(limit).once('value').then((snapshot)=>{
+    //     if (snapshot.val() === null) {errorOnDB()}
+    //     resolve(snapshot.val())
+    //   }).catch(err => {
+    //      errorOnDB()
+    //   })
+    // }
     else {
       database?.orderByChild("id")
       .startAt(count).limitToLast(limit).once('value').then((snapshot)=>{
@@ -120,17 +115,19 @@ export const resetCounter = () => {
 }
 
 
-export const getPurchaseRequests = (count, limit, props) => {
+export const getPurchaseRequests = (count, limit, props, errorDB) => {
   return new Promise((resolve) => {
-    firebase_db_purchaseRequests.orderByChild("id")
-      .startAt(0).limitToLast(10).once('value').then((snapshot)=>{
-        // if (snapshot.val() === null) {errorOnDB()}
-        // console.log(snapshot.val())
-        resolve(snapshot.val())
-      }).catch(err => {
-         
-      })
+    firebase_db_purchaseRequests.limitToLast(limit).once("value", function(snapshot) {
+      let arr = []
+      let origin = Object.values(snapshot.val())
+      Object.values(origin)?.forEach(child => {
+           arr.push(child)
+        })
+       resolve(arr)
+    }).catch(err => {
+    errorDB()
   })  
+  })
 }
 
 

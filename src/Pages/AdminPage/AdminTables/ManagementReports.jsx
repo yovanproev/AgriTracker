@@ -113,7 +113,7 @@ const ManagementReports = (props) => {
                   else if (props.stateProps.stateProps.selectedActivity === 4) {
                     object[key].manHours += nextValue.manHours || 0}
                   }
-              console.log(object)            
+                       
                 return prevValue;
               }, []);
               updateDataPaginatedByDate(result)
@@ -165,9 +165,13 @@ const ManagementReports = (props) => {
             {/* <ExportCSV  csvData={excelData} 
             fileName={nameOfModule} /> */}
            </div>
-           <div><button type="button" className="btn btn-success"
-           onClick={() => updateShowHoursOnlyPerMachine(!showHoursOnlyPerMachine)}
-           >{!showHoursOnlyPerMachine ? "Show hours per Machine" : "Show hours per product"}</button></div>
+           <div>
+           {props.stateProps.stateProps.selectedActivity === 2 ? 
+             <button type="button" className="btn btn-success"
+               onClick={() => updateShowHoursOnlyPerMachine(!showHoursOnlyPerMachine)}
+               >{!showHoursOnlyPerMachine ? "Show hours per Machine" : "Show hours per product"}
+               </button> : null}
+           </div>
       
         {props.stateProps.stateProps.selectedActivity === 2 ? 
         <AdminMachinesTable 
@@ -181,7 +185,6 @@ const ManagementReports = (props) => {
         <AdminWorkHoursTable 
             stateProps={props.stateProps.stateProps}
             data={dataPaginatedByDate}
-            // modeChange={props.modeChange}
             /> : null}
          
 
@@ -190,8 +193,7 @@ const ManagementReports = (props) => {
           <Table
             stateProps={props.stateProps.stateProps}
             data={dataPaginatedByDate}
-            // modeChange={props.modeChange}
-           /> : null }
+            /> : null }
       
     </div>
   )

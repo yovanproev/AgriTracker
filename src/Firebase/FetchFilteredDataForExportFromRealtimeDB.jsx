@@ -41,10 +41,10 @@ export const getFilteredDataForExport = (startingDate, endDate, props) => {
           let arr = []
           let secondArray = []
           let origin = Object.values(snapshot.val())
-           origin.forEach(child => {
-              const childObject = Object.values(child.items)
+          origin.forEach(child => {
+              const childObject = Object.values(child.items || {}) 
               arr.push(childObject)
-            })
+          })
             secondArray.push([].concat(...arr))
             resolve(getFilteredArray(endDate, secondArray[0]))
         }).catch(err => {

@@ -28,17 +28,13 @@ export const updateByRowId = (rowId, props, numberOfEmployee, numberOfJob, updat
         reject(err)
       })
      } 
-     else if (props.selectedActivity === 4) {
-       // da se naprave koga ke se izbrisat site child nodes da se brise i glavniot zapis,
-       // isto i za work hours trebe
+     else if (props.selectedActivity === 4 && activity === null) {
        database.orderByChild('id')
         .endAt(numberOfItem).limitToLast(1).once('value').then((snapshot)=>{
-          console.log(Object.values(snapshot.val()))
+        
           if (snapshot.val() === null || snapshot.val() === undefined) {errorOnDB()}  
           else {const randomKey = Object.keys(snapshot.val())
-            // const values = Object.values(snapshot.val())
             const items = 'items'
-            // db.child(firstChild + randomKey).update(updates)
             db.child(firstChild + randomKey + "/" + items + "/" + rowId).update(updates)
          resolve(snapshot.val()) 
         }
@@ -47,14 +43,28 @@ export const updateByRowId = (rowId, props, numberOfEmployee, numberOfJob, updat
           reject(err)
         })
      }
+     else if (props.selectedActivity !== 4 && activity === 4) {
+      database.orderByChild('id')
+       .endAt(rowId).limitToLast(1).once('value').then((snapshot)=>{
+         
+         if (snapshot.val() === null || snapshot.val() === undefined) {errorOnDB()}  
+         else {const randomKey = Object.keys(snapshot.val())
+           const items = 'items'
+           numberOfItem.map(keys => 
+           db.child(firstChild + randomKey + "/" + items + "/" + keys).update(updates))
+        resolve(snapshot.val()) 
+       }
+       }).catch(err => {
+         errorOnDB()
+         console.log(err)
+         reject(err)
+       })
+    }
        else {
         database.orderByChild('id')
         .endAt(rowId).limitToLast(1).once('value').then((snapshot)=>{
-          console.log(Object.values(snapshot.val()))
           if (snapshot.val() === null || snapshot.val() === undefined) {errorOnDB()}  
           else {const randomKey = Object.keys(snapshot.val())
-            // const values = Object.values(snapshot.val())
-            // const items = 'items'
           db.child(firstChild + randomKey).update(updates)
           resolve(snapshot.val()) 
         }

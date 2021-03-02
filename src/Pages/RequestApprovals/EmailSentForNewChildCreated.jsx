@@ -24,8 +24,7 @@ const emailSentForNewChildCreated = (purchaseRequest) => {
     date: purchaseRequest.date,
     operator: purchaseRequest.operator
   }) 
- // console.log(finalObjectToSend)
-
+ 
   const serviceIdProd = "service_vf4sxdn";
   const templateIdProd = "template_o3ktl4q"
   const userIdProd = "user_lrqjAHvBjKfTMe8w7qCdJ"
@@ -44,10 +43,8 @@ const emailSentForNewChildCreated = (purchaseRequest) => {
   emailjs.send(serviceId, templateId, finalObjectToSend[0], userId)
   .then((result) => {
     console.log(result.status)
-  // setDisableButton(true)
   }, (error) => {
     console.log(error)
-  // setDisableButton(true)
   });
 }
 

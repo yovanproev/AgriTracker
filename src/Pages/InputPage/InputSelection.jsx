@@ -22,7 +22,7 @@ import Modal from "../../Components/Modal/Modal"
 
 import { initialState } from "./InitialState"
 import { updateAuthUsers } from "../../Firebase/UpdateRowsInRealtimeDB";
-import emailSentForNewChildCreated from "../RequestApprovals/EmailJS";
+import emailSentForNewChildCreated from "../RequestApprovals/EmailSentForNewChildCreated";
 
 class InputSelection extends Component { 
   constructor (props) {

@@ -31,5 +31,6 @@ export const initialState = {
           purposeOfPurchase: undefined,
           selectedSupplierId: undefined,
           selectedCategoryOfMaterialsId: undefined,
-          selectedSubcategoryOfMaterialsId: undefined
+          selectedSubcategoryOfMaterialsId: undefined,
+          supplier: undefined,
 }

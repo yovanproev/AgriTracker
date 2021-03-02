@@ -136,7 +136,7 @@ class SignIn extends Component {
               <button className="btn btn-danger"  
               onClick={this.resetPassword} type='submit'> Reset password </button> 
               {<Modal show={this.state.passwordReset} hide={this.hideModalHanlder}>
-                Please check your email to reset your password.</Modal>}
+                An email was sent to your account to reset your password.</Modal>}
             </div>
       </div>
     );

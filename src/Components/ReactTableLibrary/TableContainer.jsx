@@ -106,8 +106,8 @@ const TableContainer = ({
    }
 
     const managerApprovalHandler = (numberOfItem) => {
-     const update = {managerApproved: true}
-    updateByRowId(rowId, stateProps, null, null, update, 4, errorOnDB, numberOfItem)
+      const update = {managerApproved: true}
+    updateByRowId(rowId, stateProps, null, null, update, null, errorOnDB, numberOfItem)
    }
  
    return (
@@ -147,7 +147,7 @@ const TableContainer = ({
 
         <tbody {...getTableBodyProps()}>
           {page.map((row) => {
-            // console.log(data[row.id])
+         //    console.log(data[row.id])
             prepareRow(row);
             return (
               <Fragment key={row.getRowProps().key}>
@@ -190,8 +190,7 @@ const TableContainer = ({
                       </td>
                     );
                   })}
-                {/* <RenderForAdmin stateProps={stateProps}>   */}
-                
+                                
                 {/* Selection of user's role */}
                 {stateProps.outputTable === true || stateProps.adminSection === false || 
                 stateProps.selectedActivity !== 0 ? null :                 
@@ -268,7 +267,7 @@ const TableContainer = ({
                  <DeleteButton onClick={() => onDelete(data[row.id].id)}
                  id={data[row.id].id} stateProps={stateProps}/>
                 </td> : null}
-                {/* </RenderForAdmin> */}
+                
                 </tr>
                 
                 {row.isExpanded ? (

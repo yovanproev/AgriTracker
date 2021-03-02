@@ -60,7 +60,7 @@ const SelectReport = (props) => {
         getSelectFields(17).then(category => updateSubcategorySelectField(category))
   }, [props]);
     
- const deleteRowHandler = (rowId, numberOfEmployee, numberOfJob, numberOfItem, parentId) => {
+  const deleteRowHandler = (rowId, numberOfEmployee, numberOfJob, numberOfItem, parentId) => {
   const rows = props.stateProps.selectedActivity === 3 ? (Object.values(table).filter(x => x.id !== rowId)) :
   props.stateProps.selectedActivity === 4 ? (Object.values(table)[0]?.filter(x => x.id !== rowId)) :
    table.filter((row) => row.id !== rowId);
@@ -112,7 +112,7 @@ const SelectReport = (props) => {
   const [ categoryOfMaterials, updateCategoryOfMaterials ] = useState("")
   const updateCategoryOfMaterialsByRow = (value) => {
     updateCategoryOfMaterials(value)
-    console.log(value)
+    
     const filtered = categorySelectField.filter(x => x.id === (value))
     const update = {category: filtered[0]?.name}
     if (value !== 0)

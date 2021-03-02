@@ -1,51 +1,50 @@
 import React, { useState, useEffect } from "react"
 import Modal from "../../Components/Modal/Modal";
 import { updateByRowId } from "../../Firebase/UpdateRowsInRealtimeDB";
-import { getPaginatedTableData } from "../../Firebase/FetchDataFromRealtimeDB"
 import emailjs from 'emailjs-com';
 
 const RequestApprovals = (props) => {
-  const [ purchaseNumber, updatePurchaseNumber ] = useState("")
-  const [ responseStatus, updateResponseStatus ] = useState(0)
-  const [ disableButton, setDisableButton ] = useState(true)
 
   const [ error, setError ] = useState(false)
 
-  const [ purchaseRequest, updatePurchaseRequest ] = useState([])
+  const errorOnDB = () => {
+    setError(true)
+  }
 
-  const activity = parseInt(4);
-  // console.log(props.id)
   useEffect(() => {
-    if (purchaseNumber >= 1) setDisableButton(false) 
-    else setDisableButton(true)
+    
+    const initialObject = Object.values(props.purRequest).filter(x => 
+      x.id === props.id)
+    const onlyChosenPurchaseRequestKey = Object.keys(initialObject[0].items)
+      
+    const update = {statusOfRequest: props.decisionOnPurchase}
+    updateByRowId(props.id, props.stateProps, null, null, update, 4, errorOnDB, onlyChosenPurchaseRequestKey)
+
+    const onlyChosenPurchaseRequestValues = initialObject[0].items
+    const initialArray = []
   
-    const errorOnDB = () => {
-      if (purchaseNumber !== "") setError(true)
+    for (var i in onlyChosenPurchaseRequestValues) {
+        initialArray.push(onlyChosenPurchaseRequestValues[i])
     }
-
-    getPaginatedTableData(purchaseNumber, 1, props, errorOnDB, activity).then(purRequest => {
-      if (purRequest) updatePurchaseRequest(Object.values(purRequest)[0]) 
-    })
-
-    const update = {statusOfRequest: "Declined"}
-    updateByRowId(props.id, props.stateProps, null, null, update, activity, errorOnDB)
-
-  }, [activity, props, purchaseNumber])
-
-  // const errorOnDB = () => {
-  //   setError(true)
-  // }
-
-    const closeError = () => {
-      setError(false)
-    }
+    
+    let finalObjectToSend = []
   
-    // const update = {statusOfRequest: "Approved"}
-    // console.log(props.id)
-    // if (props.id) {updateByRowId(props.id, props, null, null, update, activity, errorOnDB)}
- 
-  const submitHandler = (e) => {
-    e.preventDefault();
+    finalObjectToSend.push({
+      statusOfRequest: props.decisionOnPurchase,
+      email: initialObject[0].email,
+      id: initialObject[0].id,
+      supplier: initialArray[0].supplier,
+      itemDescription: initialArray.map(x => 
+        x.itemDescription).toString(),
+      itemQuantity: initialArray.map(x => 
+        x.itemQuantity).toString(),
+      itemPrice: initialArray.map(x => 
+        x.itemPrice).toString(),
+      itemPurpose: initialArray.map(x => 
+        x.itemPurpose).toString(),
+      date: initialObject[0].date,
+      operator: initialObject[0].operator
+    }) 
     
     const serviceIdProd = "service_vf4sxdn";
     const templateIdProd = "template_47ode22"
@@ -62,64 +61,31 @@ const RequestApprovals = (props) => {
     const userId = process.env.NODE_ENV === 'production'
     ? userIdProd : userIdDev
 
-    emailjs.sendForm(serviceId, templateId, e.target, userId)
-  .then((result) => {
-    setDisableButton(true)
-  }, (error) => {
-    setDisableButton(true)
-  });
+    if (finalObjectToSend) {
+        emailjs.send(serviceId, templateId, finalObjectToSend[0], userId)
+        .then((result) => console.log(result.text)        
+        , (error) => { })
+      }
+
+  }, [props.decisionOnPurchase, props.id, props.purRequest, props.stateProps, props])
+
+  const closeError = () => {
+    setError(false)
   }
 
   const errorModal = <Modal show={error} 
   hide={closeError}>There is no Purchase request with that number.</Modal>
 
   return (
-    
     <div style={{marginTop: "20px", textAlign: "center"}}>
       {errorModal}
-      
-      <h3>Request approval</h3>
-        <p>Purchase request #</p>
-        <form className="contact-form" onSubmit={submitHandler}>
-        
-          <label>
-          <input type="number" value={purchaseNumber || ""} onChange={(e) => 
-            updatePurchaseNumber(parseInt(e.target.value) || props.reqId)} name="purchaseNumber"/>
-          </label>
-          
-          <input type="hidden" value={responseStatus} onChange={() => null} 
-          name="decision" />
-          
-          <input type="hidden" value={purchaseRequest.email || ""} onChange={() => null}
-          name="email" />
-
-          <input type="hidden" value={purchaseRequest.categoryOfMaterials || ""} onChange={() => null}
-          name="categoryOfMaterials" />
-          <input type="hidden" value={purchaseRequest.date || ""} onChange={() => null}
-          name="date" />
-          <input type="hidden" value={purchaseRequest.operator || ""} onChange={() => null}
-          name="operator" />
-          <input type="hidden" value={purchaseRequest.price || ""} onChange={() => null}
-          name="price" />
-          <input type="hidden" value={purchaseRequest.purposeOfPurchase || ""} onChange={() => null} 
-          name="purposeOfPurchase" />
-          <input type="hidden" value={purchaseRequest.subCategoryOfMaterials || ""} onChange={() => null}
-          name="subCategoryOfMaterials" />
-          <input type="hidden" value={purchaseRequest.supplier || ""} onChange={() => null}
-          name="supplier" />
-          <input type="hidden" value={purchaseRequest.quantity || ""} onChange={() => null}
-          name="quantity" />
-          <br></br>
-
-          <button type="submit" className="btn btn-success" disabled={disableButton} id={"Approved"}
-          onClick={(e) => updateResponseStatus(e.target.id)} style={{padding: "5px 20px", marginRight: "5px"}}>
-            Approve</button>
-          
-          <button type="submit" className="btn btn-warning" disabled={disableButton} id={"Declined"}
-          onClick={(e) => updateResponseStatus(e.target.id)} style={{padding: "5px 20px", marginLeft: "5px"}}>
-            Decline</button>
-
-        </form>
+      {props.decisionOnPurchase === "Approved" ? <h3>The request has been approved.</h3> :
+      <h3>The request has been declined.</h3>}
+      {props.decisionOnPurchase === "Approved" ? <h3><i 
+      style={{background: "green", padding: "20px"}}
+      className="fas fa-check fa-5x"></i></h3> :
+      <h3><i className="fas fa-times-circle fa-5x"
+      style={{background: "red", padding: "20px"}}></i></h3>}
   </div>
   )
 }
