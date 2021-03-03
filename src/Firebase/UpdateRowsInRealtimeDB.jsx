@@ -46,17 +46,15 @@ export const updateByRowId = (rowId, props, numberOfEmployee, numberOfJob, updat
      else if (props.selectedActivity !== 4 && activity === 4) {
       database.orderByChild('id')
        .endAt(rowId).limitToLast(1).once('value').then((snapshot)=>{
-         
          if (snapshot.val() === null || snapshot.val() === undefined) {errorOnDB()}  
          else {const randomKey = Object.keys(snapshot.val())
            const items = 'items'
            numberOfItem.map(keys => 
            db.child(firstChild + randomKey + "/" + items + "/" + keys).update(updates))
-        resolve(snapshot.val()) 
-       }
+          resolve(snapshot.val()) 
+        }
        }).catch(err => {
          errorOnDB()
-         console.log(err)
          reject(err)
        })
     }

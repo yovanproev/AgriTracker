@@ -15,8 +15,7 @@ export const PurchaseRequestInputTableRows = ({purchaseRequestTableHandler, loca
       changedItemDescription[rowId] = request;
       
       setItemDescription(changedItemDescription);
-      // console.log(itemDescription);
-         purchaseRequestTableHandler(itemDescription, rowId)
+      purchaseRequestTableHandler(itemDescription, rowId)
       };
       
    return(
