@@ -14,11 +14,11 @@ const RolesSelectField = (props) => {
   }, [])
     
   const [ openTooltip, updateOpenTooltip ] = useState(false)
-
-  const users = "user:"
+  const [ newRole, updateNewRole ] = useState(false)
 
   const recordTrace = () => {
-    updateAuthUsers({ changedRole: users + props.stateProps.email + ", " + getDateAndTime()}, 
+    updateAuthUsers({ changedRoleOfUser: props.emailOfUserUpdated + " from " + props.existingRole + 
+    " to " + newRole + " " + getDateAndTime()}, 
       props.stateProps)
   }
 
@@ -26,15 +26,15 @@ const RolesSelectField = (props) => {
      <span>
        
        <select className="roles-select-div"
-          onBlur={(e) => {props.getRoleValue(e.target.value); recordTrace()}}
-          onChange={() => {props.getRowId(); updateOpenTooltip(()=> true)}}
+          onBlur={(e) => {props.getRoleValue(e.target.value); recordTrace(); }}
+          onChange={(e) => {props.onChange(); updateOpenTooltip(()=> true); updateNewRole(e.target.value);}}
           disabled={props.id === parseInt(1) || props.id === parseInt(2) ? true : null}
          >
           <option key={0} value={"Please select a role"}>
             {"Select a role"}
           </option>
           {fetchRoles.map((fields) => (
-          <option key={fields.id} value={fields.name}>
+          <option key={fields.id} value={fields.name} >
           {fields.name} 
           </option>)) 
           }  

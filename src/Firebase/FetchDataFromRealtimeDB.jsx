@@ -49,7 +49,7 @@ export const getPaginatedTableData = (count, limit, props, errorOnDB, activity) 
         let arr = []
         let secondArr = []
         let origin = Object.values(snapshot.val())
-        if (origin === null) {errorOnDB()}
+        if (origin === null || origin === undefined) {errorOnDB()}
         else { 
           Object.values(origin)?.forEach(child => {
             const childObject = Object.values(child.items || {})

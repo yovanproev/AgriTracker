@@ -2,7 +2,7 @@ import React from "react";
 
 import ManagementReports from "./AdminTables/ManagementReports";
 import UsersData from "./UsersData/UsersData";
-import SelectionFieldsUpdate from "./SelectFieldsData/SelectFieldsData"
+import SelectionFieldsUpdate from "./SelectFieldsData/SelectionFieldsUpdate"
 
 const AdminReports = (props) => {
     
@@ -22,7 +22,6 @@ const AdminReports = (props) => {
       
       {props.stateProps.selectedActivity === 5 ? 
       <SelectionFieldsUpdate 
-      adminMode={props.adminMode}
       stateProps={props.stateProps} 
       onClick={props.onClick}/> : null}
       

@@ -1,9 +1,0 @@
-.fetched-roles-input {
-  width: 40%;
-}
-
-@media screen and (max-width: 600px) {
-  .fetched-roles-input {
-    width: 100%;
-  }
-}

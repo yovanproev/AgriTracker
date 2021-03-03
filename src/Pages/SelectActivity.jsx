@@ -18,7 +18,7 @@ const SelectActivity = (props) => {
      
       {!props.stateProps.outputTable && !props.stateProps.inputForms
       && !props.stateProps.adminMode ? 
-          props.stateProps.activityBubbleState.map((activity, index) => (
+          props.stateProps.activityPerMode.map((activity, index) => (
           <ActivityBubble
           stateProps={props.stateProps}
           onClick={props.onClick}
@@ -49,14 +49,13 @@ const SelectActivity = (props) => {
       {props.stateProps.outputTable ? 
         <SelectReport
         modal={props.modal}
-        outputMode={props.outputMode}
+        refreshReports={props.refreshReports}
         stateProps={props.stateProps}
         onClick={props.backButton}/> : null
       }
 
       {props.stateProps.adminSection ? 
         <AdminReports
-        adminMode={props.adminMode}
         modal={props.modal}
         stateProps={props.stateProps}
         onClick={props.backButton}/> : null

@@ -1,7 +1,7 @@
 import Modal from "../Components/Modal/Modal"
 
 export const RenderForManager = ({stateProps, ...other}) => {
-  if (stateProps.role === "Manager") {
+    if (stateProps.role === "Manager") {
  return other.children
  } else return null
 }

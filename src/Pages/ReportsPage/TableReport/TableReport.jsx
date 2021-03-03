@@ -33,7 +33,7 @@ const TableReport = (props) => {
   }
 
   useEffect(() => {
-    setName(props.stateProps.stateProps.activityBubbleState[props.stateProps.stateProps.selectedActivity]?.name)
+    setName(props.stateProps.stateProps.activityPerMode[props.stateProps.stateProps.selectedActivity]?.name)
     
     const getStartingDate = () => {
       const startingDay = startingDate?.length !== 0 ? addZero(startingDate?.getDate()) : null
@@ -76,17 +76,14 @@ const TableReport = (props) => {
             </div>
       </div>}
       <Table
-      updateFuelPriceHandler={props.updateFuelPriceHandler}
-      fuelPrice={props.fuelPrice}
-      subcategorySelectField={props.subcategorySelectField}
-      categorySelectField={props.categorySelectField}
-      updateSubcategoryOfMaterialsByRow={props.updateSubcategoryOfMaterialsByRow}
-      subcategoryOfMaterials={props.subcategoryOfMaterials}
-      updateCategoryOfMaterialsByRow={props.updateCategoryOfMaterialsByRow}
-      categoryOfMaterials={props.categoryOfMaterials} 
-      outputMode={props.outputMode}
-        updateStatusOfPurchaseRequestHandler={props.updateStatusOfPurchaseRequestHandler}
-        statusHandler={props.statusHandler}
+        updateCustomInputRowsValueHandler={props.updateCustomInputRowsValueHandler}
+        customInputRowsValue={props.customInputRowsValue}
+        updateCustomSelectRowsValueHandler={props.updateCustomSelectRowsValueHandler}
+        customSelectRowsValue={props.customSelectRowsValue}
+        subcategorySelectField={props.subcategorySelectField}
+        categorySelectField={props.categorySelectField}
+        refreshReports={props.refreshReports}
+        
         onClickRowId={props.onClickRowId}
         blockNextButton={props.blockNextButton}
         counter={props.counter}
@@ -95,10 +92,6 @@ const TableReport = (props) => {
         stateProps={props.stateProps.stateProps}
         data={props.tableData}
         onDelete={handleChange}
-        updatePRNumByRow={props.updatePRNumByRow}
-        purchaseNumber={props.purchaseNumber}
-        updateInvoiceNumByRow={props.updateInvoiceNumByRow}
-        invoiceNumber={props.invoiceNumber}
         errorOnDB={props.errorOnDB}/>
     </div>
   )

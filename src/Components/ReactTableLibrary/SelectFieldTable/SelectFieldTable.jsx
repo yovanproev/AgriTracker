@@ -7,7 +7,7 @@ import { getDateAndTime } from "../../../Pages/InputPage/DBObjectElements/GetDat
 import "./SelectFieldTable.css"
 
 const SelectFieldTable = ({onChange, onFocus, id, stateProps, nameOfStatus,  
-categoryOfMaterials, selectOptions, selectIdentity}) => {
+categoryOfMaterials, selectOptions, selectIdentity, name}) => {
   const statusOfPurchase = fetchStatusOfPurchase()
   
   const [ filteredSubCategory, updateFilteredSubCategory ] = useState([])
@@ -35,8 +35,9 @@ categoryOfMaterials, selectOptions, selectIdentity}) => {
   return (
       <div >
         <select className="select-div-table"
-          onChange={(e) => onChange(parseInt(e.target.value))}
+          onChange={(e) => onChange(e)}
           // value={value ? value : ""}
+          name={name}
           onFocus={onFocus}
           onBlur={() => recordTrace()}
           id={id}

@@ -63,7 +63,8 @@ const RequestApprovals = (props) => {
 
     if (finalObjectToSend) {
         emailjs.send(serviceId, templateId, finalObjectToSend[0], userId)
-        .then((result) => console.log(result.text)        
+        .then((result) => {}
+        
         , (error) => { })
       }
 

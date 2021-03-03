@@ -2,6 +2,8 @@ import rolesDB from "./Roles.json"
 import inputFieldsDB from "./InputFields.json"
 import selectFieldsDB from "./SelectFields.json"
 import statusOfPurchase from "./StatusOfPurchase.json";
+import activityPerMode from "./ActivityPerMode.json"
+import adminActivity from "./AdminActivity.json"
 
 export const fetchAllRoles = () => {
   return rolesDB.data;
@@ -39,5 +41,14 @@ export const fetchAllSelectFields = () => {
 
 export const fetchSelectFieldsToBeModified = () => {
   return selectFieldsDB.selectFields;
+}
+
+export const fetchActivityPerMode = () => {
+  return activityPerMode.data;
+}
+
+
+export const fetchAdminActivity = () => {
+  return adminActivity.data;
 }
 

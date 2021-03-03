@@ -15,11 +15,9 @@ const SelectReport = (props) => {
   const [ blockNextButton, updateBlockNextButton ] = useState(undefined)
   const [ error, setError ] = useState(false)
  
-  const errorOnDB = () => {
-    setError(true)
-  }
+  const errorOnDB = () => { setError(true) }
 
-   function nextPageLoad(){
+  function nextPageLoad(){
     const nextPageCount = nextPage(props);
     getPaginatedTableData(0, nextPageCount, props, errorOnDB).then((fullData)=>{
       let fullDataArray=[]
@@ -47,7 +45,6 @@ const SelectReport = (props) => {
   const [ subcategorySelectField, updateSubcategorySelectField ] = useState([]);
   useEffect(() => {
         getPaginatedTableData(0, 10, props, errorOnDB).then((fullData)=>{
-          //console.log(fullData)  
           if (fullData === null || fullData === undefined) {errorOnDB()}
             else {let fullDataArray=[]
             Object.keys(fullData).forEach((key)=>{
@@ -77,94 +74,86 @@ const SelectReport = (props) => {
     if (rowId.id !== undefined) {
     setRowId(rowId.id)
     setNumberOfItem(numberOfItem)
-    }
-    else return 0
-  }
+    }  else return 0 }
+  
+  const [ customInputRowsValue, updateCustomInputRowsValue ] = useState({
+    PRNumber: "",
+    invoiceNumber: "",
+    pricePerLiter: "",
+  })
 
-  const [ fuelPrice, updateFuelPrice ] = useState("")
-  const updateFuelPriceHandler = (value) => {
-    updateFuelPrice(value)
-    const update = {pricePerLiter: value}
-    updateByRowId(rowIdValue, props.stateProps, null, null, update, null, errorOnDB, null)
-  }
-
-  const [ statusHandler, updateStatusHandler ] = useState("")
-  const updateStatusOfPurchaseRequestHandler = (value) => {
-    updateStatusHandler(value)
-    const update = {statusOfRequest: fetchStatusOfPurchaseByName(value)}
-    updateByRowId(rowIdValue, props.stateProps, null, null, update, null, errorOnDB, numberOfItem)
-  }
-   
-  const [ purchaseNumber, updatePurchaseNumber ] = useState("")
-  const updatePRNumByRow = (value) => {
-    updatePurchaseNumber(value)
-    const update = {PRNumber: value}
-    updateByRowId(rowIdValue, props.stateProps, null, null, update,null, errorOnDB, numberOfItem)
-  }
-
-  const [ invoiceNumber, updateInvoiceNumber ] = useState("")
-  const updateInvoiceNumByRow = (value) => {
-     updateInvoiceNumber(value)
-    const update = {invoiceNum: value}
-    updateByRowId(rowIdValue, props.stateProps, null, null, update, null, errorOnDB, numberOfItem)
-  }
-
-  const [ categoryOfMaterials, updateCategoryOfMaterials ] = useState("")
-  const updateCategoryOfMaterialsByRow = (value) => {
-    updateCategoryOfMaterials(value)
+  const updateCustomInputRowsValueHandler = (e) => {
+    updateCustomInputRowsValue({
+      ...customInputRowsValue,
+    [e.target.name] : [e.target.value]})
     
-    const filtered = categorySelectField.filter(x => x.id === (value))
-    const update = {category: filtered[0]?.name}
-    if (value !== 0)
-    updateByRowId(rowIdValue, props.stateProps, null, null, update, null, errorOnDB, numberOfItem)
+    const updateForPRNumber = {PRNumber: [e.target.value][0]}
+    const updateForInvoiceNum = {invoiceNum: [e.target.value][0]}
+    const updateForFuelPrice = {pricePerLiter: [e.target.value][0]}
+
+    const valueForUpdate = e.target.name === "PRNumber" ? updateForPRNumber :
+    e.target.name === "invoiceNum" ? updateForInvoiceNum : 
+    e.target.name === "pricePerLiter" ? updateForFuelPrice : null
+    
+    updateByRowId(rowIdValue, props.stateProps, null, null, valueForUpdate, null, errorOnDB, numberOfItem)
   }
 
-  const [ subcategoryOfMaterials, updateSubcategoryOfMaterials ] = useState("")
-  const updateSubcategoryOfMaterialsByRow = (value) => {
-    updateSubcategoryOfMaterials(value)
-    const filtered = subcategorySelectField.filter(x => x.id === (value))
-    const update = {subcategory: filtered[0].name}
-    updateByRowId(rowIdValue, props.stateProps, null, null, update, null, errorOnDB, numberOfItem)
+  const [ customSelectRowsValue, updateCustomSelectRowsValue ] = useState({
+    category: "",
+    subcategory: "",
+    statusOfRequest: "",
+  })
+  
+  const updateCustomSelectRowsValueHandler = (e) => {
+    updateCustomSelectRowsValue({
+      ...customSelectRowsValue,
+    [e.target.name] : [e.target.value]})
+    
+    const filteredCategory = categorySelectField.filter(x => x.id === +([e.target.value][0]))
+    const filteredSubcategory = subcategorySelectField.filter(x => x.id === +([e.target.value][0]))
+    
+    const updateForCategory = {category: filteredCategory[0]?.name}
+    const updateForSubCategory = {subcatgegory: filteredSubcategory[0]?.name}
+    const updateForStatusOfRequest = {statusOfRequest: fetchStatusOfPurchaseByName([e.target.value][0])}
+   
+    const valueForUpdate = e.target.name === "category" ? updateForCategory :
+    e.target.name === "subcategory" ? updateForSubCategory : 
+    e.target.name === "statusOfRequest" ? updateForStatusOfRequest : null
+    
+    updateByRowId(rowIdValue, props.stateProps, null, null, valueForUpdate, null, errorOnDB, numberOfItem)
   }
  
-   //  const moduleInProgress = <Modal show={props.modal} hide={props.modal}>
+  //  const moduleInProgress = <Modal show={props.modal} hide={props.modal}>
 //    Module Still Not Built</Modal> 
    const loader = table.length === 0 || table === undefined ? 
    <Modal show={props.stateProps.hideModal} hide={props.modal}><Spinner2 /></Modal> : null
   
    const errorModal = <Modal show={error} 
     hide={props.modal}>User has no authorization to read data or no data in the DB.</Modal>
-// console.log(selectField)
+
     return (
     <div className="table-reports">
       {errorModal}
       {props.stateProps.selectedActivity && error === false ? loader : null}
       {/* {props.stateProps.selectedActivity === 4 ? moduleInProgress : null} */}
       < TableReport
-        updateFuelPriceHandler={updateFuelPriceHandler}
-        fuelPrice={fuelPrice}
+        updateCustomInputRowsValueHandler={updateCustomInputRowsValueHandler}
+        customInputRowsValue={customInputRowsValue}
+        updateCustomSelectRowsValueHandler={updateCustomSelectRowsValueHandler}
+        customSelectRowsValue={customSelectRowsValue}
         subcategorySelectField={subcategorySelectField}
         categorySelectField={categorySelectField}
-        updateSubcategoryOfMaterialsByRow={updateSubcategoryOfMaterialsByRow}
-        subcategoryOfMaterials={subcategoryOfMaterials}
-        updateCategoryOfMaterialsByRow={updateCategoryOfMaterialsByRow}
-        categoryOfMaterials={categoryOfMaterials} 
-        outputMode={props.outputMode}
-       blockNextButton={blockNextButton}
-       counter={counter}
+        refreshReports={props.refreshReports}
+        
+        blockNextButton={blockNextButton}
+        counter={counter}
         nextPageLoad={nextPageLoad}
         previousPageLoad={previousPageLoad}
         stateProps={props}
         deleteRowHandler={deleteRowHandler} 
         tableData={table}
         onClick={props.onClick}
-        updateStatusOfPurchaseRequestHandler={updateStatusOfPurchaseRequestHandler}
-        statusHandler={statusHandler}
         onClickRowId={onClickRowId}
-        updatePRNumByRow={updatePRNumByRow}
-        purchaseNumber={purchaseNumber}
-        updateInvoiceNumByRow={updateInvoiceNumByRow}
-        invoiceNumber={invoiceNumber}
         errorOnDB={errorOnDB}
         />         
     </div>

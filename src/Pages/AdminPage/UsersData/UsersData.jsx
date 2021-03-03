@@ -4,7 +4,7 @@ import "./UsersData.scss"
 // import BackDrop from "../../../Components/Backdrop/Backdrop"
 import BackButton from "../../../Components/BackButton/BackButton"
 import Table from "../../../Components/ReactTableLibrary/Table"
-import { RenderForAdmin } from '../../../RoleBasedAccessControl/RoleBaseControl';
+import { RenderForAdmin } from '../../../RoleBasedAccessControl/RoleBasedAccessControl';
 import { getAllUsers } from "../../../Firebase/FetchCollectionsFromFirestore"
 import { updateUsersInFirestore } from '../../../Firebase/SetAndUpdateCollectionsInFirestore';
 

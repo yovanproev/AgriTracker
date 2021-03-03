@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
-import "./SelectFieldsData.scss"
+import "./SelectionFieldsUpdate.scss"
 import SelectField from "./SelectField/SelectField"
 import BackButton from "../../../Components/BackButton/BackButton"
 import Table from "../../../Components/ReactTableLibrary/Table"

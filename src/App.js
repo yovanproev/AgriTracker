@@ -11,15 +11,14 @@ import HomePage from './Pages/HomePage/HomePage';
 
 import SelectActivity from './Pages/SelectActivity';
 
-import { 
-  getPurchaseRequests, 
-  resetCounter } from "./Firebase/FetchDataFromRealtimeDB";
+import { getPurchaseRequests, resetCounter } from "./Firebase/FetchDataFromRealtimeDB";
 import { auth, createUserProfileDocument } from "./Firebase/Firebase.utils"
-import { RenderForAdmin, RenderForOperator } from './RoleBasedAccessControl/RoleBaseControl';
+import { RenderForAdmin, RenderForManager, RenderForOperator } from './RoleBasedAccessControl/RoleBasedAccessControl';
 import Modal from "./Components/Modal/Modal"
 import axiosLocal from "./AxiosInput";
 import {usersAuthentication} from "./Pages/InputPage/DBObjectElements/ObjectsToPostToFirebase"
 import RequestApprovals from "./Pages/RequestApprovals/RequestApprovals"
+import { fetchActivityPerMode, fetchAdminActivity } from './LocalData/InputFormsData';
 
 class App extends React.Component {
   state = {
@@ -33,22 +32,9 @@ class App extends React.Component {
       adminMode: JSON.parse(sessionStorage.getItem( 'adminMode' )) || false,
       hideModal: false,
       unauthorizedFetchError: false,
-      activityBubbleState: [
-        { name: "Fuel Registration"},
-        { name: "Machine Registration"},
-        { name: "Maintenance and Repair"},
-        { name: "Working Hours Registration"},
-        { name: "Purchase Requests"},
-      ],
-      adminActivity: [
-        { name: "Users Management"},
-        { name: "Fuel Management"},
-        { name: "Machine Management"},
-        { name: "Maintenance and Repair Management"},
-        { name: "Working Hours Registration Management"},
-        { name: "Add selection Fields"},
-      ],
-    } 
+      activityPerMode: fetchActivityPerMode(),
+      adminActivity: fetchAdminActivity()
+  } 
   
   unsubscribeFromAuth = null
 
@@ -62,13 +48,15 @@ class App extends React.Component {
             currentUser: {
               id: snapShot.id,
               ...snapShot.data()
-            }, role: snapShot.data().role})});
+            }, role: snapShot.data().role})
+            if (snapShot.data().role === "Manager") {
+            getPurchaseRequests(70, 10, this.state, this.errorOnDB)
+            .then(purReq => {this.setState({purReq: Object.values(purReq)}) })}
+          });
       }
       this.setState({ currentUser: userAuth})})
       this.setCredentialsHandler()
       this.expiredToken()
-       getPurchaseRequests(10, 10, this.state, this.errorOnDB)
-       .then(purReq => {this.setState({purReq: Object.values(purReq)}) })
   }
 
   errorOnDB = () => { this.setState({unauthorizedFetchError: true}) }
@@ -82,53 +70,33 @@ class App extends React.Component {
 
   componentWillUnmount() {this.unsubscribeFromAuth()}
 
- inputModeHandler = () => {
-   sessionStorage.setItem( 'inputMode', true )
-   sessionStorage.setItem( 'outputMode', false )
-   sessionStorage.setItem( 'adminMode', false )
-   sessionStorage.setItem( 'homeMode', false )
-   resetCounter();
-  this.setState({
-    inputMode: true, outputMode: false,
-    outputTable: false, adminMode: false,
-    adminSection: false, hideModal: true, homeMode: false })
-}
-
-  outputModeHandler = () => {
-    sessionStorage.setItem( 'inputMode', false )
-    sessionStorage.setItem( 'outputMode', true )
-    sessionStorage.setItem( 'adminMode', false )
-    sessionStorage.setItem( 'homeMode', false )
-       this.setState({
-      inputMode: false, outputMode: true,
-      inputForms: false, adminMode: false,
-      adminSection: false, hideModal: true, homeMode: false })
-  }
-
-  adminModeHandler = () => {
-    sessionStorage.setItem( 'inputMode', false )
-    sessionStorage.setItem( 'outputMode', false )
-    sessionStorage.setItem( 'adminMode', true )
-    sessionStorage.setItem( 'homeMode', false )
-    resetCounter();
+  modesHandler = (mode) => {
+    const modesArray = ['homeMode', 'adminMode', 'inputMode', 'outputMode']
     this.setState({
-      inputMode: false, outputMode: false,
-      outputTable: false, inputForms: false,
-      adminMode: true, hideModal: true, homeMode: false})
-   }
-
-   homeModeHandler = () => {
-    sessionStorage.setItem( 'inputMode', false )
-    sessionStorage.setItem( 'outputMode', false )
+      homeMode: modesArray[mode - 1] === 'homeMode' ? true : false, 
+      adminMode: modesArray[mode - 1] === 'adminMode' ? true : false, 
+      adminSection: modesArray[mode - 1] !== 'adminMode' ? false : undefined, 
+      inputMode: modesArray[mode - 1] === 'inputMode' ? true : false, 
+      inputForms: modesArray[mode - 1] !== 'inputMode' ? false : undefined, 
+      outputMode: modesArray[mode - 1] === 'outputMode' ? true : false, 
+      outputTable: modesArray[mode - 1] !== 'outputMode' ? false : undefined, 
+      hideModal: modesArray[mode - 1] === 'adminMode' ||
+                  modesArray[mode - 1] === 'inputMode' || 
+                  modesArray[mode - 1] === 'outputMode' ? true : false,  
+    })
+    modesArray[mode - 1] === "homeMode" ? sessionStorage.setItem( 'homeMode', true ) : 
+    sessionStorage.setItem( 'homeMode', false )
+    modesArray[mode - 1] === "adminMode" ? sessionStorage.setItem( 'adminMode', true ) : 
     sessionStorage.setItem( 'adminMode', false )
-    sessionStorage.setItem( 'homeMode', true )
-     resetCounter();
-    this.setState({
-      inputMode: false, outputMode: false,
-      outputTable: false, inputForms: false,
-      adminMode: false, hideModal: false, 
-    adminSection: false, homeMode: true})
-   }
+    modesArray[mode - 1] === "inputMode" ? sessionStorage.setItem( 'inputMode', true ) : 
+    sessionStorage.setItem( 'inputMode', false )
+    modesArray[mode - 1] === "outputMode" ? sessionStorage.setItem( 'outputMode', true ) : 
+    sessionStorage.setItem( 'outputMode', false )
+   
+  resetCounter();
+ }
+
+ refreshReports = () => {this.setState({outputMode: true, outputTable: true})}
 
  activityHandler = (e) => {
    this.setState({ selectedActivity: [e][0] })
@@ -195,7 +163,7 @@ class App extends React.Component {
 
      return (
       <div className="app" >
-        {this.state.logOutError ? logOutError : null}
+        {logOutError}
          {unauthorizedFetch}
          
         <Router basename="/">
@@ -205,10 +173,7 @@ class App extends React.Component {
             signOutHandler={this.signOutHandler}
             modalHandler={this.hideModalHanlder}
             stateProps={this.state}
-            inputMode={this.inputModeHandler}
-            outputMode={this.outputModeHandler}
-            adminMode={this.adminModeHandler}
-            homeMode={this.homeModeHandler}
+            modesHandler={this.modesHandler}
           />  
             
           <Switch>
@@ -217,8 +182,8 @@ class App extends React.Component {
                <StartingPage
                postUserAuth={this.postUserAuth}
                stateProps={this.state}
-                modal={this.hideModalHanlder}
-                setCredentialsHandler={this.setCredentialsHandler}/>}
+               modal={this.hideModalHanlder}
+               setCredentialsHandler={this.setCredentialsHandler}/>}
             </Route>
 
             <Route path="/home">
@@ -230,70 +195,66 @@ class App extends React.Component {
               <Fragment>
                 <RenderForAdmin stateProps={this.state}>
                   <Route path="/admin">
-                    {this.state.currentUser ? 
-                    <SelectActivity
-                    adminMode={this.adminModeHandler}
+                  {this.state.currentUser ? 
+                   <SelectActivity 
                     modal={this.hideModalHanlder}
                     key={this.activityHandler}
                     stateProps={this.state}
                     onClick={this.activityHandler}
-                    backButton={this.backButtonHandler}/> : <StartingPage />} 
+                    backButton={this.backButtonHandler}/>
+                    : <StartingPage /> } 
+                  </Route>
+
+                  <Route path="/reports">
+                  {this.state.currentUser ? 
+                   <SelectActivity
+                    modal={this.hideModalHanlder}
+                    key={this.activityHandler}
+                    stateProps={this.state}
+                    onClick={this.activityHandler}
+                    refreshReports={this.refreshReports}
+                    backButton={this.backButtonHandler}/> 
+                    : <StartingPage /> }
                   </Route>
                 </RenderForAdmin> 
 
                 <RenderForOperator stateProps={this.state}>
-                                              
                   <Route path="/inputs">
-                      {this.state.currentUser ? 
-                      <SelectActivity 
+                    {this.state.currentUser ? 
+                    <SelectActivity 
                       modal={this.hideModalHanlder}
                       key={this.activityHandler}
                       stateProps={this.state}
                       onClick={this.activityHandler} 
-                      backButton={this.backButtonHandler}/> : <StartingPage />} 
-                    </Route>
+                      backButton={this.backButtonHandler}/>
+                      : <StartingPage /> }
+                  </Route> 
                 </RenderForOperator>  
-                
-                <RenderForAdmin stateProps={this.state}>
-                  <Route path="/reports">
-                    {this.state.currentUser ? 
-                    <SelectActivity
-                    modal={this.hideModalHanlder}
-                    key={this.activityHandler}
-                    stateProps={this.state}
-                    onClick={this.activityHandler}
-                    outputMode={this.outputModeHandler}
-                    backButton={this.backButtonHandler}/> : <StartingPage />} 
-                  </Route>
-                </RenderForAdmin> 
 
-                
+               
                 {this.state.purReq?.map((keys, id) => {
                  const approvedChoice = "Approved"
-                  return <Route key={id} path={`/purRequest/${approvedChoice}/${keys?.id}`}>
-                    {!this.state.purReq ? <Modal show={true}>
-                     You have no authorization for the requested action!</Modal> : null}
+                 const declinedChoice = "Declined"
+                  return <RenderForManager key={id+keys.id} stateProps={this.state}>          
+                  <Route key={id+keys.id} path={`/purRequest/${approvedChoice}/${keys?.id}`}>
                     <RequestApprovals
                       purRequest={this.state.purReq}
                       decisionOnPurchase={approvedChoice}
                       id={keys.id}
                       modal={this.hideModalHanlder}
-                      stateProps={this.state} 
-                      purchaseAuthHandler={this.purchaseAuthHandler}/> 
-                   </Route> 
-                })}
-                
-                {this.state.purReq?.map((keys, id) => {
-                  const declinedChoice = "Declined"
-                  return <Route key={id} path={`/purRequest/${declinedChoice}/${keys?.id}`}>
+                      stateProps={this.state}/> 
+                  </Route> 
+                   
+                  <Route key={id} path={`/purRequest/${declinedChoice}/${keys?.id}`}>
                     <RequestApprovals
                       purRequest={this.state.purReq}
                       decisionOnPurchase={declinedChoice}
                       id={keys.id}
                       modal={this.hideModalHanlder}
                       stateProps={this.state} /> 
-                    </Route> 
-                }) }
+                  </Route>
+                  </RenderForManager> })
+                } 
                 
               </Fragment> : null } 
           </Switch>

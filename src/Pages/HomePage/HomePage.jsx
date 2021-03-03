@@ -2,11 +2,10 @@ import React, { useState } from 'react';
 
 import "./HomePage.scss"
 import SelectReport from '../ReportsPage/SelectReport';
-import { RenderForAdmin } from '../../RoleBasedAccessControl/RoleBaseControl';
+import { RenderForAdmin } from '../../RoleBasedAccessControl/RoleBasedAccessControl';
 
 const HomePage = (props) => {
 const [ usersTable, updateUsersTable ] = useState(false)
-
 
   return (
     <div>

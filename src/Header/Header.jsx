@@ -4,10 +4,10 @@ import { NavLink } from "react-router-dom";
 import "./Header.css"
 import Logo from "../Assets/Logo.jpg";
 
-import { RenderForAdmin, RenderForOperator } from '../RoleBasedAccessControl/RoleBaseControl';
+import { RenderForAdmin, RenderForOperator } from '../RoleBasedAccessControl/RoleBasedAccessControl';
 
 const Header = ({ stateProps, inputMode, outputMode, adminMode, homeMode, 
-                  modalHandler, signOutHandler, expiredToken }) => {
+                  modalHandler, signOutHandler, expiredToken, modesHandler }) => {
   
   const signOutAndModalOff = () => {
     modalHandler()
@@ -24,8 +24,8 @@ const Header = ({ stateProps, inputMode, outputMode, adminMode, homeMode,
     <nav className="nav-bar">
         
       {stateProps.currentUser ?  
-        <NavLink to="/home" onClick={(e) => {homeMode(e); expiredToken()}}> 
-        <img className="picture" src={Logo} 
+        <NavLink to="/home" onClick={(e) => {modesHandler(parseInt(e.target.id)); expiredToken()}} > 
+        <img className="picture" src={Logo}  id={1}
         alt="Logo_image" width="100px" height="80px" >
         </img></NavLink> : 
         <img className="picture" src={Logo} 
@@ -44,9 +44,9 @@ const Header = ({ stateProps, inputMode, outputMode, adminMode, homeMode,
               {stateProps.currentUser ?  
                 <RenderForAdmin stateProps={stateProps}>
                   <li className="list-item">
-                      <NavLink className="link-admin"  
+                      <NavLink className="link-admin" id={2} 
                         activeClassName="active-style-admin"
-                        onClick={(e) => {adminMode(e); expiredToken(); setToggle(false)}}
+                        onClick={(e) => {modesHandler(parseInt(e.target.id)); expiredToken(); setToggle(false)}}
                         to="/admin">
                           Admin
                       </NavLink> 
@@ -58,12 +58,12 @@ const Header = ({ stateProps, inputMode, outputMode, adminMode, homeMode,
                 <>
                   <RenderForOperator stateProps={stateProps}>
                     <li className="list-item">
-                      <NavLink className="link" 
-                          activeClassName="active-style"
-                          onClick={(e) => {inputMode(e); expiredToken(); setToggle(false)}}
+                      <NavLink className="link" id={3}
+                          activeClassName="active-style"  
+                          onClick={(e) => {modesHandler(parseInt(e.target.parentElement.id)); 
+                            expiredToken(); setToggle(false)}}
                           to="/inputs"> 
-                            <div className="cherry cherry1">Input Forms </div>
-                            
+                            <div className="cherry cherry1" >Input Forms </div>
                       </NavLink>
                     </li>
                   </RenderForOperator>
@@ -71,8 +71,9 @@ const Header = ({ stateProps, inputMode, outputMode, adminMode, homeMode,
                   <RenderForAdmin stateProps={stateProps}>
                     <li className="list-item">
                       <NavLink className="link"  
-                        activeClassName="active-style"
-                        onClick={(e) => {outputMode(e); expiredToken(); setToggle(false)}}
+                        activeClassName="active-style" id={4} 
+                        onClick={(e) => {modesHandler(parseInt(e.target.parentElement.id)); 
+                          expiredToken(); setToggle(false)}}
                         to="/reports">
                           <div className="cherry cherry2">Reports</div>
                         </NavLink> 

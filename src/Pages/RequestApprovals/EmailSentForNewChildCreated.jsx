@@ -42,9 +42,9 @@ const emailSentForNewChildCreated = (purchaseRequest) => {
 
   emailjs.send(serviceId, templateId, finalObjectToSend[0], userId)
   .then((result) => {
-    console.log(result.status)
+    // console.log(result.status)
   }, (error) => {
-    console.log(error)
+    // console.log(error)
   });
 }
 

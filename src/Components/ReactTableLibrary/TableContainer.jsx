@@ -11,28 +11,24 @@ import { fetchStatusOfPurchaseByName } from "../../LocalData/InputFormsData"
 
 import { pageCounter, countNextPage, countPreviousPage } from "../../Firebase/FetchDataFromRealtimeDB"
 import DeleteButton from '../DeleteButton/DeleteButton';
-import AdminTableElements from '../../RoleBasedAccessControl/AdminSection/AdminTableElements';
 import SelectFieldTable from './SelectFieldTable/SelectFieldTable';
 import InputFieldTable from './InputFieldTable/InputFieldTable';
 import { updateByRowId } from '../../Firebase/UpdateRowsInRealtimeDB';
-import { RenderForManager } from '../../RoleBasedAccessControl/RoleBaseControl';
+import { RenderForManager } from '../../RoleBasedAccessControl/RoleBasedAccessControl';
+import RolesSelectField from "./RolesSelectField/RolesSelectField"
 
 const TableContainer = ({ 
   columns, data, onDelete, 
-  currentUser, stateProps,
-  getRoleValue, onClick,
+  stateProps,getRoleValue, onClick,
   currentRole, nextPageLoad,
   previousPageLoad, counter,
   blockNextButton, updateStatusOfPurchaseRequestHandler,
   statusHandler, onClickRowId,
-  renderRowSubComponent, updatePRNumByRow,
-  purchaseNumber, updateInvoiceNumByRow,
-  invoiceNumber, errorOnDB, outputMode, 
-  updateSubcategoryOfMaterialsByRow,
-  subcategoryOfMaterials, updateCategoryOfMaterialsByRow,
-  categoryOfMaterials, categorySelectField,
-  subcategorySelectField, updateFuelPriceHandler,
-  fuelPrice
+  renderRowSubComponent, errorOnDB,  refreshReports, 
+  categorySelectField, subcategorySelectField, 
+  updateCustomInputRowsValueHandler,
+  customInputRowsValue, updateCustomSelectRowsValueHandler,
+  customSelectRowsValue
    }) => {
      
   const {
@@ -57,21 +53,17 @@ const TableContainer = ({
         }
       ] 
     },
-      onDelete, currentUser,
-      stateProps, getRoleValue,
+      onDelete, stateProps, getRoleValue,
       onClick, currentRole,
       nextPageLoad, previousPageLoad,
       counter, blockNextButton,
       updateStatusOfPurchaseRequestHandler,
       statusHandler, onClickRowId,
-      renderRowSubComponent, updatePRNumByRow,
-      purchaseNumber, updateInvoiceNumByRow,
-      invoiceNumber, errorOnDB, outputMode,
-      updateSubcategoryOfMaterialsByRow,
-      subcategoryOfMaterials, updateCategoryOfMaterialsByRow,
-      categoryOfMaterials, categorySelectField,
-      subcategorySelectField, updateFuelPriceHandler,
-      fuelPrice
+      renderRowSubComponent, errorOnDB,  refreshReports,
+      categorySelectField, subcategorySelectField, 
+      updateCustomInputRowsValueHandler,
+      customInputRowsValue, updateCustomSelectRowsValueHandler,
+      customSelectRowsValue
     },
     useFilters, useSortBy,
     useExpanded, usePagination
@@ -147,7 +139,7 @@ const TableContainer = ({
 
         <tbody {...getTableBodyProps()}>
           {page.map((row) => {
-         //    console.log(data[row.id])
+            // console.log(customSelectRowsValue)
             prepareRow(row);
             return (
               <Fragment key={row.getRowProps().key}>
@@ -156,7 +148,8 @@ const TableContainer = ({
                 {!stateProps.adminSection && stateProps.inputMode === false && 
                 stateProps.outputMode === true && stateProps.selectedActivity === 4 ?
                 <td>
-                <InputFieldTable onChange={updatePRNumByRow} value={purchaseNumber} 
+                <InputFieldTable onChange={updateCustomInputRowsValueHandler} 
+                value={customInputRowsValue} name="PRNumber"
                 onFocus={() => onClickRowId(data[row.id], data[row.id].numberOfItem)} 
                 id={data[row.id].id} stateProps={stateProps}
                 /> </td>
@@ -165,17 +158,20 @@ const TableContainer = ({
                 {!stateProps.adminSection && stateProps.inputMode === false && 
                 stateProps.outputMode === true && stateProps.selectedActivity === 4 ?
                 <td>
-                <InputFieldTable onChange={updateInvoiceNumByRow} value={invoiceNumber} 
+                <InputFieldTable onChange={updateCustomInputRowsValueHandler} 
+                value={customInputRowsValue} name="invoiceNum"
                 onFocus={() => onClickRowId(data[row.id], data[row.id].numberOfItem)} 
                 id={data[row.id].id} stateProps={stateProps}
                 /> </td>
                  : null}
+
                  {/* Selection of status for Purchase Request*/}
                 {!stateProps.adminSection && stateProps.inputMode === false && 
                 stateProps.outputMode === true && stateProps.selectedActivity === 4 ?
                 <td>
-                <SelectFieldTable onChange={updateStatusOfPurchaseRequestHandler} value={statusHandler} 
-                nameOfStatus={fetchStatusOfPurchaseByName(statusHandler)} 
+                <SelectFieldTable onChange={updateCustomSelectRowsValueHandler} 
+                value={customSelectRowsValue} name="statusOfRequest"
+                nameOfStatus={fetchStatusOfPurchaseByName(customSelectRowsValue.statusOfRequest[0])} 
                 onFocus={() => onClickRowId(data[row.id], data[row.id].numberOfItem)} 
                 id={data[row.id].id} stateProps={stateProps}
                 /> </td>
@@ -185,7 +181,7 @@ const TableContainer = ({
                     return (
                       <td {...cell.getCellProps()}>
                         {isNaN(cell.render('Cell').props.value) === false ? 
-                      +parseFloat(cell.render('Cell').props.value).toFixed(1) || "" 
+                      +parseFloat(cell.render('Cell').props.value).toFixed(1) || "0" 
                       : cell.render('Cell')}
                       </td>
                     );
@@ -195,10 +191,11 @@ const TableContainer = ({
                 {stateProps.outputTable === true || stateProps.adminSection === false || 
                 stateProps.selectedActivity !== 0 ? null :                 
                 <td>
-                <AdminTableElements 
-                stateProps={stateProps} id={data[row.id].id} 
-                currentUser={currentUser} getRoleValue={getRoleValue} 
-                onClick={() => onClick(data[row.id])}
+                <RolesSelectField 
+                stateProps={stateProps} id={data[row.id].id}
+                emailOfUserUpdated={data[row.id].email} existingRole={data[row.id].role}
+                currentUser={stateProps.currentUser} getRoleValue={getRoleValue} 
+                onChange={() => onClick(data[row.id])}
                 currentRole={currentRole}
                 /> </td> }
                 
@@ -206,10 +203,10 @@ const TableContainer = ({
                 {!stateProps.adminSection && stateProps.inputMode === false && 
                 stateProps.outputMode === true && stateProps.selectedActivity === 4 ?
                 <td>
-                <SelectFieldTable onChange={(e) => {updateCategoryOfMaterialsByRow(e); 
-                outputMode()}} // on refreshing output mode it calls all items again
-                value={categoryOfMaterials} 
-                nameOfStatus={categorySelectField[categoryOfMaterials]?.name} 
+                <SelectFieldTable onChange={(e) => {updateCustomSelectRowsValueHandler(e); 
+                refreshReports()}} 
+                value={customSelectRowsValue} name="category"
+                nameOfStatus={categorySelectField[customSelectRowsValue.category[0]]?.name} 
                 selectOptions={categorySelectField} selectIdentity={16}
                 onFocus={() => {onClickRowId(data[row.id], data[row.id].numberOfItem)}} 
                 id={data[row.id].id} stateProps={stateProps}
@@ -220,10 +217,10 @@ const TableContainer = ({
                 {!stateProps.adminSection && stateProps.inputMode === false && 
                 stateProps.outputMode === true && stateProps.selectedActivity === 4 ?
                 <td>
-                <SelectFieldTable onChange={updateSubcategoryOfMaterialsByRow} 
-                value={subcategoryOfMaterials} selectIdentity={17}
+                <SelectFieldTable onChange={(e) => updateCustomSelectRowsValueHandler(e)} 
+                value={customSelectRowsValue} selectIdentity={17} name="subcategory"
                 categoryOfMaterials={data[row.id]?.category}
-                nameOfStatus={subcategorySelectField[subcategoryOfMaterials]?.name} 
+                nameOfStatus={subcategorySelectField[customSelectRowsValue.subcategory[0]]?.name} 
                 onFocus={() => onClickRowId(data[row.id], data[row.id].numberOfItem)} 
                 id={data[row.id].id} stateProps={stateProps}
                 /> </td>
@@ -234,7 +231,7 @@ const TableContainer = ({
                 {stateProps.outputTable && stateProps.selectedActivity === 4 ?
                 <td style={{verticalAlign: "inherit"}}> 
                  {data[row.id]?.managerApproved ? <span>&#10004;</span> :
-                 <button onClick={() => {managerApprovalHandler(data[row.id].numberOfItem); outputMode()}} 
+                 <button onClick={() => {managerApprovalHandler(data[row.id].numberOfItem); refreshReports()}} 
                   onFocus={() => getRowId(data[row.id].id)}
                   id={data[row.id].id}>Checked</button>}
                 </td> : null} 
@@ -246,7 +243,8 @@ const TableContainer = ({
                 data[row.id].fuelChoice === "Purchase" ?
                 <td>
                 <InputFieldTable purchaseMode={data[row.id].fuelChoice}
-                onChange={updateFuelPriceHandler} value={fuelPrice} 
+                onChange={updateCustomInputRowsValueHandler} value={customInputRowsValue} 
+                name="pricePerLiter"
                 onFocus={() => onClickRowId(data[row.id])} 
                 id={data[row.id].id} stateProps={stateProps}
                 /> </td>
