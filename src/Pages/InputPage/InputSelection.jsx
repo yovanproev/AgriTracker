@@ -47,7 +47,7 @@ class InputSelection extends Component {
   
   componentDidMount() {
     getLastId(this.props).then((res, rej) => { 
-      this.setState({lastId: res + 1, error: rej })})
+      this.setState({lastId: res + parseInt(1), error: rej })})
     getParentLastId(this.props).then((res, rej) => { 
       this.setState({lastParentId: res, error: rej })})
     getEmployeeRowLastId(this.props).then((res, rej) => { 
@@ -86,7 +86,7 @@ class InputSelection extends Component {
 
   updateId = () => {
     if (this.props.stateProps.selectedActivity !== 3) {
-    this.setState({ lastId: parseInt(this.state.lastId) + parseInt(1) })}
+    this.setState({ lastId: parseInt(this.state.lastId) })}
     this.setState({ lastParentId: parseInt(this.state.lastParentId) + parseInt(1),
     })}
 
@@ -113,7 +113,10 @@ class InputSelection extends Component {
    getEmployeeRowLastId(this.props).then((res, rej) => { 
     this.setState({employeeRowLastId: res + 1, error: rej })})
     getLastId(this.props).then((res, rej) => { 
-      this.setState({lastId: res + 1, error: rej })})}
+      this.setState({lastId: res + 1, error: rej })})
+    } else if (this.props.stateProps.selectedActivity === 4) {
+      getLastId(this.props).then((res, rej) => { 
+        this.setState({lastId: res + 1, error: rej })}) }
   }
 
   multiSelectHandler = (value) => {this.setState({ selectedMSJobDescriptionId: value })}
@@ -198,7 +201,8 @@ class InputSelection extends Component {
       const URLSource = URLPostSource.split('.')[0]
       updateAuthUsers({[URLSource + " " + this.state.lastId]: "id: " + this.state.lastId + ", " + getDateAndTime()}, 
       this.props.stateProps) 
-       emailSentForNewChildCreated(checkForActivity)   
+      if (this.props.stateProps.selectedActivity === 4 && this.props.stateProps.inputForms) {
+       emailSentForNewChildCreated(checkForActivity) }
   }
 
   render () {

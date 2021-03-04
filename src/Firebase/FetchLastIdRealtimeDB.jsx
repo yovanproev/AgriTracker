@@ -31,7 +31,7 @@ export const getLastId = (props) => {
           if (origin !== 0) { 
             const lastKey = +Object.keys(Object.values(origin)[0].items).slice(-1)[0]
             const lastId = Object.values(origin)[0].items[lastKey].id
-            // console.log(Object.values(origin)[0].id)
+            //console.log(lastId)
             resolve(lastId)
           } else return resolve(parseInt(0))
       }).catch(err => {
@@ -59,8 +59,7 @@ export const getParentLastId = (props) => {
           let origin = snapshot.val() === null || snapshot.val() === undefined ? parseInt(0) : snapshot.val()
           if (origin !== 0) { 
           const lastId = Object.values(origin)[0].id
-       //   console.log(lastId) // 1 vage, tocno
-          resolve(lastId)
+           resolve(lastId)
           } else return resolve(parseInt(0))
       }).catch(err => {
         reject(err)
@@ -70,6 +69,7 @@ export const getParentLastId = (props) => {
           let origin = snapshot.val() === null || snapshot.val() === undefined ? parseInt(0) : snapshot.val()
           if (origin !== 0) { 
             const lastId = Object.values(origin)[0].id
+           // console.log(lastId)
              resolve(lastId)
           } else return resolve(parseInt(0))
       }).catch(err => {

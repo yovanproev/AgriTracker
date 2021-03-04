@@ -156,7 +156,7 @@ export const purcahseRequestsInputObject = (props, email) => {
         supplier: props.supplier,
         statusOfRequest: "Pending",
         date: props.date,
-        id: props.lastId + increaseIdForNextItem - 1,
+        id: props.lastId + increaseIdForNextItem ,
         itemDescription: items?.description,
         itemQuantity: items?.quantity,
         itemPrice: items?.price,
@@ -166,7 +166,7 @@ export const purcahseRequestsInputObject = (props, email) => {
      }
    })
 
-  const key = props.lastId + i - 1
+  const key = props.lastId + i 
   childrenNodes[key] = subChildrenNodes[i]
   }
  
