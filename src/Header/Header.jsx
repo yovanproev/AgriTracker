@@ -29,7 +29,7 @@ const Header = ({ stateProps, inputMode, outputMode, adminMode, homeMode,
         alt="Logo_image" width="100px" height="80px" >
         </img></NavLink> : 
         <img className="picture" src={Logo} 
-        alt="Logo_image" width="100px" >
+        alt="Logo_image" width="100px" height="80px">
         </img>}
 
       <h2 className={stateProps.logOutError ? "time-out-your-company"  : "your-company"}>DFP Forms</h2>

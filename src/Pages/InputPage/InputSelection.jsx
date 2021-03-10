@@ -282,10 +282,6 @@ class InputSelection extends Component {
       inputFieldsHandler={this.inputFieldsHandler} 
       formHandler={this.formSubmitHandler}
       onFocusHandler={this.onFocusHandler} /> : null}
-
-      {/* {this.props.stateProps.selectedActivity === 4 ?
-       moduleInProgress : null } */}
-
     </div>
   )
  }

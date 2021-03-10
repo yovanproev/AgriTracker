@@ -363,4 +363,4 @@ const TableContainer = ({
   );
 };
 
-export default TableContainer;
+export default React.memo(TableContainer);

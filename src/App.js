@@ -19,6 +19,7 @@ import axiosLocal from "./AxiosInput";
 import {usersAuthentication} from "./Pages/InputPage/DBObjectElements/ObjectsToPostToFirebase"
 import RequestApprovals from "./Pages/RequestApprovals/RequestApprovals"
 import { fetchActivityPerMode, fetchAdminActivity } from './LocalData/InputFormsData';
+import Footer from './Footer/Footer';
 
 class App extends React.Component {
   state = {
@@ -194,29 +195,18 @@ class App extends React.Component {
             {this.state.currentUser ?
               <Fragment>
                 <RenderForAdmin stateProps={this.state}>
-                  <Route path="/admin">
+                  <Route path={["/admin", "/reports"]}>
                   {this.state.currentUser ? 
                    <SelectActivity 
                     modal={this.hideModalHanlder}
                     key={this.activityHandler}
                     stateProps={this.state}
                     onClick={this.activityHandler}
+                    refreshReports={this.refreshReports}
                     backButton={this.backButtonHandler}/>
                     : <StartingPage /> } 
                   </Route>
-
-                  <Route path="/reports">
-                  {this.state.currentUser ? 
-                   <SelectActivity
-                    modal={this.hideModalHanlder}
-                    key={this.activityHandler}
-                    stateProps={this.state}
-                    onClick={this.activityHandler}
-                    refreshReports={this.refreshReports}
-                    backButton={this.backButtonHandler}/> 
-                    : <StartingPage /> }
-                  </Route>
-                </RenderForAdmin> 
+               </RenderForAdmin> 
 
                 <RenderForOperator stateProps={this.state}>
                   <Route path="/inputs">
@@ -258,6 +248,7 @@ class App extends React.Component {
                 
               </Fragment> : null } 
           </Switch>
+        <Footer />
           
         </Router>
      </div>    

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { Container } from 'reactstrap';
 import TableContainer from './TableContainer';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -21,19 +21,13 @@ const Table = (props) => {
     }
   }, [props])
   
-  const renderRowSubComponent = React.useCallback(
-    (postedData) => (
-      <pre
-        style={{
-          fontSize: '10px',
-        }}
-      >
-        <code><h6>{JSON.stringify({ postedEntries: postedData?.original.posted }, null, 2)
+  const renderRowSubComponent = 
+  useCallback((rows) => (
+      <pre style={{ fontSize: '10px' }}>
+        <code><h6>{JSON.stringify({ postedEntries: rows?.original.posted }, null, 2)
         .replace(/[{}]/g, '').replace(/[""]/g, '')}</h6></code>
       </pre>
-    ),
-    []
-  )
+  ),[])
 
   return (
     <Container style={{ margin: "auto", whiteSpace: "nowrap"}} >

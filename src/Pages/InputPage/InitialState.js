@@ -33,4 +33,5 @@ export const initialState = {
           selectedCategoryOfMaterialsId: undefined,
           selectedSubcategoryOfMaterialsId: undefined,
           supplier: undefined,
+          selectedSupplierOfFuelId: undefined
 }
