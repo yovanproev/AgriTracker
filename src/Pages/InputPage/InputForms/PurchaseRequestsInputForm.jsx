@@ -2,11 +2,11 @@ import React, { useState, useEffect } from "react";
 
 import "./InputForms.css"
 
-import BackButton from "../../../Components/BackButton/BackButton"
-import SubmitButton from "../../../Components/SubmitButton/SubmitButton"
-import Modal from "../../../Components/Modal/Modal"
-import GrapeSpinner1 from "../../../Components/Spinners/GrapeSpinner"
-import Calendar from "../../../Components/Calendar/Calendar";
+import BackButton from "../../../ReusableElements/BackButton/BackButton"
+import SubmitButton from "../../../ReusableElements/SubmitButton/SubmitButton"
+import Modal from "../../../ReusableElements/Modal/Modal"
+import GrapeSpinner1 from "../../../ReusableElements/Spinners/GrapeSpinner"
+import Calendar from "../../../ReusableElements/Calendar/Calendar";
 
 import SelectField from "../SelectField/SelectField";
 import PurchaseRequestInputTable from "../PurchaseRequestInputTable/PurchaseRequestInputTable";

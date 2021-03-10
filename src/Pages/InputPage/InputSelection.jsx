@@ -18,7 +18,7 @@ import { addZero, getDateAndTime } from "./DBObjectElements/GetDateTime";
 import { fuelConsumptionInputObject, machineRegistrationInputObject, 
          maintenanceAndRepairsInputObject, workingHoursInputObject,
          purcahseRequestsInputObject } from "./DBObjectElements/ObjectsToPostToFirebase";
-import Modal from "../../Components/Modal/Modal"
+import Modal from "../../ReusableElements/Modal/Modal"
 
 import { initialState } from "./InitialState"
 import { updateAuthUsers } from "../../Firebase/UpdateRowsInRealtimeDB";

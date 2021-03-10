@@ -2,16 +2,16 @@ import React, { useEffect, useState } from 'react';
 
 import "./SelectionFieldsUpdate.scss"
 import SelectField from "./SelectField/SelectField"
-import BackButton from "../../../Components/BackButton/BackButton"
-import Table from "../../../Components/ReactTableLibrary/Table"
+import BackButton from "../../../ReusableElements/BackButton/BackButton"
+import Table from "../../../ReusableElements/ReactTableLibrary/Table"
 
 import { getSelectFields } from "../../../Firebase/FetchCollectionsFromFirestore"
 import { updateSelectFieldsInFirestore } from '../../../Firebase/SetAndUpdateCollectionsInFirestore';
 import { deleteByRowId } from '../../../Firebase/DeleteRowsInFirestore';
 import { attachImagetoStorage } from "../../../Firebase/FetchAndUpdateImagesFromStorage"
 
-import Modal from '../../../Components/Modal/Modal';
-import Spinner2 from '../../../Components/Spinners/Spinner2';
+import Modal from '../../../ReusableElements/Modal/Modal';
+import Spinner2 from '../../../ReusableElements/Spinners/Spinner2';
 import { updateAuthUsers } from '../../../Firebase/UpdateRowsInRealtimeDB';
 import { getDateAndTime } from '../../InputPage/DBObjectElements/GetDateTime';
 

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import Modal from "../../Components/Modal/Modal";
-import Spinner2 from "../../Components/Spinners/Spinner2"
+import Modal from "../../ReusableElements/Modal/Modal";
+import Spinner2 from "../../ReusableElements/Spinners/Spinner2"
 
 import { getPaginatedTableData, nextPage, previousPage, counter } from "../../Firebase/FetchDataFromRealtimeDB";
 import { deleteByRowId } from "../../Firebase/DeleteRowsInRealtimeDB"

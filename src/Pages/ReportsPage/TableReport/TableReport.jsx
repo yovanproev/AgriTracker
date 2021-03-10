@@ -3,11 +3,11 @@ import React, { useEffect, useState } from 'react';
 import './TableReport.css';
 
 import { ExportCSV } from './ExcelExport/ExcelExport'
-import Table from "../../../Components/ReactTableLibrary/Table"
+import Table from "../../../ReusableElements/ReactTableLibrary/Table"
 
 import { resetCounter } from "../../../Firebase/FetchDataFromRealtimeDB"
-import BackButton from '../../../Components/BackButton/BackButton';
-import Calendar from '../../../Components/Calendar/Calendar';
+import BackButton from '../../../ReusableElements/BackButton/BackButton';
+import Calendar from '../../../ReusableElements/Calendar/Calendar';
 import { getFilteredDataForExport } from '../../../Firebase/FetchFilteredDataForExportFromRealtimeDB';
 import { addZero } from '../../InputPage/DBObjectElements/GetDateTime';
 

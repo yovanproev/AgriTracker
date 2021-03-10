@@ -2,7 +2,7 @@ import React from "react"
 
 import "./SelectActivity.css"
 
-import ActivityBubble from "../Components/ActivityBubble/ActivityBubble"
+import ActivityBubble from "../ReusableElements/ActivityBubble/ActivityBubble"
 import SelectReport from "./ReportsPage/SelectReport"
 import InputSelection from "./InputPage/InputSelection"
 import AdminReports from "./AdminPage/AdminReports"

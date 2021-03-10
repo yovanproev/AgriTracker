@@ -14,7 +14,7 @@ import SelectActivity from './Pages/SelectActivity';
 import { getPurchaseRequests, resetCounter } from "./Firebase/FetchDataFromRealtimeDB";
 import { auth, createUserProfileDocument } from "./Firebase/Firebase.utils"
 import { RenderForAdmin, RenderForManager, RenderForOperator } from './RoleBasedAccessControl/RoleBasedAccessControl';
-import Modal from "./Components/Modal/Modal"
+import Modal from "./ReusableElements/Modal/Modal"
 import axiosLocal from "./AxiosInput";
 import {usersAuthentication} from "./Pages/InputPage/DBObjectElements/ObjectsToPostToFirebase"
 import RequestApprovals from "./Pages/RequestApprovals/RequestApprovals"

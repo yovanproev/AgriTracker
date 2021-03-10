@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react"
-import Tooltip  from "../../../Components/ToolTip/ToolTip"
+import Tooltip  from "../../../ReusableElements/ToolTip/ToolTip"
 
 import "./RolesSelectField.css"
 import { fetchAllRoles } from "../../../../src/LocalData/InputFormsData"

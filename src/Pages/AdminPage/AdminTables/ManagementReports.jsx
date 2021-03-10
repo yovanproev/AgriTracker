@@ -5,12 +5,12 @@ import './ManagementReports.css';
 import { TableHeaderAdmin } from './TableHeaderAdmin/TableHeaderAdmin'
 
 // import { ExportCSV } from './ExcelExport/ExcelExport'
-import Table from "../../../Components/ReactTableLibrary/Table"
-import Modal from "../../../Components/Modal/Modal"
-import Spinner2 from "../../../Components/Spinners/Spinner2"
+import Table from "../../../ReusableElements/ReactTableLibrary/Table"
+import Modal from "../../../ReusableElements/Modal/Modal"
+import Spinner2 from "../../../ReusableElements/Spinners/Spinner2"
 
-import BackButton from '../../../Components/BackButton/BackButton';
-import Calendar from '../../../Components/Calendar/Calendar';
+import BackButton from '../../../ReusableElements/BackButton/BackButton';
+import Calendar from '../../../ReusableElements/Calendar/Calendar';
 import { getFilteredDataForExport } from '../../../Firebase/FetchFilteredDataForExportFromRealtimeDB';
 import { addZero } from '../../InputPage/DBObjectElements/GetDateTime';
 import AdminWorkHoursTable from './AdminWorkHoursTable/AdminWorkHoursTable';

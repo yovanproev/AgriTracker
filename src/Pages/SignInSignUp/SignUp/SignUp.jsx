@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 
 import FormInput from '../FormInput/FormInput';
-import LogInButton from '../../../Components/LogInButton/LogInButton';
+import LogInButton from '../../../ReusableElements/LogInButton/LogInButton';
 
 import { auth, createUserProfileDocument } from '../../../Firebase/Firebase.utils.js';
-import Modal from "../../../Components/Modal/Modal"
+import Modal from "../../../ReusableElements/Modal/Modal"
 
 import './SignUp.css';
 import axios from 'axios';

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react"
-import Modal from "../../Components/Modal/Modal";
+import Modal from "../../ReusableElements/Modal/Modal";
 import { updateByRowId } from "../../Firebase/UpdateRowsInRealtimeDB";
 import emailjs from 'emailjs-com';
 

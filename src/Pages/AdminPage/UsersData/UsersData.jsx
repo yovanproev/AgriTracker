@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 
 import "./UsersData.scss"
-// import BackDrop from "../../../Components/Backdrop/Backdrop"
-import BackButton from "../../../Components/BackButton/BackButton"
-import Table from "../../../Components/ReactTableLibrary/Table"
+// import BackDrop from "../../../ReusableElements/Backdrop/Backdrop"
+import BackButton from "../../../ReusableElements/BackButton/BackButton"
+import Table from "../../../ReusableElements/ReactTableLibrary/Table"
 import { RenderForAdmin } from '../../../RoleBasedAccessControl/RoleBasedAccessControl';
 import { getAllUsers } from "../../../Firebase/FetchCollectionsFromFirestore"
 import { updateUsersInFirestore } from '../../../Firebase/SetAndUpdateCollectionsInFirestore';

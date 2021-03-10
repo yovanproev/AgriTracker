@@ -1,4 +1,4 @@
-import Modal from "../Components/Modal/Modal"
+import Modal from "../ReusableElements/Modal/Modal"
 
 export const RenderForManager = ({stateProps, ...other}) => {
     if (stateProps.role === "Manager") {
