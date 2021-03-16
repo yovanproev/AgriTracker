@@ -1,15 +1,25 @@
-import React from 'react';
+import React from "react";
+import { shallow } from "enzyme"
 
-import { configure, shallow } from 'enzyme'
-import Adapter from 'enzyme-adapter-react-16';
+import HomePage from "../../Pages/HomePage/HomePage"
+import SelectReport from "../../Pages/ReportsPage/SelectReport";
 
-import HomePage from "../../Pages/HomePage/HomePage";
+const setup = () => {
+  return shallow(<HomePage />)
+}
 
-configure({adapter: new Adapter()});
+describe("HomePage", () => {
+  let wrapper;
+  beforeEach(() => {
+   wrapper = setup()
+  })
 
-describe('<HomePage />', () => {
-    it('should redner home page', () => {
-    const wrapper = shallow(<HomePage />);
-    expect(wrapper.find(HomePage)).toHaveLength(0)
+  it("<HomePage />, it should not render users table unless button clicked", () => {
+    wrapper.find(<SelectReport />)
+    expect(wrapper).toEqual({})
+  })
+  it("<HomePage />, change state to true on button click", () => {
+    wrapper.find("button").simulate('click')
+    expect(wrapper).toBeTruthy()
   })
 })
